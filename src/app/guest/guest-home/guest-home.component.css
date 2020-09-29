@@ -1,0 +1,11 @@
+button{
+    margin-top: 30px;
+}
+
+label, input{
+    font-size: x-large;
+}
+
+.even-width{
+   width: 300px;
+}

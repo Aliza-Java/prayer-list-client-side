@@ -1,0 +1,10 @@
+.formGroup, button {
+    margin-top: 10px;
+}
+
+span.form-control.fixed-text {
+    border: none;
+    box-shadow: none;
+    margin-top:10px;
+    text-emphasis: center;
+}

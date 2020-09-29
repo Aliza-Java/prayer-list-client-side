@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>English Name</th>
+                <th>Hebrew Name</th>
+                <th *ngIf="needSpouse">Spouse English Name</th>
+                <th *ngIf="needSpouse">Spouse Hebrew Name</th>
+                <th>Category</th>
+            </tr>
+            <tr *ngFor="let davenfor of myDavenfors">
+                <td>{{davenfor.nameEnglish}}</td>
+                <td>{{davenfor.nameHebrew}}</td>
+                <td *ngIf="needSpouse">{{davenfor.nameEnglishSpouse}}</td>
+                <td *ngIf="needSpouse">{{davenfor.nameHebrewSpouse}}</td>
+                <td>{{davenfor.category}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

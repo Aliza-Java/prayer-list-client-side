@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <label for="guestEmail">My Email: </label>
+            <input type="text" (keydown)="onChangeEmail(this.value)" id="guestEmail">
+        </div>
+    </div>
+    <hr>
+
+    <div *ngIf="!addNameMode">
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <app-manage-names></app-manage-names>
+            </div>
+        </div>
+
+        <div class="row text-center" style="margin-top: 10px;">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-info btn-lg even-width" (click)="onClickNew()"> + Submit a
+                    name</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" *ngIf="addNameMode" style="margin-top: 10px;">
+        <div class="col-md-12">
+            <app-submit-name></app-submit-name>
+        </div>
+    </div>
+</div>

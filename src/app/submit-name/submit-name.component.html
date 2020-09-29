@@ -1,0 +1,132 @@
+<form class="form-horizontal" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
+
+    <div class="formRow" style="margin-top: 10px;">
+
+        <div style="margin-top: 10px;" *ngFor="let category of categories;" class="col-xs-2">
+            <!--sending value through 'change' event since can't put ngModel AND formControlName-->
+            <label class="radio-inline">
+                <input type="radio" formControlName="category" [value]="category">{{category}}
+            </label>
+        </div>
+
+    </div>
+
+    <div class="formRow" style="margin-top: 10px;">
+
+        <!--English name-->
+        <div class="formGroup col-xs-5">
+            <input type="text" id="name1English" class="form-control" formControlName="name1English" placeholder="Name">
+            <!--add validation as such for each field
+    <span *ngIf="!reactiveForm.get('projectName').valid && reactiveForm.get('projectName').touched" class="help-block">
+      <span *ngIf="reactiveForm.get('projectName').errors['NameIsForbidden']">You can't enter this name.</span>
+      <span *ngIf="reactiveForm.get('projectName').errors['required']">This field is required.</span>
+    </span>-->
+        </div>
+
+        <div class="formGroup col-xs-2">
+            <select formControlName="benBat" class="form-control ">
+                <option>ben</option>
+                <option>bat</option>
+            </select>
+        </div>
+
+        <div class="formGroup col-xs-5">
+            <input type="text" id="name2English" class="form-control" formControlName="name2English"
+                placeholder="Mother's Name">
+        </div>
+
+    </div>
+    <!--English name-->
+
+    <div class="formRow" style="margin-top: 10px;">
+        <!--Hebrew name-->
+
+        <div class="formGroup col-xs-5">
+            <input type="text" id="name2Hebrew" class="form-control" formControlName="name2Hebrew" placeholder="שם האם">
+        </div>
+
+        <div class="formGroup col-xs-2">
+            <select formControlName="benBatHebrew" class="form-control">
+                <option>בן</option>
+                <option>בת</option>
+            </select>
+        </div>
+
+        <div class="formGroup col-xs-5">
+            <input type="text" id="name1Hebrew" class="form-control" formControlName="name1Hebrew" placeholder="שם">
+        </div>
+    </div>
+    <!--Hebrew name-->
+
+
+
+    <div *ngIf="nameForm.get('category').value==='Banim'">
+        <!--Then need also spouse details-->
+
+
+        <div class="formRow" style="margin-top: 10px;">
+            <!--Spouse's English name-->
+            <div style="margin-top: 20px;">
+                <h4>Enter spouse details (optional)</h4>
+            </div>
+            <div class="formGroup col-xs-5">
+
+                <input type="text" id="SpouseName1English" class="form-control" formControlName="spouseName1English"
+                    placeholder="Spouse Name">
+            </div>
+
+            <div class="col-xs-2 text-center">
+
+                <span class="form-control fixed-text"> Ben</span>
+            </div>
+
+            <div class="formGroup col-xs-5">
+                <input type="text" id="SpouseName2English" class="form-control" formControlName="spouseName2English"
+                    placeholder="Spouse Mother's Name">
+            </div>
+
+        </div>
+        <!--Spouse English name-->
+
+        <div class="formRow" style="margin-top: 10px;">
+            <!--Spouse Hebrew name-->
+
+            <div class="formGroup col-xs-5">
+                <input type="text" id="SpouseName2Hebrew" class="form-control" formControlName="spouseName2Hebrew"
+                    placeholder="שם האם - של בן הזוג">
+            </div>
+
+            <div class="col-xs-2 text-center">
+                <span class="form-control fixed-text">בן</span>
+            </div>
+
+            <div class="formGroup col-xs-5">
+                <input type="text" id="SpouseName1Hebrew" class="form-control" formControlName="spouseName1Hebrew"
+                    placeholder="שם בן הזוג">
+            </div>
+        </div>
+        <!--Spouse Hebrew name-->
+    </div>
+
+
+
+    <hr>
+    <div class="formRow" style="margin-top: 10px;">
+        <div class="col-xs-6 form-check">
+            <input style="margin: 5px" type="checkbox" class="form-check-input" id="submitterToReceive"
+                fromControlName="submitterToReceive">
+            <label class="form-check-label" for="submitterToReceive">Include this name (when appropriate) in my
+                davening
+                list</label>
+        </div>
+
+
+
+
+        <div class="col-xs-6">
+            <div class="text-center">
+                <button class="btn btn-success btn-lg" type="submit">Add Name</button>
+            </div>
+        </div>
+    </div>
+</form>

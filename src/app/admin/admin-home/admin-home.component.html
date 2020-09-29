@@ -1,0 +1,37 @@
+<div *ngIf="!adminService.adminLogin else adminNavbar">
+    <app-admin-login></app-admin-login>
+</div>
+
+
+<ng-template #adminNavbar>
+    <div class="container">
+        <div class="row-md-12">
+            <div class="col-md-5">
+                <div class="list-group">
+                    <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn btn-lg"
+                        routerLink="submit">Submit a new
+                            name</button></li>
+                    <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn btn-lg"
+                        routerLink="names">Manage all
+                            names</button> </li>
+                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
+                        routerLink="emails">Manage email
+                            list</button> </li>
+                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
+                        routerLink="weekly">Send out weekly
+                            list</button></li>
+                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
+                        routerLink="urgent">Send out an urgent
+                            name</button></li>
+                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
+                        routerLink="settings">Update my
+                            settings</button></li>
+                </div>
+                <!--list group-->
+            </div>
+            <div class="col-md-7">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</ng-template>

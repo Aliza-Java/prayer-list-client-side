@@ -1,0 +1,16 @@
+button{
+    background-color:var(--dark-background-color);
+    width: 250px;
+}
+
+
+.list-group-item{
+    border:0px;
+    background-color: transparent;
+}
+
+.list-group-item.active{
+    background-color: transparent;
+    color:white;
+
+}
