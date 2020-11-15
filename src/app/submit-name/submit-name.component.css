@@ -1,10 +1,17 @@
-.formGroup, button {
-    margin-top: 10px;
+.form-horizontal {
+    margin: 3em;
 }
 
-span.form-control.fixed-text {
-    border: none;
-    box-shadow: none;
-    margin-top:10px;
-    text-emphasis: center;
+.help-block,.alert-option {
+    color: red;
+    margin-bottom: 0px;
 }
+
+.text-right {
+    float: right;
+}
+
+select {
+    text-align-last: center;
+}
+

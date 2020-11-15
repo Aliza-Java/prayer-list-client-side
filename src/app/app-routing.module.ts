@@ -18,6 +18,7 @@ const routes: Routes = [
         {path: 'names', component: ManageNamesComponent}
     ]},
     {path: 'admin', component: AdminHomeComponent, children: [
+        {path: '', component: ManageNamesComponent, pathMatch: 'full'},
         {path: 'submit', component: SubmitNameComponent},
         {path: 'names', component: ManageNamesComponent},
         {path: 'emails', component: ManageEmailsComponent},
@@ -25,7 +26,7 @@ const routes: Routes = [
         {path: 'urgent', component: UrgentComponent},
         {path: 'settings', component: SettingsComponent}
     ]},
-    {path: '**', component: NotFoundComponent}
+    {path: '**', component: NotFoundComponent} //TODO: design this
 ];
 
 @NgModule({

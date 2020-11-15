@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Category } from '../models/category.model';
+import { Davener } from '../models/davener.model';
 import { Davenfor } from '../models/davenfor.model';
-import { SimpleDavenfor } from '../models/simple-davenfor.model';
 import { Submitter } from '../models/submitter.model';
 
 @Injectable({
@@ -12,45 +12,61 @@ export class DaveningService {
 
     errorMessage: string;
     successMessage: string;
-    categories = ['Refua', 'Banim', 'Shidduch', 'Yeshuah', 'Soldiers', 'space-filler'];
-    //Todo: make categories come from DB
     emailChanged = new Subject<string>();
-    guestEmail:string = null;
+    guestEmail: string = null;
+    davenforsChanged = new Subject<Davenfor[]>();
+    davenersChanged = new Subject<Davener[]>();
+    categories: Category[];
 
-    constructor() { }
-
-    getCategories() {
-        return this.categories;
-    }
-
+    countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas (the)", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia (Plurinational State of)", "Bonaire, Sint Eustatius and Saba", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory (the)", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Cayman Islands (the)", "Central African Republic (the)", "Chad", "Chile", "China", "Christmas Island", "Cocos (Keeling) Islands (the)", "Colombia", "Comoros (the)", "Congo (the Democratic Republic of the)", "Congo (the)", "Cook Islands (the)", "Costa Rica", "Croatia", "Cuba", "Curaçao", "Cyprus", "Czechia", "Côte d'Ivoire", "Denmark", "Djibouti", "Dominica", "Dominican Republic (the)", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Falkland Islands (the) [Malvinas]", "Faroe Islands (the)", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern Territories (the)", "Gabon", "Gambia (the)", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Holy See (the)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran (Islamic Republic of)", "Iraq", "Ireland", "Isle of Man", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea (the Democratic People's Republic of)", "Korea (the Republic of)", "Kuwait", "Kyrgyzstan", "Lao People's Democratic Republic (the)", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands (the)", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia (Federated States of)", "Moldova (the Republic of)", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands (the)", "New Caledonia", "New Zealand", "Nicaragua", "Niger (the)", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands (the)", "Norway", "Oman", "Pakistan", "Palau", "Palestine, State of", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines (the)", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Republic of North Macedonia", "Romania", "Russian Federation (the)", "Rwanda", "Réunion", "Saint Barthélemy", "Saint Helena, Ascension and Tristan da Cunha", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin (French part)", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Sint Maarten (Dutch part)", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Sudan", "Spain", "Sri Lanka", "Sudan (the)", "Suriname", "Svalbard and Jan Mayen", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands (the)", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates (the)", "United Kingdom of Great Britain and Northern Ireland (the)", "United States Minor Outlying Islands (the)", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela (Bolivarian Republic of)", "Viet Nam", "Virgin Islands (British)", "Virgin Islands (U.S.)", "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe", "Åland Islands"];
 
 
-    addDavenfor(rawInformation: SimpleDavenfor) {
-        const newDavenfor = new Davenfor(
-            this.getSubmitter(rawInformation.submitterEmail),
-            this.getCategory(rawInformation.categoryName),
-            rawInformation.nameHebrew,
-            rawInformation.nameEnglish,
-            rawInformation.nameHebrewSpouse,
-            rawInformation.nameEnglishSpouse,
-            rawInformation.submitterToReceive,
-            new Date().toString(),
-            null, //server will set the right expiring date
-            new Date().toString(),
-            new Date().toString()
-        );
-        console.log(newDavenfor);
-        // send to server
-    }
+    davenfors: Davenfor[];
+    daveners: Davener[];
 
     getSubmitter(emailText: string) {
         //todo: reach out to server and get real submitter.
-        return new Submitter();
+        return new Submitter(1, "noname", emailText, 123, 123, null);
+
     }
 
-    getCategory(categoryName: string) {
-        //todo: reach out to server and get real category.
-        return new Category();
+
+    editDavenfor(id: number) {
+        //TODO: edit well at service, redisplay list (not sure if from this component)
+        alert("send " + id + " to Service for editing");
     }
+
+    deleteDavenfor(id: number) {
+        //TODO: delete well at service, redisplay list (not sure if from this component)
+        alert("send " + id + " to Service for deleting");
+    }
+
+    getCategory(id: number) {
+        //double equal sign (instead of triple) since incoming id is a string while category.id is a number.
+        return this.categories.find(category => category.id == id);
+    }
+
+    public findBanim() {
+        let banim = null;
+        this.categories.forEach(category => {
+            if (category.english === 'banim')
+                banim = category;
+        });
+        return banim;
+    }
+
+    changeToDisactivate(davener: Davener) {
+        const index = this.daveners.indexOf(davener);
+        this.daveners[index].active = false;
+        this.davenersChanged.next(this.daveners);
+    }
+
+    changeToActivate(davener: Davener) {
+        const index = this.daveners.indexOf(davener);
+        this.daveners[index].active = true;
+        this.davenersChanged.next(this.daveners);
+    }
+
+
 
 }

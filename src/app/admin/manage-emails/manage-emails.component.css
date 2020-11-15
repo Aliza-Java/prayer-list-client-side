@@ -1,0 +1,47 @@
+td, th {
+    text-align: center;
+}
+
+button {
+    margin-right: 5px;
+}
+
+table {
+    border-width: 2px;
+    border-color: black;
+    border-spacing: 0 1em;
+    border-collapse: separate;
+}
+
+.table td.fit, .table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+div {
+    /*TODO: see if can define in % and still maintain scrollability*/
+    overflow: auto;
+}
+
+.inactive{
+    color: #bfbfbf;
+}
+
+.loading{
+    margin: 0px;
+    color: red;
+}
+
+.top-margin{
+    margin-top: 10px;
+}
+
+comment-space{
+    line-height: 20px;
+}
+
+help-block{
+    margin-top:0px;
+    margin-bottom: 0px;
+}
+

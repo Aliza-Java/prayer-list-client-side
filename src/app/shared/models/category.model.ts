@@ -2,6 +2,7 @@ export class Category {
 
     public constructor(
 
+        public id?:number,
         public english?: string,
         public hebrew?: string,
         public iscurrent?: boolean,

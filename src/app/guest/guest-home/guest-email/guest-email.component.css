@@ -1,0 +1,24 @@
+button {
+    margin-top: 30px;
+}
+
+label, input {
+    font-size: x-large;
+}
+
+
+
+#guestEmail {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+.same-line{  /*overriding bootstraps tendency to put buttons etc. on a new line.*/
+    margin-top: 0px;
+}
+
+::placeholder {
+    color: lightgray;
+    font-size: 20px;
+  }

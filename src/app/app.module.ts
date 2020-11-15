@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,9 @@ import { WeeklyComponent } from './admin/weekly/weekly.component';
 import { UrgentComponent } from './admin/urgent/urgent.component';
 import { SettingsComponent } from './admin/settings/settings.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { GuestEmailComponent } from './guest/guest-home/guest-email/guest-email.component';
+import { FilterActivePipe } from './shared/filters/filter-active.pipe';
+
 
 
 @NgModule({
@@ -41,13 +44,16 @@ import { NotFoundComponent } from './not-found/not-found.component';
     WeeklyComponent,
     UrgentComponent,
     SettingsComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    GuestEmailComponent,
+    FilterActivePipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
 ],
   providers: [],
   bootstrap: [AppComponent]

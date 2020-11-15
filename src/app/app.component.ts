@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DaveningService } from 'src/app/shared/services/davening.service';
+import { HttpService } from './shared/services/http.service';
 
 @Component({
     selector: 'app-root',
@@ -9,7 +10,12 @@ import { DaveningService } from 'src/app/shared/services/davening.service';
 
 
 
-export class AppComponent {
-    constructor(private daveningService: DaveningService) { }
+export class AppComponent implements OnInit {
+    constructor(public daveningService: DaveningService, public httpService:HttpService) {
+     }
+
+     ngOnInit(){
+         this.httpService.getCategories();
+     }
     title = 'Davening List';
 }

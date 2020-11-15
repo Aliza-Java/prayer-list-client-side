@@ -1,0 +1,38 @@
+<div class="container">
+<form (ngSubmit)="onSaveEmail()" [formGroup]="guestEmailForm">
+    <div class="row">
+        <div class="col-xs-2" class="form-group">
+            <label for="newEmail">My Email: </label>
+        </div>
+
+        <div class="col-xs-2"> <!--centering email textbox and content-->
+         
+        </div>
+
+        <!-- If user wants to update the email, allow -->
+        <div *ngIf="changeEmailAllowed">
+            <div class="col-xs-6 ">
+                <input id="newEmail" type="text" class="form-control" formControlName="emailInput" placeholder="A valid email is required">
+            </div>
+            <div class="col-xs-2 same-line">
+                <button 
+                type="submit" 
+                class="btn btn-success form-control same-line" 
+                [disabled]="guestEmailForm.get('emailInput').invalid">Ok</button>
+            </div>
+        </div>
+
+        <!-- show the guest email saved in Service -->
+        <div *ngIf="daveningService.guestEmail && !changeEmailAllowed">
+            <div class="col-xs-6 text-center" id="guestEmail">
+                {{daveningService.guestEmail}}
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-info same-line" (click)="onChangeEmail()">Change</button>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+</div>

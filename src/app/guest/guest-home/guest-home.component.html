@@ -1,17 +1,20 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <label for="guestEmail">My Email: </label>
-            <input type="text" (keydown)="onChangeEmail(this.value)" id="guestEmail">
-        </div>
-    </div>
-    <hr>
+    <app-guest-email></app-guest-email>
+</div>
+<hr>
 
+<div *ngIf="daveningService.guestEmail">
+    <!-- Submitting or changing names can be done only when guest has given his email-->
     <div *ngIf="!addNameMode">
 
         <div class="row">
             <div class="col-md-12 text-center">
-                <app-manage-names></app-manage-names>
+                <div *ngIf="loadedDavenfors"> 
+                    <app-manage-names></app-manage-names>
+                </div>
+                <div *ngIf="!loadedDavenfors"><!--If guestEmail provided no names, display a message-->
+                   <h3>This email has no information registered in the system :(</h3>
+                </div>
             </div>
         </div>
 

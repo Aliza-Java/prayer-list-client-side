@@ -3,10 +3,10 @@ import { Category } from './category.model';
 
 export class Davenfor {
 
-    public id?: number;
 
     public constructor(
 
+        public id?:number,
         public submitter?: Submitter,
         public category?: Category,
         public nameHebrew?: string,
@@ -19,5 +19,9 @@ export class Davenfor {
         public createdAt?: string,
         public updatedAt?: string
     ) { }
+
+    public getSubmitter(){
+        return this.submitter;
+    }
 
 }

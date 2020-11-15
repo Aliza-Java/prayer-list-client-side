@@ -1,20 +1,27 @@
-<div class="container">
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <tr>
-                <th>English Name</th>
-                <th>Hebrew Name</th>
-                <th *ngIf="needSpouse">Spouse English Name</th>
-                <th *ngIf="needSpouse">Spouse Hebrew Name</th>
-                <th>Category</th>
-            </tr>
-            <tr *ngFor="let davenfor of myDavenfors">
-                <td>{{davenfor.nameEnglish}}</td>
-                <td>{{davenfor.nameHebrew}}</td>
-                <td *ngIf="needSpouse">{{davenfor.nameEnglishSpouse}}</td>
-                <td *ngIf="needSpouse">{{davenfor.nameHebrewSpouse}}</td>
-                <td>{{davenfor.category}}</td>
-            </tr>
-        </table>
-    </div>
+<div>
+    <table class="table table-responsive  ">
+        <tr>
+            <th>Category</th>
+            <th>English Name</th>
+            <th>Hebrew Name</th>
+            <th *ngIf="adminService.adminLogin">Submitter</th>
+            <th></th>
+        </tr>
+
+        <tr *ngFor="let davenfor of daveningService.davenfors">
+
+            <td>{{davenfor.category.english | titlecase}}</td>
+            <td>{{davenfor.nameEnglish | titlecase}}</td>
+            <td>{{davenfor.nameHebrew}}</td>
+            <td *ngIf="adminService.adminLogin">{{davenfor.submitter.email}}</td>
+            <!--Show one of the following 2 td's - either allowing to show spouse details or not -->
+            <!--TODO: make the if contingent on if there is data or not, also pipe to show only english or hebrew if there is-->
+            <td *ngIf="davenfor.category.english=='banim'"
+                title="{{davenfor.nameEnglishSpouse}} - {{davenfor.nameHebrewSpouse}}">Show spouse name</td>
+            <td *ngIf="davenfor.category.english!='banim'">&nbsp;</td>
+            <button class="btn btn-warning" (click)="onEdit(davenfor)">Edit</button>
+            <button class="btn btn-danger" (click)="onDelete(davenfor.nameEnglish, davenfor.id)">Delete</button>
+
+        </tr>
+    </table>
 </div>

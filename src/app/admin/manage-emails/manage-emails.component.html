@@ -1,1 +1,142 @@
-manage emails works!
+<div class="container">
+    <div class="row top-margin">
+        <div class="col-sm-12 text-center" *ngIf="!addMode">
+            <button class="btn btn-info" (click)="allowToAdd()">+ Add a Davener</button>
+        </div>
+    </div>
+
+    <form (ngSubmit)="onAddDavener(f.value)" #f="ngForm">
+
+        <div class="row top-margin" *ngIf="addMode">
+            <div class="col-sm-3">
+                <input type="text" id="email" class="form-control" name="email" ngModel placeholder="Email (required)"
+                    email required #email="ngModel">
+                <span class="help-block" *ngIf="email.invalid&&email.touched">Valid email required</span>
+            </div>
+            <div class="col-sm-3"><input type="text" id="whatsapp" class="form-control" name="whatsapp" ngModel
+                    placeholder="Whatsapp number (digits only)" pattern="^[0-9]+$" #whatsapp="ngModel">
+                <span class="help-block" *ngIf="whatsapp.invalid&&whatsapp.touched">Only digits allowed</span>
+            </div>
+
+            <!--TODO: make a regex that allows also - and + -->
+            <div class="col-sm-3">
+                <select id="country" class="form-control" name="country" [ngModel]="'Israel'">
+                    <option value="Israel">Israel</option>
+                    <!--common countries first - removed from country array -->
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option *ngFor="let country of daveningService.countries" [value]="country">{{country}}</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Submit</button>
+            </div>
+            <div class="col-sm-1">
+                <!--cancel button-->
+                <button type="button" (click)="onCancelAdd(f)">X</button>
+            </div>
+        </div>
+    </form>
+
+    <hr>
+    <div *ngIf="daveners.length<=0">
+        <!--If there are no daveners, display a message-->
+        <h3 class="text-center">There are no daveners registered in the system :(</h3>
+    </div>
+    <div *ngIf="daveners.length>0">
+        <table class="table table-responsive">
+            <tr>
+                <th class="col-sm-3">Email</th>
+                <th class="col-sm-3">Whatsapp
+                </th>
+                <th class="col-sm-3">Country</th>
+                <td *ngIf="isLoading">
+                    <h6 class="loading">loading...</h6>
+                </td>
+            </tr>
+
+            <tr *ngFor="let davener of daveners | filterActive:true">
+                <td class="col-sm-3">
+                    <div *ngIf="davener.id!=davenerToEdit.id else emailEdit">{{davener.email}}</div>
+                </td>
+                <td class="col-sm-3">
+                    <div *ngIf="davener.id!=davenerToEdit.id else whatsappEdit">{{davener.whatsapp}}</div>
+                </td>
+                <td class="col-sm-3">
+                    <div *ngIf="davener.id!=davenerToEdit.id else countryEdit">{{davener.country}}</div>
+                </td>
+                <td>
+                    <!--Edit button is disabled if someone else is being edited, not him-->
+                    <div *ngIf="davener.id!=davenerToEdit.id else toEditButtons"><button class="btn btn-warning "
+                            [disabled]="(davenerToEdit.id!=-1)&&(davenerToEdit.id!=davener.id)"
+                            (click)="onEdit(davener)">Edit</button>
+                        <button class="btn btn-danger" (click)="onDelete(davener)">Delete</button>
+                        <!--appropriate disactivate/activate buttons if davener is active or not-->
+                        <button class="btn btn-danger" (click)="onDisactivate(davener)">Disactivate</button></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4">
+                    <hr>
+                </td>
+            </tr>
+
+            <tr *ngFor="let davener of daveners | filterActive:false">
+                <td class="col-sm-3 inactive">
+                    <div *ngIf="davener.id!=davenerToEdit.id else emailEdit">{{davener.email}} (disactivated)</div>
+                </td>
+                <td class="col-sm-3 inactive">
+                    <div *ngIf="davener.id!=davenerToEdit.id else whatsappEdit">{{davener.whatsapp}}</div>
+                </td>
+                <td class="col-sm-3 inactive">
+                    <div *ngIf="davener.id!=davenerToEdit.id else countryEdit">{{davener.country}}</div>
+                </td>
+                <td>
+                    <!--Edit button is disabled if someone else is being edited, not him-->
+                    <div *ngIf="davener.id!=davenerToEdit.id else toEditButtons"><button class="btn btn-warning"
+                            [disabled]="(davenerToEdit.id!=-1)&&(davenerToEdit.id!=davener.id)"
+                            (click)="onEdit(davener)">Edit</button>
+                        <button class="btn btn-danger" (click)="onDelete(davener)">Delete</button>
+                        <!--appropriate disactivate/activate buttons if davener is active or not-->
+                        <button class="btn btn-success" (click)="onActivate(davener)">Activate</button>
+                    </div>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+
+<ng-template #emailEdit>
+    <input (keyup)="emailValidator(email)" #email id="emailEdit" type="email" class="form-control" required email
+        [(ngModel)]="davenerToEdit.email">
+    <span class="help-block" *ngIf="!emailValid">Valid email required</span>
+    <span class="help-block" *ngIf="emailValid">&nbsp;</span>
+</ng-template>
+
+<ng-template #whatsappEdit>
+    <input (keyup)="whatsappValidator(whatsapp)" id="whatsappEdit" #whatsapp name="whatsappEdit" pattern="^[0-9]+$"
+        type="text" class="form-control" [(ngModel)]="davenerToEdit.whatsapp">
+    <span class="help-block" *ngIf="!whatsappValid">Only digits allowed</span>
+    <span class="help-block" *ngIf="whatsappValid">&nbsp;</span>
+</ng-template>
+
+<ng-template #countryEdit>
+    <select id="countryEdit" class="form-control" [(ngModel)]="davenerToEdit.country">
+        <option value="Israel">Israel</option>
+        <!--common countries first - removed from country array -->
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+        <option *ngFor="let country of daveningService.countries" [value]="country">{{country}}</option>
+    </select>
+    <span class="help-block">&nbsp;</span>
+    <!--space holder-->
+</ng-template>
+
+<ng-template #toEditButtons>
+    <button class="btn btn-success" [disabled]="!emailValid||!whatsappValid" (click)="onSendEdit()">Save edit</button>
+    <button class="btn btn-danger" (click)="onCancelEdit()">Cancel edit</button>
+    <span class="help-block">&nbsp;</span>
+    <!--space holder-->
+</ng-template>
