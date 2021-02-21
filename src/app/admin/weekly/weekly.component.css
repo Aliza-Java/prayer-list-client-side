@@ -1,0 +1,32 @@
+.give-space{
+    margin-right: 5px
+}
+
+.row{
+    margin-bottom: 10px;
+}
+.set-width{
+    width: 205px;
+}
+
+select{
+    margin-bottom: 10px;
+}
+
+.emphasized{
+    border-style: inset;
+border-color:   var(--dark-background-color);
+border-width: 2px;
+}
+
+.div-names {
+    max-height: 320px;
+    /*TODO: see if can define in % and still maintain scrollability*/
+    overflow: auto;
+}
+
+.same-line{
+    display: inline-block !important;
+    margin-top: 0px;
+
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DaveningService } from '../shared/services/davening.service';
 
 @Component({
   selector: 'app-error',
@@ -8,9 +9,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ErrorComponent implements OnInit {
     @Input() message:string;
 
-  constructor() { }
+  constructor(public daveningService:DaveningService) { }
 
   ngOnInit() {
+  }
+
+  clearMessage(){
+      this.daveningService.errorMessage = "";
   }
 
 }

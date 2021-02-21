@@ -1,35 +1,16 @@
 <div class="container">
     <app-guest-email></app-guest-email>
+    <!--TODO: make these buttons as a menu, and perhaps as a component-->
 </div>
 <hr>
 
-<div *ngIf="daveningService.guestEmail">
+<div *ngIf="guestService.guestEmail">
     <!-- Submitting or changing names can be done only when guest has given his email-->
-    <div *ngIf="!addNameMode">
 
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div *ngIf="loadedDavenfors"> 
-                    <app-manage-names></app-manage-names>
-                </div>
-                <div *ngIf="!loadedDavenfors"><!--If guestEmail provided no names, display a message-->
-                   <h3>This email has no information registered in the system :(</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="row text-center" style="margin-top: 10px;">
-            <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-info btn-lg even-width" (click)="onClickNew()"> + Submit a
-                    name</button>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row" *ngIf="addNameMode" style="margin-top: 10px;">
-        <div class="col-md-12">
-            <app-submit-name></app-submit-name>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <!--guest routes: manage names, submit name, and settings-->
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>

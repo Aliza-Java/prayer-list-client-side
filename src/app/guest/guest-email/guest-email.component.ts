@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DaveningService } from 'src/app/shared/services/davening.service';
+import { GuestService } from 'src/app/guest/guest.service';
 import { HttpService } from 'src/app/shared/services/http.service';
 
 @Component({
@@ -16,7 +18,7 @@ export class GuestEmailComponent implements OnInit {
 
 
     constructor(
-        public daveningService: DaveningService, public httpService:HttpService) { }
+        public router:Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService) { }
 
     ngOnInit() {
         this.guestEmailForm = new FormGroup({
@@ -28,11 +30,14 @@ export class GuestEmailComponent implements OnInit {
         this.changeEmailAllowed = true;
     }
 
-    onSaveEmail() {
+    onSaveEmail(newEmail: string) {
         this.changeEmailAllowed = false;
-        this.daveningService.guestEmail = this.guestEmailForm.get('emailInput').value;
-        this.httpService.getDavenfors();
+        this.guestService.guestEmail = newEmail;
+        this.guestService.populateGuestDavenfors();
+        this.router.navigate(['guest/guestnames']);
     }
+
+    
 
 
 

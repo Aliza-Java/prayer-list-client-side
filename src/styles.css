@@ -1,6 +1,8 @@
 body {
     /*Scheme colors*/
     --dark-background-color: #93d314;
+    --red-color: #db0f27;
+
     padding-top: 150px;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
@@ -31,8 +33,14 @@ body {
     background-color: var(--dark-background-color);
 }
 
-.help-block{
-    color:red;
+.help-block, .red-font {
+    color: var(--red-color);
 }
 
- 
+.hidden-scrollbar {
+    overflow: hidden;
+}
+
+.checkbox-margined{
+    margin: 5px;
+}

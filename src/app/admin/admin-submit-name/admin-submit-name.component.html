@@ -1,14 +1,15 @@
 <form class="form-horizontal" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
 
     <div class="form-group">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-10">
+        <div class="col-xs-6 col-md-offset-2">
             <h5>Fields marked with (*) are required.</h5>
+        </div>
+        <div class="col-md-2 col-md-offset-2">
+            <button type="button" class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
         </div>
     </div>
 
-    <!--If this is an admin posting, we need the submitters email to attach to the davenfor.-->
-    <div class="form-group" *ngIf="adminService.adminLogin">
+    <div class="form-group">
         <div class="col-xs-2">
             <span class="help-block"
                 *ngIf="nameForm.get('submitterEmail').touched && !nameForm.get('submitterEmail').valid">
@@ -233,7 +234,7 @@
 
     <div class="form-group">
         <div class="col-xs-12 text-center">
-            <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Add Name</button>
+            <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid||spouseEnglishError||spouseHebrewError">Add Name</button>
         </div>
 
     </div>

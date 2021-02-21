@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DaveningService } from 'src/app/shared/services/davening.service';
+import { AdminService } from './admin/admin.service';
 import { HttpService } from './shared/services/http.service';
 
 @Component({
@@ -11,11 +12,12 @@ import { HttpService } from './shared/services/http.service';
 
 
 export class AppComponent implements OnInit {
-    constructor(public daveningService: DaveningService, public httpService:HttpService) {
-     }
+    constructor(public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) {
+    }
 
-     ngOnInit(){
-         this.httpService.getCategories();
-     }
-    title = 'Davening List';
+    ngOnInit() {
+        //populating general arrays ahead of time (async)
+        this.adminService.getDaveners();
+        this.adminService.populateAdminDavenfors();
+    }
 }

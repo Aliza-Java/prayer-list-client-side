@@ -1,4 +1,3 @@
-import { Submitter } from './submitter.model';
 import { Category } from './category.model';
 
 export class Davenfor {
@@ -7,7 +6,7 @@ export class Davenfor {
     public constructor(
 
         public id?:number,
-        public submitter?: Submitter,
+        public submitterEmail?: string,
         public category?: Category,
         public nameHebrew?: string,
         public nameEnglish?: string,
@@ -20,8 +19,4 @@ export class Davenfor {
         public updatedAt?: string
     ) { }
 
-    public getSubmitter(){
-        return this.submitter;
-    }
-
-}
+ }

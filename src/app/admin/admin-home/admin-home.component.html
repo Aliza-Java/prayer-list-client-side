@@ -1,36 +1,37 @@
-<div *ngIf="!adminService.adminLogin else adminNavbar">
+<!--TODO: when login system in place, no jwt should trigger login form:-->
+<!-- <div *ngIf="!adminService.adminLogin else adminNavbar">
     <app-admin-login></app-admin-login>
-</div>
+</div> 
 
 
-<ng-template #adminNavbar>
- 
-        <div class="row-md-12">
-            <div class="col-md-2">
-                <div class="list-group">
-                    <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn btn-lg"
-                        routerLink="submit">Submit a new
-                            name</button></li>
-                    <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn btn-lg"
-                        routerLink="names">Manage all
-                            names</button> </li>
-                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
-                        routerLink="emails">Manage email
-                            list</button> </li>
-                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
-                        routerLink="weekly">Send out weekly
-                            list</button></li>
-                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
-                        routerLink="urgent">Send out an urgent
-                            name</button></li>
-                    <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
-                        routerLink="settings">Update my
-                            settings</button></li>
-                </div>
-                <!--list group-->
-            </div>
-            <div class="col-md-10">
-                <router-outlet></router-outlet>
-            </div>
+<ng-template #adminNavbar>-->
+
+<div class="row-md-12">
+    <div class="col-md-2">
+        <div class="list-group">
+            <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn btn-lg"
+                routerLink="submit" (click)="daveningService.clearMessages()">Submit a new
+                    name</button></li>
+            <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn btn-lg"
+                routerLink="adminnames" (click)="daveningService.clearMessages()">Manage all
+                    names</button> </li>
+            <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
+                 routerLink="emails" (click)="daveningService.clearMessages()">Manage email
+                    list</button> </li>
+            <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
+                routerLink="weekly" (click)="daveningService.clearMessages()">Send out weekly
+                    list</button></li>
+            <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn btn-lg"
+                 routerLink="urgent" (click)="daveningService.clearMessages()">Send out an urgent
+                    name</button></li>
+            <li class="list-group-item" routerLinkActive="active"> <button type="button" disabled class="btn btn-lg"
+                routerLink="settings" (click)="daveningService.clearMessages()">Settings (coming soon)</button></li>
         </div>
-</ng-template>
+        <!--list group-->
+    </div>
+    <div class="col-md-10">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<!--TODO: Also this
+</ng-template>-->

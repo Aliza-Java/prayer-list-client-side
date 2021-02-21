@@ -39,9 +39,9 @@
     </form>
 
     <hr>
-    <div *ngIf="daveners.length<=0">
+    <div class="hidden-scrollbar" *ngIf="daveners&&daveners.length<=0">
+        <app-empty-list whatIsMissing="subscribed daveners"></app-empty-list>   
         <!--If there are no daveners, display a message-->
-        <h3 class="text-center">There are no daveners registered in the system :(</h3>
     </div>
     <div *ngIf="daveners.length>0">
         <table class="table table-responsive">
@@ -60,7 +60,7 @@
                     <div *ngIf="davener.id!=davenerToEdit.id else emailEdit">{{davener.email}}</div>
                 </td>
                 <td class="col-sm-3">
-                    <div *ngIf="davener.id!=davenerToEdit.id else whatsappEdit">{{davener.whatsapp}}</div>
+                    <div *ngIf="davener.id!=davenerToEdit.id else whatsappEdit">{{davener.whatsapp>0?davener.whatsapp:'---'}}</div>
                 </td>
                 <td class="col-sm-3">
                     <div *ngIf="davener.id!=davenerToEdit.id else countryEdit">{{davener.country}}</div>

@@ -1,0 +1,29 @@
+<div>
+    <div class="text-center" *ngIf="davenfors.length<1">
+        <app-empty-list whatIsMissing="names in the '{{category}}' category.  Please choose another category"></app-empty-list>
+    </div>
+    <div *ngIf="davenfors.length>0">
+        <table class="table table-responsive">
+            <tr>
+                <th>English Name</th>
+                <th>Hebrew Name</th>
+            </tr>
+            <tr *ngFor="let davenfor of davenfors">
+                <td>
+                    <span>{{davenfor.nameEnglish | titlecase}}</span>
+                    <span
+                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameEnglishSpouse"><br>{{davenfor.nameEnglishSpouse}}</span>
+                </td>
+                <td>
+                    <span>{{davenfor.nameHebrew}}</span>
+                    <span
+                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
+                </td>
+                <button class="btn btn-warning" disabled (click)="onEdit(davenfor)">Edit</button>
+                <button class="btn btn-danger" (click)="onDelete(davenfor)">Delete</button>
+
+            </tr>
+        </table>
+
+    </div>
+</div>

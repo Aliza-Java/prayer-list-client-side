@@ -1,23 +1,10 @@
 <form class="form-horizontal" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
 
     <div class="form-group">
-        <div class="col-xs-6 col-md-offset-2">
+        <div class="col-xs-6">
             <h5>Fields marked with (*) are required.</h5>
         </div>
-        <div class="col-md-2 col-md-offset-2">
-            <button type="button" class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
-        </div>
     </div>
-
-    <div class="form-group">
-        <div class="col-xs-2">
-            <span class="help-block"
-                *ngIf="nameForm.get('submitterEmail').touched && !nameForm.get('submitterEmail').valid">
-                <span *ngIf="nameForm.get('submitterEmail').errors['email']">Please enter a valid email</span>
-            </span>
-        </div>
-    </div>
-
 
 
     <!--English name-->
@@ -207,16 +194,14 @@
     <div class="form-group">
         <div class=col-xs-2></div>
         <div class="col-xs-5 form-check">
-            <input style="margin: 5px" type="checkbox" class="form-check-input" id="addToWeekly"
-                formControlName="addToWeekly">
-            <label class="form-check-label text-center" for="addToWeekly">Add this name to weekly list as well</label>
-
-            <div *ngIf="addToWeekly.value">
-                <input type="text" style="width:300px" class="form-control" placeholder="Email to manage notifications"
-                    formControlName="submitterEmail">
-            </div>
+            <input style="margin: 5px" type="checkbox" class="form-check-input" id="submitterToReceive"
+                formControlName="submitterToReceive">
+            <label class="form-check-label text-center" for="submitterToReceive">Include this name (when
+                appropriate) in
+                my
+                davening
+                list</label>
         </div>
-
 
         <div class="col-xs-1">
             <label for="category">* Category:</label>
@@ -232,9 +217,11 @@
     </div>
 
     <div class="form-group">
-        <div class="col-xs-12 text-center">
-            <button class="btn btn-success btn-lg" type="submit"
-                [disabled]="nameForm.invalid||spouseEnglishError||spouseHebrewError">Go ahead and send out to email list</button>
+        <div class="col-xs-2 col-xs-offset-4">
+            <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid||spouseHebrewError||spouseEnglishError">Add Name</button>
+        </div>
+        <div class="col-xs-2">
+            <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
         </div>
 
     </div>

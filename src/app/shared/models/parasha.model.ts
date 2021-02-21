@@ -1,9 +1,8 @@
 export class Parasha {
-
     constructor(
-        id?: number,
-        englishName?: string,
-        hebrewName?: string
+        public id?: number,
+        public englishName?: string,
+        public hebrewName?: string
     ) { }
 
 }

@@ -1,24 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Category } from '../shared/models/category.model';
-import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
-import { AdminService } from '../shared/services/admin.service';
-import { DaveningService } from '../shared/services/davening.service';
-import { HttpService } from '../shared/services/http.service';
+import { Router } from '@angular/router';
+import { Category } from 'src/app/shared/models/category.model';
+import { SimpleDavenfor } from 'src/app/shared/models/simple-davenfor.model';
+import { AdminService } from 'src/app/admin/admin.service';
+import { DaveningService } from 'src/app/shared/services/davening.service';
+import { GuestService } from 'src/app/guest/guest.service';
+import { HttpService } from 'src/app/shared/services/http.service';
 
 @Component({
-    selector: 'app-submit-name',
-    templateUrl: './submit-name.component.html',
-    styleUrls: ['./submit-name.component.css']
+    selector: 'app-admin-submit-name',
+    templateUrl: './admin-submit-name.component.html',
+    styleUrls: ['./admin-submit-name.component.css']
 })
-export class SubmitNameComponent implements OnInit {
+export class AdminSubmitNameComponent implements OnInit {
     nameForm: FormGroup;
     categories: Category[]; //creating here so it is ready to populate and recognize later
     banimNumber: number; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
     chosenCategoryId = -1;
-    guestEmail;
-    englishNamePattern = "^[a-zA-Z '\\-\\ ]*$";
-    hebrewNamePattern = "^[\\u0590-\\u05fe '\\-]*$";
     chosenCategory: Category;
     spouseEnglishError = false;
     spouseHebrewError = false;
@@ -40,16 +39,11 @@ export class SubmitNameComponent implements OnInit {
     banim: Category;
 
 
-    constructor(public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) { }
+    constructor(public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService, public router: Router) { }
 
     ngOnInit() {
         this.createFormControls();
-        this.createForm();
-
-        //since field is required  but not shown, populate behind the scenes.
-        if (!this.adminService.adminLogin) {
-            this.submitterEmail.setValue(this.daveningService.guestEmail);
-        }
+        this.setForm();
 
         //Populating category array from Server
         this.categories = this.daveningService.categories;
@@ -57,19 +51,19 @@ export class SubmitNameComponent implements OnInit {
     }
 
     createFormControls() {
-        this.name1English = new FormControl(null, [Validators.required, Validators.pattern(this.englishNamePattern)]);
+        this.name1English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
         this.benbat = new FormControl('ben');
-        this.name2English = new FormControl(null, [Validators.required, Validators.pattern(this.englishNamePattern)]);
-        this.name1Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.hebrewNamePattern)]);
+        this.name2English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.name1Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
         this.benbatHebrew = new FormControl('בן');
-        this.name2Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.hebrewNamePattern)]);
+        this.name2Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         //spouse values can be empty or not, depending on category value (if it is banim, and even then optional), as long as they are in the right language 
         //spouse values are initialized as empty string to assist with checkSpouseEnglish() and checkSpouseHebrew(), where we now only need to check if it is an empty string or not.
-        this.spouseName1English = new FormControl("", Validators.pattern(this.englishNamePattern));
-        this.spouseName2English = new FormControl("", Validators.pattern(this.englishNamePattern));
-        this.spouseName1Hebrew = new FormControl("", Validators.pattern(this.hebrewNamePattern));
-        this.spouseName2Hebrew = new FormControl("", Validators.pattern(this.hebrewNamePattern));
+        this.spouseName1English = new FormControl("", Validators.pattern(this.daveningService.englishNamePattern));
+        this.spouseName2English = new FormControl("", Validators.pattern(this.daveningService.englishNamePattern));
+        this.spouseName1Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
+        this.spouseName2Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
         this.category = new FormControl("", Validators.required); //default value is 'select category'
         this.submitterToReceive = new FormControl(true);
@@ -77,7 +71,7 @@ export class SubmitNameComponent implements OnInit {
 
     }
 
-    createForm() {
+    setForm() {
         this.nameForm = new FormGroup({
             'name': new FormGroup({
                 'english1': this.name1English,
@@ -100,6 +94,11 @@ export class SubmitNameComponent implements OnInit {
     }
 
     onSubmit() {
+        /*If spouse name will be full and valid, will populate later.  
+        Initializing before 'banim' condition so that recognized in 'formInfo' population below*/
+        let spouseEnglishFull = ""; 
+        let spouseHebrewFull = "";
+        
         let form = this.nameForm; //shortening all references in this function
         const chosenCategory = this.daveningService.getCategory(form.get('category').value);
         const englishName = form.get('name.english1').value + " " + form.get('name.benBat').value + " " + form.get('name.english2').value;
@@ -107,14 +106,19 @@ export class SubmitNameComponent implements OnInit {
         let submitterEmail = form.get('submitterEmail').value;
         let submitterToReceive = form.get('submitterToReceive').value;
 
-        //initialize as empty, only populate if category is banim
-        let spouseEnglishName = "";
-        let spouseHebrewName = "";
         if (chosenCategory.english === "banim") {
-            //overriding an input such as "null בן null"
-            //TODO: interpolate with ``
-            spouseEnglishName = `${form.get('spouse.english1').value} ben ${form.get('spouse.english2').value}`;
-            spouseHebrewName = `${form.get('spouse.hebrew1').value} בן ${form.get('spouse.hebrew2').value}`;
+            //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
+
+            let spouseEnglish1 = form.get('spouse.english1').value;
+            let spouseEnglish2 = form.get('spouse.english2').value;
+            let spouseHebrew1 = form.get('spouse.hebrew1').value;
+            let spouseHebrew2 = form.get('spouse.hebrew2').value;
+
+            if (spouseEnglish1 && spouseEnglish2)
+                spouseEnglishFull = `${spouseEnglish1} ben ${spouseEnglish2}`; //It must be ben, as it is the husband
+
+            if (spouseHebrew1 && spouseHebrew2)
+                spouseHebrewFull = `${spouseHebrew2} בן ${spouseHebrew1}`;
         }
 
         let formInfo = new SimpleDavenfor(
@@ -122,17 +126,37 @@ export class SubmitNameComponent implements OnInit {
             submitterEmail,
             hebrewName,
             englishName,
-            spouseHebrewName,
-            spouseEnglishName,
+            spouseHebrewFull,
+            spouseEnglishFull,
             submitterToReceive
         );
-        console.log(formInfo);
 
-        this.httpService.addDavenfor(formInfo);
+        this.adminService.addDavenfor(formInfo);
+        this.clearForm();
+    }
+
+    clearForm() {
+        //resetting and initializing with default values
+        this.nameForm.reset();
+        this.name1English.reset();
+        this.benbat.setValue('ben');
+        this.name2English.reset();
+        this.name1Hebrew.reset();
+        this.benbatHebrew.setValue('בן');
+        this.name2Hebrew.reset();
+        this.spouseName1English.reset();
+        this.spouseName2English.reset();
+        this.spouseName1Hebrew.reset();
+        this.spouseName2Hebrew.reset();
+        this.submitterToReceive.setValue(true);
+    }
+
+    cancel() {
+        this.router.navigate(['admin/adminnames']);
     }
 
     checkSpouseEnglish() {
-            if ((!this.spouseName1English.value
+        if ((!this.spouseName1English.value
             && this.spouseName2English.value)
             ||
             (!this.spouseName2English.value
@@ -143,7 +167,7 @@ export class SubmitNameComponent implements OnInit {
     }
 
     checkSpouseHebrew() {
-             if ((!this.spouseName1Hebrew.value
+        if ((!this.spouseName1Hebrew.value
             && this.spouseName2Hebrew.value)
             ||
             (!this.spouseName2Hebrew.value
@@ -152,7 +176,4 @@ export class SubmitNameComponent implements OnInit {
         }
         else this.spouseHebrewError = false;
     }
-
-    
-
 }

@@ -1,0 +1,17 @@
+.form-horizontal {
+    margin: 3em;
+}
+
+.help-block,.alert-option {
+    color: red;
+    margin-bottom: 0px;
+}
+
+.text-right {
+    float: right;
+}
+
+select {
+    text-align-last: center;
+}
+

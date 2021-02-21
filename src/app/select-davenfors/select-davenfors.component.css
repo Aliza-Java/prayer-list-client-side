@@ -17,9 +17,4 @@ table {
     width: 1%;
 }
 
-div {
-    max-height: 300px;
-    /*TODO: see if can define in % and still maintain scrollability*/
-    overflow: auto;
-}
 

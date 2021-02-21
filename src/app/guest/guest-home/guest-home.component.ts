@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DaveningService } from 'src/app/shared/services/davening.service';
+import { GuestService } from 'src/app/guest/guest.service';
 import { HttpService } from 'src/app/shared/services/http.service';
 
 @Component({
@@ -11,42 +12,39 @@ import { HttpService } from 'src/app/shared/services/http.service';
     styleUrls: ['./guest-home.component.css']
 })
 export class GuestHomeComponent implements OnInit, OnDestroy {
-    addNameMode = false;
     changeEmailAllowed = true;
     guestEmailForm: FormGroup;
     addDavenforSub: Subscription;
     davenforsChangedSub: Subscription;
-    loadedDavenfors = false;
 
     constructor(
-        public daveningService: DaveningService, public httpService: HttpService) {
+        public router:Router, public daveningService: DaveningService, public httpService: HttpService, public guestService: GuestService) {
     }
 
     ngOnInit() {
-        this.addDavenforSub = this.httpService.davenforAdded.subscribe((addedAlready: boolean) => {
+        this.router.navigate['guestnames'];
+
+        this.addDavenforSub = this.guestService.davenforAdded.subscribe((addedAlready: boolean) => {
             if (addedAlready) {
-                this.addNameMode = false; //revert back to name list
+                this.router.navigate['guestnames'];
             }
         });
 
-        this.davenforsChangedSub = this.daveningService.davenforsChanged.subscribe((names)=>{
-            if(names.length>0){
-                this.loadedDavenfors = true;
+        this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe((names) => {
+            //TODO: change to turnary expression if all works well. 
+            if (names.length > 0) {
+                this.guestService.loadedDavenfors = true;
             }
-            else{
-                this.loadedDavenfors = false;
+            else {
+                this.guestService.loadedDavenfors = false;
             }
         });
     }
 
-    onClickNew() {
-        this.addNameMode = true;
-    }
-
+ 
     ngOnDestroy() {
         this.addDavenforSub.unsubscribe();
         this.davenforsChangedSub.unsubscribe();
     }
-
 
 }

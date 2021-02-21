@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="text-center" *ngIf="davenfors.length<1">
+        <app-empty-list whatIsMissing="names for davening"></app-empty-list>
+
+    </div>
+    <div class="div-names" *ngIf="davenfors.length>0">
+
+        <table class="table table-responsive">
+            <tr>
+                <th>Category</th>
+                <th>English Name</th>
+                <th>Hebrew Name</th>
+                <th>Submitter</th>
+                <th></th>
+            </tr>
+
+            <tr *ngFor="let davenfor of davenfors">
+
+                <td>{{davenfor.category.english | titlecase}}</td>
+                <td>
+                    <!--English name, and spouse's English name if applicable-->
+                    <span>{{davenfor.nameEnglish | titlecase}}</span>
+                    <span
+                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameEnglishSpouse"><br>{{davenfor.nameEnglishSpouse}}</span>
+                </td>
+                <td> <!--Hebrew name, and spouse's Hebrew name if applicable -->
+                    <span>{{davenfor.nameHebrew}}</span>
+                    <span
+                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
+                </td>
+                <td>{{davenfor.submitterEmail}}</td>
+                              
+                <button class="btn btn-warning" (click)="onEdit(davenfor)">Edit</button>
+                <button class="btn btn-danger" (click)="onDelete(davenfor.id, davenfor.nameEnglish)">Delete</button>
+
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 col-xs-offset-3">
+            <button class="btn btn-info btn-lg" (click)="onAddName()">+ Add Name</button>
+        </div>
+        <div class="col-xs-2">
+            <button class="btn btn-success btn-lg" (click)="onRefresh()">Refresh Names</button>
+        </div>
+    </div>
+</div>

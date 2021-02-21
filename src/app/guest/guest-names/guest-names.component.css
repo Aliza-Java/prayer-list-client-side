@@ -1,0 +1,25 @@
+td, th {
+    text-align: center;
+}
+
+button {
+    margin-right: 5px;
+}
+
+table {
+    border-width: 0px;
+    border-spacing: 0 1em;
+    border-collapse: separate;
+}
+
+.table td.fit, .table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+
+.table-div{
+    max-height: 350px;
+    overflow: auto;
+}
+

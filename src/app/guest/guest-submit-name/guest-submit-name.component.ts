@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { SimpleDavenfor } from 'src/app/shared/models/simple-davenfor.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from '../admin.service';
 import { Router } from '@angular/router';
-import { GuestService } from 'src/app/guest/guest.service';
-import { DaveningService } from 'src/app/shared/services/davening.service';
-import { HttpService } from 'src/app/shared/services/http.service';
-import { Category } from 'src/app/shared/models/category.model';
-
+import { Category } from '../../shared/models/category.model';
+import { SimpleDavenfor } from '../../shared/models/simple-davenfor.model';
+import { AdminService } from '../../admin/admin.service';
+import { DaveningService } from '../../shared/services/davening.service';
+import { GuestService } from '../guest.service';
+import { HttpService } from '../../shared/services/http.service';
 
 @Component({
-    selector: 'app-urgent',
-    templateUrl: './urgent.component.html',
-    styleUrls: ['./urgent.component.css']
+    selector: 'app-guest-submit-name',
+    templateUrl: './guest-submit-name.component.html',
+    styleUrls: ['./guest-submit-name.component.css']
 })
-export class UrgentComponent implements OnInit {
-
+export class GuestSubmitNameComponent implements OnInit {
     nameForm: FormGroup;
     categories: Category[]; //creating here so it is ready to populate and recognize later
     banimNumber: number; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
@@ -36,21 +34,17 @@ export class UrgentComponent implements OnInit {
     spouseName1Hebrew: FormControl;
     spouseName2Hebrew: FormControl;
     category: FormControl;
+    submitterToReceive: FormControl;
     submitterEmail: FormControl;
     banim: Category;
-    addToWeekly: FormControl;
 
 
-    constructor(
-        public guestService: GuestService,
-        public daveningService: DaveningService,
-        public httpService: HttpService,
-        public adminService: AdminService,
-        public router: Router) { }
+    constructor(public router: Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) { }
 
     ngOnInit() {
+        this.daveningService.clearMessages();
         this.createFormControls();
-        this.setForm();
+        this.createForm();
 
         //Populating category array from Server
         this.categories = this.daveningService.categories;
@@ -73,12 +67,11 @@ export class UrgentComponent implements OnInit {
         this.spouseName2Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
         this.category = new FormControl("", Validators.required); //default value is 'select category'
-        this.addToWeekly = new FormControl(false);
-        this.submitterEmail = new FormControl(null, Validators.email);
+        this.submitterToReceive = new FormControl(true);
 
     }
 
-    setForm() {
+    createForm() {
         this.nameForm = new FormGroup({
             'name': new FormGroup({
                 'english1': this.name1English,
@@ -95,80 +88,52 @@ export class UrgentComponent implements OnInit {
                 'hebrew2': this.spouseName2Hebrew
             }),
             'category': this.category,
-            'addToWeekly': this.addToWeekly,
-            'submitterEmail': this.submitterEmail
+            'submitterToReceive': this.submitterToReceive
         });
     }
 
     onSubmit() {
-        if (confirm('Are you sure? This name will be sent out to all email subscribers.')) {
-            /*If spouse name will be full and valid, will populate later.  
-            Initializing before 'banim' condition so that recognized in 'formInfo' population below*/
-            let spouseEnglishFull = "";
-            let spouseHebrewFull = "";
 
-            let form = this.nameForm; //shortening all references in this function
-            const chosenCategory = this.daveningService.getCategory(form.get('category').value);
-            const englishName = form.get('name.english1').value + " " + form.get('name.benBat').value + " " + form.get('name.english2').value;
-            const hebrewName = form.get('name.hebrew1').value + " " + form.get('name.benBatHebrew').value + " " + form.get('name.hebrew2').value;
-            let submitterEmail = form.get('submitterEmail').value;
+        /*If spouse name will be full and valid, will populate later.  
+        Initializing before 'banim' condition so that recognized in 'formInfo' population below    */
+        let spouseEnglishFull = "";
+        let spouseHebrewFull = "";
 
-            let addToWeekly = form.get('addToWeekly').value;
+        let form = this.nameForm; //shortening all references in this function
+        const chosenCategory = this.daveningService.getCategory(form.get('category').value);
+        const englishName = form.get('name.english1').value + " " + form.get('name.benBat').value + " " + form.get('name.english2').value;
+        const hebrewName = form.get('name.hebrew1').value + " " + form.get('name.benBatHebrew').value + " " + form.get('name.hebrew2').value;
+        let submitterEmail = this.guestService.guestEmail;
+        let submitterToReceive = form.get('submitterToReceive').value;
 
-            if (chosenCategory.english === "banim") {
-                //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
 
-                let spouseEnglish1 = form.get('spouse.english1').value;
-                let spouseEnglish2 = form.get('spouse.english2').value;
-                let spouseHebrew1 = form.get('spouse.hebrew1').value;
-                let spouseHebrew2 = form.get('spouse.hebrew2').value;
+        if (chosenCategory.english === "banim") {
+            //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
 
-                if (spouseEnglish1 && spouseEnglish2)
-                    spouseEnglishFull = `${spouseEnglish1} ben ${spouseEnglish2}`; //It must be ben, as it is the husband
+            let spouseEnglish1 = form.get('spouse.english1').value;
+            let spouseEnglish2 = form.get('spouse.english2').value;
+            let spouseHebrew1 = form.get('spouse.hebrew1').value;
+            let spouseHebrew2 = form.get('spouse.hebrew2').value;
 
-                if (spouseHebrew1 && spouseHebrew2)
-                    spouseHebrewFull = `${spouseHebrew2} בן ${spouseHebrew1}`;
-            }
+            if (spouseEnglish1 && spouseEnglish2)
+                spouseEnglishFull = `${spouseEnglish1} ben ${spouseEnglish2}`; //It must be ben, as it is the husband
 
-            let formInfo = new SimpleDavenfor(
-                chosenCategory,
-                submitterEmail,
-                hebrewName,
-                englishName,
-                spouseHebrewFull,
-                spouseEnglishFull,
-                true //submitter to receive, by default inserting true (if is added to weekly list)
-            );
-
-            /*
-            addName will be taken care of in sendUrgent, if addWeekly is true. 
-            We are purposefully not sending to adminService.addName AND sendUrgent separately, 
-            since only one success message should be shown. 
-            */
-           this.adminService.sendUrgent(formInfo, addToWeekly);
-            
-            this.clearForm();
+            if (spouseHebrew1 && spouseHebrew2)
+                spouseHebrewFull = `${spouseHebrew2} בן ${spouseHebrew1}`;
         }
-    }
 
-    clearForm() {
-        //resetting and initializing with default values
-        this.nameForm.reset();
-        this.name1English.reset();
-        this.benbat.setValue('ben');
-        this.name2English.reset();
-        this.name1Hebrew.reset();
-        this.benbatHebrew.setValue('בן');
-        this.name2Hebrew.reset();
-        this.spouseName1English.reset();
-        this.spouseName2English.reset();
-        this.spouseName1Hebrew.reset();
-        this.spouseName2Hebrew.reset();
-        this.addToWeekly.setValue(false);
-    }
 
-    cancel() {
-        this.router.navigate(['admin/adminnames']);
+        let formInfo = new SimpleDavenfor(
+            chosenCategory,
+            submitterEmail,
+            hebrewName,
+            englishName,
+            spouseHebrewFull,
+            spouseEnglishFull,
+            submitterToReceive
+        );
+
+        this.guestService.addDavenfor(formInfo);
     }
 
     checkSpouseEnglish() {
@@ -192,4 +157,9 @@ export class UrgentComponent implements OnInit {
         }
         else this.spouseHebrewError = false;
     }
+
+    cancel() {
+        this.router.navigate(['guest/guestnames']);
+    }
+
 }

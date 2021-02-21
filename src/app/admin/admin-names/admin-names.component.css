@@ -7,8 +7,7 @@ button {
 }
 
 table {
-    border-width: 2px;
-    border-color: black;
+    border-width: 0px;
     border-spacing: 0 1em;
     border-collapse: separate;
 }
@@ -18,32 +17,13 @@ table {
     width: 1%;
 }
 
-div {
+.div-names {
+    max-height: 420px;
     /*TODO: see if can define in % and still maintain scrollability*/
     overflow: auto;
 }
 
-.inactive{
-    color: #bfbfbf;
+.row{
+    margin-top: 10px; /* To give the 'Add Name' button some room */
 }
-
-.loading{
-    margin: 0px;
-    color: red;
-}
-
-.top-margin{
-    margin-top: 10px;
-}
-
-comment-space{
-    line-height: 20px;
-}
-
-help-block{
-    margin-top:0px;
-    margin-bottom: 0px;
-}
-
-
 

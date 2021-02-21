@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Davener } from 'src/app/shared/models/davener.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { FilterActivePipe } from 'src/app/shared/filters/filter-active.pipe'; //necessary for filter in html
 import { NgForm } from '@angular/forms';
+import { AdminService } from 'src/app/admin/admin.service';
 
 
 
@@ -20,19 +21,23 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     addMode = false;
     country = 'Israel';
     davenerToEdit: Davener;
+
     whatsappEdit = document.getElementById('whatsappEdit');
     emailEdit = document.getElementById('emailEdit');
     whatsappValid = true; //don't know how to access touched of elements, therefore setting to true to avoid error message showing from start.
     emailValid = true; //don't know how to access touched of elements, therefore setting to true to avoid error message showing from start.
     
 
-        constructor(public daveningService: DaveningService, public httpService: HttpService) { }
+        constructor(public daveningService: DaveningService, public httpService: HttpService, public adminService:AdminService) {
+            this.daveners = this.adminService.daveners;
+         }
 
     ngOnInit() {
-        this.davenersChangedSub = this.daveningService.davenersChanged.subscribe(daveners => {
+        this.davenersChangedSub = this.adminService.davenersChanged.subscribe(daveners => {
             this.daveners = daveners;
         });
-        this.httpService.getDaveners();
+        this.daveners = this.adminService.daveners; //better safe - ngInit happens for sure...
+
         
         //sending to resetDavener() didn't work at this point.
         this.davenerToEdit = new Davener(-1, null, null, null, false); //html will check if any davener's id is equal to davenerToEdit's id, this prevents an undefined value
@@ -44,13 +49,23 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     onSendEdit() {
-        this.httpService.editDavener(this.davenerToEdit);
+        this.httpService.editDavener(this.davenerToEdit).subscribe(
+            daveners => {
+                this.adminService.daveners = daveners;
+                this.adminService.davenersChanged.next(daveners);
+            },
+            error => console.log(error)
+        );
+
         this.resetDavener();  //switching it back to default so that no davener matches davenerToEdit's id.
     }
 
     onDelete(davener: Davener) {
-        if (confirm('Are you sure you want to remove the email ' + davener.email + ' and all names associated with it?')) {
-            this.httpService.deleteDavener(davener.id);
+        if (confirm('Are you sure you want to remove the email ' + davener.email + ' from the davening list?')) {
+            this.httpService.deleteDavener(davener.id).subscribe(
+                () => { this.adminService.getDaveners() },//refreshing list reflects deleted item.
+                error => { console.log(error) } // TODO: and error message
+            );
         }
     }
 
@@ -59,7 +74,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         this.httpService.disactivateDavener(davener)
             .subscribe(  //subscription is here so that it directly affects the loading icon
                 () => {
-                    this.daveningService.changeToDisactivate(davener);
+                    this.adminService.changeToDisactivate(davener);
                     this.isLoading = false;
                 },
                 error => {
@@ -74,7 +89,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         this.httpService.activateDavener(davener)
             .subscribe(
                 () => {
-                    this.daveningService.changeToActivate(davener);
+                    this.adminService.changeToActivate(davener);
                     this.isLoading = false;
                 },
                 error => {
@@ -97,8 +112,11 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     onAddDavener(info: any) {
+        if(info.whatsapp==""){
+            info.whatsapp=0; //I want it to be defined as text (no up-and-down arrows) but server doesn't like "" as an empty value, accepts only numbers
+        }
         const davenerToAdd = new Davener(-1, info.country, info.email, info.whatsapp, true);
-        this.httpService.addDavener(davenerToAdd);
+        this.adminService.addDavener(davenerToAdd);
         //dForm.reset();
         this.addMode = false;
     }

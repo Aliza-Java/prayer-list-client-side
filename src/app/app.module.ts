@@ -10,21 +10,28 @@ import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { GuestHomeComponent } from './guest/guest-home/guest-home.component';
 import { FooterComponent } from './footer/footer.component';
 import { AdminComponent } from './admin/admin.component';
-import { GuestComponent } from './guest/guest.component';
 import { SuccessComponent } from './success/success.component';
 import { ErrorComponent } from './error/error.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
-import { SubmitNameComponent } from './submit-name/submit-name.component';
+import { GuestSubmitNameComponent } from './guest/guest-submit-name/guest-submit-name.component';
+import { AdminSubmitNameComponent } from './admin/admin-submit-name/admin-submit-name.component';
 import { ManageEmailsComponent } from './admin/manage-emails/manage-emails.component';
-import { ManageNamesComponent } from './manage-names/manage-names.component';
+import { GuestNamesComponent } from './guest/guest-names/guest-names.component';
 import { WeeklyComponent } from './admin/weekly/weekly.component';
 import { UrgentComponent } from './admin/urgent/urgent.component';
-import { SettingsComponent } from './admin/settings/settings.component';
+import { AdminSettingsComponent } from './admin/admin-settings/admin-settings.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { GuestEmailComponent } from './guest/guest-home/guest-email/guest-email.component';
+import { GuestEmailComponent } from './guest/guest-email/guest-email.component';
 import { FilterActivePipe } from './shared/filters/filter-active.pipe';
-
-
+import { EmptyListComponent } from './empty-list/empty-list.component';
+import { DaveningService } from './shared/services/davening.service';
+import { HttpService } from './shared/services/http.service';
+import { AdminService } from './admin/admin.service';
+import { SelectDavenforsComponent } from './select-davenfors/select-davenfors.component';
+import { AdminNamesComponent } from './admin/admin-names/admin-names.component';
+import { GuestService } from './guest/guest.service';
+import { DropdownDirective } from './shared/dropdown.directive';
+import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.component';
 
 @NgModule({
   declarations: [
@@ -34,19 +41,25 @@ import { FilterActivePipe } from './shared/filters/filter-active.pipe';
     GuestHomeComponent,
     FooterComponent,
     AdminComponent,
-    GuestComponent,
     SuccessComponent,
     ErrorComponent,
     AdminLoginComponent,
-    SubmitNameComponent,
+    GuestSubmitNameComponent,
+    AdminSubmitNameComponent,
     ManageEmailsComponent,
-    ManageNamesComponent,
+    GuestNamesComponent,
     WeeklyComponent,
     UrgentComponent,
-    SettingsComponent,
+    AdminSettingsComponent,
+    GuestSettingsComponent,
     NotFoundComponent,
     GuestEmailComponent,
-    FilterActivePipe
+    FilterActivePipe,
+    EmptyListComponent,
+    SelectDavenforsComponent,
+    AdminNamesComponent,
+    DropdownDirective,
+    GuestSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +68,7 @@ import { FilterActivePipe } from './shared/filters/filter-active.pipe';
     ReactiveFormsModule,
     HttpClientModule
 ],
-  providers: [],
+  providers: [DaveningService, HttpService, AdminService, GuestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
