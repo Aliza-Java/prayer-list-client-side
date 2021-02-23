@@ -32,7 +32,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             error => {
                 if (error.status == '404') {
                     this.myDavenforsChanged.next([]);
-                } //TODO: do something here.
+                }
             });
     }
 
@@ -49,7 +49,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
 
 
             },//refreshing list reflects deleted item.
-            error => { console.log(error) } // TODO: and error message
+            error => { console.log(error) }
         );
     }
 

@@ -78,7 +78,6 @@ export class DaveningService { // A general service to hold 'global' data releva
 
 
     editDavenfor(id: number) {
-        //TODO: edit well at service, redisplay list (not sure if from this component)
         alert("send " + id + " to Service for editing");
     }
 

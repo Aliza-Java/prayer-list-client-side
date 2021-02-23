@@ -23,7 +23,7 @@ export class WeeklyComponent implements OnInit {
     chagim: Parasha[];
     categories: Category[];
     weekName: string;
-    weekType: string; //TODO: change to enum?
+    weekType: string;
     changeParasha: boolean = false;
     selectedDavenfors: Davenfor[] = [];
     davenforsChangedSub: Subscription;
@@ -49,7 +49,7 @@ export class WeeklyComponent implements OnInit {
 
         this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(
             updatedList => {
-                this.davenfors = updatedList; //TODO: should be tied to general davenfors in case external changes made and user comes back in
+                this.davenfors = updatedList;
                 this.refreshDavenfors();
             });
 
@@ -93,8 +93,6 @@ export class WeeklyComponent implements OnInit {
     }
 
     send() {
-        //TODO: consider what to send instead of englishName - like, the shortened one. Or just cut that part out.
-
         let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
         this.httpService.sendWeekly(weeklyInfo).subscribe(
             response => this.daveningService.successMessage = "Weekly list has been sent out to active subscribers ",
@@ -111,10 +109,8 @@ export class WeeklyComponent implements OnInit {
 
     verify() {
         //   if (this.adminPassword === this.adminService.adminLogin.password) 
-        //TODO: when login is good. 
-        this.adminPassword = "";
 
-        if (this.adminPassword === "pass") {
+        if (this.adminPassword == "pass") {
             this.send();
         }
         else {

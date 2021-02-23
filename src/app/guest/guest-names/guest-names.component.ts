@@ -19,8 +19,7 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
     davenfors: Davenfor[];
     davenforsChangedSub: Subscription;
 
-    constructor(public router:Router, public guestService:GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) { }
-    //TODO: make empty-list component showing if nothing.
+    constructor(public router: Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) { }
     ngOnInit() {
         this.daveningService.clearMessages();
         this.davenfors = this.guestService.returnDavenfors();
@@ -32,7 +31,7 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         //show updated list - subject
     }
 
-    onAddName(){
+    onAddName() {
         this.router.navigate(['guest/new']);
     }
 
@@ -42,8 +41,8 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if(this.davenforsChangedSub) //Sometimes undefined, perhaps when forcibly reroute.
-        this.davenforsChangedSub.unsubscribe();
+        if (this.davenforsChangedSub) //Sometimes undefined, perhaps when forcibly reroute.
+            this.davenforsChangedSub.unsubscribe();
     }
 
 }

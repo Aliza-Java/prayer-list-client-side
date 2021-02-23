@@ -18,7 +18,7 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     davenforsChangedSub: Subscription;
 
     constructor(
-        public router:Router, public daveningService: DaveningService, public httpService: HttpService, public guestService: GuestService) {
+        public router: Router, public daveningService: DaveningService, public httpService: HttpService, public guestService: GuestService) {
     }
 
     ngOnInit() {
@@ -31,7 +31,6 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
         });
 
         this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe((names) => {
-            //TODO: change to turnary expression if all works well. 
             if (names.length > 0) {
                 this.guestService.loadedDavenfors = true;
             }
@@ -41,7 +40,7 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
         });
     }
 
- 
+
     ngOnDestroy() {
         this.addDavenforSub.unsubscribe();
         this.davenforsChangedSub.unsubscribe();

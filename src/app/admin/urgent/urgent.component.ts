@@ -145,8 +145,8 @@ export class UrgentComponent implements OnInit {
             We are purposefully not sending to adminService.addName AND sendUrgent separately, 
             since only one success message should be shown. 
             */
-           this.adminService.sendUrgent(formInfo, addToWeekly);
-            
+            this.adminService.sendUrgent(formInfo, addToWeekly);
+
             this.clearForm();
         }
     }

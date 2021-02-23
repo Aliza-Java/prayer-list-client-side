@@ -19,7 +19,12 @@ import { Submitter } from '../models/submitter.model';
 })
 export class HttpService {  //A service that makes the calls to the server
 
-    private baseUrl = "http://localhost:8080/dlist/"; //TODO: move schema values to schema.  how?
+    private localhostUrl = "http://localhost:5000/dlist/";
+    private awsUrl = "http://daveninglist.us-east-1.elasticbeanstalk.com/dlist/";
+
+    //change this depending on the server location
+    private baseUrl = this.awsUrl;
+
     public davenforAdded = new Subject<Boolean>();
 
     constructor(public http: HttpClient, public router: Router) {
@@ -97,7 +102,7 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     sendWeekly(weeklyInfo: Weekly) {
-       return this.http.post<boolean>(this.baseUrl + 'admin/weekly/', weeklyInfo);
+        return this.http.post<boolean>(this.baseUrl + 'admin/weekly/', weeklyInfo);
     }
 
     //use something like this: this.httpClient.request('GET', 'url, {responseType:'text'});
@@ -114,11 +119,11 @@ export class HttpService {  //A service that makes the calls to the server
             );
     }
 
-    getSubmitter(submitterEmail: string) {//TODO: FIX THIS to really retrieve from server!
+    getSubmitter(submitterEmail: string) { //This needs to be changed to dynamic retrieval
         return new Submitter(1, "myName", "submitter@smail.com", 101101, 101102, []);
     }
 
-    sendUrgent(urgentDavenfor:Davenfor){
+    sendUrgent(urgentDavenfor: Davenfor) {
         return this.http.post<boolean>(this.baseUrl + 'admin/urgent', urgentDavenfor);
     }
 }

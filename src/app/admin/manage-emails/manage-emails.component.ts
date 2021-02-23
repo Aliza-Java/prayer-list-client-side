@@ -26,11 +26,11 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     emailEdit = document.getElementById('emailEdit');
     whatsappValid = true; //don't know how to access touched of elements, therefore setting to true to avoid error message showing from start.
     emailValid = true; //don't know how to access touched of elements, therefore setting to true to avoid error message showing from start.
-    
 
-        constructor(public daveningService: DaveningService, public httpService: HttpService, public adminService:AdminService) {
-            this.daveners = this.adminService.daveners;
-         }
+
+    constructor(public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) {
+        this.daveners = this.adminService.daveners;
+    }
 
     ngOnInit() {
         this.davenersChangedSub = this.adminService.davenersChanged.subscribe(daveners => {
@@ -38,7 +38,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         });
         this.daveners = this.adminService.daveners; //better safe - ngInit happens for sure...
 
-        
+
         //sending to resetDavener() didn't work at this point.
         this.davenerToEdit = new Davener(-1, null, null, null, false); //html will check if any davener's id is equal to davenerToEdit's id, this prevents an undefined value
     }
@@ -64,7 +64,9 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         if (confirm('Are you sure you want to remove the email ' + davener.email + ' from the davening list?')) {
             this.httpService.deleteDavener(davener.id).subscribe(
                 () => { this.adminService.getDaveners() },//refreshing list reflects deleted item.
-                error => { console.log(error) } // TODO: and error message
+                error => {
+                    console.log(error)
+                }
             );
         }
     }
@@ -104,7 +106,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     emailValidator(emailElement: any) {
-           this.emailValid = emailElement.checkValidity();
+        this.emailValid = emailElement.checkValidity();
     }
 
     whatsappValidator(whatsappElement: any) {
@@ -112,8 +114,8 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     onAddDavener(info: any) {
-        if(info.whatsapp==""){
-            info.whatsapp=0; //I want it to be defined as text (no up-and-down arrows) but server doesn't like "" as an empty value, accepts only numbers
+        if (info.whatsapp == "") {
+            info.whatsapp = 0; //I want it to be defined as text (no up-and-down arrows) but server doesn't like "" as an empty value, accepts only numbers
         }
         const davenerToAdd = new Davener(-1, info.country, info.email, info.whatsapp, true);
         this.adminService.addDavener(davenerToAdd);
@@ -125,7 +127,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         this.addMode = false;
         dForm.reset(); //cleaning form
         this.country = 'Israel'; //resetting dropdown too
-   
+
     }
 
     onCancelEdit() {
@@ -135,7 +137,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         this.whatsappValid = true;
     }
 
-    resetDavener(){
+    resetDavener() {
         const undefinedDavener = new Davener(-1, '', '', 0, false);
         Object.assign(this.davenerToEdit, undefinedDavener);
     }

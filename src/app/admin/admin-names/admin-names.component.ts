@@ -7,9 +7,9 @@ import { HttpService } from '../../shared/services/http.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-names',
-  templateUrl: './admin-names.component.html',
-  styleUrls: ['./admin-names.component.css']
+    selector: 'app-admin-names',
+    templateUrl: './admin-names.component.html',
+    styleUrls: ['./admin-names.component.css']
 })
 export class AdminNamesComponent implements OnInit {
 
@@ -17,11 +17,10 @@ export class AdminNamesComponent implements OnInit {
     davenfors: Davenfor[];
     davenforsChangedSub: Subscription;
 
-    constructor(public router:Router, public httpService: HttpService, public adminService: AdminService) { }
-    //TODO: make empty-list component showing if nothing.
+    constructor(public router: Router, public httpService: HttpService, public adminService: AdminService) { }
     ngOnInit() {
         this.davenfors = this.adminService.returnDavenfors();
-                this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });
+        this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });
     }
 
     onEdit(davenfor: Davenfor) {
@@ -34,11 +33,11 @@ export class AdminNamesComponent implements OnInit {
             this.adminService.deleteDavenfor(id, name);
     }
 
-    onAddName(){
+    onAddName() {
         this.router.navigate(['admin/submit']);
     }
 
-    onRefresh(){
+    onRefresh() {
         this.adminService.populateAdminDavenfors();
     }
 

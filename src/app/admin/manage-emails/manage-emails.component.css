@@ -19,31 +19,27 @@ table {
 }
 
 div {
-    /*TODO: see if can define in % and still maintain scrollability*/
     overflow: auto;
 }
 
-.inactive{
+.inactive {
     color: #bfbfbf;
 }
 
-.loading{
+.loading {
     margin: 0px;
     color: red;
 }
 
-.top-margin{
+.top-margin {
     margin-top: 10px;
 }
 
-comment-space{
+comment-space {
     line-height: 20px;
 }
 
-help-block{
-    margin-top:0px;
+help-block {
+    margin-top: 0px;
     margin-bottom: 0px;
 }
-
-
-

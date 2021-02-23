@@ -19,11 +19,10 @@ table {
 
 .div-names {
     max-height: 420px;
-    /*TODO: see if can define in % and still maintain scrollability*/
     overflow: auto;
 }
 
-.row{
-    margin-top: 10px; /* To give the 'Add Name' button some room */
+.row {
+    margin-top: 10px;
+    /* To give the 'Add Name' button some room */
 }
-

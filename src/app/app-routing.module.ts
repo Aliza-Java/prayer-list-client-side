@@ -15,26 +15,30 @@ import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.co
 
 
 const routes: Routes = [
-    {path: '', redirectTo: 'guest', pathMatch: 'full'}, 
-    {path: 'guest', component: GuestHomeComponent, children: [
-        {path: 'new', component: GuestSubmitNameComponent},
-        {path: 'guestnames', component: GuestNamesComponent},
-        {path: 'settings', component:GuestSettingsComponent}
-    ]},
-    {path: 'admin', component: AdminHomeComponent, children: [
-        {path: '', component: AdminNamesComponent, pathMatch: 'full'},
-        {path: 'submit', component: AdminSubmitNameComponent},
-        {path: 'adminnames', component: AdminNamesComponent},
-        {path: 'emails', component: ManageEmailsComponent},
-        {path: 'weekly', component: WeeklyComponent},
-        {path: 'urgent', component: UrgentComponent},
-        {path: 'settings', component: AdminSettingsComponent}
-    ]},
-    {path: '**', component: NotFoundComponent} //TODO: design this
+    { path: '', redirectTo: 'guest', pathMatch: 'full' },
+    {
+        path: 'guest', component: GuestHomeComponent, children: [
+            { path: 'new', component: GuestSubmitNameComponent },
+            { path: 'guestnames', component: GuestNamesComponent },
+            { path: 'settings', component: GuestSettingsComponent }
+        ]
+    },
+    {
+        path: 'admin', component: AdminHomeComponent, children: [
+            { path: '', component: AdminNamesComponent, pathMatch: 'full' },
+            { path: 'submit', component: AdminSubmitNameComponent },
+            { path: 'adminnames', component: AdminNamesComponent },
+            { path: 'emails', component: ManageEmailsComponent },
+            { path: 'weekly', component: WeeklyComponent },
+            { path: 'urgent', component: UrgentComponent },
+            { path: 'settings', component: AdminSettingsComponent }
+        ]
+    },
+    { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

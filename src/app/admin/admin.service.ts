@@ -31,7 +31,6 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     public login(email: string, password: string) {
-        //TODO: real login to server, success if yes, error otherwise.
         this.httpService.login(email, password).subscribe(response => {
             this.adminLogin = response;
             this.router.navigate(['admin/']);
@@ -50,7 +49,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
             error => {
                 if (error.status == '404') {
                     this.davenforsChanged.next([]);
-                } //TODO: do something here.
+                }
             }
         );
     }
@@ -100,7 +99,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
                 this.daveningService.successMessage = `The name '${englishName}' has been deleted`;
 
             },//refreshing list reflects deleted item.
-            error => { console.log(error) } // TODO: and error message
+            error => { console.log(error) }
         );
     }
 
@@ -137,7 +136,6 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
 
     getWeeklyCategory() { //need to store weekly category like this, pointing to array
         return this.daveningService.categories[(this.weeklyCategory.id) - 1]; //this.categories starts from 0-4.  
-        //TODO:  must get more correct solution that is based on real category.  Id's might change and not be consecutive...
     }
 
     getWeekyCategory() {
