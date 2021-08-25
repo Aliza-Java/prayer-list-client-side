@@ -1,39 +1,39 @@
-
-<!-- for implementation when JWT is in. 
-    
 <div *ngIf="!adminService.adminLogin else adminNavbar">
     <app-admin-login></app-admin-login>
-</div> 
-
-
-<ng-template #adminNavbar>-->
-
-<div class="row">
-    <div class="col-xs-2">
-        <div class="list-group">
-            <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn-lg btn btn-responsive"
-                    routerLink="submit" (click)="daveningService.clearMessages()">Submit a new
-                    name</button></li>
-            <li class="list-group-item" routerLinkActive="active"><button type="button" class="btn-lg btn btn-responsive"
-                    routerLink="adminnames" (click)="daveningService.clearMessages()">Manage all
-                    names</button> </li>
-            <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn-lg btn btn-responsive"
-                    routerLink="emails" (click)="daveningService.clearMessages()">Manage email
-                    list</button> </li>
-            <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn-lg btn btn-responsive"
-                    routerLink="weekly" (click)="daveningService.clearMessages()">Send out weekly
-                    list</button></li>
-            <li class="list-group-item" routerLinkActive="active"> <button type="button" class="btn-lg btn btn-responsive"
-                    routerLink="urgent" (click)="daveningService.clearMessages()">Send out an urgent
-                    name</button></li>
-            <li class="list-group-item" routerLinkActive="active"> <button type="button" disabled class="btn-lg btn btn-responsive"
-                    routerLink="settings" (click)="daveningService.clearMessages()">Settings (coming soon)</button></li>
-        </div>
-        <!--list group-->
-    </div>
-    <div class="col-xs-10">
-        <router-outlet></router-outlet>
-    </div>
 </div>
-<!--</ng-template>-->
 
+<ng-template #adminNavbar>
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="list-group">
+                <li class="list-group-item" routerLinkActive="active"><button type="button"
+                        class="btn-lg btn btn-responsive" routerLink="submit"
+                        (click)="daveningService.clearMessages()">Submit a new
+                        name</button></li>
+                <li class="list-group-item" routerLinkActive="active"><button type="button"
+                        class="btn-lg btn btn-responsive" routerLink="adminnames"
+                        (click)="daveningService.clearMessages()">Manage all
+                        names</button> </li>
+                <li class="list-group-item" routerLinkActive="active"> <button type="button"
+                        class="btn-lg btn btn-responsive" routerLink="emails"
+                        (click)="daveningService.clearMessages()">Manage email
+                        list</button> </li>
+                <li class="list-group-item" routerLinkActive="active"> <button type="button"
+                        class="btn-lg btn btn-responsive" routerLink="weekly"
+                        (click)="daveningService.clearMessages()">Send out weekly
+                        list</button></li>
+                <li class="list-group-item" routerLinkActive="active"> <button type="button"
+                        class="btn-lg btn btn-responsive" routerLink="urgent"
+                        (click)="daveningService.clearMessages()">Send out an urgent
+                        name</button></li>
+                <li class="list-group-item" routerLinkActive="active"> <button type="button" disabled
+                        class="btn-lg btn btn-responsive" routerLink="settings"
+                        (click)="daveningService.clearMessages()">Settings (coming soon)</button></li>
+            </div>
+            <!--list group-->
+        </div>
+        <div class="col-xs-10">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</ng-template>
