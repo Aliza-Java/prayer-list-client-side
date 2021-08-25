@@ -100,9 +100,4 @@ export class DaveningService { // A general service to hold 'global' data releva
         this.successMessage = "";
         this.errorMessage = "";
     }
-
-
-
-
-
 }

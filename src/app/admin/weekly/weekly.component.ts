@@ -95,7 +95,9 @@ export class WeeklyComponent implements OnInit {
     send() {
         let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
         this.httpService.sendWeekly(weeklyInfo).subscribe(
-            response => this.daveningService.successMessage = "Weekly list has been sent out to active subscribers ",
+            () => {
+                return this.daveningService.successMessage = "Weekly list has been sent out to active subscribers ";
+            },
             error => console.log(error)
         );
     }
@@ -110,7 +112,7 @@ export class WeeklyComponent implements OnInit {
     verify() {
         //   if (this.adminPassword === this.adminService.adminLogin.password) 
 
-        if (this.adminPassword == "pass") {
+        if (this.adminPassword === "pass") {
             this.send();
         }
         else {

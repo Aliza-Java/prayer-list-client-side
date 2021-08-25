@@ -1,7 +1,7 @@
 button{
     background-color:var(--dark-background-color);
-    width: 250px;
-}
+    width: 100%;
+ }
 
 
 .list-group-item{
@@ -14,3 +14,21 @@ button{
     color:white;
 
 }
+
+@media (max-width: 768px) {
+    .btn-responsive {
+
+      padding:2px 4px;
+      font-size:80%;
+      line-height: 1.5;
+    }
+  }
+  
+  @media (min-width: 769px){
+    .btn-responsive {
+      padding:4px 9px;
+      font-size:90%;
+      line-height: 2;
+    }
+  }
+

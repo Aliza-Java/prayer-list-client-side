@@ -9,7 +9,6 @@ import { HeaderComponent } from './header/header.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { GuestHomeComponent } from './guest/guest-home/guest-home.component';
 import { FooterComponent } from './footer/footer.component';
-import { AdminComponent } from './admin/admin.component';
 import { SuccessComponent } from './success/success.component';
 import { ErrorComponent } from './error/error.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
@@ -40,7 +39,6 @@ import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.co
     AdminHomeComponent,
     GuestHomeComponent,
     FooterComponent,
-    AdminComponent,
     SuccessComponent,
     ErrorComponent,
     AdminLoginComponent,

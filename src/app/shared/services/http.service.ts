@@ -1,13 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Davenfor } from '../models/davenfor.model';
-import { AdminService } from '../../admin/admin.service';
-import { DaveningService } from './davening.service';
-import { SimpleDavenfor } from '../models/simple-davenfor.model';
 import { Category } from '../models/category.model';
 import { Admin } from '../models/admin.model';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Davener } from '../models/davener.model';
 import { Parasha } from '../models/parasha.model';
 import { Weekly } from '../models/weekly.model';
@@ -23,7 +20,7 @@ export class HttpService {  //A service that makes the calls to the server
     private awsUrl = "http://daveninglist.us-east-1.elasticbeanstalk.com/dlist/";
 
     //change this depending on the server location
-    private baseUrl = this.awsUrl;
+    private baseUrl = this.localhostUrl;
 
     public davenforAdded = new Subject<Boolean>();
 
@@ -37,7 +34,6 @@ export class HttpService {  //A service that makes the calls to the server
     public login(email: string, password: string) {
         const adminCredentials = new Admin(-1, email, password, false, 0); //sending email and password.
         return this.http.post<Admin>(this.baseUrl + 'login', adminCredentials, { withCredentials: true });
-
     }
 
 

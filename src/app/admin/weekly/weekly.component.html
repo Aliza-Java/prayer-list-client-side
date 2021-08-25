@@ -80,6 +80,7 @@
             <input [(ngModel)]="adminPassword" type="password" class="form-control red-font"
                 placeholder="Enter admin password">
         </div>
+    
         <div *ngIf="askForPassword" class="col-xs-1">
             <button class="btn btn-success" (click)="verify()">Ok</button>
         </div>
