@@ -14,8 +14,7 @@ import { HttpService } from '../shared/services/http.service';
 })
 export class AdminService {  //A service focusing on admin data and tasks (vs. guest)
 
-    //till get the real login system working
-    adminLogin: Admin = new Admin(1, "davening.list@gmail.com", "pass", true, 7);
+    adminLogin: Admin = null;
     davenfors: Davenfor[];
     daveners: Davener[];
     weeklyCategory: Category;
@@ -36,7 +35,10 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
             this.router.navigate(['admin/']);
         },
             error => {
-                console.log(error)
+                if(error.error.code == "NOT_ADMIN_EMAIL"){
+                    this.daveningService.errorMessage = "Check your email and password again. ";
+                }
+                console.log(error);
             });
     }
 
