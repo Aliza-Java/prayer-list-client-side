@@ -25,7 +25,6 @@ export class AdminNamesComponent implements OnInit {
 
     onEdit(davenfor: Davenfor) {
         this.adminService.editDavenfor(davenfor);
-        //show updated list - subject
     }
 
     onDelete(id: number, name: string) {
@@ -44,5 +43,4 @@ export class AdminNamesComponent implements OnInit {
     ngOnDestroy() {
         this.davenforsChangedSub.unsubscribe();
     }
-
 }

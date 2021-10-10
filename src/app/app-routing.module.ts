@@ -11,6 +11,7 @@ import { AdminSettingsComponent } from './admin/admin-settings/admin-settings.co
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AdminNamesComponent } from './admin/admin-names/admin-names.component';
 import { AdminSubmitNameComponent } from './admin/admin-submit-name/admin-submit-name.component';
+import { AdminEditNameComponent } from './admin/admin-edit-name/admin-edit-name.component';
 import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.component';
 
 
@@ -27,6 +28,7 @@ const routes: Routes = [
         path: 'admin', component: AdminHomeComponent, children: [
             { path: '', component: AdminNamesComponent, pathMatch: 'full' },
             { path: 'submit', component: AdminSubmitNameComponent },
+            { path: 'edit', component: AdminEditNameComponent},
             { path: 'adminnames', component: AdminNamesComponent },
             { path: 'emails', component: ManageEmailsComponent },
             { path: 'weekly', component: WeeklyComponent },

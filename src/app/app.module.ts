@@ -14,6 +14,7 @@ import { ErrorComponent } from './error/error.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { GuestSubmitNameComponent } from './guest/guest-submit-name/guest-submit-name.component';
 import { AdminSubmitNameComponent } from './admin/admin-submit-name/admin-submit-name.component';
+import { AdminEditNameComponent } from './admin/admin-edit-name/admin-edit-name.component';
 import { ManageEmailsComponent } from './admin/manage-emails/manage-emails.component';
 import { GuestNamesComponent } from './guest/guest-names/guest-names.component';
 import { WeeklyComponent } from './admin/weekly/weekly.component';
@@ -44,6 +45,7 @@ import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.co
     AdminLoginComponent,
     GuestSubmitNameComponent,
     AdminSubmitNameComponent,
+    AdminEditNameComponent,
     ManageEmailsComponent,
     GuestNamesComponent,
     WeeklyComponent,

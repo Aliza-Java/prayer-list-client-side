@@ -119,9 +119,13 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     editDavenfor(davenfor: Davenfor) {
-        this.httpService.editDavenfor('updatename/' + this.adminLogin.email, davenfor).subscribe(
-            response => { console.log(response) },
-            error => { console.log(error) }
+        this.router.navigate(['admin/edit']);
+        this.httpService.adminEditDavenfor('admin/updatedavenfor', davenfor).subscribe(
+            response => { 
+                this.davenforsChanged.next(response);
+            this.router.navigate(['admin/adminnames']); 
+            },
+            error => { console.log(error); }
         );
     }
 

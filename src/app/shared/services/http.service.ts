@@ -46,6 +46,11 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.put<Davenfor>((this.baseUrl + url), davenfor);
     }
 
+    //separated from submitter's editDavenfor mainly because of return type
+    adminEditDavenfor(url: string, davenfor:Davenfor){
+        return this.http.put<Davenfor[]>((this.baseUrl + url), davenfor);
+    }
+
     deleteDavenfor(url: string) {
         return this.http.delete<Davenfor[]>(this.baseUrl + url);
     }
@@ -123,4 +128,3 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post<boolean>(this.baseUrl + 'admin/urgent', urgentDavenfor);
     }
 }
-
