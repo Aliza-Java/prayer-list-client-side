@@ -18,6 +18,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     davenfors: Davenfor[];
     daveners: Davener[];
     weeklyCategory: Category;
+    davenforToEdit: Davenfor = null;
 
     davenforsChanged = new Subject<Davenfor[]>();
     davenersChanged = new Subject<Davener[]>();
@@ -121,11 +122,10 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     editDavenfor(davenfor: Davenfor) {
-        this.router.navigate(['admin/edit']);
         this.httpService.adminEditDavenfor('admin/updatedavenfor', davenfor).subscribe(
-            response => { 
-                this.davenforsChanged.next(response);
-            this.router.navigate(['admin/adminnames']); 
+            () => { 
+                this.populateAdminDavenfors();
+            this.router.navigate(['admin/names']); 
             },
             error => { console.log(error); }
         );

@@ -152,7 +152,7 @@ export class AdminSubmitNameComponent implements OnInit {
     }
 
     cancel() {
-        this.router.navigate(['admin/adminnames']);
+        this.router.navigate(['admin/names']);
     }
 
     checkSpouseEnglish() {

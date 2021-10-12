@@ -24,7 +24,8 @@ export class AdminNamesComponent implements OnInit {
     }
 
     onEdit(davenfor: Davenfor) {
-        this.adminService.editDavenfor(davenfor);
+        this.adminService.davenforToEdit = davenfor;
+        this.router.navigate(['admin/edit']);
     }
 
     onDelete(id: number, name: string) {

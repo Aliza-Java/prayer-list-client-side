@@ -29,7 +29,7 @@ const routes: Routes = [
             { path: '', component: AdminNamesComponent, pathMatch: 'full' },
             { path: 'submit', component: AdminSubmitNameComponent },
             { path: 'edit', component: AdminEditNameComponent},
-            { path: 'adminnames', component: AdminNamesComponent },
+            { path: 'names', component: AdminNamesComponent },
             { path: 'emails', component: ManageEmailsComponent },
             { path: 'weekly', component: WeeklyComponent },
             { path: 'urgent', component: UrgentComponent },

@@ -14,3 +14,11 @@
 select {
     text-align-last: center;
 }
+
+.input-box{
+    width: 300px;
+}
+
+.form-control{
+    font-weight: 500;
+}
