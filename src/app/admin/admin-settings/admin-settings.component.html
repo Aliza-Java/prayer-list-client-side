@@ -1,1 +1,28 @@
-<p>settings works!</p>
+<form class="form-horizontal" [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <span>* Admin's email</span>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control input-box" placeholder="Admin's email"
+                formControlName="email">
+        </div>
+
+        <div class="col-xs-2">
+            <span class="help-block"
+                *ngIf="settingsForm.get('email').touched && !settingsForm.get('email').valid">
+                <span *ngIf="settingsForm.get('email').errors['required']">Admin Email is required</span>
+                <span *ngIf="settingsForm.get('email').errors['email']">Please enter a valid email</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class=col-xs-2></div>
+        <div class="col-xs-5 form-check">
+            <input style="margin: 5px" type="checkbox" class="form-check-input" id="prompt" formControlName="prompt">
+            <label class="form-check-label text-center" for="prompt">Receive new name notifications</label>
+        </div>
+    </div>
+</form>
