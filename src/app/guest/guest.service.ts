@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Davenfor } from '../shared/models/davenfor.model';
@@ -16,6 +16,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     myDavenforsChanged = new Subject<Davenfor[]>();
     davenforAdded = new Subject<Boolean>();
     loadedDavenfors = false;
+    davenforToEdit: Davenfor = null;
 
 
     constructor(public router: Router, public httpService: HttpService, public daveningService: DaveningService) {
@@ -75,17 +76,21 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                 //The line below does not get executed due to 'ExpressionChangedAfterItHasBeenCheckedError'.  Leaving it for now. 
                 //this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category.english}' list`;
-                this.router.navigate(['guest/guestnames']);    //Guest probably wants to add just one name, returning to list             
+                this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
             },
             error => { console.log(error) }
         );
     }
 
     public editDavenfor(davenfor: Davenfor) {
+        davenfor.submitterEmail = this.guestEmail;
         this.httpService.editDavenfor('updatename/' + this.guestEmail, davenfor).subscribe(
-            response => { console.log(response) },
+            response => {
+                console.log(response);
+                this.populateGuestDavenfors();
+                this.router.navigate(['guest/names']);
+            },
             error => { console.log(error) }
         );
     }
-
 }

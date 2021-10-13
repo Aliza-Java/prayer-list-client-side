@@ -22,11 +22,11 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.router.navigate['guestnames'];
+        this.router.navigate['names'];
 
         this.addDavenforSub = this.guestService.davenforAdded.subscribe((addedAlready: boolean) => {
             if (addedAlready) {
-                this.router.navigate['guestnames'];
+                this.router.navigate['names'];
             }
         });
 

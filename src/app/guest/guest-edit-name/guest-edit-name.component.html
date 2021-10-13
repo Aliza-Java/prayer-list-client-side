@@ -9,21 +9,6 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-xs-2">
-            <span class="help-block"
-                *ngIf="nameForm.get('submitterEmail').touched && !nameForm.get('submitterEmail').valid">
-                <span *ngIf="nameForm.get('submitterEmail').errors['required']">Submitter Email is required</span>
-                <span *ngIf="nameForm.get('submitterEmail').errors['email']">Please enter a valid email</span>
-            </span>
-        </div>
-        <div class="col-xs-10 input-box">
-            <label for="submitterEmail">* Submitter's email</label>
-            <input type="text" id="submitterEmail" class="form-control" placeholder="Email to receive notifications"
-                formControlName="submitterEmail">
-        </div>
-    </div>
-
     <!--English name-->
     <div class="form-group">
         <!--Validation for English name-->
@@ -37,7 +22,7 @@
         </div>
         <div class="col-xs-3 input-box">
             <label for="english">* Full Name </label>
-                <input type="text" id="english" class="form-control" formControlName="english">
+            <input type="text" id="english" class="form-control" formControlName="english">
         </div>
 
         <!--Spouse English name-->
@@ -52,7 +37,7 @@
             </div>
             <div class="col-xs-3 input-box">
                 <label for="spouseEnglish">Optional: Spouse name</label>
-                    <input type="text" id="spouseEnglish" class="form-control" formControlName="spouseEnglish">
+                <input type="text" id="spouseEnglish" class="form-control" formControlName="spouseEnglish">
             </div>
         </div>
     </div>
@@ -70,7 +55,7 @@
         </div>
         <div class="col-xs-3 input-box">
             <label for="hebrew">* שם בעברית </label>
-                <input type="text" id="hebrew" class="form-control" formControlName="hebrew">
+            <input type="text" id="hebrew" class="form-control" formControlName="hebrew">
         </div>
 
         <!--Spouse Hebrew name-->
@@ -85,7 +70,7 @@
             </div>
             <div class="col-xs-3 input-box">
                 <label for="spouseHebrew">Optional: שם בן הזוג בעברית </label>
-                    <input type="text" id="spouseHebrew" class="form-control" formControlName="spouseHebrew">
+                <input type="text" id="spouseHebrew" class="form-control" formControlName="spouseHebrew">
             </div>
         </div>
     </div>
@@ -98,9 +83,7 @@
             <input style="margin: 5px" type="checkbox" class="form-check-input" id="submitterToReceive"
                 formControlName="submitterToReceive">
             <label class="form-check-label text-center" for="submitterToReceive">Include this name (when
-                appropriate) in submitter's
-                davening
-                list</label>
+                appropriate) in my davening list</label>
         </div>
 
         <div class="col-xs-1">

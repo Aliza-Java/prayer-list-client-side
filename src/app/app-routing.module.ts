@@ -13,6 +13,7 @@ import { AdminNamesComponent } from './admin/admin-names/admin-names.component';
 import { AdminSubmitNameComponent } from './admin/admin-submit-name/admin-submit-name.component';
 import { AdminEditNameComponent } from './admin/admin-edit-name/admin-edit-name.component';
 import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.component';
+import { GuestEditNameComponent } from './guest/guest-edit-name/guest-edit-name.component';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
     {
         path: 'guest', component: GuestHomeComponent, children: [
             { path: 'new', component: GuestSubmitNameComponent },
-            { path: 'guestnames', component: GuestNamesComponent },
+            { path: 'edit', component: GuestEditNameComponent},
+            { path: 'names', component: GuestNamesComponent },
             { path: 'settings', component: GuestSettingsComponent }
         ]
     },

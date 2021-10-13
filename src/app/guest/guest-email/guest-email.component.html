@@ -35,7 +35,7 @@
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <!--It is necessary to clear messages in every ngOnInit (to cover any new entry) and every router link (if it is clicked within itself and not re-entered through ngOnInit)-->
-                        <li><a style="cursor:pointer;" routerLinkActive="active" routerLink="guestnames"
+                        <li><a style="cursor:pointer;" routerLinkActive="active" routerLink="names"
                                 click="guestService.clearMessages()">Manage
                                 names</a></li>
                         <li><a style="cursor:pointer;" routerLinkActive="active" routerLink="new"
@@ -46,11 +46,7 @@
                     </ul>
 
                 </div>
-
             </div>
-
-
         </div>
     </form>
-
 </div>

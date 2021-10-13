@@ -27,8 +27,8 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
     }
 
     onEdit(davenfor: Davenfor) {
-        this.guestService.editDavenfor(davenfor);
-        //show updated list - subject
+        this.guestService.davenforToEdit = davenfor;
+        this.router.navigate(['guest/edit']);
     }
 
     onAddName() {
@@ -44,5 +44,4 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         if (this.davenforsChangedSub) //Sometimes undefined, perhaps when forcibly reroute.
             this.davenforsChangedSub.unsubscribe();
     }
-
 }

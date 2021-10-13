@@ -159,7 +159,6 @@ export class GuestSubmitNameComponent implements OnInit {
     }
 
     cancel() {
-        this.router.navigate(['guest/guestnames']);
+        this.router.navigate(['guest/names']);
     }
-
 }
