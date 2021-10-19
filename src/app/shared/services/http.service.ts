@@ -36,7 +36,6 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post<Admin>(this.baseUrl + 'login', adminCredentials, { withCredentials: true });
     }
 
-
     getDavenfors(url: string) {
         return this.http.get<Davenfor[]>(this.baseUrl + url);
     }
@@ -55,11 +54,9 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.delete<Davenfor[]>(this.baseUrl + url);
     }
 
-
     addDavenfor(submitterEmail: string, newDavenfor: Davenfor) {
         return this.http.post<Davenfor>(this.baseUrl + submitterEmail, newDavenfor);
     }
-
 
     public getDaveners() {
         return this.http.get<Davener[]>(this.baseUrl + 'admin/daveners');
@@ -126,5 +123,9 @@ export class HttpService {  //A service that makes the calls to the server
 
     sendUrgent(urgentDavenfor: Davenfor) {
         return this.http.post<boolean>(this.baseUrl + 'admin/urgent', urgentDavenfor);
+    }
+
+    editAdminSettings(settings:Admin){
+        return this.http.put<Admin>(this.baseUrl + 'admin/update', settings, {withCredentials: true});
     }
 }

@@ -10,6 +10,7 @@ import { HttpService } from './http.service';
 })
 export class DaveningService { // A general service to hold 'global' data relevant all around
 
+    loading = false;
     errorMessage: string;
     successMessage: string;
     emailChanged = new Subject<string>();

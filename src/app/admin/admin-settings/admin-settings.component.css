@@ -1,3 +1,27 @@
-.input-box{
-    width: 300px;
+.input-number{
+    width: 70px;
+    display: inline;
+    margin: 10px;
+}
+
+.first-div{
+    margin-top: 10vh;
+}
+
+.form-check-input{
+    margin-right: 10px;
+}
+
+button{
+    margin: 10px;
+}
+
+.wait-label{
+    font-weight: 300;
+}
+
+.input-text{
+    margin-left: 10px;
+    display: inline;
+    width: inherit;
 }

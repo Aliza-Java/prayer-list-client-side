@@ -14,6 +14,7 @@ import { HttpService } from '../shared/services/http.service';
 })
 export class AdminService {  //A service focusing on admin data and tasks (vs. guest)
 
+    loading = false;
     adminLogin: Admin = null;
     davenfors: Davenfor[];
     daveners: Davener[];
@@ -36,7 +37,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
             this.router.navigate(['admin/']);
         },
             error => {
-                if(error.error.code == "NOT_ADMIN_EMAIL"){
+                if (error.error.code == "NOT_ADMIN_EMAIL") {
                     this.daveningService.errorMessage = "Check your email and password again. ";
                 }
                 console.log(error);
@@ -44,14 +45,17 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     public populateAdminDavenfors() { //requesting all system Davenfors from server
+        this.loading = true;
         this.httpService.getDavenfors('admin/davenfors').subscribe(
             names => {
                 this.davenfors = names;
                 this.davenforsChanged.next(names);
+                this.loading = false;
             },
             error => {
                 if (error.status == '404') {
                     this.davenforsChanged.next([]);
+                    this.loading = false;
                 }
             }
         );
@@ -123,9 +127,9 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
 
     editDavenfor(davenfor: Davenfor) {
         this.httpService.adminEditDavenfor('admin/updatedavenfor', davenfor).subscribe(
-            () => { 
+            () => {
                 this.populateAdminDavenfors();
-            this.router.navigate(['admin/names']); 
+                this.router.navigate(['admin/names']);
             },
             error => { console.log(error); }
         );
@@ -167,7 +171,24 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
             },
             error => console.log(error)
         );
+    }
 
+    editSettings(updatedSettings: Admin) {
+        const errorMessage = "The system encountered an error, no changes were made."
+        this.httpService.editAdminSettings(updatedSettings).subscribe(
+            success => {
+                if (success) {
+                    this.adminLogin = updatedSettings;
+                    this.daveningService.successMessage = "Changes were saved";
+                }
+                else {
+                    this.daveningService.errorMessage = errorMessage;
+                }
+            },
+            error => {
+                this.daveningService.errorMessage = errorMessage;
+            }
+        );
     }
 
     private constructNewDavenfor(basicInfo: SimpleDavenfor) { //local method to build a full Davenfor out of a SimpleDavenfor

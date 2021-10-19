@@ -3,8 +3,8 @@ import { Subscription } from 'rxjs';
 import { Category } from '../../shared/models/category.model';
 import { Davenfor } from '../../shared/models/davenfor.model';
 import { AdminService } from '../admin.service';
-import { HttpService } from '../../shared/services/http.service';
 import { Router } from '@angular/router';
+import { DaveningService } from 'src/app/shared/services/davening.service';
 
 @Component({
     selector: 'app-admin-names',
@@ -17,7 +17,7 @@ export class AdminNamesComponent implements OnInit {
     davenfors: Davenfor[];
     davenforsChangedSub: Subscription;
 
-    constructor(public router: Router, public httpService: HttpService, public adminService: AdminService) { }
+    constructor(public router: Router, public adminService: AdminService) { }
     ngOnInit() {
         this.davenfors = this.adminService.returnDavenfors();
         this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });

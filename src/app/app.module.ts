@@ -33,6 +33,7 @@ import { AdminNamesComponent } from './admin/admin-names/admin-names.component';
 import { GuestService } from './guest/guest.service';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.co
     SelectDavenforsComponent,
     AdminNamesComponent,
     DropdownDirective,
-    GuestSettingsComponent
+    GuestSettingsComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
