@@ -22,7 +22,7 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
     constructor(public router: Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) { }
     ngOnInit() {
         this.daveningService.clearMessages();
-        this.davenfors = this.guestService.returnDavenfors();
+        this.davenfors = this.guestService.myDavenfors;
         this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });
     }
 

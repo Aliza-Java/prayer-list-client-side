@@ -17,28 +17,26 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     davenforAdded = new Subject<Boolean>();
     loadedDavenfors = false;
     davenforToEdit: Davenfor = null;
+    loading = false;
 
 
-    constructor(public router: Router, public httpService: HttpService, public daveningService: DaveningService) {
-
-    }
+    constructor(public router: Router, public httpService: HttpService, public daveningService: DaveningService) {}
 
     populateGuestDavenfors() {
+        this.loading = true;
         this.httpService.getDavenfors('getmynames/' + this.guestEmail).subscribe(
             names => {
                 this.myDavenfors = names;
                 this.myDavenforsChanged.next(names);
                 //buzz the event, so every subscribing component reacts accordingly.
+                this.loading = false;
             },
             error => {
                 if (error.status == '404') {
                     this.myDavenforsChanged.next([]);
                 }
+                this.loading = false;
             });
-    }
-
-    public returnDavenfors() {
-        return this.myDavenfors.slice();
     }
 
     public deleteDavenfor(davenforId: number, englishName: string) {

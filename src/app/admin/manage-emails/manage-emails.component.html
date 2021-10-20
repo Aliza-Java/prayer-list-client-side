@@ -49,8 +49,10 @@
                 <th class="col-sm-3">Whatsapp
                 </th>
                 <th class="col-sm-3">Country</th>
-                <td *ngIf="isLoading">
-                    <h6 class="loading">loading...</h6>
+                <td class="loading-cell">
+                    <span *ngIf="isLoading" class="loading-cell">
+                        <app-loading-spinner-small></app-loading-spinner-small>
+                    </span>
                 </td>
             </tr>
 

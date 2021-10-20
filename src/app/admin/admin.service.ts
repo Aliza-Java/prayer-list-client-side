@@ -32,8 +32,10 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     public login(email: string, password: string) {
+        this.loading = true;
         this.httpService.login(email, password).subscribe(response => {
             this.adminLogin = response;
+            this.loading = false;
             this.router.navigate(['admin/']);
         },
             error => {
@@ -41,6 +43,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
                     this.daveningService.errorMessage = "Check your email and password again. ";
                 }
                 console.log(error);
+                this.loading = false;
             });
     }
 
@@ -61,17 +64,16 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
         );
     }
 
-    public returnDavenfors() { //returning system Davenfors to anyone requesting.
-        return this.davenfors.slice();
-    }
-
     public getDaveners() {
+        this.loading = true;
         this.httpService.getDaveners().subscribe((daveners: Davener[]) => {
             this.daveners = daveners;
             this.davenersChanged.next(daveners);
+            this.loading = false;
         },
             error => {
                 console.log(error);
+                this.loading = false;
             });
     }
 
@@ -88,31 +90,40 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     addDavener(davener: Davener) {
+        this.loading = true;
         this.httpService.addDavener(davener).subscribe(
             daveners => {
                 this.daveners = daveners;
                 this.davenersChanged.next(daveners);
                 this.daveningService.successMessage = `${davener.email} will now receive the davening lists.`;
+                this.loading = false;
             },
-            error => console.log(error)
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
     deleteDavenfor(davenforId: number, englishName: string) {
+        this.loading = true;
         this.httpService.deleteDavenfor('admin/delete/' + davenforId).subscribe(
             updatedDavenfors => {
                 this.davenfors = updatedDavenfors;
                 this.davenforsChanged.next(updatedDavenfors);
                 this.daveningService.successMessage = `The name '${englishName}' has been deleted`;
-
+                this.loading = false;
             },//refreshing list reflects deleted item.
-            error => { console.log(error) }
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
     addDavenfor(basicInfo: SimpleDavenfor, announceSuccess = true) { //by default let user know addition was successful. (not if urgent name being sent out)
         const newDavenfor = this.constructNewDavenfor(basicInfo);
-
+        this.loading = true;
         this.httpService.addDavenfor(basicInfo.submitterEmail, newDavenfor).subscribe(
             () => {
                 this.populateAdminDavenfors();
@@ -120,32 +131,46 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
                 if (announceSuccess) {
                     this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category.english}' list`;
                 }
+                this.loading = false;
             },
-            error => { console.log(error) }
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
     editDavenfor(davenfor: Davenfor) {
+        this.loading = true;
         this.httpService.adminEditDavenfor('admin/updatedavenfor', davenfor).subscribe(
             () => {
                 this.populateAdminDavenfors();
                 this.router.navigate(['admin/names']);
+                this.loading = false;
             },
-            error => { console.log(error); }
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
     populateWeeklyCategory() { // populates current categoryfrom DB
+        this.loading = true;
         this.httpService.getCurrentCategory().subscribe(
             incomingCategory => {
                 this.weeklyCategory = incomingCategory;
+                this.loading = false;
             },
-            error => console.log(error)
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
-    getWeeklyCategory() { //need to store weekly category like this, pointing to array
-        return this.daveningService.categories[(this.weeklyCategory.id) - 1]; //this.categories starts from 0-4.  
+    getWeeklyCategory() { 
+        return this.daveningService.getCategory(this.weeklyCategory.id); //this.categories starts from 0-4.  
     }
 
     getWeekyCategory() {
@@ -166,7 +191,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
 
         console.log(urgentDavenfor.submitterEmail);
         this.httpService.sendUrgent(urgentDavenfor).subscribe(
-            success => {
+            () => {
                 this.daveningService.successMessage = `The name ${formInfo.nameEnglish} was sent out to all subscribers.`;
             },
             error => console.log(error)
@@ -174,6 +199,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     editSettings(updatedSettings: Admin) {
+        this.loading = true;
         const errorMessage = "The system encountered an error, no changes were made."
         this.httpService.editAdminSettings(updatedSettings).subscribe(
             success => {
@@ -184,9 +210,11 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
                 else {
                     this.daveningService.errorMessage = errorMessage;
                 }
+                this.loading = false;
             },
             error => {
                 this.daveningService.errorMessage = errorMessage;
+                this.loading = false;
             }
         );
     }

@@ -40,7 +40,7 @@ export class WeeklyComponent implements OnInit {
     ngOnInit() {
         this.askForPassword = false;
         this.adminPassword = "";
-        this.davenfors = this.adminService.returnDavenfors();
+        this.davenfors = this.adminService.davenfors;
         this.daveningService.populateParashot();
         this.parashot = this.daveningService.getParashot();
         this.adminService.populateWeeklyCategory();

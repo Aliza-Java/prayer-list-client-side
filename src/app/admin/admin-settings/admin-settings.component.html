@@ -1,39 +1,47 @@
-<form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
-    <div class="form-group first-div row">
-        <div class="col-xs-6 col-xs-offset-2">
-            <span>* Admin's email </span>
-            <input type="text" class="input-text form-control" placeholder="Admin's email"
-                formControlName="email">
-        </div>
-
-        <div class="col-xs-2">
-            <span class="help-block"
-                *ngIf="settingsForm.get('email').touched && !settingsForm.get('email').valid">
-                <span *ngIf="settingsForm.get('email').errors['required']">Admin Email is required</span>
-                <span *ngIf="settingsForm.get('email').errors['email']">Please enter a valid email</span>
-            </span>
-        </div>
+<div class="container">
+    <div *ngIf="adminService.loading" style="text-align: center">
+        <app-loading-spinner></app-loading-spinner>
     </div>
 
-    <div class="form-group row">
-        <div class="col-xs-6 col-xs-offset-2 form-check">
-            <input type="checkbox" class="form-check-input" id="prompt" formControlName="prompt">
-            <label class="form-check-label text-center">Receive new name notifications</label>
-        </div>
-    </div>
+    <div *ngIf="!adminService.loading">
+        <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+            <div class="form-group first-div row">
+                <div class="col-xs-6 col-xs-offset-2">
+                    <span>* Admin's email </span>
+                    <input type="text" class="input-text form-control" placeholder="Admin's email"
+                        formControlName="email">
+                </div>
 
-    <div class="form-group row">
-        <div class="col-xs-6 col-xs-offset-2">
-                <span class="wait-label">How many days should we wait before deleting a name?</span>
-                <input type="number" class="form-control input-number" id="wait" formControlName="wait">
-        </div>
-    </div>
+                <div class="col-xs-2">
+                    <span class="help-block"
+                        *ngIf="settingsForm.get('email').touched && !settingsForm.get('email').valid">
+                        <span *ngIf="settingsForm.get('email').errors['required']">Admin Email is required</span>
+                        <span *ngIf="settingsForm.get('email').errors['email']">Please enter a valid email</span>
+                    </span>
+                </div>
+            </div>
 
-    <div class="row">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-6 text-center">
-            <button type="submit" class="btn btn-success btn-lg">Save</button>
-            <button type="button" class="btn btn-danger btn-lg" (click)="onCancel()">Cancel</button>
-        </div>
+            <div class="form-group row">
+                <div class="col-xs-6 col-xs-offset-2 form-check">
+                    <input type="checkbox" class="form-check-input" id="prompt" formControlName="prompt">
+                    <label class="form-check-label text-center">Receive new name notifications</label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-xs-6 col-xs-offset-2">
+                    <span class="wait-label">How many days should we wait before deleting a name?</span>
+                    <input type="number" class="form-control input-number" id="wait" formControlName="wait">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-6 text-center">
+                    <button type="submit" class="btn btn-success btn-lg">Save</button>
+                    <button type="button" class="btn btn-danger btn-lg" (click)="onCancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+</div>

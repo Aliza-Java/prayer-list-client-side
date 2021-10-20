@@ -1,124 +1,130 @@
 <form class="form-horizontal" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
 
-    <div class="form-group">
-        <div class="col-xs-6 col-md-offset-2">
-            <h5>Fields marked with (*) are required.</h5>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-            <button type="button" class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
-        </div>
+    <div *ngIf="adminService.loading" style="text-align: center">
+        <app-loading-spinner></app-loading-spinner>
     </div>
 
-    <div class="form-group">
-        <div class="col-xs-2">
-            <span class="help-block"
-                *ngIf="nameForm.get('submitterEmail').touched && !nameForm.get('submitterEmail').valid">
-                <span *ngIf="nameForm.get('submitterEmail').errors['required']">Submitter Email is required</span>
-                <span *ngIf="nameForm.get('submitterEmail').errors['email']">Please enter a valid email</span>
-            </span>
+    <div *ngIf="!adminService.loading">
+        <div class="form-group">
+            <div class="col-xs-6 col-md-offset-2">
+                <h5>Fields marked with (*) are required.</h5>
+            </div>
+            <div class="col-md-2 col-md-offset-2">
+                <button type="button" class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
+            </div>
         </div>
-        <div class="col-xs-10 input-box">
-            <label for="submitterEmail">* Submitter's email</label>
-            <input type="text" id="submitterEmail" class="form-control" placeholder="Email to receive notifications"
-                formControlName="submitterEmail">
-        </div>
-    </div>
 
-    <!--English name-->
-    <div class="form-group">
-        <!--Validation for English name-->
-        <div class="col-xs-2 help-block">
-            <span *ngIf="!nameForm.get('english').valid && nameForm.get('english').touched" class="help-block">
-                <span class="text-right" *ngIf="nameForm.get('english').errors['pattern']">English letters and
-                    spaces</span>
-                <span class="text-right" *ngIf="nameForm.get('english').errors['required']">This field is
-                    required</span>
-            </span>
+        <div class="form-group">
+            <div class="col-xs-2">
+                <span class="help-block"
+                    *ngIf="nameForm.get('submitterEmail').touched && !nameForm.get('submitterEmail').valid">
+                    <span *ngIf="nameForm.get('submitterEmail').errors['required']">Submitter Email is required</span>
+                    <span *ngIf="nameForm.get('submitterEmail').errors['email']">Please enter a valid email</span>
+                </span>
+            </div>
+            <div class="col-xs-10 input-box">
+                <label for="submitterEmail">* Submitter's email</label>
+                <input type="text" id="submitterEmail" class="form-control" placeholder="Email to receive notifications"
+                    formControlName="submitterEmail">
+            </div>
         </div>
-        <div class="col-xs-3 input-box">
-            <label for="english">* Full Name </label>
+
+        <!--English name-->
+        <div class="form-group">
+            <!--Validation for English name-->
+            <div class="col-xs-2 help-block">
+                <span *ngIf="!nameForm.get('english').valid && nameForm.get('english').touched" class="help-block">
+                    <span class="text-right" *ngIf="nameForm.get('english').errors['pattern']">English letters and
+                        spaces</span>
+                    <span class="text-right" *ngIf="nameForm.get('english').errors['required']">This field is
+                        required</span>
+                </span>
+            </div>
+            <div class="col-xs-3 input-box">
+                <label for="english">* Full Name </label>
                 <input type="text" id="english" class="form-control" formControlName="english">
-        </div>
-
-        <!--Spouse English name-->
-        <div *ngIf="nameForm.get('category').value==banimNumber">
-            <div class="col-xs-2 help-block">
-                <!--Validation: must include only English letters and spaces -->
-                <span *ngIf="!nameForm.get('spouseEnglish').valid && nameForm.get('spouseEnglish').touched"
-                    class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('spouseEnglish').errors['pattern']">English
-                        letters and spaces</span>
-                </span>
             </div>
-            <div class="col-xs-3 input-box">
-                <label for="spouseEnglish">Optional: Spouse name</label>
+
+            <!--Spouse English name-->
+            <div *ngIf="nameForm.get('category').value==banimNumber">
+                <div class="col-xs-2 help-block">
+                    <!--Validation: must include only English letters and spaces -->
+                    <span *ngIf="!nameForm.get('spouseEnglish').valid && nameForm.get('spouseEnglish').touched"
+                        class="help-block">
+                        <span class="text-right" *ngIf="nameForm.get('spouseEnglish').errors['pattern']">English
+                            letters and spaces</span>
+                    </span>
+                </div>
+                <div class="col-xs-3 input-box">
+                    <label for="spouseEnglish">Optional: Spouse name</label>
                     <input type="text" id="spouseEnglish" class="form-control" formControlName="spouseEnglish">
+                </div>
             </div>
         </div>
-    </div>
 
-    <!--Hebrew name-->
-    <div class="form-group ">
-        <!--Validation-->
-        <div class="col-xs-2 help-block">
-            <span *ngIf="!nameForm.get('hebrew').valid && nameForm.get('hebrew').touched" class="help-block">
-                <span class="text-right" *ngIf="nameForm.get('hebrew').errors['pattern']">Hebrew letters and
-                    spaces</span>
-                <span class="text-right" *ngIf="nameForm.get('hebrew').errors['required']">This field is
-                    required</span>
-            </span>
-        </div>
-        <div class="col-xs-3 input-box">
-            <label for="hebrew">* שם בעברית </label>
-                <input type="text" id="hebrew" class="form-control" formControlName="hebrew">
-        </div>
-
-        <!--Spouse Hebrew name-->
-        <div *ngIf="nameForm.get('category').value==banimNumber">
+        <!--Hebrew name-->
+        <div class="form-group ">
+            <!--Validation-->
             <div class="col-xs-2 help-block">
-                <span *ngIf="!nameForm.get('spouseHebrew').valid && nameForm.get('spouseHebrew').touched"
-                    class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('spouseHebrew').errors['pattern']">Hebrew
-                        letters
-                        and spaces</span>
+                <span *ngIf="!nameForm.get('hebrew').valid && nameForm.get('hebrew').touched" class="help-block">
+                    <span class="text-right" *ngIf="nameForm.get('hebrew').errors['pattern']">Hebrew letters and
+                        spaces</span>
+                    <span class="text-right" *ngIf="nameForm.get('hebrew').errors['required']">This field is
+                        required</span>
                 </span>
             </div>
             <div class="col-xs-3 input-box">
-                <label for="spouseHebrew">Optional: שם בן הזוג בעברית </label>
+                <label for="hebrew">* שם בעברית </label>
+                <input type="text" id="hebrew" class="form-control" formControlName="hebrew">
+            </div>
+
+            <!--Spouse Hebrew name-->
+            <div *ngIf="nameForm.get('category').value==banimNumber">
+                <div class="col-xs-2 help-block">
+                    <span *ngIf="!nameForm.get('spouseHebrew').valid && nameForm.get('spouseHebrew').touched"
+                        class="help-block">
+                        <span class="text-right" *ngIf="nameForm.get('spouseHebrew').errors['pattern']">Hebrew
+                            letters
+                            and spaces</span>
+                    </span>
+                </div>
+                <div class="col-xs-3 input-box">
+                    <label for="spouseHebrew">Optional: שם בן הזוג בעברית </label>
                     <input type="text" id="spouseHebrew" class="form-control" formControlName="spouseHebrew">
+                </div>
             </div>
         </div>
-    </div>
 
-    <br>
+        <br>
 
-    <div class="form-group">
-        <div class=col-xs-2></div>
-        <div class="col-xs-5 form-check">
-            <input style="margin: 5px" type="checkbox" class="form-check-input" id="submitterToReceive"
-                formControlName="submitterToReceive">
-            <label class="form-check-label text-center" for="submitterToReceive">Include this name (when
-                appropriate) in submitter's
-                davening
-                list</label>
+        <div class="form-group">
+            <div class=col-xs-2></div>
+            <div class="col-xs-5 form-check">
+                <input style="margin: 5px" type="checkbox" class="form-check-input" id="submitterToReceive"
+                    formControlName="submitterToReceive">
+                <label class="form-check-label text-center" for="submitterToReceive">Include this name (when
+                    appropriate) in submitter's
+                    davening
+                    list</label>
+            </div>
+
+            <div class="col-xs-1">
+                <label for="category">* Category:</label>
+            </div>
+            <div class="col-xs-2 ">
+                <select formControlName="category" class="form-control" id="category">
+                    <option value="">* Select category</option>
+                    <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
+                    <option *ngFor="let category of categories" [value]="category.id">{{category.english | titlecase}}
+                    </option>
+                </select>
+            </div>
         </div>
 
-        <div class="col-xs-1">
-            <label for="category">* Category:</label>
-        </div>
-        <div class="col-xs-2 ">
-            <select formControlName="category" class="form-control" id="category">
-                <option value="">* Select category</option>
-                <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
-                <option *ngFor="let category of categories" [value]="category.id">{{category.english | titlecase}}
-                </option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-xs-12 text-center">
-            <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Edit Name</button>
+        <div class="form-group">
+            <div class="col-xs-12 text-center">
+                <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Edit Name</button>
+            </div>
         </div>
     </div>
 </form>

@@ -1,7 +1,8 @@
-<div *ngIf="daveningService.loading">
+<div *ngIf="adminService.loading" style="text-align: center">
     <app-loading-spinner></app-loading-spinner>
 </div>
-<div *ngIf="!daveningService.loading" class="container">
+
+<div *ngIf="!adminService.loading && davenfors" class="container">
     <div class="text-center" *ngIf="davenfors.length<1">
         <app-empty-list whatIsMissing="names for davening"></app-empty-list>
     </div>

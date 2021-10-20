@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { Davener } from 'src/app/shared/models/davener.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
-import { FilterActivePipe } from 'src/app/shared/filters/filter-active.pipe'; //necessary for filter in html
 import { NgForm } from '@angular/forms';
 import { AdminService } from 'src/app/admin/admin.service';
 

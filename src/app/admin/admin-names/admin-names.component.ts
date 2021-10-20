@@ -4,7 +4,6 @@ import { Category } from '../../shared/models/category.model';
 import { Davenfor } from '../../shared/models/davenfor.model';
 import { AdminService } from '../admin.service';
 import { Router } from '@angular/router';
-import { DaveningService } from 'src/app/shared/services/davening.service';
 
 @Component({
     selector: 'app-admin-names',
@@ -19,7 +18,7 @@ export class AdminNamesComponent implements OnInit {
 
     constructor(public router: Router, public adminService: AdminService) { }
     ngOnInit() {
-        this.davenfors = this.adminService.returnDavenfors();
+        this.davenfors = this.adminService.davenfors;
         this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });
     }
 
@@ -42,6 +41,7 @@ export class AdminNamesComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        this.davenforsChangedSub.unsubscribe();
+        if (this.davenforsChangedSub)
+            this.davenforsChangedSub.unsubscribe();
     }
 }

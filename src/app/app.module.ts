@@ -34,6 +34,7 @@ import { GuestService } from './guest/guest.service';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { GuestSettingsComponent } from './guest/guest-settings/guest-settings.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerSmallComponent } from './shared/loading-spinner-small/loading-spinner-small.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     AdminNamesComponent,
     DropdownDirective,
     GuestSettingsComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    LoadingSpinnerSmallComponent
   ],
   imports: [
     BrowserModule,
