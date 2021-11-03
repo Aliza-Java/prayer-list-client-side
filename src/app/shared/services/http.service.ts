@@ -9,6 +9,8 @@ import { Davener } from '../models/davener.model';
 import { Parasha } from '../models/parasha.model';
 import { Weekly } from '../models/weekly.model';
 import { Submitter } from '../models/submitter.model';
+import { JwtResponse } from '../models/jwt-response';
+import { AdminSettings } from '../models/admin-settings.model';
 
 
 @Injectable({
@@ -16,8 +18,8 @@ import { Submitter } from '../models/submitter.model';
 })
 export class HttpService {  //A service that makes the calls to the server
 
-    private localhostUrl = "http://localhost:5000/dlist/";
-    private awsUrl = "http://daveninglist.us-east-1.elasticbeanstalk.com/dlist/";
+    private localhostUrl = "http://localhost:5001/dlist/";
+    //private awsUrl = "http://daveninglist.us-east-1.elasticbeanstalk.com/dlist/";
 
     //change this depending on the server location
     private baseUrl = this.localhostUrl;
@@ -32,8 +34,12 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     public login(email: string, password: string) {
-        const adminCredentials = new Admin(-1, email, password, false, 0); //sending email and password.
-        return this.http.post<Admin>(this.baseUrl + 'login', adminCredentials, { withCredentials: true });
+        const adminCredentials = { "username": email, "password": password };
+        return this.http.post<JwtResponse>(this.baseUrl + 'auth/signin', adminCredentials, { withCredentials: true });
+    }
+
+    public getAdminSettings(email: string) {
+        return this.http.get<AdminSettings>(`${this.baseUrl}settings/${email}`, { withCredentials: true });
     }
 
     getDavenfors(url: string) {
@@ -46,7 +52,7 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     //separated from submitter's editDavenfor mainly because of return type
-    adminEditDavenfor(url: string, davenfor:Davenfor){
+    adminEditDavenfor(url: string, davenfor: Davenfor) {
         return this.http.put<Davenfor[]>((this.baseUrl + url), davenfor);
     }
 
@@ -55,7 +61,7 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     addDavenfor(submitterEmail: string, newDavenfor: Davenfor) {
-        return this.http.post<Davenfor>(this.baseUrl + submitterEmail, newDavenfor);
+        return this.http.post<Davenfor>(this.baseUrl + 'add/' + submitterEmail, newDavenfor);
     }
 
     public getDaveners() {
@@ -125,7 +131,7 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post<boolean>(this.baseUrl + 'admin/urgent', urgentDavenfor);
     }
 
-    editAdminSettings(settings:Admin){
-        return this.http.put<Admin>(this.baseUrl + 'admin/update', settings, {withCredentials: true});
+    editAdminSettings(settings: Admin) {
+        return this.http.put<Admin>(this.baseUrl + 'admin/update', settings, { withCredentials: true });
     }
 }

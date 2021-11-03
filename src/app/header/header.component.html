@@ -9,13 +9,16 @@
                 <img class="navbar-text" src="../../assets/images/logo.png" alt="" padding-top="20px" />
             </div>
 
-            <div class="col-md-6 text-center">
+            <div class="col-md-5 text-center">
                 <!--title-->
-                    <div class="navbar-text" id="header-title">Davening List</div>
+                <div class="navbar-text" id="header-title">Davening List</div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <!--guest/admin menu-->
+                <div *ngIf="authService.adminLogin">
+                    <button (click)="logout()">logout</button>
+                </div>
                 <div class="collapse navbar-collapse text-center">
                     <ul class="nav navbar-nav  list-group">
                         <li class="list-group-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a

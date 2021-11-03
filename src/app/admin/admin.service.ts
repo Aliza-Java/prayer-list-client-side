@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Admin } from '../shared/models/admin.model';
+import { AdminSettings } from '../shared/models/admin-settings.model';
 import { Category } from '../shared/models/category.model';
 import { Davener } from '../shared/models/davener.model';
 import { Davenfor } from '../shared/models/davenfor.model';
+import { Signin } from '../shared/models/signin.model';
 import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
+import { AuthService } from './auth/auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +17,6 @@ import { HttpService } from '../shared/services/http.service';
 export class AdminService {  //A service focusing on admin data and tasks (vs. guest)
 
     loading = false;
-    adminLogin: Admin = null;
     davenfors: Davenfor[];
     daveners: Davener[];
     weeklyCategory: Category;
@@ -24,27 +25,13 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     davenforsChanged = new Subject<Davenfor[]>();
     davenersChanged = new Subject<Davener[]>();
     davenforAdded = new Subject<Boolean>();
+    settingsUpdated = new Subject<AdminSettings>();
+    adminSettings: AdminSettings = null;
 
-
-    constructor(public httpService: HttpService, public router: Router, public daveningService: DaveningService) {
+    constructor(public httpService: HttpService, public router: Router, public daveningService: DaveningService, public authService: AuthService) {
         this.populateAdminDavenfors();
         this.populateWeeklyCategory(); //this fills in the default category from DB
-    }
-
-    public login(email: string, password: string) {
-        this.loading = true;
-        this.httpService.login(email, password).subscribe(response => {
-            this.adminLogin = response;
-            this.loading = false;
-            this.router.navigate(['admin/']);
-        },
-            error => {
-                if (error.error.code == "NOT_ADMIN_EMAIL") {
-                    this.daveningService.errorMessage = "Check your email and password again. ";
-                }
-                console.log(error);
-                this.loading = false;
-            });
+        this.populateAdminSettings();
     }
 
     public populateAdminDavenfors() { //requesting all system Davenfors from server
@@ -62,6 +49,23 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
                 }
             }
         );
+    }
+
+    public populateAdminSettings() {
+        if (this.authService.adminLogin) {
+            this.loading = true;
+            this.httpService.getAdminSettings(this.authService.adminLogin.email).subscribe(
+                response => {
+                    this.adminSettings = response;
+                    this.settingsUpdated.next(response);
+                    this.loading = false;
+                },
+                error => {
+                    console.log(error);
+                    this.loading = false;
+                }
+            );
+        }
     }
 
     public getDaveners() {
@@ -169,7 +173,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
         );
     }
 
-    getWeeklyCategory() { 
+    getWeeklyCategory() {
         return this.daveningService.getCategory(this.weeklyCategory.id); //this.categories starts from 0-4.  
     }
 
@@ -181,7 +185,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
         if (!formInfo.submitterEmail) {
             /*If no email was put in, fill in admin email in case it should be sent out. 
             Admin will monitor it. */
-            formInfo.submitterEmail = this.adminLogin.email;
+            formInfo.submitterEmail = this.authService.adminLogin.email;
         }
         if (addToWeekly) {
             this.addDavenfor(formInfo, false);
@@ -198,13 +202,13 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
         );
     }
 
-    editSettings(updatedSettings: Admin) {
+    editSettings(updatedSettings: AdminSettings) {
         this.loading = true;
         const errorMessage = "The system encountered an error, no changes were made."
         this.httpService.editAdminSettings(updatedSettings).subscribe(
             success => {
                 if (success) {
-                    this.adminLogin = updatedSettings;
+                    this.authService.adminLogin = updatedSettings;
                     this.daveningService.successMessage = "Changes were saved";
                 }
                 else {

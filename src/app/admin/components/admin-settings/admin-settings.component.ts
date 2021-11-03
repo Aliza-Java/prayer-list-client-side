@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Admin } from 'src/app/shared/models/admin.model';
-import { AdminService } from '../admin.service';
+import { AdminSettings } from 'src/app/shared/models/admin-settings.model';
+import { AdminService } from '../../admin.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
     selector: 'app-admin-settings',
@@ -11,20 +12,23 @@ import { AdminService } from '../admin.service';
 })
 export class AdminSettingsComponent implements OnInit {
     settingsForm: FormGroup;
-    admin: Admin = null;
-    constructor(public adminService: AdminService, public router:Router) { }
+    settings: AdminSettings = null;
+    constructor(public adminService: AdminService, public router:Router, public authService:AuthService) { }
 
     ngOnInit() {
-        this.admin = this.adminService.adminLogin;
-        this.settingsForm = new FormGroup({
-            'email': new FormControl(this.admin.email, [Validators.required, Validators.email]),
-            'prompt': new FormControl(this.admin.newNamePrompt),
-            'wait': new FormControl(this.admin.waitBeforeDeletion)
+        this.settings = this.adminService.adminSettings;
+        this.adminService.settingsUpdated.subscribe(response=>{
+            this.settingsForm = new FormGroup({
+                'email': new FormControl(response.email, [Validators.required, Validators.email]),
+                'prompt': new FormControl(response.newNamePrompt),
+                'wait': new FormControl(response.waitBeforeDeletion)
+            });
         });
+        
     }
 
     onSubmit(){
-        let updatedSettings = this.adminService.adminLogin;
+        let updatedSettings:AdminSettings;
         updatedSettings.email = this.settingsForm.get('email').value;
         updatedSettings.newNamePrompt = this.settingsForm.get('prompt').value;
         updatedSettings.waitBeforeDeletion = this.settingsForm.get('wait').value;

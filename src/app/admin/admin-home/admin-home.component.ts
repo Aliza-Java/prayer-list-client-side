@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { Subscription } from 'rxjs';
 import { DaveningService } from 'src/app/shared/services/davening.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
     selector: 'app-admin-home',
@@ -14,7 +15,7 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
 
     choice: string;
     addDavenforSub:Subscription;
-    constructor(public adminService: AdminService, public daveningService:DaveningService,
+    constructor(public authService:AuthService, public adminService: AdminService, public daveningService:DaveningService,
         public router: Router,
         public route: ActivatedRoute,
         public httpService: HttpService) { }

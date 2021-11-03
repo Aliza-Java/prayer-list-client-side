@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Category } from '../../shared/models/category.model';
-import { Davenfor } from '../../shared/models/davenfor.model';
-import { AdminService } from '../admin.service';
+import { Category } from '../../../shared/models/category.model';
+import { Davenfor } from '../../../shared/models/davenfor.model';
+import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
 
 @Component({

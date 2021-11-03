@@ -6,7 +6,7 @@ import { Parasha } from 'src/app/shared/models/parasha.model';
 import { Weekly } from 'src/app/shared/models/weekly.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
-import { AdminService } from '../admin.service';
+import { AdminService } from '../../admin.service';
 
 @Component({
     selector: 'app-weekly',
@@ -110,9 +110,9 @@ export class WeeklyComponent implements OnInit {
     }
 
     verify() {
-        //   if (this.adminPassword === this.adminService.adminLogin.password) 
+        //  TODO: change to something like this:  if (this.adminPassword === this.adminService.adminLogin.password) 
 
-        if (this.adminPassword === "pass") {
+        if (this.adminPassword === "pass1") {
             this.send();
         }
         else {

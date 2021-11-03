@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SimpleDavenfor } from 'src/app/shared/models/simple-davenfor.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from '../admin.service';
+import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
 import { GuestService } from 'src/app/guest/guest.service';
 import { DaveningService } from 'src/app/shared/services/davening.service';
