@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { GuestRoutingModule } from './guest-routing.module';
+import { GuestService } from './guest.service';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { GuestRoutingModule } from './guest-routing.module';
     SharedModule,
     RouterModule,
     GuestRoutingModule
-  ]
+  ],
+  providers: [GuestService]
 })
 export class GuestModule { }

@@ -27,10 +27,6 @@ export class HttpService {  //A service that makes the calls to the server
     public davenforAdded = new Subject<Boolean>();
 
     constructor(public http: HttpClient, public router: Router) {
-        this.getCategories();
-        this.getParashot();
-        this.getCurrentParasha();
-        this.getCurrentCategory();
     }
 
     public login(email: string, password: string) {

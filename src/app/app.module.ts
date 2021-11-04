@@ -10,8 +10,6 @@ import { FooterComponent } from './footer/footer.component';
 import { SuccessComponent } from './success/success.component';
 import { ErrorComponent } from './error/error.component';
 
-import { AdminService } from './admin/admin.service';
-import { GuestService } from './guest/guest.service';
 import { HttpService } from './shared/services/http.service';
 import { DaveningService } from './shared/services/davening.service';
 
@@ -39,7 +37,7 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
         AdminRoutingModule, 
         GuestRoutingModule
     ],
-    providers: [DaveningService, HttpService, AdminService, GuestService],
+    providers: [DaveningService, HttpService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

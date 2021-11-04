@@ -14,26 +14,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { AdminRoutingModule } from './admin-routing.module';
+import { AdminService } from './admin.service';
 
 @NgModule({
-  declarations: [
-    AdminLoginComponent,
-    AdminHomeComponent,
-    AdminSubmitNameComponent,
-    AdminEditNameComponent,
-    ManageEmailsComponent,
-    WeeklyComponent,
-    UrgentComponent,
-    AdminSettingsComponent,
-    AdminNamesComponent
-  ],
-  imports: [
-    CommonModule, 
-    FormsModule, 
-    ReactiveFormsModule,
-    SharedModule,
-    RouterModule,
-    AdminRoutingModule
- ]
+    declarations: [
+        AdminLoginComponent,
+        AdminHomeComponent,
+        AdminSubmitNameComponent,
+        AdminEditNameComponent,
+        ManageEmailsComponent,
+        WeeklyComponent,
+        UrgentComponent,
+        AdminSettingsComponent,
+        AdminNamesComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        RouterModule,
+        AdminRoutingModule
+    ],
+    providers: [AdminService]
 })
 export class AdminModule { }

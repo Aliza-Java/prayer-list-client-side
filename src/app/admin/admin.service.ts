@@ -47,6 +47,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
         this.populateParashot();
         this.populateCategories();
         this.populateCurrentParasha();
+        this.getDaveners();
     }
 
     public populateAdminDavenfors() { //requesting all system Davenfors from server
