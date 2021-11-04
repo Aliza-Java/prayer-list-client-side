@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { Category } from '../shared/models/category.model';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
@@ -18,9 +19,32 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     loadedDavenfors = false;
     davenforToEdit: Davenfor = null;
     loading = false;
+    categories: Category[];
 
+    constructor(public router: Router, public httpService: HttpService, public daveningService: DaveningService) {
+        this.populateCategories();
+    }
 
-    constructor(public router: Router, public httpService: HttpService, public daveningService: DaveningService) {}
+    getCategory(id: number) {
+        //double equal sign (instead of triple) since incoming id is a string while category.id is a number.
+        return this.categories.find(category => category.id == id);
+    }
+
+    public findBanim() {
+        let banim = null;
+        this.categories.forEach(category => {
+            if (category.english === 'banim')
+                banim = category;
+        });
+        return banim;
+    }
+
+    populateCategories() {
+        this.httpService.getCategories().subscribe(
+            categories => { this.categories = categories; },
+            error => { console.log(error); }
+        );
+    }
 
     populateGuestDavenfors() {
         this.loading = true;

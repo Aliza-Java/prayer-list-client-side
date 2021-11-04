@@ -5,7 +5,7 @@ import { AdminSettings } from '../shared/models/admin-settings.model';
 import { Category } from '../shared/models/category.model';
 import { Davener } from '../shared/models/davener.model';
 import { Davenfor } from '../shared/models/davenfor.model';
-import { Signin } from '../shared/models/signin.model';
+import { Parasha } from '../shared/models/parasha.model';
 import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
@@ -20,6 +20,18 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     davenfors: Davenfor[];
     daveners: Davener[];
     weeklyCategory: Category;
+    currentParasha: Parasha;
+    parashot: Parasha[];
+    categories: Category[];
+
+    chagim: Parasha[] = [{ "id": 1, "englishName": "Rosh Hashana", "hebrewName": "ראש השנה" },
+    { "id": 2, "englishName": "Yom Kippur", "hebrewName": "יום כיפור" },
+    { "id": 3, "englishName": "Sukkot", "hebrewName": "סוכות" },
+    { "id": 4, "englishName": "Shmini Atzeret", "hebrewName": "שמיני עצרת" },
+    { "id": 5, "englishName": "Pesach", "hebrewName": "פסח" },
+    { "id": 6, "englishName": "Shavuot", "hebrewName": "שבועות" }
+    ];
+
     davenforToEdit: Davenfor = null;
 
     davenforsChanged = new Subject<Davenfor[]>();
@@ -32,6 +44,9 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
         this.populateAdminDavenfors();
         this.populateWeeklyCategory(); //this fills in the default category from DB
         this.populateAdminSettings();
+        this.populateParashot();
+        this.populateCategories();
+        this.populateCurrentParasha();
     }
 
     public populateAdminDavenfors() { //requesting all system Davenfors from server
@@ -79,6 +94,35 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
                 console.log(error);
                 this.loading = false;
             });
+    }
+
+    populateCategories() {
+        this.httpService.getCategories().subscribe(
+            categories => { this.categories = categories; },
+            error => { console.log(error); }
+        );
+    }
+
+    populateCurrentParasha() {
+        this.httpService.getCurrentParasha().subscribe(
+            response => {
+                this.currentParasha = response;
+            },
+            error => console.log(error)
+        );
+    }
+
+    populateParashot() {
+        this.httpService.getParashot().subscribe(
+            response => {
+                this.parashot = response;
+            },
+            error => console.log(error)
+        );
+    }
+
+    getParashot() {
+        return this.parashot;
     }
 
     changeToDisactivate(davener: Davener) {
@@ -174,10 +218,6 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     }
 
     getWeeklyCategory() {
-        return this.daveningService.getCategory(this.weeklyCategory.id); //this.categories starts from 0-4.  
-    }
-
-    getWeekyCategory() {
         return this.weeklyCategory;
     }
 
@@ -200,6 +240,20 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
             },
             error => console.log(error)
         );
+    }
+
+    getCategory(id: number) {
+        //double equal sign (instead of triple) since incoming id is a string while category.id is a number.
+        return this.categories.find(category => category.id == id);
+    }
+
+    public findBanim() {
+        let banim = null;
+        this.categories.forEach(category => {
+            if (category.english === 'banim')
+                banim = category;
+        });
+        return banim;
     }
 
     editSettings(updatedSettings: AdminSettings) {

@@ -39,8 +39,8 @@ export class GuestEditNameComponent implements OnInit {
         this.setForm();
 
         //Populating category array from Server
-        this.categories = this.daveningService.categories;
-        this.banimNumber = this.daveningService.findBanim().id;
+        this.categories = this.guestService.categories;
+        this.banimNumber = this.guestService.findBanim().id;
     }
 
     populateFormControls() {
@@ -74,7 +74,7 @@ export class GuestEditNameComponent implements OnInit {
 
         let updatedInfo: Davenfor = new Davenfor(this.oldInfo.id,
             null, //guest email will be added in guestService
-            this.daveningService.getCategory(form.get('category').value),
+            this.guestService.getCategory(form.get('category').value),
             form.get('hebrew').value,
             form.get('english').value,
             form.get('spouseHebrew').value,

@@ -39,8 +39,8 @@ export class AdminEditNameComponent implements OnInit {
         this.setForm();
 
         //Populating category array from Server
-        this.categories = this.daveningService.categories;
-        this.banimNumber = this.daveningService.findBanim().id;
+        this.categories = this.adminService.categories;
+        this.banimNumber = this.adminService.findBanim().id;
     }
 
     populateFormControls() {
@@ -76,7 +76,7 @@ export class AdminEditNameComponent implements OnInit {
 
         let updatedInfo: Davenfor = new Davenfor(this.oldInfo.id,
             form.get('submitterEmail').value,
-            this.daveningService.getCategory(form.get('category').value),
+            this.adminService.getCategory(form.get('category').value),
             form.get('hebrew').value,
             form.get('english').value,
             form.get('spouseHebrew').value,

@@ -47,8 +47,8 @@ export class GuestSubmitNameComponent implements OnInit {
         this.createForm();
 
         //Populating category array from Server
-        this.categories = this.daveningService.categories;
-        this.banimNumber = this.daveningService.findBanim().id;
+        this.categories = this.guestService.categories;
+        this.banimNumber = this.guestService.findBanim().id;
     }
 
     createFormControls() {
@@ -100,7 +100,7 @@ export class GuestSubmitNameComponent implements OnInit {
         let spouseHebrewFull = "";
 
         let form = this.nameForm; //shortening all references in this function
-        const chosenCategory = this.daveningService.getCategory(form.get('category').value);
+        const chosenCategory = this.guestService.getCategory(form.get('category').value);
         const englishName = form.get('name.english1').value + " " + form.get('name.benBat').value + " " + form.get('name.english2').value;
         const hebrewName = form.get('name.hebrew1').value + " " + form.get('name.benBatHebrew').value + " " + form.get('name.hebrew2').value;
         let submitterEmail = this.guestService.guestEmail;

@@ -42,8 +42,8 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         this.askForPassword = false;
         this.adminPassword = "";
         this.davenfors = this.adminService.davenfors;
-        this.daveningService.populateParashot();
-        this.parashot = this.daveningService.getParashot();
+        this.adminService.populateParashot();
+        this.parashot = this.adminService.getParashot();
         this.adminService.populateWeeklyCategory();
         this.weeklyCategory = this.adminService.getWeeklyCategory();
         this.selectedCategory = this.weeklyCategory;
@@ -54,10 +54,10 @@ export class WeeklyComponent implements OnInit, OnDestroy {
                 this.refreshDavenfors();
             });
 
-        let currentParashaId = this.daveningService.currentParasha.id;
+        let currentParashaId = this.adminService.currentParasha.id;
         this.parasha = this.parashot[currentParashaId];
 
-        this.chagim = this.daveningService.chagim;
+        this.chagim = this.adminService.chagim;
         this.chag = this.chagim[0];
 
         this.weekName = this.parasha.englishName + " - " + this.parasha.hebrewName;

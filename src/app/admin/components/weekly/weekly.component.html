@@ -39,7 +39,7 @@
 
                 <select (change)="updateWeekName(radioChag.checked, $event.target.value)" class="form-control set-width"
                     [(ngModel)]="chag" #chagTag>
-                    <option *ngFor="let c of daveningService.chagim">{{c.englishName}} -
+                    <option *ngFor="let c of adminService.chagim">{{c.englishName}} -
                         {{c.hebrewName}}</option>
                 </select>
             </div>
@@ -65,7 +65,7 @@
         </div>
         <div class="col-xs-2">
             <select class="form-control set-width" [(ngModel)]="selectedCategory" (ngModelChange)="refreshDavenfors()">
-                <option *ngFor="let c of daveningService.categories" [ngValue]="c">{{c.english}} -{{c.hebrew}}
+                <option *ngFor="let c of adminService.categories" [ngValue]="c">{{c.english}} -{{c.hebrew}}
                 </option>
 
             </select>
