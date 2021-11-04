@@ -45,5 +45,4 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
         this.addDavenforSub.unsubscribe();
         this.davenforsChangedSub.unsubscribe();
     }
-
 }

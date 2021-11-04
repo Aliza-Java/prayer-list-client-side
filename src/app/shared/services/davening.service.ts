@@ -12,8 +12,8 @@ export class DaveningService { // A general service to hold 'global' data releva
 
     errorMessage: string;
     successMessage: string;
-    emailChanged = new Subject<string>();
-    davenforsChanged = new Subject<Davenfor[]>();
+    emailChanged = new Subject<string>(); //TODO: Seems unnecesessary. Meant subscription?
+    davenforsChanged = new Subject<Davenfor[]>(); //TODO: Seems unnecesessary
     categories: Category[];
     weeklyCategoryId: number;
     currentParasha: Parasha;

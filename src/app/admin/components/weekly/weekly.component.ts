@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/shared/models/category.model';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
@@ -13,7 +13,7 @@ import { AdminService } from '../../admin.service';
     templateUrl: './weekly.component.html',
     styleUrls: ['./weekly.component.css']
 })
-export class WeeklyComponent implements OnInit {
+export class WeeklyComponent implements OnInit, OnDestroy {
     weeklyCategory: Category; //Initialized from DB one time, usually
     selectedCategory: Category; //Can change according to user's selection, affecting davenfor-list
     customWeek = "";
@@ -33,9 +33,10 @@ export class WeeklyComponent implements OnInit {
     askForPassword = false; //This will show only when admin clicks send, one last verification.
     adminPassword = "";
 
-    constructor(public httpService: HttpService, public daveningService: DaveningService, public adminService: AdminService) {
-    }
-
+    constructor(
+        public httpService: HttpService,
+        public daveningService: DaveningService,
+        public adminService: AdminService) { }
 
     ngOnInit() {
         this.askForPassword = false;
@@ -124,5 +125,8 @@ export class WeeklyComponent implements OnInit {
         this.askForPassword = true;
     }
 
-
+    ngOnDestroy() {
+        if (this.davenforsChangedSub)
+            this.davenforsChangedSub.unsubscribe();
+    }
 }

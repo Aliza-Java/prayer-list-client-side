@@ -5,7 +5,7 @@ import { Category } from 'src/app/shared/models/category.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
-import { GuestService } from '../guest.service';
+import { GuestService } from '../../guest.service';
 
 @Component({
     selector: 'app-guest-edit-name',
