@@ -4,9 +4,9 @@ body {
     padding-top: 60px;
 }
 
-nav {
-    navbar-brand {
-        font-size: 30px
+
+    nav-navbar-brand {
+        font-size: 30px;
     }
     .navbar-toggle {
         margin: 13px 15px 13px 0;
@@ -17,7 +17,7 @@ nav {
         padding-top: 10px !important;
         transition: all 0.3s ease;
     }
-}
+
 
 .logout-button {
     background: none;
@@ -32,6 +32,7 @@ nav {
 
 nav.navbar.shrink {
     min-height: 35px;
+}
     .navbar-brand {
         font-size: 25px
     }
@@ -44,7 +45,7 @@ nav.navbar.shrink {
         margin: 8px 15px 8px 0;
         padding: 4px 5px;
     }
-}
+
 
 a {
     color: var(--dark-background-color);
