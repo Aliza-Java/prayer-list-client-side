@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AdminSettings } from '../shared/models/admin-settings.model';
 import { Category } from '../shared/models/category.model';
 import { Davener } from '../shared/models/davener.model';
@@ -14,7 +14,7 @@ import { AuthService } from './auth/auth.service';
 @Injectable({
     providedIn: 'root'
 })
-export class AdminService {  //A service focusing on admin data and tasks (vs. guest)
+export class AdminService implements OnDestroy {  //A service focusing on admin data and tasks (vs. guest)
 
     loading = false;
     davenfors: Davenfor[];
@@ -39,15 +39,24 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
     davenforAdded = new Subject<Boolean>();
     settingsUpdated = new Subject<AdminSettings>();
     adminSettings: AdminSettings = null;
+    listsSub: Subscription = null;
 
-    constructor(public httpService: HttpService, public router: Router, public daveningService: DaveningService, public authService: AuthService) {
-        this.populateAdminDavenfors();
-        this.populateWeeklyCategory(); //this fills in the default category from DB
-        this.populateAdminSettings();
-        this.populateParashot();
-        this.populateCategories();
-        this.populateCurrentParasha();
-        this.getDaveners();
+    constructor(
+        public httpService: HttpService,
+        public router: Router,
+        public daveningService: DaveningService,
+        public authService: AuthService) {
+        this.listsSub = this.authService.loggedIn.subscribe(
+            () => {//Populate all lists only once successful login was made 
+                this.populateAdminDavenfors();
+                this.populateWeeklyCategory(); //this fills in the default category from DB
+                this.populateAdminSettings();
+                this.populateParashot();
+                this.populateCategories();
+                this.populateCurrentParasha();
+                this.getDaveners();
+            }
+        );
     }
 
     public populateAdminDavenfors() { //requesting all system Davenfors from server
@@ -263,7 +272,7 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
         this.httpService.editAdminSettings(updatedSettings).subscribe(
             success => {
                 if (success) {
-                    this.authService.adminLogin = updatedSettings;
+                    this.adminSettings = updatedSettings;
                     this.daveningService.successMessage = "Changes were saved";
                 }
                 else {
@@ -293,5 +302,9 @@ export class AdminService {  //A service focusing on admin data and tasks (vs. g
             null, //expireAt: server will set the right one
             today, //createdAt
             today); //updatedAt
+    }
+
+    ngOnDestroy() {
+        this.listsSub.unsubscribe();
     }
 }

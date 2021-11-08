@@ -4,7 +4,6 @@ import { Category } from 'src/app/shared/models/category.model';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { Subscription } from 'rxjs';
-import { AdminService } from 'src/app/admin/admin.service';
 import { GuestService } from 'src/app/guest/guest.service';
 import { Router } from '@angular/router';
 
@@ -19,7 +18,12 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
     davenfors: Davenfor[];
     davenforsChangedSub: Subscription;
 
-    constructor(public router: Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) { }
+    constructor(
+        public router: Router, 
+        public guestService: GuestService, 
+        public daveningService: DaveningService, 
+        public httpService: HttpService) { }
+        
     ngOnInit() {
         this.daveningService.clearMessages();
         this.davenfors = this.guestService.myDavenfors;

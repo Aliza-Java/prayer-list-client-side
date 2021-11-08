@@ -48,7 +48,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
 
     populateGuestDavenfors() {
         this.loading = true;
-        this.httpService.getDavenfors('getmynames/' + this.guestEmail).subscribe(
+        this.httpService.getDavenfors('sub/getmynames/' + this.guestEmail).subscribe(
             names => {
                 this.myDavenfors = names;
                 this.myDavenforsChanged.next(names);
@@ -64,7 +64,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     public deleteDavenfor(davenforId: number, englishName: string) {
-        this.httpService.deleteDavenfor(`delete/${davenforId}/${this.guestEmail}`).subscribe(
+        this.httpService.deleteDavenfor(`sub/delete/${davenforId}/${this.guestEmail}`).subscribe(
             updatedList => {
                 this.myDavenfors = updatedList;
                 this.myDavenforsChanged.next(updatedList);
@@ -106,7 +106,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
 
     public editDavenfor(davenfor: Davenfor) {
         davenfor.submitterEmail = this.guestEmail;
-        this.httpService.editDavenfor('updatename/' + this.guestEmail, davenfor).subscribe(
+        this.httpService.editDavenfor('sub/updatename/' + this.guestEmail, davenfor).subscribe(
             response => {
                 console.log(response);
                 this.populateGuestDavenfors();

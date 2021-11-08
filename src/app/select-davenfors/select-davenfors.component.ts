@@ -1,9 +1,6 @@
-import { TitleCasePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Davenfor } from '../shared/models/davenfor.model';
-import { DaveningService } from '../shared/services/davening.service';
 import { GuestService } from '../guest/guest.service';
-import { HttpService } from '../shared/services/http.service';
 import { AdminService } from '../admin/admin.service';
 
 @Component({
@@ -27,10 +24,6 @@ export class SelectDavenforsComponent implements OnChanges {
     ngOnChanges(): void {
     }
 
-    onEdit(davenfor: Davenfor) {
-        alert('onEdit');
-    }
-
     onDelete(davenfor: Davenfor) {
         if (confirm(`Are you sure you want to delete the name ${davenfor.nameHebrew}?`)) {//Get user permission before proceeding
             if (this.adminPermission) { //Sent from admin user
@@ -39,5 +32,4 @@ export class SelectDavenforsComponent implements OnChanges {
             this.guestService.deleteDavenfor(davenfor.id, davenfor.nameEnglish);
         }
     }
-
 }

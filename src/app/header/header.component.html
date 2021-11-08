@@ -16,15 +16,19 @@
 
             <div class="col-md-4">
                 <!--guest/admin menu-->
-                <div *ngIf="authService.adminLogin">
-                    <button (click)="logout()">logout</button>
-                </div>
                 <div class="collapse navbar-collapse text-center">
                     <ul class="nav navbar-nav  list-group">
+                        <li class="list-group-item logout-button" *ngIf="authService.adminLogin?.id">
+                            <div>
+                                <button class="btn btn-danger" (click)="logout()">logout</button>
+                            </div>
+                        </li>
                         <li class="list-group-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
-                                routerLink="admin">Admin</a></li>
+                                routerLink="admin">Admin</a>
+                        </li>
                         <li class="list-group-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
-                                routerLink="guest">Guest</a></li>
+                                routerLink="guest">Guest</a>
+                        </li>
                     </ul>
                 </div>
             </div>

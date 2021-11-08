@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { GuestRoutingModule } from './guest/guest-routing.module';
 import { AdminRoutingModule } from './admin/admin-routing.module';
+import { TokenInterceptor } from './admin/auth/token.interceptor';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,7 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
         HeaderComponent,
         FooterComponent,
         SuccessComponent,
-        ErrorComponent        
+        ErrorComponent
     ],
     imports: [
         BrowserModule,
@@ -34,10 +35,18 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
         HttpClientModule,
         RouterModule,
         SharedModule,
-        AdminRoutingModule, 
+        AdminRoutingModule,
         GuestRoutingModule
     ],
-    providers: [DaveningService, HttpService],
+    providers: [
+        DaveningService, 
+        HttpService, 
+        { 
+            provide: HTTP_INTERCEPTORS, 
+            useClass: TokenInterceptor, 
+            multi: true 
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

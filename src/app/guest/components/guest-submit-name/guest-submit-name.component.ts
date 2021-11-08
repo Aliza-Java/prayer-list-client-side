@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from '../../../shared/models/category.model';
 import { SimpleDavenfor } from '../../../shared/models/simple-davenfor.model';
-import { AdminService } from '../../../admin/admin.service';
 import { DaveningService } from '../../../shared/services/davening.service';
 import { GuestService } from '../../guest.service';
 import { HttpService } from '../../../shared/services/http.service';
@@ -39,7 +38,11 @@ export class GuestSubmitNameComponent implements OnInit {
     banim: Category;
 
 
-    constructor(public router: Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService) { }
+    constructor(
+        public router: Router, 
+        public guestService: GuestService, 
+        public daveningService: DaveningService, 
+        public httpService: HttpService) { }
 
     ngOnInit() {
         this.daveningService.clearMessages();

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { Signin } from 'src/app/shared/models/signin.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
@@ -10,11 +11,18 @@ import { HttpService } from 'src/app/shared/services/http.service';
 export class AuthService {
 
     loading = false;
-    adminLogin:Signin = null;
-    constructor(public httpService: HttpService, public router: Router, public daveningService: DaveningService) { }
+    adminLogin:Signin;
+    loggedIn = new Subject<boolean>();
+
+    constructor(
+        public httpService: HttpService, 
+        public router: Router, 
+        public daveningService: DaveningService) {
+            this.adminLogin = new Signin();
+         }
 
     public getToken(): string {
-        return localStorage.getItem('token');
+        return localStorage.getItem("token");
     }
 
     public login(email: string, password: string) {
@@ -22,8 +30,10 @@ export class AuthService {
         this.httpService.login(email, password).subscribe(response => {
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("token", response.token);
-            this.adminLogin.email = response.email;
-            this.adminLogin.id = response.id;
+            localStorage.setItem("email", response.email);
+            this.adminLogin.setEmail(localStorage.getItem("email"));
+            this.loggedIn.next(true);
+            this.adminLogin.setId(response.id);
             this.loading = false;
             this.router.navigate(['admin/']);
         },
@@ -39,6 +49,7 @@ export class AuthService {
     public logout(){
         localStorage.setItem("isLoggedIn", "false");
         localStorage.removeItem("token");
+        localStorage.removeItem("email");
         this.adminLogin = null;
     }
 }

@@ -1,4 +1,4 @@
-<div *ngIf="!authService.adminLogin else adminNavbar">
+<div *ngIf="!authService.adminLogin?.id else adminNavbar">
     <app-admin-login></app-admin-login>
 </div>
 

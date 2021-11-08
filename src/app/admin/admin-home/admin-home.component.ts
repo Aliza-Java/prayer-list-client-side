@@ -14,20 +14,19 @@ import { AuthService } from '../auth/auth.service';
 export class AdminHomeComponent implements OnInit, OnDestroy {
 
     choice: string;
-    addDavenforSub:Subscription;
-    constructor(public authService:AuthService, public adminService: AdminService, public daveningService:DaveningService,
+    addDavenforSub: Subscription;
+    constructor(public authService: AuthService, public adminService: AdminService, public daveningService: DaveningService,
         public router: Router,
         public route: ActivatedRoute,
         public httpService: HttpService) { }
 
     ngOnInit() {
-        this.adminService.populateAdminDavenfors();
         this.addDavenforSub = this.httpService.davenforAdded.subscribe(addedAlready => {
             this.router.navigate['names'];
         })
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.addDavenforSub.unsubscribe();
     }
 }
