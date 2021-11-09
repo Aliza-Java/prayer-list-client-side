@@ -18,7 +18,11 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     davenforsChangedSub: Subscription;
 
     constructor(
-        public router: Router, public daveningService: DaveningService, public httpService: HttpService, public guestService: GuestService) {
+        public router: Router, 
+        public daveningService: DaveningService, 
+        public httpService: HttpService, 
+        public guestService: GuestService) {
+            this.daveningService.clearMessages();
     }
 
     ngOnInit() {

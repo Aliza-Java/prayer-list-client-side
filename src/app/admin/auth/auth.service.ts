@@ -11,15 +11,16 @@ import { HttpService } from 'src/app/shared/services/http.service';
 export class AuthService {
 
     loading = false;
-    adminLogin:Signin;
+    adminLogin: Signin;
     loggedIn = new Subject<boolean>();
 
     constructor(
-        public httpService: HttpService, 
-        public router: Router, 
+        public httpService: HttpService,
+        public router: Router,
         public daveningService: DaveningService) {
-            this.adminLogin = new Signin();
-         }
+        this.daveningService.clearMessages();
+        this.adminLogin = new Signin();
+    }
 
     public getToken(): string {
         return localStorage.getItem("token");
@@ -38,18 +39,16 @@ export class AuthService {
             this.router.navigate(['admin/']);
         },
             error => {
-                if (error.error.code == "NOT_ADMIN_EMAIL") {
-                    this.daveningService.errorMessage = "Check your email and password again. ";
-                }
-                console.log(error);
+                this.daveningService.errorMessage = "Check your email and password again. ";
                 this.loading = false;
             });
     }
 
-    public logout(){
+    public logout() {
         localStorage.setItem("isLoggedIn", "false");
         localStorage.removeItem("token");
         localStorage.removeItem("email");
         this.adminLogin = null;
+        this.router.navigate(['/admin']);
     }
 }
