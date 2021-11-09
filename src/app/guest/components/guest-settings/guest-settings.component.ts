@@ -11,8 +11,6 @@ export class GuestSettingsComponent implements OnInit {
   constructor(public daveningService:DaveningService) {  }
 
   ngOnInit(): void {
-    this.daveningService.clearMessages();
-
   }
 
 }

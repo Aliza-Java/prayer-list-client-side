@@ -19,13 +19,16 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
         public router: Router,
         public route: ActivatedRoute,
         public httpService: HttpService) {
-            this.daveningService.clearMessages();
          }
 
     ngOnInit() {
         this.addDavenforSub = this.httpService.davenforAdded.subscribe(addedAlready => {
             this.router.navigate['names'];
         })
+    }
+
+    changeOfRoutes() {
+        this.daveningService.clearMessages();
     }
 
     ngOnDestroy() {

@@ -11,7 +11,11 @@ import { HttpService } from './shared/services/http.service';
 
 
 export class AppComponent implements OnInit {
-    constructor(public daveningService: DaveningService, public httpService: HttpService) {}
+    constructor(public daveningService: DaveningService, public httpService: HttpService) { }
 
-    ngOnInit() {}
+    ngOnInit() { }
+
+    changeOfRoutes() {
+        this.daveningService.clearMessages();
+    }
 }

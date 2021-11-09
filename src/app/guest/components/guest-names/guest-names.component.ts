@@ -25,7 +25,6 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         public httpService: HttpService) { }
         
     ngOnInit() {
-        this.daveningService.clearMessages();
         this.davenfors = this.guestService.myDavenfors;
         this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });
     }

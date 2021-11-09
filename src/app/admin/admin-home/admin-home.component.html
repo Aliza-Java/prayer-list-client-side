@@ -7,33 +7,27 @@
         <div class="col-xs-2">
             <div class="list-group">
                 <li class="list-group-item" routerLinkActive="active"><button type="button"
-                        class="btn-lg btn btn-responsive" routerLink="submit"
-                        (click)="daveningService.clearMessages()">Submit a new
+                        class="btn-lg btn btn-responsive" routerLink="submit">Submit a new
                         name</button></li>
                 <li class="list-group-item" routerLinkActive="active"><button type="button"
-                        class="btn-lg btn btn-responsive" routerLink="names"
-                        (click)="daveningService.clearMessages()">Manage all
+                        class="btn-lg btn btn-responsive" routerLink="names">Manage all
                         names</button> </li>
                 <li class="list-group-item" routerLinkActive="active"> <button type="button"
-                        class="btn-lg btn btn-responsive" routerLink="emails"
-                        (click)="daveningService.clearMessages()">Manage email
+                        class="btn-lg btn btn-responsive" routerLink="emails">Manage email
                         list</button> </li>
                 <li class="list-group-item" routerLinkActive="active"> <button type="button"
-                        class="btn-lg btn btn-responsive" routerLink="weekly"
-                        (click)="daveningService.clearMessages()">Send out weekly
+                        class="btn-lg btn btn-responsive" routerLink="weekly">Send out weekly
                         list</button></li>
                 <li class="list-group-item" routerLinkActive="active"> <button type="button"
-                        class="btn-lg btn btn-responsive" routerLink="urgent"
-                        (click)="daveningService.clearMessages()">Send out an urgent
+                        class="btn-lg btn btn-responsive" routerLink="urgent">Send out an urgent
                         name</button></li>
                 <li class="list-group-item" routerLinkActive="active"> <button type="button" 
-                        class="btn-lg btn btn-responsive" routerLink="settings"
-                        (click)="daveningService.clearMessages()">Settings</button></li>
+                        class="btn-lg btn btn-responsive" routerLink="settings">Settings</button></li>
             </div>
             <!--list group-->
         </div>
         <div class="col-xs-10">
-            <router-outlet></router-outlet>
+            <router-outlet  (activate)="changeOfRoutes()"></router-outlet>
         </div>
     </div>
 </ng-template>

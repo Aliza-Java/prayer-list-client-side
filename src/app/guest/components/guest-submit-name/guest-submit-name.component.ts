@@ -45,7 +45,6 @@ export class GuestSubmitNameComponent implements OnInit {
         public httpService: HttpService) { }
 
     ngOnInit() {
-        this.daveningService.clearMessages();
         this.createFormControls();
         this.createForm();
 

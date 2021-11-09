@@ -44,6 +44,9 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
         });
     }
 
+    changeOfRoutes() {
+        this.daveningService.clearMessages();
+    }
 
     ngOnDestroy() {
         this.addDavenforSub.unsubscribe();
