@@ -19,14 +19,15 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
     davenforsChangedSub: Subscription;
 
     constructor(
-        public router: Router, 
-        public guestService: GuestService, 
-        public daveningService: DaveningService, 
+        public router: Router,
+        public guestService: GuestService,
+        public daveningService: DaveningService,
         public httpService: HttpService) { }
-        
+
     ngOnInit() {
         this.davenfors = this.guestService.myDavenfors;
-        this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });
+        this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe(
+            davenfors => { this.davenfors = davenfors });
     }
 
     onEdit(davenfor: Davenfor) {

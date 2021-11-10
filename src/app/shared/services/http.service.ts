@@ -108,18 +108,10 @@ export class HttpService {  //A service that makes the calls to the server
     //use something like this: this.httpClient.request('GET', 'url, {responseType:'text'});
 
     preview(weeklyInfo: Weekly) {
-
-        this.http.post(this.baseUrl + 'admin/preview', weeklyInfo, { responseType: 'text', withCredentials: true })
-            .subscribe(
-                res => {
-                    var win = window.open("", "Preview this week's list", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=" + (screen.height - 20) + ",top=20,left=" + (screen.width - 840));
-                    win.document.body.innerHTML = res;
-                },
-                error => console.log(error)
-            );
+        return this.http.post(this.baseUrl + 'admin/preview', weeklyInfo, { responseType: 'text', withCredentials: true });
     }
 
-    getSubmitter(submitterEmail: string) { //This needs to be changed to dynamic retrieval
+    getSubmitter(submitterEmail: string) { // TODO: This needs to be changed to dynamic retrieval
         return new Submitter(1, "myName", "submitter@smail.com", 101101, 101102, []);
     }
 

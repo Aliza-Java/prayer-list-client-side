@@ -95,19 +95,14 @@ export class WeeklyComponent implements OnInit, OnDestroy {
 
     send() {
         let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
-        this.httpService.sendWeekly(weeklyInfo).subscribe(
-            () => {
-                return this.daveningService.successMessage = "Weekly list has been sent out to active subscribers ";
-            },
-            error => console.log(error)
-        );
+        this.adminService.sendWeekly(weeklyInfo);
     }
 
     preview() {
         if (this.selectedDavenfors.length < 1) {
         }
         let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
-        this.httpService.preview(weeklyInfo);
+        this.adminService.previewList(weeklyInfo);
     }
 
     verify() {

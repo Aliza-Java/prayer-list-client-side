@@ -48,56 +48,23 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     onSendEdit() {
-        this.httpService.editDavener(this.davenerToEdit).subscribe(
-            daveners => {
-                this.adminService.daveners = daveners;
-                this.adminService.davenersChanged.next(daveners);
-            },
-            error => console.log(error)
-        );
+        this.adminService.editDavener(this.davenerToEdit);
 
         this.resetDavener();  //switching it back to default so that no davener matches davenerToEdit's id.
     }
 
     onDelete(davener: Davener) {
         if (confirm('Are you sure you want to remove the email ' + davener.email + ' from the davening list?')) {
-            this.httpService.deleteDavener(davener.id).subscribe(
-                () => { this.adminService.getDaveners() },//refreshing list reflects deleted item.
-                error => {
-                    console.log(error)
-                }
-            );
+            this.adminService.deleteDavener(davener.id, davener.email);
         }
     }
 
     onDisactivate(davener: Davener) {
-        this.isLoading = true;
-        this.httpService.disactivateDavener(davener)
-            .subscribe(  //subscription is here so that it directly affects the loading icon
-                () => {
-                    this.adminService.changeToDisactivate(davener);
-                    this.isLoading = false;
-                },
-                error => {
-                    console.log(error);
-                    this.isLoading = false;
-                }
-            );
+        this.adminService.disactivateDavener(davener);
     }
 
     onActivate(davener: Davener) {
-        this.isLoading = true;
-        this.httpService.activateDavener(davener)
-            .subscribe(
-                () => {
-                    this.adminService.changeToActivate(davener);
-                    this.isLoading = false;
-                },
-                error => {
-                    console.log(error);
-                    this.isLoading = false;
-                }
-            );
+        this.adminService.activateDavener(davener);
     }
 
     allowToAdd() {

@@ -18,7 +18,6 @@ export class AuthService {
         public httpService: HttpService,
         public router: Router,
         public daveningService: DaveningService) {
-        this.daveningService.clearMessages();
         this.adminLogin = new Signin();
     }
 
@@ -36,10 +35,10 @@ export class AuthService {
             this.loggedIn.next(true);
             this.adminLogin.setId(response.id);
             this.loading = false;
-            this.router.navigate(['admin/']);
+            this.router.navigate(['admin']);
         },
             error => {
-                this.daveningService.errorMessage = "Check your email and password again. ";
+                this.daveningService.errorMessage = "Please check your email and password again. ";
                 this.loading = false;
             });
     }
@@ -49,6 +48,6 @@ export class AuthService {
         localStorage.removeItem("token");
         localStorage.removeItem("email");
         this.adminLogin = null;
-        this.router.navigate(['/admin']);
+        this.router.navigate(['admin']);
     }
 }

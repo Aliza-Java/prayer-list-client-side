@@ -7,6 +7,7 @@ import { Davener } from '../shared/models/davener.model';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { Parasha } from '../shared/models/parasha.model';
 import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
+import { Weekly } from '../shared/models/weekly.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
 import { AuthService } from './auth/auth.service';
@@ -68,10 +69,8 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.loading = false;
             },
             error => {
-                if (error.status == '404') {
-                    this.davenforsChanged.next([]);
-                    this.loading = false;
-                }
+                this.daveningService.errorMessage = "We could not retrieve the names.  Please contact the admin.";
+                this.loading = false;
             }
         );
     }
@@ -86,6 +85,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                     this.loading = false;
                 },
                 error => {
+                    this.daveningService.errorMessage = "There was a problem retrieving the admin settings";
                     console.log(error);
                     this.loading = false;
                 }
@@ -101,33 +101,111 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             this.loading = false;
         },
             error => {
+                this.daveningService.errorMessage = "There was a problem retriving the list of emails";
                 console.log(error);
                 this.loading = false;
             });
     }
 
+    editDavener(davenerToEdit) {
+        this.loading = true;
+        this.httpService.editDavener(davenerToEdit).subscribe(
+            daveners => {
+                this.daveners = daveners;
+                this.loading = false;
+                this.davenersChanged.next(daveners);
+            },
+            error => {
+                this.daveningService.errorMessage = "We are sorry. There was an error saving the new edits.";
+                this.loading = false;
+            }
+        );
+    }
+
+    deleteDavener(davenerId, davenerEmail) {
+        this.loading = true;
+        this.httpService.deleteDavener(davenerId).subscribe(
+            () => {
+                this.getDaveners(); //refreshing list reflects deleted item.
+                this.loading = false;
+            },
+            error => {
+                this.daveningService.errorMessage = `We are sorry, there was a problem removing "${davenerEmail}" from the davening list.`
+                console.log(error);
+                this.loading = false;
+            }
+        );
+    }
+
+    activateDavener(davener: Davener) {
+        this.loading = true;
+        this.httpService.activateDavener(davener).subscribe(
+                () => {
+                    this.changeToActivate(davener);
+                    this.loading = false;
+                },
+                error => {
+                    this.daveningService.errorMessage = `An error occurred when activating ${davener.email}`;
+                    console.log(error);
+                    this.loading = false;
+                }
+            );
+    }
+
+    disactivateDavener(davener: Davener) {
+        this.loading = true;
+        this.httpService.disactivateDavener(davener).subscribe(
+            () => {
+                this.changeToDisactivate(davener);
+                this.loading = false;
+            },
+            error => {
+                this.daveningService.errorMessage = `An error occurred when disactivating ${davener.email}`;
+                console.log(error);
+                this.loading = false;
+            }
+        );
+    }
+
     populateCategories() {
+        this.loading = true;
         this.httpService.getCategories().subscribe(
-            categories => { this.categories = categories; },
-            error => { console.log(error); }
+            categories => {
+                this.categories = categories;
+                this.loading = false;
+            },
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
     populateCurrentParasha() {
+        this.loading = true;
         this.httpService.getCurrentParasha().subscribe(
             response => {
                 this.currentParasha = response;
+                this.loading = false;
             },
-            error => console.log(error)
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
     populateParashot() {
+        this.loading = true;
         this.httpService.getParashot().subscribe(
             response => {
                 this.parashot = response;
+                this.loading = false;
             },
-            error => console.log(error)
+            error => {
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
@@ -157,7 +235,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.loading = false;
             },
             error => {
-                console.log(error);
+                this.daveningService.errorMessage = `We are sorry. There was an error adding ${davener.email}`;
                 this.loading = false;
             }
         );
@@ -173,7 +251,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.loading = false;
             },//refreshing list reflects deleted item.
             error => {
-                console.log(error);
+                this.daveningService.errorMessage = `We are sorry.  There was an error deleting ${englishName}`;
                 this.loading = false;
             }
         );
@@ -192,7 +270,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.loading = false;
             },
             error => {
-                console.log(error);
+                this.daveningService.errorMessage = `We are sorry.  There was an error adding ${basicInfo.nameEnglish}`;
                 this.loading = false;
             }
         );
@@ -207,7 +285,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.loading = false;
             },
             error => {
-                console.log(error);
+                this.daveningService.errorMessage = "We are sorry. There was an error when saving the new edits.";
                 this.loading = false;
             }
         );
@@ -231,6 +309,30 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         return this.weeklyCategory;
     }
 
+    previewList(weeklyInfo: Weekly) {
+        this.httpService.preview(weeklyInfo).subscribe(
+            res => {
+                var win = window.open("", "Preview this week's list", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=" + (screen.height - 20) + ",top=20,left=" + (screen.width - 840));
+                win.document.body.innerHTML = res;
+            },
+            error => {
+                this.daveningService.errorMessage = "There was an error generating the preview.";
+            }
+        );
+    }
+
+    sendWeekly(weeklyInfo: Weekly) {
+        this.httpService.sendWeekly(weeklyInfo).subscribe(
+            () => {
+                this.daveningService.successMessage = "Weekly list has been sent out to active subscribers ";
+            },
+            error => {
+                this.daveningService.errorMessage = "There was a problem sending out the weekly list. ";
+                console.log(error);
+            }
+        );
+    }
+
     sendUrgent(formInfo: SimpleDavenfor, addToWeekly: boolean) {
         if (!formInfo.submitterEmail) {
             /*If no email was put in, fill in admin email in case it should be sent out. 
@@ -243,12 +345,13 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
         const urgentDavenfor = this.constructNewDavenfor(formInfo);
 
-        console.log(urgentDavenfor.submitterEmail);
         this.httpService.sendUrgent(urgentDavenfor).subscribe(
             () => {
-                this.daveningService.successMessage = `The name ${formInfo.nameEnglish} was sent out to all subscribers.`;
+                this.daveningService.successMessage = `The name ${formInfo.nameEnglish} has been sent out to all subscribers`;
             },
-            error => console.log(error)
+            error => {
+                this.daveningService.errorMessage = `We are sorry.  The name ${formInfo.nameEnglish} could not be sent to subscribers`;
+            }
         );
     }
 
@@ -268,20 +371,19 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     editSettings(updatedSettings: AdminSettings) {
         this.loading = true;
-        const errorMessage = "The system encountered an error, no changes were made."
         this.httpService.editAdminSettings(updatedSettings).subscribe(
             success => {
                 if (success) {
                     this.adminSettings = updatedSettings;
                     this.daveningService.successMessage = "Changes were saved";
                 }
-                else {
-                    this.daveningService.errorMessage = errorMessage;
+                else { //server returned a value (not error) which is not true
+                    this.daveningService.errorMessage = "The system encountered an error, no changes were made.";
                 }
                 this.loading = false;
             },
             error => {
-                this.daveningService.errorMessage = errorMessage;
+                this.daveningService.errorMessage = "The system encountered an error, no changes were made.";
                 this.loading = false;
             }
         );

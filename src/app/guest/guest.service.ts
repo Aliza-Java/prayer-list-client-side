@@ -21,7 +21,9 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     loading = false;
     categories: Category[];
 
-    constructor(public router: Router, public httpService: HttpService, public daveningService: DaveningService) {
+    constructor(public router: Router,
+        public httpService: HttpService,
+        public daveningService: DaveningService) {
         this.populateCategories();
     }
 
@@ -56,23 +58,25 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 this.loading = false;
             },
             error => {
-                if (error.status == '404') {
-                    this.myDavenforsChanged.next([]);
-                }
+                this.daveningService.errorMessage = `We could not retrieve names associated with ${this.guestEmail}`;
                 this.loading = false;
             });
     }
 
     public deleteDavenfor(davenforId: number, englishName: string) {
+        this.loading = true;
         this.httpService.deleteDavenfor(`sub/delete/${davenforId}/${this.guestEmail}`).subscribe(
             updatedList => {
                 this.myDavenfors = updatedList;
                 this.myDavenforsChanged.next(updatedList);
                 this.daveningService.successMessage = `The name '${englishName}' has been deleted`;
-
-
-            },//refreshing list reflects deleted item.
-            error => { console.log(error) }
+                this.loading = false;
+            },
+            error => {
+                this.daveningService.errorMessage = `There was a problem deleting the name "${englishName}"`;
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
@@ -92,27 +96,36 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             today, //createdAt
             today); //updatedAt
 
+        this.loading = true;
+
         this.httpService.addDavenfor(basicInfo.submitterEmail, newDavenfor).subscribe(
             () => {
                 this.populateGuestDavenfors();
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
-                //The line below does not get executed due to 'ExpressionChangedAfterItHasBeenCheckedError'.  Leaving it for now. 
-                //this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category.english}' list`;
+                this.loading = false;
                 this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
             },
-            error => { console.log(error) }
+            error => {
+                this.daveningService.errorMessage = `We are sorry.  There was an error adding the name "${basicInfo.nameEnglish}"`;
+                console.log(error);
+                this.loading = false;
+            }
         );
     }
 
     public editDavenfor(davenfor: Davenfor) {
         davenfor.submitterEmail = this.guestEmail;
+        this.loading = true;
         this.httpService.editDavenfor('sub/updatename/' + this.guestEmail, davenfor).subscribe(
             response => {
-                console.log(response);
                 this.populateGuestDavenfors();
+                this.loading = false;
                 this.router.navigate(['guest/names']);
             },
-            error => { console.log(error) }
+            error => {
+                this.daveningService.errorMessage = "We are sorry. There was an error when saving the new edits.";
+                this.loading = false;
+            }
         );
     }
 }

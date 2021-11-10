@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DaveningService } from 'src/app/shared/services/davening.service';
@@ -18,11 +18,10 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     davenforsChangedSub: Subscription;
 
     constructor(
-        public router: Router, 
-        public daveningService: DaveningService, 
-        public httpService: HttpService, 
+        public router: Router,
+        public daveningService: DaveningService,
+        public httpService: HttpService,
         public guestService: GuestService) {
-            this.daveningService.clearMessages();
     }
 
     ngOnInit() {
@@ -35,12 +34,7 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
         });
 
         this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe((names) => {
-            if (names.length > 0) {
-                this.guestService.loadedDavenfors = true;
-            }
-            else {
-                this.guestService.loadedDavenfors = false;
-            }
+            this.guestService.loadedDavenfors = (names.length > 0) ? true : false;
         });
     }
 
