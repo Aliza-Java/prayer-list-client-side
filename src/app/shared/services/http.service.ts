@@ -18,11 +18,12 @@ import { AdminSettings } from '../models/admin-settings.model';
 })
 export class HttpService {  //A service that makes the calls to the server
 
-    private localhostUrl = "http://localhost:5001/dlist/";
+    //private localhostUrl = "http://localhost:8080/dlist/";
+    private herokuUrl = "https://salty-forest-99192.herokuapp.com/dlist/"; 
     //private awsUrl = "http://daveninglist.us-east-1.elasticbeanstalk.com/dlist/";
 
     //change this depending on the server location
-    private baseUrl = this.localhostUrl;
+    private baseUrl = this.herokuUrl;
 
     public davenforAdded = new Subject<Boolean>();
 
@@ -101,11 +102,14 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.get<Category>(this.baseUrl + 'admin/category');
     }
 
+    verify(password: String, email: String){
+        const passwordAsJson = {'password' : password};
+        return this.http.post<boolean>(this.baseUrl + 'admin/checkpass/' + email, passwordAsJson, {withCredentials: true});
+    }
+
     sendWeekly(weeklyInfo: Weekly) {
         return this.http.post<boolean>(this.baseUrl + 'admin/weekly/', weeklyInfo);
     }
-
-    //use something like this: this.httpClient.request('GET', 'url, {responseType:'text'});
 
     preview(weeklyInfo: Weekly) {
         return this.http.post(this.baseUrl + 'admin/preview', weeklyInfo, { responseType: 'text', withCredentials: true });

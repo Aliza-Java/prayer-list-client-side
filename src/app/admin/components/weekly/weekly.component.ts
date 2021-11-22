@@ -106,14 +106,8 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     }
 
     verify() {
-        //  TODO: change to something like this:  if (this.adminPassword === this.adminService.adminLogin.password) 
-
-        if (this.adminPassword === "pass1") {
-            this.send();
-        }
-        else {
-            this.daveningService.errorMessage = "Password is incorrect ";
-        }
+        const weeklyInfo = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
+        this.adminService.verify(weeklyInfo, this.adminPassword);
     }
 
     requestToSend() {

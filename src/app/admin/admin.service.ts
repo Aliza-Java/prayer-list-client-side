@@ -321,6 +321,23 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         );
     }
 
+    verify(weeklyInfo: Weekly, password){
+        this.httpService.verify(password, this.authService.adminLogin.email).subscribe(
+            response=>{
+                if(response){
+                    this.sendWeekly(weeklyInfo);
+                }
+                else{
+                    this.daveningService.errorMessage = "Password is incorrect.";
+                }
+            },
+            error=>{
+                this.daveningService.errorMessage = "There was a problem verifying the Admin password.";
+                console.log(error);
+            }
+        );
+    }
+
     sendWeekly(weeklyInfo: Weekly) {
         this.httpService.sendWeekly(weeklyInfo).subscribe(
             () => {
