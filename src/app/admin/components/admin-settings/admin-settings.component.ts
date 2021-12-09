@@ -17,17 +17,17 @@ export class AdminSettingsComponent implements OnInit, OnDestroy {
     settingsUpdatedSub: Subscription = null;
     constructor(public adminService: AdminService, public router: Router, public authService: AuthService) { }
 
-    ngOnInit() { 
+    ngOnInit() {
         this.settings = this.adminService.adminSettings;
+        debugger;
         this.populateSettingsForm();
-        this.settingsUpdatedSub = this.adminService.settingsUpdated.subscribe(response => {
-            this.settings = response;
-            this.populateSettingsForm();           
+        this.settingsUpdatedSub = this.adminService.settingsUpdated.subscribe(adminSettings => {
+            this.settings = adminSettings;
+            this.populateSettingsForm();
         });
-
     }
 
-    populateSettingsForm(){
+    populateSettingsForm() {
         this.settingsForm = new FormGroup({
             'email': new FormControl(this.settings.email, [Validators.required, Validators.email]),
             'prompt': new FormControl(this.settings.newNamePrompt),
@@ -36,11 +36,7 @@ export class AdminSettingsComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        let updatedSettings: AdminSettings;
-        updatedSettings.email = this.settingsForm.get('email').value;
-        updatedSettings.newNamePrompt = this.settingsForm.get('prompt').value;
-        updatedSettings.waitBeforeDeletion = this.settingsForm.get('wait').value;
-        this.adminService.editSettings(updatedSettings);
+        this.adminService.editSettings(this.settings);
     }
 
     onCancel() {

@@ -388,10 +388,11 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     editSettings(updatedSettings: AdminSettings) {
         this.loading = true;
+        debugger;
         this.httpService.editAdminSettings(updatedSettings).subscribe(
             success => {
                 if (success) {
-                    this.adminSettings = updatedSettings;
+                    this.settingsUpdated.next(updatedSettings);
                     this.daveningService.successMessage = "Changes were saved";
                 }
                 else { //server returned a value (not error) which is not true

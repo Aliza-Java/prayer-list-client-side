@@ -9,7 +9,7 @@
                 <div class="col-xs-6 col-xs-offset-2">
                     <span>* Admin's email </span>
                     <input type="text" class="input-text form-control" placeholder="Admin's email"
-                        formControlName="email">
+                        formControlName="email" [(ngModel)]="settings.email">
                 </div>
 
                 <div class="col-xs-2">
@@ -23,7 +23,7 @@
 
             <div class="form-group row">
                 <div class="col-xs-6 col-xs-offset-2 form-check">
-                    <input type="checkbox" class="form-check-input" id="prompt" formControlName="prompt">
+                    <input type="checkbox" class="form-check-input" id="prompt" formControlName="prompt" [(ngModel)]="settings.newNamePrompt">
                     <label class="form-check-label text-center">Receive new name notifications</label>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="form-group row">
                 <div class="col-xs-6 col-xs-offset-2">
                     <span class="wait-label">How many days should we wait before deleting a name?</span>
-                    <input type="number" class="form-control input-number" id="wait" formControlName="wait">
+                    <input type="number" class="form-control input-number" id="wait" formControlName="wait" [(ngModel)]="settings.waitBeforeDeletion">
                 </div>
             </div>
 
