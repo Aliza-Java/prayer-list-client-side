@@ -31,7 +31,11 @@ export class AdminEditNameComponent implements OnInit {
     submitterEmail: FormControl;
     banim: Category;
 
-    constructor(public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService, public router: Router) { }
+    constructor(
+        public daveningService: DaveningService, 
+        public httpService: HttpService, 
+        public adminService: AdminService, 
+        public router: Router) { }
 
     ngOnInit() {
         this.oldInfo = this.adminService.davenforToEdit;
@@ -94,24 +98,4 @@ export class AdminEditNameComponent implements OnInit {
         this.adminService.davenforToEdit = null;
         this.router.navigate(['admin/names']);
     }
-
-    //TODO: replace with pattern validators
-    // checkSpouseEnglish() {
-    //    if(/*  */       ) {
-    //         this.spouseEnglishError = true;
-    //     }
-    //     else this.spouseEnglishError = false;
-    // }
-
-    //TODO: replace with pattern validators
-    // checkSpouseHebrew() {
-    //     if ((!this.spouseName1Hebrew.value
-    //         && this.spouseName2Hebrew.value)
-    //         ||
-    //         (!this.spouseName2Hebrew.value
-    //             && this.spouseName1Hebrew.value)) {
-    //         this.spouseHebrewError = true;
-    //     }
-    //     else this.spouseHebrewError = false;
-    // }
 }

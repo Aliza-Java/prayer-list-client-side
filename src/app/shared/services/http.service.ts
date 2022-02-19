@@ -18,11 +18,9 @@ import { AdminSettings } from '../models/admin-settings.model';
 })
 export class HttpService {  //A service that makes the calls to the server
 
-    private localhostUrl = "http://localhost:8080/dlist/";
-    //private herokuUrl = "https://salty-forest-99192.herokuapp.com/dlist/"; 
-    //private awsUrl = "http://daveninglist.us-east-1.elasticbeanstalk.com/dlist/";
+    localhostUrl = "http://localhost:8080/dlist/";
 
-    //change this depending on the server location
+    //change baseUrl depending on the server location
     private baseUrl = this.localhostUrl;
 
     public davenforAdded = new Subject<Boolean>();
@@ -44,7 +42,6 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     editDavenfor(url: string, davenfor: Davenfor) {
-        //make getEmail a function?
         return this.http.put<Davenfor>((this.baseUrl + url), davenfor);
     }
 
