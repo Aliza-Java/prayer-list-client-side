@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { GuestService } from 'src/app/guest/guest.service';
@@ -13,13 +13,13 @@ import { HttpService } from 'src/app/shared/services/http.service';
 export class GuestEmailComponent implements OnInit {
     addNameMode = false;
     changeEmailAllowed = true;
-    guestEmailForm: FormGroup;
+    guestEmailForm: UntypedFormGroup;
     constructor(
         public router:Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService) { }
 
     ngOnInit() {
-        this.guestEmailForm = new FormGroup({
-            'emailInput': new FormControl(null, [Validators.required, Validators.email])
+        this.guestEmailForm = new UntypedFormGroup({
+            'emailInput': new UntypedFormControl(null, [Validators.required, Validators.email])
         });
     }
 

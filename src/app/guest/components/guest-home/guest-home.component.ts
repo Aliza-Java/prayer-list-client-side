@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DaveningService } from 'src/app/shared/services/davening.service';
@@ -13,7 +13,7 @@ import { HttpService } from 'src/app/shared/services/http.service';
 })
 export class GuestHomeComponent implements OnInit, OnDestroy {
     changeEmailAllowed = true;
-    guestEmailForm: FormGroup;
+    guestEmailForm: UntypedFormGroup;
     addDavenforSub: Subscription;
     davenforsChangedSub: Subscription;
 

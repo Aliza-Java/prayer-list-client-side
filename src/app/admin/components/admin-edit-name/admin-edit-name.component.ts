@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/shared/models/category.model';
 import { AdminService } from 'src/app/admin/admin.service';
@@ -15,20 +15,20 @@ import { Davenfor } from 'src/app/shared/models/davenfor.model';
 export class AdminEditNameComponent implements OnInit {
     oldInfo: Davenfor;
     updatedInfo: Davenfor = null;
-    nameForm: FormGroup;
+    nameForm: UntypedFormGroup;
     categories: Category[]; //creating here so it is ready to populate and recognize later
     banimNumber: number; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
     spouseEnglishError = false;
     spouseHebrewError = false;
 
     //declaring form-controls as variables, to shorten reference to them
-    english: FormControl;
-    hebrew: FormControl;
-    spouseEnglish: FormControl;
-    spouseHebrew: FormControl;
-    category: FormControl;
-    submitterToReceive: FormControl;
-    submitterEmail: FormControl;
+    english: UntypedFormControl;
+    hebrew: UntypedFormControl;
+    spouseEnglish: UntypedFormControl;
+    spouseHebrew: UntypedFormControl;
+    category: UntypedFormControl;
+    submitterToReceive: UntypedFormControl;
+    submitterEmail: UntypedFormControl;
     banim: Category;
 
     constructor(
@@ -48,21 +48,21 @@ export class AdminEditNameComponent implements OnInit {
     }
 
     populateFormControls() {
-        this.english = new FormControl(this.oldInfo.nameEnglish ? this.oldInfo.nameEnglish : null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.hebrew = new FormControl(this.oldInfo.nameHebrew ? this.oldInfo.nameHebrew : null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.english = new UntypedFormControl(this.oldInfo.nameEnglish ? this.oldInfo.nameEnglish : null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.hebrew = new UntypedFormControl(this.oldInfo.nameHebrew ? this.oldInfo.nameHebrew : null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         //spouse values can be empty or not, depending on category value (if it is banim, and even then optional), as long as they are in the right language 
         //spouse values are initialized as empty string to assist with checkSpouseEnglish() and checkSpouseHebrew(), where we now only need to check if it is an empty string or not.
-        this.spouseEnglish = new FormControl(this.oldInfo.nameEnglishSpouse ? this.oldInfo.nameEnglishSpouse : null, [Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.spouseHebrew = new FormControl(this.oldInfo.nameHebrewSpouse ? this.oldInfo.nameHebrewSpouse : null, [Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.spouseEnglish = new UntypedFormControl(this.oldInfo.nameEnglishSpouse ? this.oldInfo.nameEnglishSpouse : null, [Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.spouseHebrew = new UntypedFormControl(this.oldInfo.nameHebrewSpouse ? this.oldInfo.nameHebrewSpouse : null, [Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
-        this.category = new FormControl(this.oldInfo.category.id, Validators.required); //default value is 'select category'
-        this.submitterToReceive = new FormControl(this.oldInfo.submitterToReceive);
-        this.submitterEmail = new FormControl(this.oldInfo.submitterEmail ? this.oldInfo.submitterEmail : "", [Validators.required, Validators.email]);
+        this.category = new UntypedFormControl(this.oldInfo.category.id, Validators.required); //default value is 'select category'
+        this.submitterToReceive = new UntypedFormControl(this.oldInfo.submitterToReceive);
+        this.submitterEmail = new UntypedFormControl(this.oldInfo.submitterEmail ? this.oldInfo.submitterEmail : "", [Validators.required, Validators.email]);
     }
 
     setForm() {
-        this.nameForm = new FormGroup({
+        this.nameForm = new UntypedFormGroup({
             'english': this.english,
             'hebrew': this.hebrew,
             'spouseEnglish': this.spouseEnglish,

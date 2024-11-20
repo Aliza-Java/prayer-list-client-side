@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AdminSettings } from 'src/app/shared/models/admin-settings.model';
@@ -12,7 +12,7 @@ import { AuthService } from '../../auth/auth.service';
     styleUrls: ['./admin-settings.component.css']
 })
 export class AdminSettingsComponent implements OnInit, OnDestroy {
-    settingsForm: FormGroup;
+    settingsForm: UntypedFormGroup;
     settings: AdminSettings = null;
     settingsUpdatedSub: Subscription = null;
     constructor(public adminService: AdminService, public router: Router, public authService: AuthService) { }
@@ -28,10 +28,10 @@ export class AdminSettingsComponent implements OnInit, OnDestroy {
     }
 
     populateSettingsForm() {
-        this.settingsForm = new FormGroup({
-            'email': new FormControl(this.settings.email, [Validators.required, Validators.email]),
-            'prompt': new FormControl(this.settings.newNamePrompt),
-            'wait': new FormControl(this.settings.waitBeforeDeletion)
+        this.settingsForm = new UntypedFormGroup({
+            'email': new UntypedFormControl(this.settings.email, [Validators.required, Validators.email]),
+            'prompt': new UntypedFormControl(this.settings.newNamePrompt),
+            'wait': new UntypedFormControl(this.settings.waitBeforeDeletion)
         });
     }
 

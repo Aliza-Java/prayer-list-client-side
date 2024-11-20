@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from '../../../shared/models/category.model';
 import { SimpleDavenfor } from '../../../shared/models/simple-davenfor.model';
@@ -13,7 +13,7 @@ import { HttpService } from '../../../shared/services/http.service';
     styleUrls: ['./guest-submit-name.component.css']
 })
 export class GuestSubmitNameComponent implements OnInit {
-    nameForm: FormGroup;
+    nameForm: UntypedFormGroup;
     categories: Category[]; //creating here so it is ready to populate and recognize later
     banimNumber: number; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
     chosenCategoryId = -1;
@@ -22,19 +22,19 @@ export class GuestSubmitNameComponent implements OnInit {
     spouseHebrewError = false;
 
     //declaring form-controls as variables, to shorten reference to them
-    name1English: FormControl;
-    benbat: FormControl;
-    name2English: FormControl;
-    name1Hebrew: FormControl;
-    benbatHebrew: FormControl;
-    name2Hebrew: FormControl;
-    spouseName1English: FormControl;
-    spouseName2English: FormControl;
-    spouseName1Hebrew: FormControl;
-    spouseName2Hebrew: FormControl;
-    category: FormControl;
-    submitterToReceive: FormControl;
-    submitterEmail: FormControl;
+    name1English: UntypedFormControl;
+    benbat: UntypedFormControl;
+    name2English: UntypedFormControl;
+    name1Hebrew: UntypedFormControl;
+    benbatHebrew: UntypedFormControl;
+    name2Hebrew: UntypedFormControl;
+    spouseName1English: UntypedFormControl;
+    spouseName2English: UntypedFormControl;
+    spouseName1Hebrew: UntypedFormControl;
+    spouseName2Hebrew: UntypedFormControl;
+    category: UntypedFormControl;
+    submitterToReceive: UntypedFormControl;
+    submitterEmail: UntypedFormControl;
     banim: Category;
 
 
@@ -54,28 +54,28 @@ export class GuestSubmitNameComponent implements OnInit {
     }
 
     createFormControls() {
-        this.name1English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.benbat = new FormControl('ben');
-        this.name2English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.name1Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
-        this.benbatHebrew = new FormControl('בן');
-        this.name2Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.name1English = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.benbat = new UntypedFormControl('ben');
+        this.name2English = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.name1Hebrew = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.benbatHebrew = new UntypedFormControl('בן');
+        this.name2Hebrew = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         //spouse values can be empty or not, depending on category value (if it is banim, and even then optional), as long as they are in the right language 
         //spouse values are initialized as empty string to assist with checkSpouseEnglish() and checkSpouseHebrew(), where we now only need to check if it is an empty string or not.
-        this.spouseName1English = new FormControl("", Validators.pattern(this.daveningService.englishNamePattern));
-        this.spouseName2English = new FormControl("", Validators.pattern(this.daveningService.englishNamePattern));
-        this.spouseName1Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
-        this.spouseName2Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
+        this.spouseName1English = new UntypedFormControl("", Validators.pattern(this.daveningService.englishNamePattern));
+        this.spouseName2English = new UntypedFormControl("", Validators.pattern(this.daveningService.englishNamePattern));
+        this.spouseName1Hebrew = new UntypedFormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
+        this.spouseName2Hebrew = new UntypedFormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
-        this.category = new FormControl("", Validators.required); //default value is 'select category'
-        this.submitterToReceive = new FormControl(true);
+        this.category = new UntypedFormControl("", Validators.required); //default value is 'select category'
+        this.submitterToReceive = new UntypedFormControl(true);
 
     }
 
     createForm() {
-        this.nameForm = new FormGroup({
-            'name': new FormGroup({
+        this.nameForm = new UntypedFormGroup({
+            'name': new UntypedFormGroup({
                 'english1': this.name1English,
                 'benBat': this.benbat,
                 'english2': this.name2English,
@@ -83,7 +83,7 @@ export class GuestSubmitNameComponent implements OnInit {
                 'benBatHebrew': this.benbatHebrew,
                 'hebrew2': this.name2Hebrew
             }),
-            'spouse': new FormGroup({
+            'spouse': new UntypedFormGroup({
                 'english1': this.spouseName1English,
                 'english2': this.spouseName2English,
                 'hebrew1': this.spouseName1Hebrew,
