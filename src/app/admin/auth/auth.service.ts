@@ -6,7 +6,7 @@ import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root' /*note if there are problems: Using providedIn: 'any' for an @Injectable or InjectionToken is deprecated in v15*/
 })
 export class AuthService {
 
