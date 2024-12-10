@@ -245,18 +245,7 @@
     rxjs "6.5.4"
     source-map "0.7.3"
 
-"@angular-devkit/schematics@^15.2.11":
-  version "15.2.11"
-  resolved "https://registry.npmjs.org/@angular-devkit/schematics/-/schematics-15.2.11.tgz"
-  integrity sha512-Wfj0FO8lcGqOkg7GTYOGUsAHqTS9GMfGXTAGsM/8g0SZI4kaPy/luZSPFtevpFE5PSR6dyWSIC0GgzfavjhJMg==
-  dependencies:
-    "@angular-devkit/core" "15.2.11"
-    jsonc-parser "3.2.0"
-    magic-string "0.29.0"
-    ora "5.4.1"
-    rxjs "6.6.7"
-
-"@angular-devkit/schematics@16.2.16":
+"@angular-devkit/schematics@^16.2.16", "@angular-devkit/schematics@16.2.16":
   version "16.2.16"
   resolved "https://registry.npmjs.org/@angular-devkit/schematics/-/schematics-16.2.16.tgz"
   integrity sha512-pF6fdtJh6yLmgA7Gs45JIdxPl2MsTAhYcZIMrX1a6ID64dfwtF0MP8fDE6vrWInV1zXbzzf7l7PeKuqVtTSzKg==
