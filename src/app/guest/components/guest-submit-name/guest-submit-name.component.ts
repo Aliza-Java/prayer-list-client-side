@@ -49,8 +49,15 @@ export class GuestSubmitNameComponent implements OnInit {
         this.createForm();
 
         //Populating category array from Server
-        this.categories = this.guestService.categories;
-        this.banimNumber = this.guestService.findBanim().id;
+       // TODO: fix this when can get from server: this.categories = this.guestService.categories;
+       this.categories = [
+        { id: 1, english: "Refua" },
+        { id: 2, english: "Banim" },
+        { id: 3, english: "Shidduchim" },
+        { id: 4, english: "Soldiers" },
+        { id: 5, english: "Yeshuah" }
+    ]; 
+       this.banimNumber = this.guestService.findBanim().id;
     }
 
     createFormControls() {
@@ -134,7 +141,9 @@ export class GuestSubmitNameComponent implements OnInit {
             spouseEnglishFull,
             submitterToReceive
         );
-
+        alert(formInfo);
+        console.log(formInfo);
+        
         this.guestService.addDavenfor(formInfo);
     }
 

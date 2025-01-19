@@ -210,7 +210,7 @@
             <select formControlName="category" class="form-control" id="category">
                 <option value="">Select category</option>
                 <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
-                <option *ngFor="let category of categories" [value]="category.id">{{category.english | titlecase}}
+                <option *ngFor="let category of categories" [value]="category.english">{{category.english | titlecase}}
                 </option>
             </select>
         </div>
@@ -218,7 +218,7 @@
 
     <div class="form-group">
         <div class="col-xs-2 col-xs-offset-4">
-            <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid||spouseHebrewError||spouseEnglishError">Add Name</button>
+            <button class="btn btn-success btn-lg" (click)="send" >Add Name</button>
         </div>
         <div class="col-xs-2">
             <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>

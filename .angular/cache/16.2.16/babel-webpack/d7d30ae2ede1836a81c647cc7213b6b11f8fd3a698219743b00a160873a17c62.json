@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Signin {\n  setId(id) {\n    this.id = id;\n  }\n  setEmail(email) {\n    this.email = email;\n  }\n  getId() {\n    return this.id;\n  }\n  getEmail() {\n    return this.email;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

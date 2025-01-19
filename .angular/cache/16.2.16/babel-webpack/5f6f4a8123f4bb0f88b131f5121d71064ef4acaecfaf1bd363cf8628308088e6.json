@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Submitter {\n  constructor(id, name, email, whatsapp, phone, davenfors) {\n    this.id = id;\n    this.name = name;\n    this.email = email;\n    this.whatsapp = whatsapp;\n    this.phone = phone;\n    this.davenfors = davenfors;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
