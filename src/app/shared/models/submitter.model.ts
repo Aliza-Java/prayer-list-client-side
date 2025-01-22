@@ -1,4 +1,4 @@
-import { Davenfor } from './davenFor.model';
+import { Davenfor } from './davenfor.model';
 
 export class Submitter{
 public id:number;
