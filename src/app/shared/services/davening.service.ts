@@ -8,11 +8,11 @@ import { HttpService } from './http.service';
 })
 export class DaveningService { // A general service to hold 'global' data relevant all around
 
-    errorMessage: string;
-    successMessage: string;
+    errorMessage: string = '';
+    successMessage: string = '';
     emailChanged = new Subject<string>(); //TODO: Seems unnecesessary. Meant subscription?
     davenforsChanged = new Subject<Davenfor[]>(); //TODO: Seems unnecesessary
-    weeklyCategoryId: number;
+    weeklyCategoryId: number = 0;
     englishNamePattern = "^[a-zA-Z '\\-\\ ]*$";
     hebrewNamePattern = "^[\\u0590-\\u05fe '\\-]*$";
 

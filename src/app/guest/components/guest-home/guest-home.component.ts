@@ -13,9 +13,9 @@ import { HttpService } from 'src/app/shared/services/http.service';
 })
 export class GuestHomeComponent implements OnInit, OnDestroy {
     changeEmailAllowed = true;
-    guestEmailForm: UntypedFormGroup;
-    addDavenforSub: Subscription;
-    davenforsChangedSub: Subscription;
+    guestEmailForm: UntypedFormGroup = new UntypedFormGroup({});
+    addDavenforSub: Subscription = new Subscription;
+    davenforsChangedSub: Subscription = new Subscription;
 
     constructor(
         public router: Router,
@@ -25,11 +25,11 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.router.navigate['names'];
+        this.router.navigate(['names']);
 
-        this.addDavenforSub = this.guestService.davenforAdded.subscribe((addedAlready: boolean) => {
+        this.addDavenforSub = this.guestService.davenforAdded.subscribe((addedAlready: Boolean) => {
             if (addedAlready) {
-                this.router.navigate['names'];
+                this.router.navigate(['names']);
             }
         });
 

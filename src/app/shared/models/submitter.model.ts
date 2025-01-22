@@ -1,12 +1,12 @@
 import { Davenfor } from './davenfor.model';
 
 export class Submitter{
-public id:number;
-public name:string;
-public email:string;
-public whatsapp:number;
-public phone:number;
-public davenfors:Davenfor[];
+public id:number = 0;
+public name:string = '';
+public email:string = '';
+public whatsapp:number = 0;
+public phone:number = 0;
+public davenfors:Davenfor[] = [];
 
     constructor(id:number, name:string, email:string,whatsapp:number, phone:number, davenfors:Davenfor[]){
         this.id = id;

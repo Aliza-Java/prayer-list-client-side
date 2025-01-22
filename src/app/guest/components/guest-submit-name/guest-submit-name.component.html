@@ -136,9 +136,9 @@
                 <!--Validation for spouseName2English-->
                 <div class="col-xs-2 help-block">
                     <!--Validation: must include only English letters and spaces -->
-                    <span *ngIf="!nameForm.get('spouse.english2').valid && nameForm.get('spouse.english2').touched"
+                    <span *ngIf="!nameForm.get('spouse.english2')?.valid && nameForm.get('spouse.english2').touched"
                         class="help-block">
-                        <span *ngIf="nameForm.get('spouse.english2').errors['pattern']">English letters and
+                        <span *ngIf="nameForm.get('spouse.english2')?.errors['pattern']">English letters and
                             spaces</span>
                     </span>
                 </div>
@@ -151,9 +151,9 @@
 
                 <!--Validation for spouseName2Hebrew-->
                 <div class="col-xs-2 help-block">
-                    <span *ngIf="!nameForm.get('spouse.hebrew2').valid && nameForm.get('spouse.hebrew2').touched"
+                    <span *ngIf="!nameForm.get('spouse.hebrew2')?.valid && nameForm.get('spouse.hebrew2')?.touched"
                         class="help-block">
-                        <span class="text-right" *ngIf="nameForm.get('spouse.hebrew2').errors['pattern']">Hebrew
+                        <span class="text-right" *ngIf="nameForm.get('spouse.hebrew2')?.errors['pattern']">Hebrew
                             letters
                             and spaces</span>
                     </span>
@@ -179,9 +179,9 @@
 
                 <!--Validation for spouseName1Hebrew-->
                 <div class="col-xs-2 help-block">
-                    <span *ngIf="!nameForm.get('spouse.hebrew1').valid && nameForm.get('spouse.hebrew1').touched"
+                    <span *ngIf="!nameForm.get('spouse.hebrew1')?.valid && nameForm.get('spouse.hebrew1').touched"
                         class="help-block">
-                        <span *ngIf="nameForm.get('spouse.hebrew1').errors['pattern']">Hebrew letters and
+                        <span *ngIf="nameForm.get('spouse.hebrew1')?.errors['pattern']">Hebrew letters and
                             spaces</span>
                     </span>
                 </div>
@@ -218,7 +218,7 @@
 
     <div class="form-group">
         <div class="col-xs-2 col-xs-offset-4">
-            <button class="btn btn-success btn-lg" (click)="send" >Add Name</button>
+            <button class="btn btn-success btn-lg" (click)="submit" >Add Name</button>
         </div>
         <div class="col-xs-2">
             <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>

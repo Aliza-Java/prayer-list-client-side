@@ -1,16 +1,16 @@
 export class Davener {
 public id:number;
-public country:string;
-public email:string;
-public whatsapp:number;
-public active:boolean;
+public country:string = '';
+public email:string = '';
+public whatsapp:number = 0;
+public active:boolean = true;
 
     constructor(id?:number, country?:string, email?:string, whatsapp?:number, active?:boolean){
-        this.id = id;
-        this.country = country;
-        this.email = email;
-        this.whatsapp = whatsapp;
-        this.active = active;
+        this.id = id ?? 0;
+        this.country = country ?? "";
+        this.email = email ?? "";
+        this.whatsapp = whatsapp ?? 0;
+        this.active = active ?? true;
     }
         
   }

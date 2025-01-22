@@ -1,6 +1,6 @@
 export class Signin {
-    id?: number;
-    email?: string;
+    id?: number = 0;
+    email?: string = '';
 
     setId(id: number) {
         this.id = id;

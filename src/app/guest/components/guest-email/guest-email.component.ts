@@ -13,7 +13,7 @@ import { HttpService } from 'src/app/shared/services/http.service';
 export class GuestEmailComponent implements OnInit {
     addNameMode = false;
     changeEmailAllowed = true;
-    guestEmailForm: UntypedFormGroup;
+    guestEmailForm: UntypedFormGroup = new UntypedFormGroup({});
     constructor(
         public router:Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService) { }
 

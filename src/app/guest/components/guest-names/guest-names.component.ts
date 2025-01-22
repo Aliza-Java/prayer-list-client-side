@@ -14,9 +14,9 @@ import { Router } from '@angular/router';
 })
 export class GuestNamesComponent implements OnInit, OnDestroy {
 
-    categories: Category[];
-    davenfors: Davenfor[];
-    davenforsChangedSub: Subscription;
+    categories: Category[] = [];
+    davenfors: Davenfor[] = [];
+    davenforsChangedSub: Subscription = new Subscription;
 
     constructor(
         public router: Router,

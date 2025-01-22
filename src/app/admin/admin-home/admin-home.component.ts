@@ -13,8 +13,10 @@ import { AuthService } from '../auth/auth.service';
 })
 export class AdminHomeComponent implements OnInit, OnDestroy {
 
-    choice: string;
-    addDavenforSub: Subscription;
+    choice: string = '';
+    addDavenforSub!: Subscription;  // Asserting that it will be assigned before usage
+
+    //TODO:  Ensure you unsubscribe from subscriptions in ngOnDestroy to prevent memory leaks.
     constructor(public authService: AuthService, public adminService: AdminService, public daveningService: DaveningService,
         public router: Router,
         public route: ActivatedRoute,
@@ -23,7 +25,7 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.addDavenforSub = this.httpService.davenforAdded.subscribe(addedAlready => {
-            this.router.navigate['names'];
+            this.router.navigate(['names']);
         })
     }
 

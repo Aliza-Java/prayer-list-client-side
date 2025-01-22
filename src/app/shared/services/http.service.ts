@@ -100,7 +100,7 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.get<Category>(this.baseUrl + 'admin/category');
     }
 
-    verify(password: String, email: String){
+    verify(password: string, email: string){
         const passwordAsJson = {'password' : password};
         return this.http.post<boolean>(this.baseUrl + 'admin/checkpass/' + email, passwordAsJson, {withCredentials: true});
     }

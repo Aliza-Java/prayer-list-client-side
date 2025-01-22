@@ -14,12 +14,12 @@ import { AdminService } from 'src/app/admin/admin.service';
     styleUrls: ['./manage-emails.component.css']
 })
 export class ManageEmailsComponent implements OnInit, OnDestroy {
-    daveners: Davener[];
-    davenersChangedSub: Subscription;
+    daveners: Davener[] = [];
+    davenersChangedSub: Subscription = new Subscription;
     isLoading = false;
     addMode = false;
     country = 'Israel';
-    davenerToEdit: Davener;
+    davenerToEdit: Davener = new Davener
 
     whatsappEdit = document.getElementById('whatsappEdit');
     emailEdit = document.getElementById('emailEdit');

@@ -1,7 +1,7 @@
 export class AdminSettings {
-    email?: string;
-    newNamePrompt?: boolean;
-    waitBeforeDeletion?: number;
+    email?: string = '';
+    newNamePrompt?: boolean = false;
+    waitBeforeDeletion?: number = 7; 
 
     constructor(email: string, newNamePrompt: boolean, waitBeforeDeletion: number) {
         this.email = email;

@@ -12,14 +12,14 @@ import { HttpService } from '../shared/services/http.service';
 })
 export class GuestService { //A service focusing on guest data and tasks (vs. admin)
 
-    myDavenfors: Davenfor[];
-    guestEmail: string;
+    myDavenfors: Davenfor[] = [];
+    guestEmail: string = '';
     myDavenforsChanged = new Subject<Davenfor[]>();
     davenforAdded = new Subject<Boolean>();
     loadedDavenfors = false;
-    davenforToEdit: Davenfor = null;
+    davenforToEdit: Davenfor = new Davenfor;
     loading = false;
-    categories: Category[];
+    categories: Category[] = [];
 
     constructor(public router: Router,
         public httpService: HttpService,
@@ -32,8 +32,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         return this.categories.find(category => category.id == id);
     }
 
-    public findBanim() {
-        let banim = null;
+    public findBanim() : Category{
+        let banim = new Category;
         this.categories.forEach(category => {
             if (category.english === 'banim')
                 banim = category;
@@ -92,25 +92,30 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             basicInfo.nameEnglishSpouse,
             basicInfo.submitterToReceive,
             today, //lastConfirmedAt
-            null, //expireAt: server will set the right one
+            "", //expireAt: server will set the right one
             today, //createdAt
             today); //updatedAt
 
         this.loading = true;
 
-        this.httpService.addDavenfor(basicInfo.submitterEmail, newDavenfor).subscribe(
-            () => {
-                this.populateGuestDavenfors();
-                this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
-                this.loading = false;
-                this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
-            },
-            error => {
-                this.daveningService.errorMessage = `We are sorry.  There was an error adding the name "${basicInfo.nameEnglish}"`;
-                console.log(error);
-                this.loading = false;
-            }
-        );
+        if (basicInfo.submitterEmail != undefined && newDavenfor != undefined) {
+            this.httpService.addDavenfor(basicInfo.submitterEmail, newDavenfor).subscribe(
+                () => {
+                    this.populateGuestDavenfors();
+                    this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
+                    this.loading = false;
+                    this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
+                },
+                error => {
+                    this.daveningService.errorMessage = `We are sorry.  There was an error adding the name "${basicInfo.nameEnglish}"`;
+                    console.log(error);
+                    this.loading = false;
+                }
+            );
+        }
+        else {
+            console.log('Email given is ' + basicInfo.submitterEmail + ' and new davenfor is ' + newDavenfor);
+        }
     }
 
     public editDavenfor(davenfor: Davenfor) {

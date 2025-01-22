@@ -18,12 +18,12 @@ import { AuthService } from './auth/auth.service';
 export class AdminService implements OnDestroy {  //A service focusing on admin data and tasks (vs. guest)
 
     loading = false;
-    davenfors: Davenfor[];
-    daveners: Davener[];
-    weeklyCategory: Category;
-    currentParasha: Parasha;
-    parashot: Parasha[];
-    categories: Category[];
+    davenfors: Davenfor[] = [];
+    daveners: Davener[] = [];
+    weeklyCategory: Category = new Category();
+    currentParasha: Parasha = new Parasha();
+    parashot: Parasha[] = [];
+    categories: Category[] = [];
 
     chagim: Parasha[] = [{ "id": 1, "englishName": "Rosh Hashana", "hebrewName": "ראש השנה" },
     { "id": 2, "englishName": "Yom Kippur", "hebrewName": "יום כיפור" },
@@ -33,14 +33,14 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     { "id": 6, "englishName": "Shavuot", "hebrewName": "שבועות" }
     ];
 
-    davenforToEdit: Davenfor = null;
+    davenforToEdit: Davenfor | null = null;
 
     davenforsChanged = new Subject<Davenfor[]>();
     davenersChanged = new Subject<Davener[]>();
     davenforAdded = new Subject<Boolean>();
     settingsUpdated = new Subject<AdminSettings>();
-    adminSettings: AdminSettings = null;
-    listsSub: Subscription = null;
+    adminSettings: AdminSettings | null = null;
+    listsSub: Subscription | null = null;
 
     constructor(
         public httpService: HttpService,
@@ -78,7 +78,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     public populateAdminSettings() {
         if (this.authService.adminLogin) {
             this.loading = true;
-            this.httpService.getAdminSettings(this.authService.adminLogin.email).subscribe(
+            this.httpService.getAdminSettings(this.authService.adminLogin.email || "").subscribe(
                 response => {
                     this.adminSettings = response;
                     this.settingsUpdated.next(response);
@@ -107,7 +107,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             });
     }
 
-    editDavener(davenerToEdit) {
+    editDavener(davenerToEdit: Davener) {
         this.loading = true;
         this.httpService.editDavener(davenerToEdit).subscribe(
             daveners => {
@@ -122,7 +122,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         );
     }
 
-    deleteDavener(davenerId, davenerEmail) {
+    deleteDavener(davenerId: number, davenerEmail: string) {
         this.loading = true;
         this.httpService.deleteDavener(davenerId).subscribe(
             () => {
@@ -140,16 +140,16 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     activateDavener(davener: Davener) {
         this.loading = true;
         this.httpService.activateDavener(davener).subscribe(
-                () => {
-                    this.changeToActivate(davener);
-                    this.loading = false;
-                },
-                error => {
-                    this.daveningService.errorMessage = `An error occurred when activating ${davener.email}`;
-                    console.log(error);
-                    this.loading = false;
-                }
-            );
+            () => {
+                this.changeToActivate(davener);
+                this.loading = false;
+            },
+            error => {
+                this.daveningService.errorMessage = `An error occurred when activating ${davener.email}`;
+                console.log(error);
+                this.loading = false;
+            }
+        );
     }
 
     disactivateDavener(davener: Davener) {
@@ -260,12 +260,12 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     addDavenfor(basicInfo: SimpleDavenfor, announceSuccess = true) { //by default let user know addition was successful. (not if urgent name being sent out)
         const newDavenfor = this.constructNewDavenfor(basicInfo);
         this.loading = true;
-        this.httpService.addDavenfor(basicInfo.submitterEmail, newDavenfor).subscribe(
+        this.httpService.addDavenfor(basicInfo.submitterEmail || "", newDavenfor).subscribe(
             () => {
                 this.populateAdminDavenfors();
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                 if (announceSuccess) {
-                    this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category.english}' list`;
+                    this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category?.english}' list`;
                 }
                 this.loading = false;
             },
@@ -313,7 +313,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         this.httpService.preview(weeklyInfo).subscribe(
             res => {
                 var win = window.open("", "Preview this week's list", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=" + (screen.height - 20) + ",top=20,left=" + (screen.width - 840));
-                win.document.body.innerHTML = res;
+                if (win) {
+                    win.document.body.innerHTML = res;
+                }
             },
             error => {
                 this.daveningService.errorMessage = "There was an error generating the preview.";
@@ -321,17 +323,17 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         );
     }
 
-    verify(weeklyInfo: Weekly, password){
-        this.httpService.verify(password, this.authService.adminLogin.email).subscribe(
-            response=>{
-                if(response){
+    verify(weeklyInfo: Weekly, password: string) {
+        this.httpService.verify(password, this.authService.adminLogin.email || "").subscribe(
+            response => {
+                if (response) {
                     this.sendWeekly(weeklyInfo);
                 }
-                else{
+                else {
                     this.daveningService.errorMessage = "Password is incorrect.";
                 }
             },
-            error=>{
+            error => {
                 this.daveningService.errorMessage = "There was a problem verifying the Admin password.";
                 console.log(error);
             }
@@ -377,8 +379,8 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         return this.categories.find(category => category.id == id);
     }
 
-    public findBanim() {
-        let banim = null;
+    public findBanim() : Category{
+        let banim = new Category;
         this.categories.forEach(category => {
             if (category.english === 'banim')
                 banim = category;
@@ -419,12 +421,14 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             basicInfo.nameEnglishSpouse,
             basicInfo.submitterToReceive,
             today, //lastConfirmedAt
-            null, //expireAt: server will set the right one
+            "", //expireAt: server will set the right one
             today, //createdAt
             today); //updatedAt
     }
 
     ngOnDestroy() {
-        this.listsSub.unsubscribe();
+        if (this.listsSub) {
+            this.listsSub.unsubscribe();
+        }
     }
 }

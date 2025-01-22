@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class EmptyListComponent implements OnInit {
 
     @Input()
-    whatIsMissing:string;
+    whatIsMissing:string = '';
 
   ngOnInit(): void {
   }

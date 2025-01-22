@@ -22,18 +22,18 @@ export class AuthService {
     }
 
     public getToken(): string {
-        return localStorage.getItem("token");
+        return localStorage.getItem("token") || '';
     }
 
     public login(email: string, password: string) {
         this.loading = true;
         this.httpService.login(email, password).subscribe(response => {
             localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("token", response.token);
-            localStorage.setItem("email", response.email);
-            this.adminLogin.setEmail(localStorage.getItem("email"));
+            localStorage.setItem("token", response.token || '');
+            localStorage.setItem("email", response.email || '');
+            this.adminLogin.setEmail(localStorage.getItem("email") || '');
             this.loggedIn.next(true);
-            this.adminLogin.setId(response.id);
+            this.adminLogin.setId(response.id || 0);
             this.loading = false;
             this.router.navigate(['admin']);
         },
@@ -47,7 +47,7 @@ export class AuthService {
         localStorage.setItem("isLoggedIn", "false");
         localStorage.removeItem("token");
         localStorage.removeItem("email");
-        this.adminLogin = null;
+        this.adminLogin = new Signin();
         this.router.navigate(['admin']);
     }
 }

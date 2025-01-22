@@ -7,7 +7,7 @@ import { DaveningService } from '../shared/services/davening.service';
     styleUrls: ['./success.component.css']
 })
 export class SuccessComponent implements OnInit {
-    @Input() message: string;
+    @Input() message: string = '';
 
     constructor(public daveningService:DaveningService) { }
 

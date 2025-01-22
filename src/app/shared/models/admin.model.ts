@@ -1,9 +1,9 @@
 export class Admin {
-    id?: number;
-    email?: string;
-    password?: string;
-    newNamePrompt?: boolean;
-    waitBeforeDeletion?: number;
+    id?: number = 0;
+    email?: string = '';
+    password?: string = '';
+    newNamePrompt?: boolean = false;
+    waitBeforeDeletion?: number = 7;
 
     constructor(id: number, email: string, password: string, newNamePrompt: boolean, waitBeforeDeletion: number) {
         this.id = id;

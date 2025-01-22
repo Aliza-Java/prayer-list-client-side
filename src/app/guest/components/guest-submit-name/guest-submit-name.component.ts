@@ -13,29 +13,29 @@ import { HttpService } from '../../../shared/services/http.service';
     styleUrls: ['./guest-submit-name.component.css']
 })
 export class GuestSubmitNameComponent implements OnInit {
-    nameForm: UntypedFormGroup;
-    categories: Category[]; //creating here so it is ready to populate and recognize later
-    banimNumber: number; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
+    nameForm: UntypedFormGroup = new UntypedFormGroup({});
+    categories: Category[] = []; //creating here so it is ready to populate and recognize later
+    banimNumber: number = 0; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
     chosenCategoryId = -1;
-    chosenCategory: Category;
+    chosenCategory: Category = new Category;
     spouseEnglishError = false;
     spouseHebrewError = false;
 
     //declaring form-controls as variables, to shorten reference to them
-    name1English: UntypedFormControl;
-    benbat: UntypedFormControl;
-    name2English: UntypedFormControl;
-    name1Hebrew: UntypedFormControl;
-    benbatHebrew: UntypedFormControl;
-    name2Hebrew: UntypedFormControl;
-    spouseName1English: UntypedFormControl;
-    spouseName2English: UntypedFormControl;
-    spouseName1Hebrew: UntypedFormControl;
-    spouseName2Hebrew: UntypedFormControl;
-    category: UntypedFormControl;
-    submitterToReceive: UntypedFormControl;
-    submitterEmail: UntypedFormControl;
-    banim: Category;
+    name1English: UntypedFormControl = new UntypedFormControl;
+    benbat: UntypedFormControl = new UntypedFormControl;
+    name2English: UntypedFormControl = new UntypedFormControl;
+    name1Hebrew: UntypedFormControl = new UntypedFormControl;
+    benbatHebrew: UntypedFormControl = new UntypedFormControl;
+    name2Hebrew: UntypedFormControl = new UntypedFormControl;
+    spouseName1English: UntypedFormControl = new UntypedFormControl;
+    spouseName2English: UntypedFormControl = new UntypedFormControl;
+    spouseName1Hebrew: UntypedFormControl = new UntypedFormControl;
+    spouseName2Hebrew: UntypedFormControl = new UntypedFormControl;
+    category: UntypedFormControl = new UntypedFormControl;
+    submitterToReceive: UntypedFormControl = new UntypedFormControl;
+    submitterEmail: UntypedFormControl = new UntypedFormControl;
+    banim: Category = new Category;
 
 
     constructor(
@@ -57,7 +57,7 @@ export class GuestSubmitNameComponent implements OnInit {
         { id: 4, english: "Soldiers" },
         { id: 5, english: "Yeshuah" }
     ]; 
-       this.banimNumber = this.guestService.findBanim().id;
+       this.banimNumber = this.guestService.findBanim().id??0;
     }
 
     createFormControls() {
@@ -109,20 +109,20 @@ export class GuestSubmitNameComponent implements OnInit {
         let spouseHebrewFull = "";
 
         let form = this.nameForm; //shortening all references in this function
-        const chosenCategory = this.guestService.getCategory(form.get('category').value);
-        const englishName = form.get('name.english1').value + " " + form.get('name.benBat').value + " " + form.get('name.english2').value;
-        const hebrewName = form.get('name.hebrew1').value + " " + form.get('name.benBatHebrew').value + " " + form.get('name.hebrew2').value;
+        const chosenCategory = this.guestService.getCategory(form.get('category')?.value) ?? new Category;
+        const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
+        const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
         let submitterEmail = this.guestService.guestEmail;
-        let submitterToReceive = form.get('submitterToReceive').value;
+        let submitterToReceive = form.get('submitterToReceive')?.value;
 
 
         if (chosenCategory.english === "banim") {
             //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
 
-            let spouseEnglish1 = form.get('spouse.english1').value;
-            let spouseEnglish2 = form.get('spouse.english2').value;
-            let spouseHebrew1 = form.get('spouse.hebrew1').value;
-            let spouseHebrew2 = form.get('spouse.hebrew2').value;
+            let spouseEnglish1 = form.get('spouse.english1')?.value;
+            let spouseEnglish2 = form.get('spouse.english2')?.value;
+            let spouseHebrew1 = form.get('spouse.hebrew1')?.value;
+            let spouseHebrew2 = form.get('spouse.hebrew2')?.value;
 
             if (spouseEnglish1 && spouseEnglish2)
                 spouseEnglishFull = `${spouseEnglish1} ben ${spouseEnglish2}`; //It must be ben, as it is the husband

@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
 })
 export class AdminNamesComponent implements OnInit {
 
-    categories: Category[];
-    davenfors: Davenfor[];
-    davenforsChangedSub: Subscription;
+    categories: Category[] = [];
+    davenfors: Davenfor[] = [];
+    davenforsChangedSub: Subscription = new Subscription;
 
     constructor(public router: Router, public adminService: AdminService) { }
     ngOnInit() {

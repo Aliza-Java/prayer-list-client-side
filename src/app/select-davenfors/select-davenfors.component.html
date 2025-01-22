@@ -17,7 +17,7 @@
                 <td>
                     <span>{{davenfor.nameHebrew}}</span>
                     <span
-                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
+                        *ngIf="davenfor.category?.english=='banim'&&davenfor?.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
                 </td>
                 <button class="btn btn-danger" (click)="onDelete(davenfor)">Delete</button>
 

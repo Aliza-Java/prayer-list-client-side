@@ -14,24 +14,24 @@ import { AdminService } from '../../admin.service';
     styleUrls: ['./weekly.component.css']
 })
 export class WeeklyComponent implements OnInit, OnDestroy {
-    weeklyCategory: Category; //Initialized from DB one time, usually
-    selectedCategory: Category; //Can change according to user's selection, affecting davenfor-list
-    customWeek = "";
-    chag: Parasha;
-    parasha: Parasha;
-    parashot: Parasha[];
-    chagim: Parasha[];
-    categories: Category[];
-    weekName: string;
-    weekType: string;
+    weeklyCategory: Category = new Category; //Initialized from DB one time, usually
+    selectedCategory: Category = new Category //Can change according to user's selection, affecting davenfor-list
+    customWeek = '';
+    chag: Parasha = new Parasha;
+    parasha: Parasha = new Parasha;
+    parashot: Parasha[] = [];
+    chagim: Parasha[] = [];
+    categories: Category[] = [];
+    weekName: string = '';
+    weekType: string = '';
     changeParasha: boolean = false;
     selectedDavenfors: Davenfor[] = [];
-    davenforsChangedSub: Subscription;
-    davenfors; //local full list
+    davenforsChangedSub: Subscription = new Subscription;
+    davenfors: Davenfor[] = []; //local full list
     disablePreview = false;//will turn to true only if selectedDavenfors proves to be empty. 
-    message = "";
+    message = '';
     askForPassword = false; //This will show only when admin clicks send, one last verification.
-    adminPassword = "";
+    adminPassword = '';
 
     constructor(
         public httpService: HttpService,
@@ -55,7 +55,14 @@ export class WeeklyComponent implements OnInit, OnDestroy {
             });
 
         let currentParashaId = this.adminService.currentParasha.id;
+        if (currentParashaId != undefined)
+        {
         this.parasha = this.parashot[currentParashaId];
+        }
+        else
+        {
+            log.console('current Parasha had undefined id');
+        }
 
         this.chagim = this.adminService.chagim;
         this.chag = this.chagim[0];
@@ -84,7 +91,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         this.selectedDavenfors = []; //clean array to populate newly
 
         this.davenfors.forEach((davenfor: Davenfor) => {
-            if (davenfor.category.english == this.selectedCategory.english) { //specifying english name in case object isn't exactly identical
+            if (davenfor.category?.english == this.selectedCategory.english) { //specifying english name in case object isn't exactly identical
                 this.selectedDavenfors.push(davenfor);
             }
         });

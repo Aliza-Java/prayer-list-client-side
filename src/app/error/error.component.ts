@@ -7,7 +7,7 @@ import { DaveningService } from '../shared/services/davening.service';
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent implements OnInit {
-    @Input() message:string;
+    @Input() message:string = '';
 
   constructor(public daveningService:DaveningService) { }
 
