@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminHomeComponent } from './admin-home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { AdminLoginComponent } from '../auth/admin-login/admin-login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AdminHomeComponent', () => {
   let component: AdminHomeComponent;
@@ -10,8 +12,8 @@ describe('AdminHomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, AppRoutingModule],
-      declarations: [AdminHomeComponent]
+      imports: [HttpClientModule, AppRoutingModule, ReactiveFormsModule],
+      declarations: [AdminHomeComponent, AdminLoginComponent]
     });
     fixture = TestBed.createComponent(AdminHomeComponent);
     component = fixture.componentInstance;

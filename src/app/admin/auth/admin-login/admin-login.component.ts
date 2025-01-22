@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
 })
 export class AdminLoginComponent implements OnInit {
 
-    loginForm: UntypedFormGroup;
+    loginForm: UntypedFormGroup = new UntypedFormGroup({});
 
     constructor(public httpService:HttpService, public adminService:AdminService, public authService:AuthService) { }
 

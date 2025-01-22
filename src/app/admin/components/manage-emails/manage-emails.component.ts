@@ -39,7 +39,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
 
 
         //sending to resetDavener() didn't work at this point.
-        this.davenerToEdit = new Davener(-1, null, null, null, false); //html will check if any davener's id is equal to davenerToEdit's id, this prevents an undefined value
+        this.davenerToEdit = new Davener(-1, '', '', 0, false); //html will check if any davener's id is equal to davenerToEdit's id, this prevents an undefined value
     }
 
 

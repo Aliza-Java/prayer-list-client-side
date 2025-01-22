@@ -12,9 +12,9 @@ import { AuthService } from '../../auth/auth.service';
     styleUrls: ['./admin-settings.component.css']
 })
 export class AdminSettingsComponent implements OnInit, OnDestroy {
-    settingsForm: UntypedFormGroup;
-    settings: AdminSettings = null;
-    settingsUpdatedSub: Subscription = null;
+    settingsForm: UntypedFormGroup = new UntypedFormGroup({});
+    settings: AdminSettings = new AdminSettings('', false, 7);
+    settingsUpdatedSub: Subscription = new Subscription;
     constructor(public adminService: AdminService, public router: Router, public authService: AuthService) { }
 
     ngOnInit() {

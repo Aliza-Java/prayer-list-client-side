@@ -25,20 +25,20 @@ export class UrgentComponent implements OnInit {
     spouseHebrewError = false;
 
     //declaring form-controls as variables, to shorten reference to them
-    name1English: UntypedFormControl;
-    benbat: UntypedFormControl;
-    name2English: UntypedFormControl;
-    name1Hebrew: UntypedFormControl;
-    benbatHebrew: UntypedFormControl;
-    name2Hebrew: UntypedFormControl;
-    spouseName1English: UntypedFormControl;
-    spouseName2English: UntypedFormControl;
-    spouseName1Hebrew: UntypedFormControl;
-    spouseName2Hebrew: UntypedFormControl;
-    category: UntypedFormControl;
-    submitterEmail: UntypedFormControl;
-    banim: Category;
-    addToWeekly: UntypedFormControl;
+    name1English: UntypedFormControl = new UntypedFormControl;
+    benbat: UntypedFormControl = new UntypedFormControl
+    name2English: UntypedFormControl = new UntypedFormControl
+    name1Hebrew: UntypedFormControl = new UntypedFormControl
+    benbatHebrew: UntypedFormControl = new UntypedFormControl
+    name2Hebrew: UntypedFormControl = new UntypedFormControl
+    spouseName1English: UntypedFormControl = new UntypedFormControl
+    spouseName2English: UntypedFormControl = new UntypedFormControl
+    spouseName1Hebrew: UntypedFormControl = new UntypedFormControl
+    spouseName2Hebrew: UntypedFormControl = new UntypedFormControl
+    category: UntypedFormControl = new UntypedFormControl
+    submitterEmail: UntypedFormControl = new UntypedFormControl
+    banim: Category = new Category;
+    addToWeekly: UntypedFormControl = new UntypedFormControl
 
 
     constructor(
@@ -54,7 +54,7 @@ export class UrgentComponent implements OnInit {
 
         //Populating category array from Server
         this.categories = this.adminService.categories;
-        this.banimNumber = this.adminService.findBanim().id;
+        this.banimNumber = this.adminService.findBanim().id ?? 0;
     }
 
     createFormControls() {

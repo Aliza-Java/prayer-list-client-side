@@ -39,8 +39,8 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     davenersChanged = new Subject<Davener[]>();
     davenforAdded = new Subject<Boolean>();
     settingsUpdated = new Subject<AdminSettings>();
-    adminSettings: AdminSettings | null = null;
-    listsSub: Subscription | null = null;
+    adminSettings:AdminSettings = new AdminSettings('', false, 7);
+    listsSub: Subscription = new Subscription;
 
     constructor(
         public httpService: HttpService,

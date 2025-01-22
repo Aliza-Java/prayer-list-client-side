@@ -61,7 +61,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         }
         else
         {
-            log.console('current Parasha had undefined id');
+            console.log('current Parasha had undefined id');
         }
 
         this.chagim = this.adminService.chagim;

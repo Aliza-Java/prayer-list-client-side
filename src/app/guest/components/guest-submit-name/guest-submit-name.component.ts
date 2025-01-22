@@ -57,7 +57,7 @@ export class GuestSubmitNameComponent implements OnInit {
         { id: 4, english: "Soldiers" },
         { id: 5, english: "Yeshuah" }
     ]; 
-       this.banimNumber = this.guestService.findBanim().id??0;
+       this.banimNumber = this.guestService.findBanim().id ?? 0;
     }
 
     createFormControls() {
