@@ -8,8 +8,6 @@ import { HttpService } from './shared/services/http.service';
     styleUrls: ['./app.component.css']
 })
 
-
-
 export class AppComponent implements OnInit {
     constructor(public daveningService: DaveningService, public httpService: HttpService) { }
 
