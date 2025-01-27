@@ -15,7 +15,7 @@ export class ErrorComponent implements OnInit {
   }
 
   clearMessage(){
-      this.daveningService.errorMessage = "";
+      this.daveningService.errorMessage = '';
   }
 
 }

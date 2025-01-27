@@ -1,23 +1,51 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ErrorComponent } from './error.component';
-import { HttpClientModule } from '@angular/common/http';
+import { DaveningService } from '../shared/services/davening.service';
 
 describe('ErrorComponent', () => {
   let component: ErrorComponent;
   let fixture: ComponentFixture<ErrorComponent>;
+  let mockDaveningService: any;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      declarations: [ErrorComponent]
-    });
+  beforeEach(async () => {
+    mockDaveningService = {
+      _errorMessage: 'Initial error message',
+      get errorMessage() {
+        return this._errorMessage;
+      },
+      set errorMessage(value: string) {
+        this._errorMessage = value;
+      },
+    };
+
+    await TestBed.configureTestingModule({
+      declarations: [ErrorComponent],
+      providers: [
+        { provide: DaveningService, useValue: mockDaveningService },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should bind the message input correctly', () => {
+    component.message = 'Test error message';
+    fixture.detectChanges();
+
+    // Example of checking template rendering if the message is displayed in the template
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Test error message');
+  });
+
+  it('should clear the error message in DaveningService when clearMessage() is called', () => {
+    expect(mockDaveningService.errorMessage).toBe('Initial error message');
+    component.clearMessage();
+    expect(mockDaveningService.errorMessage).toBe(''); 
   });
 });

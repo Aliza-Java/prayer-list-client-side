@@ -23,7 +23,8 @@ export class AdminLoginComponent implements OnInit {
     }
 
     onSubmit(){
-        this.authService.login(this.loginForm.value['email'], this.loginForm.value['password']);
+        if(this.loginForm.valid)
+            this.authService.login(this.loginForm.value['email'], this.loginForm.value['password']);
     }
 
 }
