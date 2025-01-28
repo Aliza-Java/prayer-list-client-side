@@ -4,7 +4,7 @@ import { UrgentComponent } from './urgent.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-describe('ManageEmailsComponent', () => {
+describe('UrgentComponent', () => {
   let component: UrgentComponent;
   let fixture: ComponentFixture<UrgentComponent>;
 

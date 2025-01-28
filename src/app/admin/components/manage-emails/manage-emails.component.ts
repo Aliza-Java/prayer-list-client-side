@@ -1,13 +1,10 @@
-import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Davener } from 'src/app/shared/models/davener.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { NgForm } from '@angular/forms';
 import { AdminService } from 'src/app/admin/admin.service';
-
-
-
 @Component({
     selector: 'app-manage-emails',
     templateUrl: './manage-emails.component.html',
