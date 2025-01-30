@@ -1,37 +1,34 @@
 <!-- USING BOOTSTRAP 3.0.3 -->
-<nav class="navbar navbar-fixed-top" id="header">
-    <div class="container">
+<header class="text-center" id="header">
+    <div class="row justify-content-center text-center">
+        <div class="col-md-3">
+            <!--logo-->
+            <img class="navbar-text" src="../../assets/images/logo.png" alt="" padding-top="20px" />
+        </div>
 
-        <div class="row text-center">
-
-            <div class="col-md-3">
-                <!--logo-->
-                <img class="navbar-text" src="../../assets/images/logo.png" alt="" padding-top="20px" />
-            </div>
-
-            <div class="col-md-5 text-center">
-                <!--title-->
-                <div class="navbar-text" id="header-title">Davening List</div>
-            </div>
-
-            <div class="col-md-4">
-                <!--guest/admin menu-->
-                <div class="collapse navbar-collapse text-center">
-                    <ul class="nav navbar-nav  list-group">
-                        <li class="list-group-item logout-button" *ngIf="authService.adminLogin?.id">
-                            <div>
-                                <button class="btn btn-danger" (click)="logout()">Admin Logout</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
-                                routerLink="admin">Admin</a>
-                        </li>
-                        <li class="list-group-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
-                                routerLink="guest">Guest</a>
-                        </li>
-                    </ul>
+        <div class="col-md-5 text-center">
+            <!--title-->
+            <div class="navbar-text" id="header-title">Davening List</div>
+        </div>
+        <div class="col-md-4">
+            <!--guest/admin menu-->
+            <nav class="navbar navbar-expand-md navbar-light">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse ms-auto">
+                        <ul class="rounded list-inline">
+                            <li class="rounded  list-inline-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
+                                    routerLink="admin" class="nav-link">Admin</a>
+                            </li>
+                            <li class="rounded list-inline-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
+                                    routerLink="guest" class="nav-link">Guest</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="logout-button" *ngIf="authService.adminLogin?.id">
+                        <button class="btn btn-danger" (click)="logout()">Admin Logout</button>
+                    </div>
                 </div>
-            </div>
+            </nav>
         </div>
     </div>
-</nav>
+</header>

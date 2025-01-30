@@ -18,7 +18,6 @@ import { RouterModule } from '@angular/router';
 import { GuestRoutingModule } from './guest/guest-routing.module';
 import { AdminRoutingModule } from './admin/admin-routing.module';
 import { TokenInterceptor } from './admin/auth/token.interceptor';
-import { FortestComponent } from './fortest/fortest.component';
 
 @NgModule({
     declarations: [
@@ -26,8 +25,7 @@ import { FortestComponent } from './fortest/fortest.component';
         HeaderComponent,
         FooterComponent,
         SuccessComponent,
-        ErrorComponent,
-        FortestComponent
+        ErrorComponent
     ],
     imports: [
         BrowserModule,

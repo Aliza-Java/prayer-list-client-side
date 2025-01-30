@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { GuestService } from 'src/app/guest/guest.service';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
-import { Category } from 'src/app/shared/models/category.model';
-
 
 @Component({
     selector: 'app-urgent',
@@ -17,10 +15,9 @@ import { Category } from 'src/app/shared/models/category.model';
 export class UrgentComponent implements OnInit {
 
     nameForm: UntypedFormGroup = new UntypedFormGroup({});
-    categories: Category[] = []; //creating here so it is ready to populate and recognize later
+    categories: string[] = []; //creating here so it is ready to populate and recognize later
     banimNumber: number = 0; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
-    chosenCategoryId = -1;
-    chosenCategory: Category = new Category
+    chosenCategory: string = '';
     spouseEnglishError = false;
     spouseHebrewError = false;
 
@@ -37,7 +34,6 @@ export class UrgentComponent implements OnInit {
     spouseName2Hebrew: UntypedFormControl = new UntypedFormControl
     category: UntypedFormControl = new UntypedFormControl
     submitterEmail: UntypedFormControl = new UntypedFormControl
-    banim: Category = new Category;
     addToWeekly: UntypedFormControl = new UntypedFormControl
 
 
@@ -54,7 +50,6 @@ export class UrgentComponent implements OnInit {
 
         //Populating category array from Server
         this.categories = this.adminService.categories;
-        this.banimNumber = this.adminService.findBanim().id ?? 0;
     }
 
     createFormControls() {
@@ -115,7 +110,7 @@ export class UrgentComponent implements OnInit {
 
             let addToWeekly = form.get('addToWeekly')?.value;
 
-            if (chosenCategory?.english === "banim") {
+            if (chosenCategory == "banim") {
                 //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
 
                 let spouseEnglish1 = form.get('spouse.english1')?.value;

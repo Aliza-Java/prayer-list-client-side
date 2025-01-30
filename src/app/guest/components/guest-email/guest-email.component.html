@@ -1,50 +1,48 @@
 <div class="container">
     <form [formGroup]="guestEmailForm">
         <div class="row" style="margin-top: 15px;">
-            <div class="col-xs-2">
+            <div class="col-2">
                 <label for="newEmail">My Email: </label>
             </div>
 
             <!-- If user wants to update the email, allow -->
-            <div *ngIf="changeEmailAllowed">
-                <div class="col-xs-6 ">
+            <span *ngIf="emailInEditing" style="display: contents;">
+                <div class="col-6 ">
                     <input id="newEmail" type="text" class="form-control" formControlName="emailInput"
                         placeholder="A valid email is required">
                 </div>
-                <div class="col-xs-1 same-line">
-                    <button (click)="onSaveEmail(guestEmailForm.get('emailInput').value)"
-                        class="btn btn-success form-control same-line"
-                        [disabled]="guestEmailForm.get('emailInput').invalid">Ok</button>
+                <div class="col-1">
+                    <button (click)="onSaveEmail(guestEmailForm.get('emailInput')?.value)"
+                        class="btn btn-success form-control"
+                        [disabled]="guestEmailForm.get('emailInput')?.invalid">Ok</button>
                 </div>
-            </div>
+            </span>
 
             <!-- show the guest email saved in Service -->
-            <div *ngIf="guestService.guestEmail && !changeEmailAllowed">
-                <div class="col-xs-6 text-center" id="guestEmail">
+            <span *ngIf="guestService.guestEmail && !emailInEditing" style="display: contents;">
+                <div class="col-6 text-center" id="guestEmail">
                     {{guestService.guestEmail}}
                 </div>
-                <div class="col-xs-1">
-                    <button class="btn btn-info same-line" (click)="onChangeEmail()">Change</button>
+                <div class="col-1">
+                    <button class="btn btn-info" (click)="onChangeEmail()">Edit</button>
                 </div>
-            </div>
+            </span>
 
-            <div class="col-xs-2 col-xs-offset-1 text-right">
-
+            <div class="col-2 offset-1 text-right" *ngIf="!emailInEditing">
                 <div class="dropdown" appDropdown>
-                    <button class="btn btn-primary dropdown-toggle same-line" type="button" data-toggle="dropdown">Menu
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">Menu
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <!--It is necessary to clear messages in every ngOnInit (to cover any new entry) and every router link (if it is clicked within itself and not re-entered through ngOnInit)-->
-                        <li><a style="cursor:pointer;" routerLinkActive="active" routerLink="names"
-                                click="guestService.clearMessages()">Manage
+                        <li style="place-self: center"><a style="cursor:pointer;" routerLinkActive="active" routerLink="names"
+                                click="guestService.clearMessages(); $event.preventDefault();">Manage
                                 names</a></li>
-                        <li><a style="cursor:pointer;" routerLinkActive="active" routerLink="new"
-                                click="guestService.clearMessages()">Submit a name</a></li>
+                        <li style="place-self: center"><a style="cursor:pointer;" routerLinkActive="active" routerLink="new"
+                                click="guestService.clearMessages(); $event.preventDefault();">Submit a name</a></li>
                         <!--
                             <li><a style="cursor:pointer;" routerLinkActive="active" routerLink="settings">My settings</a></li>
                         -->
                     </ul>
-
                 </div>
             </div>
         </div>

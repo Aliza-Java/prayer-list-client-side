@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Category } from 'src/app/shared/models/category.model';
 import { AdminService } from 'src/app/admin/admin.service';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { HttpService } from 'src/app/shared/services/http.service';
@@ -16,7 +15,7 @@ export class AdminEditNameComponent implements OnInit {
     oldInfo: Davenfor = new Davenfor;
     updatedInfo: Davenfor = new Davenfor;
     nameForm: UntypedFormGroup = new UntypedFormGroup({});
-    categories: Category[] = []; //creating here so it is ready to populate and recognize later
+    categories: string[] = []; //creating here so it is ready to populate and recognize later
     banimNumber: number = 0; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
     spouseEnglishError = false;
     spouseHebrewError = false;
@@ -29,7 +28,6 @@ export class AdminEditNameComponent implements OnInit {
     category: UntypedFormControl = new UntypedFormControl;
     submitterToReceive: UntypedFormControl = new UntypedFormControl;
     submitterEmail: UntypedFormControl = new UntypedFormControl;
-    banim: Category = new Category;
 
     constructor(
         public daveningService: DaveningService, 
@@ -44,7 +42,6 @@ export class AdminEditNameComponent implements OnInit {
 
         //Populating category array from Server
         this.categories = this.adminService.categories;
-        this.banimNumber = this.adminService.findBanim().id ?? 0;
     }
 
     populateFormControls() {
@@ -56,7 +53,7 @@ export class AdminEditNameComponent implements OnInit {
         this.spouseEnglish = new UntypedFormControl(this.oldInfo.nameEnglishSpouse ? this.oldInfo.nameEnglishSpouse : null, [Validators.pattern(this.daveningService.englishNamePattern)]);
         this.spouseHebrew = new UntypedFormControl(this.oldInfo.nameHebrewSpouse ? this.oldInfo.nameHebrewSpouse : null, [Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
-        this.category = new UntypedFormControl(this.oldInfo.category?.id, Validators.required); //default value is 'select category'
+        this.category = new UntypedFormControl(this.oldInfo.category, Validators.required); //default value is 'select category'
         this.submitterToReceive = new UntypedFormControl(this.oldInfo.submitterToReceive);
         this.submitterEmail = new UntypedFormControl(this.oldInfo.submitterEmail ? this.oldInfo.submitterEmail : "", [Validators.required, Validators.email]);
     }
@@ -80,7 +77,7 @@ export class AdminEditNameComponent implements OnInit {
 
         let updatedInfo: Davenfor = new Davenfor(this.oldInfo.id,
             form.get('submitterEmail')?.value,
-            this.adminService.getCategory(form.get('category')?.value),
+            this.adminService.getCategory(form.get('category')?.value || ''),
             form.get('hebrew')?.value,
             form.get('english')?.value,
             form.get('spouseHebrew')?.value,

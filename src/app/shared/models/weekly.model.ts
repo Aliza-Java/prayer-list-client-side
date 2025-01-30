@@ -6,7 +6,7 @@ export class Weekly {
 
         public parashaName?:string,
         public fullWeekName?:string,
-        public categoryId?: number,
+        public category?: string,
         public message?: string,
        
     ) { }

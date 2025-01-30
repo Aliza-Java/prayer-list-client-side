@@ -25,13 +25,13 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.router.navigate(['names']);
+       
 
-        this.addDavenforSub = this.guestService.davenforAdded.subscribe((addedAlready: Boolean) => {
-            if (addedAlready) {
-                this.router.navigate(['names']);
-            }
-        });
+        // this.addDavenforSub = this.guestService.davenforAdded.subscribe((addedAlready: Boolean) => {
+        //     if (addedAlready) {
+        //         this.router.navigate(['hello']);
+        // //     }
+        // });
 
         this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe((names) => {
             this.guestService.loadedDavenfors = (names.length > 0) ? true : false;

@@ -19,7 +19,6 @@ export class AdminSettingsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.settings = this.adminService.adminSettings;
-        debugger;
         this.populateSettingsForm();
         this.settingsUpdatedSub = this.adminService.settingsUpdated.subscribe(adminSettings => {
             this.settings = adminSettings;

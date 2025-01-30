@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Category } from 'src/app/shared/models/category.model';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
 import { Parasha } from 'src/app/shared/models/parasha.model';
 import { Weekly } from 'src/app/shared/models/weekly.model';
@@ -14,14 +13,14 @@ import { AdminService } from '../../admin.service';
     styleUrls: ['./weekly.component.css']
 })
 export class WeeklyComponent implements OnInit, OnDestroy {
-    weeklyCategory: Category = new Category; //Initialized from DB one time, usually
-    selectedCategory: Category = new Category //Can change according to user's selection, affecting davenfor-list
+    weeklyCategory: string = ''; //Initialized from DB one time, usually
+    selectedCategory: string = ''; //Can change according to user's selection, affecting davenfor-list
     customWeek = '';
     chag: Parasha = new Parasha;
     parasha: Parasha = new Parasha;
     parashot: Parasha[] = [];
     chagim: Parasha[] = [];
-    categories: Category[] = [];
+    categories: string[] = [];
     weekName: string = '';
     weekType: string = '';
     changeParasha: boolean = false;
@@ -76,7 +75,9 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         this.weekName = value;
     }
 
-    updateWeekName(isRelevant: boolean, newWeekName: string) {
+    updateWeekName(isRelevant: boolean, event: any) {
+        const selectElement = event.target as HTMLSelectElement;
+        let newWeekName = selectElement.value;
         if (isRelevant) {
             this.weekName = newWeekName;
         }
@@ -91,7 +92,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         this.selectedDavenfors = []; //clean array to populate newly
 
         this.davenfors.forEach((davenfor: Davenfor) => {
-            if (davenfor.category?.english == this.selectedCategory.english) { //specifying english name in case object isn't exactly identical
+            if (davenfor.category == this.selectedCategory) { //specifying english name in case object isn't exactly identical
                 this.selectedDavenfors.push(davenfor);
             }
         });
@@ -101,19 +102,19 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     }
 
     send() {
-        let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
+        let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory, this.message);
         this.adminService.sendWeekly(weeklyInfo);
     }
 
     preview() {
         if (this.selectedDavenfors.length < 1) {
         }
-        let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
+        let weeklyInfo: Weekly = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory, this.message);
         this.adminService.previewList(weeklyInfo);
     }
 
     verify() {
-        const weeklyInfo = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory.id, this.message);
+        const weeklyInfo = new Weekly(this.parasha.englishName, this.weekName, this.selectedCategory, this.message);
         this.adminService.verify(weeklyInfo, this.adminPassword);
     }
 

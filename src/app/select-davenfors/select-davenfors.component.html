@@ -12,12 +12,12 @@
                 <td>
                     <span>{{davenfor.nameEnglish | titlecase}}</span>
                     <span
-                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameEnglishSpouse"><br>{{davenfor.nameEnglishSpouse}}</span>
+                        *ngIf="davenfor.category=='banim'&&davenfor.nameEnglishSpouse"><br>{{davenfor.nameEnglishSpouse}}</span>
                 </td>
                 <td>
                     <span>{{davenfor.nameHebrew}}</span>
                     <span
-                        *ngIf="davenfor.category?.english=='banim'&&davenfor?.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
+                        *ngIf="davenfor.category=='banim'&&davenfor?.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
                 </td>
                 <button class="btn btn-danger" (click)="onDelete(davenfor)">Delete</button>
 

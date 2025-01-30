@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/shared/services/http.service';
-import { Category } from 'src/app/shared/models/category.model';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class GuestNamesComponent implements OnInit, OnDestroy {
 
-    categories: Category[] = [];
+    categories: string[] = [];
     davenfors: Davenfor[] = [];
     davenforsChangedSub: Subscription = new Subscription;
 
@@ -28,6 +27,10 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         this.davenfors = this.guestService.myDavenfors;
         this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe(
             davenfors => { this.davenfors = davenfors });
+    }
+
+    davenforsExist(){
+            return (this.davenfors != null && this.davenfors.length > 0); 
     }
 
     onEdit(davenfor: Davenfor) {

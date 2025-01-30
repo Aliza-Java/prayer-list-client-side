@@ -1,0 +1,10 @@
+.whole-content{
+    height: 100vh;
+    margin: 0;
+    display: flex;  /* This makes flex children work */
+    flex-direction: column;
+}
+
+.main-content{
+    flex: 1;
+}

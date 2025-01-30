@@ -1,4 +1,3 @@
-import { Category } from './category.model';
 
 export class Davenfor {
 
@@ -7,7 +6,7 @@ export class Davenfor {
 
         public id?:number,
         public submitterEmail?: string,
-        public category?: Category,
+        public category?: string,
         public nameHebrew?: string,
         public nameEnglish?: string,
         public nameHebrewSpouse?: string,

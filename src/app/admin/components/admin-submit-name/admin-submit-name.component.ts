@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Category } from 'src/app/shared/models/category.model';
 import { SimpleDavenfor } from 'src/app/shared/models/simple-davenfor.model';
 import { AdminService } from 'src/app/admin/admin.service';
 import { DaveningService } from 'src/app/shared/services/davening.service';
@@ -15,10 +14,9 @@ import { HttpService } from 'src/app/shared/services/http.service';
 })
 export class AdminSubmitNameComponent implements OnInit {
     nameForm: UntypedFormGroup = new UntypedFormGroup({});
-    categories: Category[] = []; //creating here so it is ready to populate and recognize later
+    categories: string[] = []; //creating here so it is ready to populate and recognize later
     banimNumber: number = 0; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
-    chosenCategoryId = -1;
-    chosenCategory: Category = new Category;
+    chosenCategory: string = '';
     spouseEnglishError = false;
     spouseHebrewError = false;
 
@@ -36,8 +34,6 @@ export class AdminSubmitNameComponent implements OnInit {
     category: UntypedFormControl = new UntypedFormControl;
     submitterToReceive: UntypedFormControl = new UntypedFormControl;
     submitterEmail: UntypedFormControl = new UntypedFormControl;
-    banim: Category = new Category;
-
 
     constructor(public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService, public router: Router) { }
 
@@ -47,7 +43,6 @@ export class AdminSubmitNameComponent implements OnInit {
 
         //Populating category array from Server
         this.categories = this.adminService.categories;
-        this.banimNumber = this.adminService.findBanim().id ?? 0 ;
     }
 
     createFormControls() {
@@ -100,13 +95,13 @@ export class AdminSubmitNameComponent implements OnInit {
         let spouseHebrewFull = "";
         
         let form = this.nameForm; //shortening all references in this function
-        const chosenCategory = this.adminService.getCategory(form.get('category')?.value);
+        const chosenCategory = this.adminService.getCategory(form.get('category')?.value || '');
         const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
         const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
         let submitterEmail = form.get('submitterEmail')?.value;
         let submitterToReceive = form.get('submitterToReceive')?.value;
 
-        if (chosenCategory?.english === "banim") {
+        if (chosenCategory == "banim") {
             //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
 
             let spouseEnglish1 = form.get('spouse.english1')?.value;

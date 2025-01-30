@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Category } from '../../../shared/models/category.model';
 import { SimpleDavenfor } from '../../../shared/models/simple-davenfor.model';
 import { DaveningService } from '../../../shared/services/davening.service';
 import { GuestService } from '../../guest.service';
@@ -14,10 +13,9 @@ import { HttpService } from '../../../shared/services/http.service';
 })
 export class GuestSubmitNameComponent implements OnInit {
     nameForm: UntypedFormGroup = new UntypedFormGroup({});
-    categories: Category[] = []; //creating here so it is ready to populate and recognize later
+    categories: string[] = []; //creating here so it is ready to populate and recognize later
     banimNumber: number = 0; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
-    chosenCategoryId = -1;
-    chosenCategory: Category = new Category;
+    chosenCategory: string = '';
     spouseEnglishError = false;
     spouseHebrewError = false;
 
@@ -35,8 +33,6 @@ export class GuestSubmitNameComponent implements OnInit {
     category: UntypedFormControl = new UntypedFormControl;
     submitterToReceive: UntypedFormControl = new UntypedFormControl;
     submitterEmail: UntypedFormControl = new UntypedFormControl;
-    banim: Category = new Category;
-
 
     constructor(
         public router: Router, 
@@ -51,13 +47,8 @@ export class GuestSubmitNameComponent implements OnInit {
         //Populating category array from Server
        // TODO: fix this when can get from server: this.categories = this.guestService.categories;
        this.categories = [
-        { id: 1, english: "Refua" },
-        { id: 2, english: "Banim" },
-        { id: 3, english: "Shidduchim" },
-        { id: 4, english: "Soldiers" },
-        { id: 5, english: "Yeshuah" }
+        "Refua" , "Banim", "Shidduchim", "Soldiers", "Yeshuah"
     ]; 
-       this.banimNumber = this.guestService.findBanim().id ?? 0;
     }
 
     createFormControls() {
@@ -109,14 +100,14 @@ export class GuestSubmitNameComponent implements OnInit {
         let spouseHebrewFull = "";
 
         let form = this.nameForm; //shortening all references in this function
-        const chosenCategory = this.guestService.getCategory(form.get('category')?.value) ?? new Category;
+        const chosenCategory = this.guestService.getCategory(form.get('category')?.value || '');
         const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
         const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
         let submitterEmail = this.guestService.guestEmail;
         let submitterToReceive = form.get('submitterToReceive')?.value;
 
 
-        if (chosenCategory.english === "banim") {
+        if (chosenCategory == "banim") {
             //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
 
             let spouseEnglish1 = form.get('spouse.english1')?.value;

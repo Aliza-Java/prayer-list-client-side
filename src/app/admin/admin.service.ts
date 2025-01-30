@@ -2,7 +2,6 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { AdminSettings } from '../shared/models/admin-settings.model';
-import { Category } from '../shared/models/category.model';
 import { Davener } from '../shared/models/davener.model';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { Parasha } from '../shared/models/parasha.model';
@@ -20,10 +19,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     loading = false;
     davenfors: Davenfor[] = [];
     daveners: Davener[] = [];
-    weeklyCategory: Category = new Category();
+    weeklyCategory: string = '';
     currentParasha: Parasha = new Parasha();
     parashot: Parasha[] = [];
-    categories: Category[] = [];
+    categories: string[] = [];
 
     chagim: Parasha[] = [{ "id": 1, "englishName": "Rosh Hashana", "hebrewName": "ראש השנה" },
     { "id": 2, "englishName": "Yom Kippur", "hebrewName": "יום כיפור" },
@@ -169,9 +168,11 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     populateCategories() {
         this.loading = true;
+        console.log("reached adminService.populateCategories()");
         this.httpService.getCategories().subscribe(
             categories => {
-                this.categories = categories;
+               // this.categories = categories;
+               console.log(categories);
                 this.loading = false;
             },
             error => {
@@ -265,7 +266,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.populateAdminDavenfors();
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                 if (announceSuccess) {
-                    this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category?.english}' list`;
+                    this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category}' list`;
                 }
                 this.loading = false;
             },
@@ -374,23 +375,13 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         );
     }
 
-    getCategory(id: number) {
+    getCategory(name: string) {
         //double equal sign (instead of triple) since incoming id is a string while category.id is a number.
-        return this.categories.find(category => category.id == id);
-    }
-
-    public findBanim() : Category{
-        let banim = new Category;
-        this.categories.forEach(category => {
-            if (category.english === 'banim')
-                banim = category;
-        });
-        return banim;
+        return this.categories.find(category => category == name);
     }
 
     editSettings(updatedSettings: AdminSettings) {
         this.loading = true;
-        debugger;
         this.httpService.editAdminSettings(updatedSettings).subscribe(
             success => {
                 if (success) {

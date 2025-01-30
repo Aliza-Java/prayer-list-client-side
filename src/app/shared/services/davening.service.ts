@@ -12,7 +12,6 @@ export class DaveningService { // A general service to hold 'global' data releva
     successMessage: string = '';
     emailChanged = new Subject<string>(); //TODO: Seems unnecesessary. Meant subscription?
     davenforsChanged = new Subject<Davenfor[]>(); //TODO: Seems unnecesessary
-    weeklyCategoryId: number = 0;
     englishNamePattern = "^[a-zA-Z '\\-\\ ]*$";
     hebrewNamePattern = "^[\\u0590-\\u05fe '\\-]*$";
 

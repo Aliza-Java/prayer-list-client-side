@@ -11,8 +11,7 @@ import { HttpService } from 'src/app/shared/services/http.service';
     styleUrls: ['./guest-email.component.css']
 })
 export class GuestEmailComponent implements OnInit {
-    addNameMode = false;
-    changeEmailAllowed = true;
+    emailInEditing = true;
     guestEmailForm: UntypedFormGroup = new UntypedFormGroup({});
     constructor(
         public router:Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService) { }
@@ -24,11 +23,11 @@ export class GuestEmailComponent implements OnInit {
     }
 
     onChangeEmail() {
-        this.changeEmailAllowed = true;
+        this.emailInEditing = true;
     }
 
     onSaveEmail(newEmail: string) {
-        this.changeEmailAllowed = false;
+        this.emailInEditing = false;
         this.guestService.guestEmail = newEmail;
         this.guestService.populateGuestDavenfors();
         this.router.navigate(['guest/names']);

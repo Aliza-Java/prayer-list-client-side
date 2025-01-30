@@ -7,22 +7,22 @@
     <div *ngIf="!authService.loading">
         <div class="row">
             <h3 class="text-center">Admin Login</h3>
-            <div class="col-xs-4"></div>
+            <div class="col-4"></div>
             <!--centering form horizontally-->
-            <div class="col-xs-4 ">
+            <div class="col-4 ">
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="margin-top: 25%;">
 
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="text" id="email" formControlName="email" class="form-control">
-                        <span *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched"
+                        <span *ngIf="!loginForm.get('email')?.valid && loginForm.get('email')?.touched"
                             class="help-block">Please enter a valid email</span>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" id="password" formControlName="password" class="form-control">
-                        <span span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched"
+                        <span span *ngIf="!loginForm.get('password')?.valid && loginForm.get('password')?.touched"
                             class="help-block">Password is required</span>
                     </div>
 

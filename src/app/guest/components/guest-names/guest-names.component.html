@@ -3,7 +3,7 @@
         <app-empty-list whatIsMissing="names associated with this email"></app-empty-list>
     </div>
 
-    <div *ngIf="guestService.myDavenfors?.length>0" class="table-div">
+    <div *ngIf="davenforsExist()" class="table-div">
 
         <table class="table table-responsive table-div">
             <tr>
@@ -12,32 +12,30 @@
                 <th>Hebrew Name</th>
                 <th></th>
             </tr>
-
-
             <tr *ngFor="let davenfor of guestService.myDavenfors">
 
-                <td>{{davenfor.category.english | titlecase}}</td>
+                <td>{{davenfor.category | titlecase}}</td>
                 <td>
                     <!--English name, and spouse's English name if applicable-->
                     <span>{{davenfor.nameEnglish | titlecase}}</span>
                     <span
-                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameEnglishSpouse"><br>{{davenfor.nameEnglishSpouse}}</span>
+                        *ngIf="davenfor.category=='banim'&&davenfor.nameEnglishSpouse"><br>{{davenfor.nameEnglishSpouse}}</span>
                 </td>
                 <td>
                     <!--Hebrew name, and spouse's Hebrew name if applicable -->
                     <span>{{davenfor.nameHebrew}}</span>
                     <span
-                        *ngIf="davenfor.category.english=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
+                        *ngIf="davenfor.category=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
                 </td>
                 <button class="btn btn-warning" (click)="onEdit(davenfor)">Edit</button>
-                <button class="btn btn-danger" (click)="onDelete(davenfor.id, davenfor.nameEnglish)">Delete</button>
+                <button class="btn btn-danger" (click)="onDelete(davenfor.id??0, davenfor.nameEnglish??'')">Delete</button>
             </tr>
         </table>
 
     </div>
 
     <div class="row">
-        <div class="col-xs-12 text-center">
+        <div class="col-12 text-center">
             <button class="btn btn-info btn-lg" (click)="onAddName()">+ Add Name</button>
         </div>
     </div>

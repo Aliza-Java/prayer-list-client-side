@@ -14,6 +14,8 @@
             "builder": "@angular-devkit/build-angular:browser",
             "options": {
               "outputPath": "dist/davenNg",
+              "optimization": false,
+              "sourceMap": true,
               "index": "src/index.html",
               "main": "src/main.ts",
               "polyfills": [
@@ -25,27 +27,43 @@
                 "src/assets"
               ],
               "styles": [
+                "node_modules/bootstrap/dist/css/bootstrap.min.css",
                 "src/styles.css"
               ],
-              "scripts": []
+              "scripts": [  
+                "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
             },
             "configurations": {
               "production": {
                 "budgets": [
                   {
                     "type": "initial",
-                    "maximumWarning": "500kb",
-                    "maximumError": "1mb"
+                    "maximumWarning": "3mb",
+                    "maximumError": "5mb"
                   },
                   {
                     "type": "anyComponentStyle",
-                    "maximumWarning": "2kb",
-                    "maximumError": "4kb"
+                    "maximumWarning": "5kb",
+                    "maximumError": "7kb"
                   }
                 ],
                 "outputHashing": "all"
               },
               "development": {
+                "budgets": [
+                  {
+                    "type": "initial",
+                    "maximumWarning": "3mb",
+                    "maximumError": "5mb"
+                  },
+                  {
+                    "type": "anyComponentStyle",
+                    "maximumWarning": "5kb",
+                    "maximumError": "7kb"
+                  }
+                ],
+                "outputHashing": "all",
                 "buildOptimizer": false,
                 "optimization": false,
                 "vendorChunk": true,
@@ -53,8 +71,7 @@
                 "sourceMap": true,
                 "namedChunks": true
               }
-            },
-            "defaultConfiguration": "production"
+            }
           },
           "serve": {
             "builder": "@angular-devkit/build-angular:dev-server",
@@ -87,9 +104,12 @@
                 "src/assets"
               ],
               "styles": [
+                "node_modules/bootstrap/dist/css/bootstrap.min.css",
                 "src/styles.css"
               ],
-              "scripts": []
+              "scripts": [
+                "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              ]
             }
           }
         }

@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Davenfor } from '../models/davenfor.model';
-import { Category } from '../models/category.model';
 import { Admin } from '../models/admin.model';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Davener } from '../models/davener.model';
 import { Parasha } from '../models/parasha.model';
 import { Weekly } from '../models/weekly.model';
@@ -76,8 +75,11 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post<Davener[]>(this.baseUrl + 'admin/activate/' + davener.email, null, { withCredentials: true });
     }
 
-    getCategories() {
-        return this.http.get<Category[]>(this.baseUrl + 'sub/categories');
+    getCategories(): Observable<string[]>  {
+        let url:string = this.baseUrl + 'sub/categories';
+        console.log("reached httpservice.getCategories() and will call " + url);
+
+        return this.http.get<string[]>(url);
     }
 
     addDavener(davenerToAdd: Davener) {
@@ -97,7 +99,7 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     getCurrentCategory() {
-        return this.http.get<Category>(this.baseUrl + 'admin/category');
+        return this.http.get<string>(this.baseUrl + 'admin/category');
     }
 
     verify(password: string, email: string){

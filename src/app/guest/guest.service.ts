@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Category } from '../shared/models/category.model';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
@@ -19,7 +18,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     loadedDavenfors = false;
     davenforToEdit: Davenfor = new Davenfor;
     loading = false;
-    categories: Category[] = [];
+    categories: string[] = [];
 
     constructor(public router: Router,
         public httpService: HttpService,
@@ -27,25 +26,20 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         this.populateCategories();
     }
 
-    getCategory(id: number) {
+    getCategory(name: string) {
         //double equal sign (instead of triple) since incoming id is a string while category.id is a number.
-        return this.categories.find(category => category.id == id);
-    }
-
-    public findBanim() : Category{
-        let banim = new Category;
-        this.categories.forEach(category => {
-            if (category.english === 'banim')
-                banim = category;
-        });
-        return banim;
+        return this.categories.find(category => category == name);
     }
 
     populateCategories() {
-        this.httpService.getCategories().subscribe(
-            categories => { this.categories = categories; },
-            error => { console.log(error); }
-        );
+
+        console.log("reached guest.servce");
+        this.httpService.getCategories().subscribe({
+            next: categories => { console.log(categories); },
+            error: error => { console.log(error);
+                console.log("this error is in guest.service.ts" ); },
+            complete: () => { console.log('Categories fetched successfully'); }
+        });
     }
 
     populateGuestDavenfors() {

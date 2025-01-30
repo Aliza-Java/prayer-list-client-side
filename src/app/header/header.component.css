@@ -50,3 +50,11 @@ nav.navbar.shrink {
 a {
     color: var(--dark-background-color);
 }
+
+li {
+    padding: 10px 15px;
+}
+
+ul {
+    background-color:var(--light-background-color);
+}

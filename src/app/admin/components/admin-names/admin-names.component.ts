@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Category } from '../../../shared/models/category.model';
 import { Davenfor } from '../../../shared/models/davenfor.model';
 import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
@@ -12,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AdminNamesComponent implements OnInit {
 
-    categories: Category[] = [];
+    categories: string[] = [];
     davenfors: Davenfor[] = [];
     davenforsChangedSub: Subscription = new Subscription;
 
