@@ -75,12 +75,10 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post<Davener[]>(this.baseUrl + 'admin/activate/' + davener.email, null, { withCredentials: true });
     }
 
-    getCategories(): Observable<string[]>  {
-        let url:string = this.baseUrl + 'sub/categories';
-        console.log("reached httpservice.getCategories() and will call " + url);
-
-        return this.http.get<string[]>(url);
-    }
+    // getCategories(): Observable<string[]>  {
+    //     let url:string = this.baseUrl + 'sub/categories';
+    //     return this.http.get<string[]>(url);
+    // }
 
     addDavener(davenerToAdd: Davener) {
         return this.http.post<Davener[]>(this.baseUrl + 'admin/davener', davenerToAdd, { withCredentials: true });
@@ -88,14 +86,6 @@ export class HttpService {  //A service that makes the calls to the server
 
     editDavener(davener: Davener) {
         return this.http.put<Davener[]>(this.baseUrl + 'admin/davener', davener, { withCredentials: true });
-    }
-
-    getParashot() {
-        return this.http.get<Parasha[]>(this.baseUrl + 'admin/parashot');
-    }
-
-    getCurrentParasha() {
-        return this.http.get<Parasha>(this.baseUrl + 'admin/parasha');
     }
 
     getCurrentCategory() {

@@ -10,6 +10,7 @@ import { Weekly } from '../shared/models/weekly.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
 import { AuthService } from './auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -38,10 +39,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     davenersChanged = new Subject<Davener[]>();
     davenforAdded = new Subject<Boolean>();
     settingsUpdated = new Subject<AdminSettings>();
-    adminSettings:AdminSettings = new AdminSettings('', false, 7);
+    adminSettings: AdminSettings = new AdminSettings('', false, 7);
     listsSub: Subscription = new Subscription;
 
-    constructor(
+    constructor(private http: HttpClient,
         public httpService: HttpService,
         public router: Router,
         public daveningService: DaveningService,
@@ -51,12 +52,47 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.populateAdminDavenfors();
                 this.populateWeeklyCategory(); //this fills in the default category from DB
                 this.populateAdminSettings();
-                this.populateParashot();
-                this.populateCategories();
-                this.populateCurrentParasha();
                 this.getDaveners();
             }
         );
+    }
+
+    //TODO: consider if works well, to move http calls to httpService (without changing functionality)
+    async populateParashot(): Promise<Parasha[]> {
+        if (this.parashot.length > 0) {
+            return Promise.resolve(this.parashot);
+        }
+        else {
+            this.loading = true;
+
+            return this.http.get<Parasha[]>('http://localhost:8080/dlist/admin/parasha').toPromise()
+                .then(data => {
+                    this.parashot = data ?? [];
+                    console.log(data);
+                    this.loading = false;
+                    return data ?? [];
+                })
+                .catch(error => {
+                    console.error('Error fetching parashot:', error);
+                    this.loading = false;
+                    return [];
+                });
+        }
+    }
+
+    async populateCurrentParasha(): Promise<Parasha> {
+        this.loading = true;
+        return this.http.get<Parasha>('http://localhost:8080/dlist/admin/parasha').toPromise()
+            .then(data => {
+                this.currentParasha = data ?? new Parasha();
+                this.loading = false;
+                return data ?? new Parasha();
+            })
+            .catch(error => {
+                console.error('Error fetching current parasha:', error);
+                this.loading = false;
+                return new Parasha();
+            });
     }
 
     public populateAdminDavenfors() { //requesting all system Davenfors from server
@@ -160,50 +196,6 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             },
             error => {
                 this.daveningService.errorMessage = `An error occurred when disactivating ${davener.email}`;
-                console.log(error);
-                this.loading = false;
-            }
-        );
-    }
-
-    populateCategories() {
-        this.loading = true;
-        console.log("reached adminService.populateCategories()");
-        this.httpService.getCategories().subscribe(
-            categories => {
-               // this.categories = categories;
-               console.log(categories);
-                this.loading = false;
-            },
-            error => {
-                console.log(error);
-                this.loading = false;
-            }
-        );
-    }
-
-    populateCurrentParasha() {
-        this.loading = true;
-        this.httpService.getCurrentParasha().subscribe(
-            response => {
-                this.currentParasha = response;
-                this.loading = false;
-            },
-            error => {
-                console.log(error);
-                this.loading = false;
-            }
-        );
-    }
-
-    populateParashot() {
-        this.loading = true;
-        this.httpService.getParashot().subscribe(
-            response => {
-                this.parashot = response;
-                this.loading = false;
-            },
-            error => {
                 console.log(error);
                 this.loading = false;
             }

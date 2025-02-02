@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { SimpleDavenfor } from '../../../shared/models/simple-davenfor.model';
 import { DaveningService } from '../../../shared/services/davening.service';
 import { GuestService } from '../../guest.service';
-import { HttpService } from '../../../shared/services/http.service';
 
 @Component({
     selector: 'app-guest-submit-name',
@@ -37,18 +36,12 @@ export class GuestSubmitNameComponent implements OnInit {
     constructor(
         public router: Router, 
         public guestService: GuestService, 
-        public daveningService: DaveningService, 
-        public httpService: HttpService) { }
+        private daveningService: DaveningService) { }
 
-    ngOnInit() {
+    async ngOnInit() {
+        this.categories = await this.daveningService.populateCategories();      
         this.createFormControls();
         this.createForm();
-
-        //Populating category array from Server
-       // TODO: fix this when can get from server: this.categories = this.guestService.categories;
-       this.categories = [
-        "Refua" , "Banim", "Shidduchim", "Soldiers", "Yeshuah"
-    ]; 
     }
 
     createFormControls() {
@@ -68,7 +61,6 @@ export class GuestSubmitNameComponent implements OnInit {
 
         this.category = new UntypedFormControl("", Validators.required); //default value is 'select category'
         this.submitterToReceive = new UntypedFormControl(true);
-
     }
 
     createForm() {

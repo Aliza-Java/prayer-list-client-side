@@ -37,7 +37,7 @@ export class GuestEditNameComponent implements OnInit {
         this.setForm();
 
         //Populating category array from Server
-        this.categories = this.guestService.categories;
+        this.categories = this.daveningService.categories;
     }
 
     populateFormControls() {

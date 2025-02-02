@@ -37,12 +37,14 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         public daveningService: DaveningService,
         public adminService: AdminService) { }
 
-    ngOnInit() {
+    async ngOnInit() {
+        this.categories = await this.daveningService.populateCategories();      
+        this.parashot = await this.adminService.populateParashot();
+        this.parasha = await this.adminService.populateCurrentParasha();
+        
         this.askForPassword = false;
         this.adminPassword = "";
         this.davenfors = this.adminService.davenfors;
-        this.adminService.populateParashot();
-        this.parashot = this.adminService.getParashot();
         this.adminService.populateWeeklyCategory();
         this.weeklyCategory = this.adminService.getWeeklyCategory();
         this.selectedCategory = this.weeklyCategory;
@@ -52,16 +54,6 @@ export class WeeklyComponent implements OnInit, OnDestroy {
                 this.davenfors = updatedList;
                 this.refreshDavenfors();
             });
-
-        let currentParashaId = this.adminService.currentParasha.id;
-        if (currentParashaId != undefined)
-        {
-        this.parasha = this.parashot[currentParashaId];
-        }
-        else
-        {
-            console.log('current Parasha had undefined id');
-        }
 
         this.chagim = this.adminService.chagim;
         this.chag = this.chagim[0];
