@@ -4,9 +4,6 @@ import { AdminLoginComponent } from './admin-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { HttpService } from 'src/app/shared/services/http.service';
-import { Router } from '@angular/router';
-import { DaveningService } from 'src/app/shared/services/davening.service';
 import { of } from 'rxjs';
 import { AdminService } from '../../admin.service';
 
@@ -14,15 +11,9 @@ describe('AdminLoginComponent', () => {
     let component: AdminLoginComponent;
     let fixture: ComponentFixture<AdminLoginComponent>;
     let mockAuthService: jasmine.SpyObj<AuthService>;
-   // let mockHttpService: jasmine.SpyObj<HttpService>;
-   // let mockRouter: jasmine.SpyObj<Router>;
-   // let mockDaveningService: jasmine.SpyObj<DaveningService>;
-
+  
     beforeEach(async () => {
         mockAuthService = jasmine.createSpyObj('AuthService', ['login']);
-      //  mockHttpService = jasmine.createSpyObj('HttpService', ['login']);
-      //  mockRouter = jasmine.createSpyObj('Router', ['login']);
-       // mockDaveningService = jasmine.createSpyObj('DaveningService', ['login']);
         TestBed.configureTestingModule({
             imports: [HttpClientModule, ReactiveFormsModule],
             declarations: [AdminLoginComponent],

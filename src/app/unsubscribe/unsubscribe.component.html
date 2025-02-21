@@ -1,0 +1,33 @@
+<div class="container">
+
+    <div *ngIf="loading" style="text-align: center">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <div *ngIf="!loading && !daveningService.successMessage && !daveningService.errorMessage">
+        <div class="row">
+            <h3 style="margin-top: 7%;" class="text-center">Click the button to receive an unsubscribe link to your
+                email</h3>
+            <div class="col-4"></div>
+            <div style="align-items: center;" class="col-4 ">
+                <form [formGroup]="unsubscribeForm" (ngSubmit)="onSubmit()" style="margin-top: 10%;">
+
+                    <div class="form-group" style="margin: 5px;">
+                        <span *ngIf="!unsubscribeForm.get('email')?.valid && unsubscribeForm.get('email')?.touched"
+                            class="help-block">Please enter a valid email</span>
+                        <input type="text" placeholder="Enter your email" id="email" formControlName="email"
+                            class="form-control">
+                    </div>
+
+                    <div class="form-group" style="display: flex; justify-content: center; align-items: center;">
+                        <button style="margin: 5px;" type="submit" class="btn btn-primary"
+                            [disabled]="!unsubscribeForm.valid">Send me a link</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer></footer>

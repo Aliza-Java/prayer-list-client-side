@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
@@ -18,6 +18,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     loadedDavenfors = false;
     davenforToEdit: Davenfor = new Davenfor;
     loading = false;
+    waiting:boolean = false; //TODO: need this?
 
     constructor(public router: Router,
         public httpService: HttpService,
@@ -31,7 +32,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
 
     populateGuestDavenfors() {
         this.loading = true;
-        this.httpService.getDavenfors('sub/getmynames/' + this.guestEmail).subscribe(
+        this.httpService.getDavenfors('user/getmynames/' + this.guestEmail).subscribe(
             names => {
                 this.myDavenfors = names;
                 this.myDavenforsChanged.next(names);
@@ -46,7 +47,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
 
     public deleteDavenfor(davenforId: number, englishName: string) {
         this.loading = true;
-        this.httpService.deleteDavenfor(`sub/delete/${davenforId}/${this.guestEmail}`).subscribe(
+        this.httpService.deleteDavenfor(`user/delete/${davenforId}/${this.guestEmail}`).subscribe(
             updatedList => {
                 this.myDavenfors = updatedList;
                 this.myDavenforsChanged.next(updatedList);
@@ -102,7 +103,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     public editDavenfor(davenfor: Davenfor) {
         davenfor.submitterEmail = this.guestEmail;
         this.loading = true;
-        this.httpService.editDavenfor('sub/updatename/' + this.guestEmail, davenfor).subscribe(
+        this.httpService.editDavenfor('user/updatename/' + this.guestEmail, davenfor).subscribe(
             response => {
                 this.populateGuestDavenfors();
                 this.loading = false;

@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { GuestRoutingModule } from './guest/guest-routing.module';
 import { AdminRoutingModule } from './admin/admin-routing.module';
 import { TokenInterceptor } from './admin/auth/token.interceptor';
+import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 
 @NgModule({
     declarations: [
@@ -25,9 +26,9 @@ import { TokenInterceptor } from './admin/auth/token.interceptor';
         HeaderComponent,
         FooterComponent,
         SuccessComponent,
-        ErrorComponent
-    ],
+        ErrorComponent],
     imports: [
+        UnsubscribeComponent,
         BrowserModule,
         AppRoutingModule,
         FormsModule,

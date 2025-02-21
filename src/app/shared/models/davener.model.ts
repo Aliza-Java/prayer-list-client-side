@@ -11,6 +11,6 @@ public active:boolean = true;
         this.email = email ?? '';
         this.whatsapp = whatsapp ?? 0;
         this.active = active ?? true;
-    }
+    } //TODO: get rid of davener.  used anyway?
         
   }

@@ -3,14 +3,11 @@ import { Injectable } from '@angular/core';
 import { Davenfor } from '../models/davenfor.model';
 import { Admin } from '../models/admin.model';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Davener } from '../models/davener.model';
-import { Parasha } from '../models/parasha.model';
 import { Weekly } from '../models/weekly.model';
-import { Submitter } from '../models/submitter.model';
 import { JwtResponse } from '../models/jwt-response';
 import { AdminSettings } from '../models/admin-settings.model';
-
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +17,7 @@ export class HttpService {  //A service that makes the calls to the server
     localhostUrl = "http://localhost:8080/dlist/";
 
     //change baseUrl depending on the server location
-    private baseUrl = this.localhostUrl;
+    public baseUrl = this.localhostUrl;
 
     public davenforAdded = new Subject<Boolean>();
 
@@ -55,7 +52,7 @@ export class HttpService {  //A service that makes the calls to the server
 
     addDavenfor(submitterEmail: string, newDavenfor: Davenfor) {
         console.log(newDavenfor);
-        return this.http.post<Davenfor>(this.baseUrl + 'sub/' + submitterEmail, newDavenfor);
+        return this.http.post<Davenfor>(this.baseUrl + 'user/' + submitterEmail, newDavenfor);
     }
 
     public getDaveners() {
@@ -73,12 +70,7 @@ export class HttpService {  //A service that makes the calls to the server
 
     activateDavener(davener: Davener) {
         return this.http.post<Davener[]>(this.baseUrl + 'admin/activate/' + davener.email, null, { withCredentials: true });
-    }
-
-    // getCategories(): Observable<string[]>  {
-    //     let url:string = this.baseUrl + 'sub/categories';
-    //     return this.http.get<string[]>(url);
-    // }
+    }  
 
     addDavener(davenerToAdd: Davener) {
         return this.http.post<Davener[]>(this.baseUrl + 'admin/davener', davenerToAdd, { withCredentials: true });
@@ -105,15 +97,11 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post(this.baseUrl + 'admin/preview', weeklyInfo, { responseType: 'text', withCredentials: true });
     }
 
-    getSubmitter(submitterEmail: string) { // TODO: This needs to be changed to dynamic retrieval
-        return new Submitter(1, "myName", "submitter@smail.com", 101101, 101102, []);
-    }
-
     sendUrgent(urgentDavenfor: Davenfor) {
         return this.http.post<boolean>(this.baseUrl + 'admin/urgent', urgentDavenfor);
     }
 
     editAdminSettings(settings: Admin) {
         return this.http.put<Admin>(this.baseUrl + 'admin/update', settings, { withCredentials: true });
-    }
+    }    
 }
