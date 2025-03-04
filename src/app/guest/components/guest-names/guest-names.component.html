@@ -28,6 +28,7 @@
                         *ngIf="davenfor.category=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
                 </td>
                 <button class="btn btn-warning" (click)="onEdit(davenfor)">Edit</button>
+                <!--TODO: if thinking, button should be replaced by spinner-->
                 <button class="btn btn-danger" (click)="onDelete(davenfor.id??0, davenfor.nameEnglish??'')">Delete</button>
             </tr>
         </table>
