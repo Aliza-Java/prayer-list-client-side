@@ -6,7 +6,8 @@ const routes: Routes = [
     { path: '', redirectTo: 'guest', pathMatch: 'full' },
     { path: 'guest', loadChildren: () => import('./guest/guest.module').then(m => m.GuestModule) },
     { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
-    {path: 'unsubscribe', loadComponent: () => import('./unsubscribe/unsubscribe.component').then(m => m.UnsubscribeComponent)},
+    { path: 'unsubscribe', loadComponent: () => import('./unsubscribe/unsubscribe.component').then(m => m.UnsubscribeComponent)},
+    { path: 'delete', loadComponent: () => import('./delete-confirm/delete-confirm.component').then(m => m.DeleteConfirmComponent)},
     { path: '**', component: NotFoundComponent }
 ];
 

@@ -55,7 +55,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 this.loading = false;
             },
             error => {
-                this.daveningService.errorMessage = `There was a problem deleting the name "${englishName}"`;
+                this.daveningService.errorMessage = `There was a problem deleting the name "${englishName}".  We recommend refreshing the page`;
                 console.log(error);
                 this.loading = false;
             }

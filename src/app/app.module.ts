@@ -19,6 +19,7 @@ import { GuestRoutingModule } from './guest/guest-routing.module';
 import { AdminRoutingModule } from './admin/admin-routing.module';
 import { TokenInterceptor } from './admin/auth/token.interceptor';
 import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
         ErrorComponent],
     imports: [
         UnsubscribeComponent,
+        DeleteConfirmComponent,
         BrowserModule,
         AppRoutingModule,
         FormsModule,
