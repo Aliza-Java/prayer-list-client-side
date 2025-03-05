@@ -8,6 +8,7 @@ const routes: Routes = [
     { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
     { path: 'unsubscribe', loadComponent: () => import('./unsubscribe/unsubscribe.component').then(m => m.UnsubscribeComponent)},
     { path: 'delete', loadComponent: () => import('./delete-confirm/delete-confirm.component').then(m => m.DeleteConfirmComponent)},
+    { path: 'extend', loadComponent: () => import('./extend/extend.component').then(m => m.ExtendComponent)},
     { path: '**', component: NotFoundComponent }
 ];
 

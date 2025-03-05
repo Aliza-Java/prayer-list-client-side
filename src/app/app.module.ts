@@ -20,6 +20,7 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
 import { TokenInterceptor } from './admin/auth/token.interceptor';
 import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
+import { ExtendComponent } from './extend/extend.component';
 
 @NgModule({
     declarations: [
@@ -27,10 +28,11 @@ import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.componen
         HeaderComponent,
         FooterComponent,
         SuccessComponent,
-        ErrorComponent],
+        ErrorComponent,],
     imports: [
         UnsubscribeComponent,
         DeleteConfirmComponent,
+        ExtendComponent,
         BrowserModule,
         AppRoutingModule,
         FormsModule,
