@@ -32,7 +32,6 @@ export class DaveningService { // A general service to hold 'global' data releva
        return this.http.get<string[]>('http://localhost:8080/dlist/user/categories').toPromise()
             .then(data => {
                 this.categories = data ?? [];
-                console.log(data);
                 return data ?? [];
             })
             .catch(error => {

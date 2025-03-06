@@ -21,36 +21,36 @@ export class GuestEditNameComponent implements OnInit {
     spouseHebrewError = false;
 
     //declaring form-controls as variables, to shorten reference to them
-    english: UntypedFormControl = new UntypedFormControl;
-    hebrew: UntypedFormControl = new UntypedFormControl;
-    spouseEnglish: UntypedFormControl = new UntypedFormControl;
-    spouseHebrew: UntypedFormControl = new UntypedFormControl;
-    category: UntypedFormControl = new UntypedFormControl;
-    submitterToReceive: UntypedFormControl = new UntypedFormControl;
-    submitterEmail: UntypedFormControl = new UntypedFormControl;
+    english = new UntypedFormControl('', [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+    hebrew = new UntypedFormControl('', [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+    spouseEnglish = new UntypedFormControl('', [Validators.pattern(this.daveningService.englishNamePattern)]);
+    spouseHebrew = new UntypedFormControl('', [Validators.pattern(this.daveningService.hebrewNamePattern)]);
+    category = new UntypedFormControl('',  Validators.required);
+    submitterToReceive = new UntypedFormControl();
+    submitterEmail = new UntypedFormControl();
 
     constructor(public daveningService: DaveningService, public httpService: HttpService, public guestService: GuestService, public router: Router) { }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.oldInfo = this.guestService.davenforToEdit;
         this.populateFormControls();
         this.setForm();
 
-        //Populating category array from Server
-        this.categories = this.daveningService.categories;
+        //keep this in the end - after form has been set and initialized.  Otherwise doesn't recognize form-controls
+        this.categories = await this.daveningService.populateCategories(); 
     }
 
     populateFormControls() {
-        this.english = new UntypedFormControl(this.oldInfo.nameEnglish ? this.oldInfo.nameEnglish : null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.hebrew = new UntypedFormControl(this.oldInfo.nameHebrew ? this.oldInfo.nameHebrew : null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.english.setValue(this.oldInfo.nameEnglish ? this.oldInfo.nameEnglish : null);
+        this.hebrew.setValue(this.oldInfo.nameHebrew ? this.oldInfo.nameHebrew : null);
 
         //spouse values can be empty or not, depending on category value (if it is banim, and even then optional), as long as they are in the right language 
         //spouse values are initialized as empty string to assist with checkSpouseEnglish() and checkSpouseHebrew(), where we now only need to check if it is an empty string or not.
-        this.spouseEnglish = new UntypedFormControl(this.oldInfo.nameEnglishSpouse ? this.oldInfo.nameEnglishSpouse : null, [Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.spouseHebrew = new UntypedFormControl(this.oldInfo.nameHebrewSpouse ? this.oldInfo.nameHebrewSpouse : null, [Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.spouseEnglish.setValue(this.oldInfo.nameEnglishSpouse ? this.oldInfo.nameEnglishSpouse : null);
+        this.spouseHebrew.setValue(this.oldInfo.nameHebrewSpouse ? this.oldInfo.nameHebrewSpouse : null);
 
-        this.category = new UntypedFormControl(this.oldInfo.category?? '', Validators.required); //default value is 'select category'
-        this.submitterToReceive = new UntypedFormControl(this.oldInfo.submitterToReceive);
+        this.category.setValue(this.oldInfo.category?? '');
+        this.submitterToReceive.setValue(this.oldInfo.submitterToReceive ?? false);
     }
 
     setForm() {
@@ -65,6 +65,10 @@ export class GuestEditNameComponent implements OnInit {
     }
 
     onSubmit() {
+        if (this.guestService.loading) //to avoid sending twice
+            return;
+
+        this.guestService.loading = true;
         /*If spouse name will be full and valid, will populate later.  
         Initializing before 'banim' condition so that recognized in 'formInfo' population below*/
         let form = this.nameForm; //shortening references in this function

@@ -1,77 +1,84 @@
 <form class="form-horizontal" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
 
     <div class="form-group">
-        <div class="col-6 offset-md-2">
+        <div class="col-4">
             <h5>Fields marked with (*) are required.</h5>
-        </div>
-        <div class="col-md-2 offset-md-2">
-            <button type="button" class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
         </div>
     </div>
 
     <!--English name-->
     <div class="form-group">
-        <!--Validation for English name-->
-        <div class="col-2 help-block">
-            <span *ngIf="!nameForm.get('english')?.valid && nameForm.get('english')?.touched" class="help-block">
-                <span class="text-right" *ngIf="nameForm.get('english')?.errors?.['pattern']">English letters and
-                    spaces</span>
-                <span class="text-right" *ngIf="nameForm.get('english')?.errors?.['required']">This field is
-                    required</span>
-            </span>
-        </div>
+
         <div class="col-3 input-box">
-            <label for="english">* Full Name </label>
+            <label for="english">* Full Name in English</label>
             <input type="text" id="english" class="form-control" formControlName="english">
         </div>
 
-        <!--Spouse English name-->
-        <div *ngIf="nameForm.get('category')?.value==banimNumber">
-            <div class="col-2 help-block">
-                <!--Validation: must include only English letters and spaces -->
-                <span *ngIf="!nameForm.get('spouseEnglish')?.valid && nameForm.get('spouseEnglish')?.touched"
-                    class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('spouseEnglish')?.errors?.['pattern']">English
-                        letters and spaces</span>
-                </span>
-            </div>
-            <div class="col-3 input-box">
-                <label for="spouseEnglish">Optional: Spouse name</label>
-                <input type="text" id="spouseEnglish" class="form-control" formControlName="spouseEnglish">
-            </div>
+        <!--Validation for English name-->
+        <div class="col-2 help-block">
+            <span *ngIf="!nameForm.get('english')?.valid && nameForm.get('english')?.touched" class="help-block">
+                <span *ngIf="nameForm.get('english')?.errors?.['pattern']">English letters and
+                    spaces</span>
+                <span *ngIf="nameForm.get('english')?.errors?.['required']">This field is
+                    required</span>
+            </span>
         </div>
     </div>
 
     <!--Hebrew name-->
     <div class="form-group ">
-        <!--Validation-->
-        <div class="col-2 help-block">
-            <span *ngIf="!nameForm.get('hebrew')?.valid && nameForm.get('hebrew')?.touched" class="help-block">
-                <span class="text-right" *ngIf="nameForm.get('hebrew')?.errors?.['pattern']">Hebrew letters and
-                    spaces</span>
-                <span class="text-right" *ngIf="nameForm.get('hebrew')?.errors?.['required']">This field is
-                    required</span>
-            </span>
-        </div>
+
         <div class="col-3 input-box">
             <label for="hebrew">* שם בעברית </label>
             <input type="text" id="hebrew" class="form-control" formControlName="hebrew">
         </div>
 
-        <!--Spouse Hebrew name-->
-        <div *ngIf="nameForm.get('category')?.value=='banim'">
+        <!--Validation-->
+        <div class="col-2 help-block">
+            <span *ngIf="!nameForm.get('hebrew')?.valid && nameForm.get('hebrew')?.touched" class="help-block">
+                <span *ngIf="nameForm.get('hebrew')?.errors?.['pattern']">Hebrew letters and
+                    spaces</span>
+                <span *ngIf="nameForm.get('hebrew')?.errors?.['required']">This field is
+                    required</span>
+            </span>
+        </div>
+    </div>
+
+    <div *ngIf="nameForm.get('category')?.value=='banim'">
+
+        <!--Spouse English name-->
+        <div class="form-group ">
+
+            <div class="col-3 input-box">
+                <label for="spouseEnglish">Optional: Spouse name</label>
+                <input type="text" id="spouseEnglish" class="form-control" formControlName="spouseEnglish">
+            </div>
+
             <div class="col-2 help-block">
-                <span *ngIf="!nameForm.get('spouseHebrew')?.valid && nameForm.get('spouseHebrew')?.touched"
+                <!--Validation: must include only English letters and spaces -->
+                <span *ngIf="!nameForm.get('spouseEnglish')?.valid && nameForm.get('spouseEnglish')?.touched"
                     class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('spouseHebrew')?.errors?.['pattern']">Hebrew
-                        letters
-                        and spaces</span>
+                    <span *ngIf="nameForm.get('spouseEnglish')?.errors?.['pattern']">English
+                        letters and spaces</span>
                 </span>
             </div>
+        </div>
+
+        <!--Spouse Hebrew name-->
+        <div class="form-group">
             <div class="col-3 input-box">
                 <label for="spouseHebrew">Optional: שם בן הזוג בעברית </label>
                 <input type="text" id="spouseHebrew" class="form-control" formControlName="spouseHebrew">
             </div>
+        </div>
+
+        <div class="col-2 help-block">
+            <span *ngIf="!nameForm.get('spouseHebrew')?.valid && nameForm.get('spouseHebrew')?.touched"
+                class="help-block">
+                <span *ngIf="nameForm.get('spouseHebrew')?.errors?.['pattern']">Hebrew
+                    letters
+                    and spaces</span>
+            </span>
         </div>
     </div>
 
@@ -85,7 +92,9 @@
             <label class="form-check-label text-center" for="submitterToReceive">Include this name (when
                 appropriate) in my davening list</label>
         </div>
+    </div>
 
+    <div class="form-group">
         <div class="col-1">
             <label for="category">* Category:</label>
         </div>
@@ -101,7 +110,11 @@
 
     <div class="form-group">
         <div class="col-12 text-center">
-            <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Edit Name</button>
+            <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+            <button type="submit" class="btn btn-success btn-lg" [disabled]="nameForm.invalid">
+                <span *ngIf="!this.guestService.loading">Edit Name</span>
+                <span *ngIf="this.guestService.loading"><app-loading-spinner-small></app-loading-spinner-small></span>
+            </button>
         </div>
     </div>
 </form>

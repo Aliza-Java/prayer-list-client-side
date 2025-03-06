@@ -22,3 +22,11 @@ select {
 .form-control{
     font-weight: 500;
 }
+
+label {
+    margin-top: 20px;
+}
+
+button { 
+    margin: 30px;
+}
