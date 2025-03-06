@@ -93,24 +93,4 @@ export class GuestEditNameComponent implements OnInit {
         this.guestService.davenforToEdit = new Davenfor;
         this.router.navigate(['guest/names']);
     }
-
-    //TODO: replace with pattern validators
-    // checkSpouseEnglish() {
-    //    if(/*  */       ) {
-    //         this.spouseEnglishError = true;
-    //     }
-    //     else this.spouseEnglishError = false;
-    // }
-
-    //TODO: replace with pattern validators
-    // checkSpouseHebrew() {
-    //     if ((!this.spouseName1Hebrew.value
-    //         && this.spouseName2Hebrew.value)
-    //         ||
-    //         (!this.spouseName2Hebrew.value
-    //             && this.spouseName1Hebrew.value)) {
-    //         this.spouseHebrewError = true;
-    //     }
-    //     else this.spouseHebrewError = false;
-    // }
 }

@@ -27,7 +27,7 @@ describe('AdminLoginComponent', () => {
                         populateAdminSettings: jasmine.createSpy('populateAdminSettings'),
                         populateParashot: jasmine.createSpy('populateParashot'),
                         populateCategories: jasmine.createSpy('populateCategories'),
-                       populateCurrentParasha: jasmine.createSpy('populateCurrentParasha'),
+                        populateCurrentParasha: jasmine.createSpy('populateCurrentParasha'),
                         getDaveners: jasmine.createSpy('getDaveners'),
                     }
                 }

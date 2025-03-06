@@ -1,4 +1,4 @@
-export class Davener {
+export class Davener { //referred in UI as 'User'
 public id:number;
 public country:string = '';
 public email:string = '';
@@ -11,6 +11,5 @@ public active:boolean = true;
         this.email = email ?? '';
         this.whatsapp = whatsapp ?? 0;
         this.active = active ?? true;
-    } //TODO: get rid of davener.  used anyway?
-        
+    }         
   }
