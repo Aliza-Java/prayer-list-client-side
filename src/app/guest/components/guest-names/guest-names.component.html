@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="text-center hidden-scrollbar" *ngIf="guestService.myDavenfors?.length==0">
+    <div class="text-center hidden-scrollbar" *ngIf="guestService.myDavenfors?.length==0 && !guestService.loading && guestService.serverFine">
         <app-empty-list whatIsMissing="names associated with this email"></app-empty-list>
     </div>
 

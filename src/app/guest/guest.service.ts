@@ -19,6 +19,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     davenforToEdit: Davenfor = new Davenfor;
     loading = false;
     waiting:boolean = false; //TODO: need this?
+    serverFine:boolean = true;
 
     constructor(public router: Router,
         public httpService: HttpService,
@@ -34,13 +35,21 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         this.loading = true;
         this.httpService.getDavenfors('user/getmynames/' + this.guestEmail).subscribe(
             names => {
+                this.serverFine = true;
                 this.myDavenfors = names;
                 this.myDavenforsChanged.next(names);
                 //buzz the event, so every subscribing component reacts accordingly.
                 this.loading = false;
             },
             error => {
-                this.daveningService.errorMessage = `We could not retrieve names associated with ${this.guestEmail}`;
+                if (error.status === 0)
+                {
+                    this.daveningService.errorMessage = 'The server seems to be down... please contact your website admin';
+                    this.serverFine = false;
+                }
+                else
+                    this.daveningService.errorMessage = `We could not retrieve names associated with ${this.guestEmail}`;
+                
                 this.loading = false;
             });
     }
