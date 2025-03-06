@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run Angular App",
+        "type": "shell",
+        "command": "ng serve",
+        "isBackground": true,
+        "problemMatcher": {
+          "owner": "typescript",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "pattern": [
+            {
+              "regexp": ".*",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".*Compiling...",
+            "endsPattern": ".*Compiled successfully."
+          }
+        }
+      }
+    ]
+  }
+  
