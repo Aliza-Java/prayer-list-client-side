@@ -24,7 +24,7 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
          }
 
     ngOnInit() {
-        this.addDavenforSub = this.httpService.davenforAdded.subscribe(addedAlready => {
+        this.addDavenforSub = this.httpService.davenforAdded.subscribe(() => {
             this.router.navigate(['names']);
         })
     }

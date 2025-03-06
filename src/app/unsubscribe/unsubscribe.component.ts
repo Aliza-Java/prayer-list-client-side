@@ -3,7 +3,6 @@ import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators }
 import { GuestService } from '../guest/guest.service';
 import { HttpService } from '../shared/services/http.service';
 import { CommonModule } from '@angular/common';
-import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { SharedModule } from '../shared/shared.module';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpClient } from '@angular/common/http';

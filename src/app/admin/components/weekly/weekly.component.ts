@@ -75,7 +75,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         }
     }
 
-    toggleChangeParasha(value: any) {
+    toggleChangeParasha() {
         this.changeParasha = !this.changeParasha;
     }
 

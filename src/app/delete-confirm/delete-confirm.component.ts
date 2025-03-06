@@ -19,7 +19,7 @@ export class DeleteConfirmComponent {
     responseMessage: string | null = null;
     isLoading: boolean = false;
 
-    constructor(private daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+    constructor(daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
         daveningService.showHeaderMenu = false;
 
         this.dfId = this.route.snapshot.queryParamMap.get('id');

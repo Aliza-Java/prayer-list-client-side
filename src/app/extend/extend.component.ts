@@ -19,7 +19,7 @@ export class ExtendComponent {
     isLoading: boolean = false;
     name: string | null = "this name";
 
-    constructor(private daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+    constructor(daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
         daveningService.showHeaderMenu = false;
 
         this.dfId = this.route.snapshot.queryParamMap.get('id');

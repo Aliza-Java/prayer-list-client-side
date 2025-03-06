@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { GuestService } from '../guest/guest.service';
 import { AdminService } from '../admin/admin.service';

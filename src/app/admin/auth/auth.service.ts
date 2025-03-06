@@ -37,7 +37,7 @@ export class AuthService {
             this.loading = false;
             this.router.navigate(['admin']);
         },
-            error => {
+            () => {
                 this.daveningService.errorMessage = "Please check your email and password again. ";
                 this.loading = false;
             });

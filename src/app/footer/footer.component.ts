@@ -6,11 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-private thisYear:Date = new Date;
   constructor() { }
 
   ngOnInit() {
-    this.thisYear = new Date();
   }
 
 }

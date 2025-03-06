@@ -113,12 +113,12 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         davenfor.submitterEmail = this.guestEmail;
         this.loading = true;
         this.httpService.editDavenfor('user/updatename/' + this.guestEmail, davenfor).subscribe(
-            response => {
+            () => {
                 this.populateGuestDavenfors();
                 this.loading = false;
                 this.router.navigate(['guest/names']);
             },
-            error => {
+            () => {
                 this.daveningService.errorMessage = "We are sorry. There was an error when saving the new edits.";
                 this.loading = false;
             }
