@@ -18,8 +18,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     loadedDavenfors = false;
     davenforToEdit: Davenfor = new Davenfor;
     loading = false;
-    waiting:boolean = false; //TODO: need this?
-    serverFine:boolean = true;
+    activeRow: number | null = null;
+
 
     constructor(public router: Router,
         public httpService: HttpService,
@@ -35,7 +35,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         this.loading = true;
         this.httpService.getDavenfors('user/getmynames/' + this.guestEmail).subscribe(
             names => {
-                this.serverFine = true;
+                this.daveningService.serverFine = true;
                 this.myDavenfors = names;
                 this.myDavenforsChanged.next(names);
                 //buzz the event, so every subscribing component reacts accordingly.
@@ -45,7 +45,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 if (error.status === 0)
                 {
                     this.daveningService.errorMessage = 'The server seems to be down... please contact your website admin';
-                    this.serverFine = false;
+                    this.daveningService.serverFine = false;
                 }
                 else
                     this.daveningService.errorMessage = `We could not retrieve names associated with ${this.guestEmail}`;
@@ -55,18 +55,19 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     public deleteDavenfor(davenforId: number, englishName: string) {
-        this.loading = true;
         this.httpService.deleteDavenfor(`user/delete/${davenforId}/${this.guestEmail}`).subscribe(
             updatedList => {
                 this.myDavenfors = updatedList;
                 this.myDavenforsChanged.next(updatedList);
                 this.daveningService.successMessage = `The name '${englishName}' has been deleted`;
                 this.loading = false;
+                this.activeRow = -1;
             },
             error => {
                 this.daveningService.errorMessage = `There was a problem deleting the name "${englishName}".  We recommend refreshing the page`;
                 console.log(error);
                 this.loading = false;
+                this.activeRow = -1;
             }
         );
     }

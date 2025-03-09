@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="text-center hidden-scrollbar" *ngIf="guestService.myDavenfors?.length==0 && !guestService.loading && guestService.serverFine">
+    <div class="text-center hidden-scrollbar" *ngIf="guestService.myDavenfors?.length==0 && !guestService.loading && daveningService.serverFine">
         <app-empty-list whatIsMissing="names associated with this email"></app-empty-list>
     </div>
 
@@ -12,7 +12,7 @@
                 <th>Hebrew Name</th>
                 <th></th>
             </tr>
-            <tr *ngFor="let davenfor of guestService.myDavenfors">
+            <tr *ngFor="let davenfor of guestService.myDavenfors; let i = index">
 
                 <td>{{davenfor.category | titlecase}}</td>
                 <td>
@@ -27,12 +27,14 @@
                     <span
                         *ngIf="davenfor.category=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
                 </td>
-                <button class="btn btn-warning" (click)="onEdit(davenfor)">Edit</button>
-                <!--TODO: if thinking, button should be replaced by spinner-->
-                <button class="btn btn-danger" (click)="onDelete(davenfor.id??0, davenfor.nameEnglish??'')">Delete</button>
-            </tr>
+                <button class="btn btn-warning" (click)="onEdit(davenfor)">
+                    Edit
+                </button>
+                <button class="btn btn-danger button-delete" (click)="onDelete(i, davenfor.id??0, davenfor.nameEnglish??'')">
+                    <span class="span-spinner" *ngIf="guestService.activeRow === i && guestService.loading"><app-loading-spinner-small></app-loading-spinner-small></span>
+                    <span *ngIf="guestService.activeRow != i">Delete</span>
+                </button>
         </table>
-
     </div>
 
     <div class="row">

@@ -36,9 +36,17 @@ export class AuthService {
             this.adminLogin.setId(response.id || 0);
             this.loading = false;
             this.router.navigate(['admin']);
+            this.daveningService.serverFine = true;
         },
-            () => {
-                this.daveningService.errorMessage = "Please check your email and password again. ";
+            error => {
+                if (error.status === 0)
+                    {
+                        this.daveningService.errorMessage = 'The server seems to be down... please contact technical support';
+                        this.daveningService.serverFine = false;
+                    }
+                    else
+                        this.daveningService.errorMessage = "Please check your email and password again. ";
+                
                 this.loading = false;
             });
     }

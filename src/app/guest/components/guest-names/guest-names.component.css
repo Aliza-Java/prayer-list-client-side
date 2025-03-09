@@ -4,6 +4,7 @@ td, th {
 
 button {
     margin-right: 5px;
+    height: 45px;
 }
 
 table {
@@ -21,5 +22,17 @@ table {
 .table-div{
     max-height: 350px;
     overflow: auto;
+}
+
+.span-spinner {
+    padding: unset;
+}
+
+span{
+    background-color: transparent !important;
+}
+
+.button-delete{
+    width: 90px;
 }
 
