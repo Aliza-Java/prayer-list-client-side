@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AdminSettings } from 'src/app/shared/models/admin-settings.model';
 import { AdminService } from '../../admin.service';
 import { AuthService } from '../../auth/auth.service';
 
@@ -13,29 +12,31 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class AdminSettingsComponent implements OnInit, OnDestroy {
     settingsForm: UntypedFormGroup = new UntypedFormGroup({});
-    settings: AdminSettings = new AdminSettings('', false, 7);
+    prompt: boolean = false;
+    wait: number = 7;
+    
     settingsUpdatedSub: Subscription = new Subscription;
     constructor(public adminService: AdminService, public router: Router, public authService: AuthService) { }
 
-    ngOnInit() {
-        this.settings = this.adminService.adminSettings;
+    async ngOnInit() {
+        this.adminService.populateAdminSettings();
         this.populateSettingsForm();
+
         this.settingsUpdatedSub = this.adminService.settingsUpdated.subscribe(adminSettings => {
-            this.settings = adminSettings;
-            this.populateSettingsForm();
+            this.prompt = adminSettings.newNamePrompt ?? false;
+            this.wait = adminSettings.waitBeforeDeletion ?? 7;
         });
     }
 
     populateSettingsForm() {
         this.settingsForm = new UntypedFormGroup({
-            'email': new UntypedFormControl(this.settings.email, [Validators.required, Validators.email]),
-            'prompt': new UntypedFormControl(this.settings.newNamePrompt),
-            'wait': new UntypedFormControl(this.settings.waitBeforeDeletion)
+            'prompt': new UntypedFormControl(this.adminService.adminSettings.newNamePrompt),
+            'wait': new UntypedFormControl(this.adminService.adminSettings.waitBeforeDeletion)
         });
     }
 
     onSubmit() {
-        this.adminService.editSettings(this.settings);
+        this.adminService.editSettings(this.adminService.adminSettings.email ?? '', this.prompt, this.wait);
     }
 
     onCancel() {

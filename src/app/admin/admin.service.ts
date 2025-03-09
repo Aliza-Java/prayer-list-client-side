@@ -110,11 +110,12 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         );
     }
 
-    public populateAdminSettings() {
+    async populateAdminSettings() {
         if (this.authService.adminLogin) {
             this.loading = true;
-            this.httpService.getAdminSettings(this.authService.adminLogin.email || "").subscribe(
+            this.httpService.getAdminSettings(this.authService.adminLogin.email || '').subscribe(
                 response => {
+                    console.log(response);
                     this.adminSettings = response;
                     this.settingsUpdated.next(response);
                     this.loading = false;
@@ -372,8 +373,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         return this.categories.find(category => category == name);
     }
 
-    editSettings(updatedSettings: AdminSettings) {
+    editSettings(email:string, newNamePrompt:boolean, waitBeforeDeletion:number) {
         this.loading = true;
+        var updatedSettings: AdminSettings = { email, newNamePrompt, waitBeforeDeletion };
         this.httpService.editAdminSettings(updatedSettings).subscribe(
             success => {
                 if (success) {
