@@ -15,8 +15,7 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
 
     choice: string = '';
     addDavenforSub!: Subscription;  // Asserting that it will be assigned before usage
-
-    //TODO:  Ensure you unsubscribe from subscriptions in ngOnDestroy to prevent memory leaks.
+    //TODO: fix admin menu so that not white when pass over chosen one
     constructor(public authService: AuthService, public adminService: AdminService, public daveningService: DaveningService,
         public router: Router,
         public route: ActivatedRoute,
@@ -34,6 +33,7 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.addDavenforSub.unsubscribe();
+        if (this.addDavenforSub)
+            this.addDavenforSub.unsubscribe();
     }
 }

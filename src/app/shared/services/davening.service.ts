@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Davenfor } from '../models/davenfor.model';
 import { HttpService } from './http.service';
 import { HttpClient } from '@angular/common/http';
@@ -10,8 +10,6 @@ import { HttpClient } from '@angular/common/http';
 export class DaveningService { // A general service to hold 'global' data relevant all around
     errorMessage: string = '';
     successMessage: string = '';
-    emailChanged = new Subject<string>(); //TODO: Seems unnecesessary. Meant subscription?
-    davenforsChanged = new Subject<Davenfor[]>(); //TODO: Seems unnecesessary
     englishNamePattern = "^[a-zA-Z '\\-\\ ]*$";
     hebrewNamePattern = "^[\\u0590-\\u05fe '\\-]*$";
     categories: string[] = [];
@@ -55,6 +53,7 @@ export class DaveningService { // A general service to hold 'global' data releva
     }
 
     ngOnDestroy() {
-        this.categoriesSub.unsubscribe();
+        if (this.categoriesSub)
+            this.categoriesSub.unsubscribe();
     }
 }

@@ -14,8 +14,8 @@ export class AdminSettingsComponent implements OnInit, OnDestroy {
     settingsForm: UntypedFormGroup = new UntypedFormGroup({});
     prompt: boolean = false;
     wait: number = 7;
-    
     settingsUpdatedSub: Subscription = new Subscription;
+    
     constructor(public adminService: AdminService, public router: Router, public authService: AuthService) { }
 
     async ngOnInit() {

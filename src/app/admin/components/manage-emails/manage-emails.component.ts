@@ -106,7 +106,8 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.davenersChangedSub.unsubscribe();
+        if (this.davenersChangedSub)
+            this.davenersChangedSub.unsubscribe();
     }
 
 }

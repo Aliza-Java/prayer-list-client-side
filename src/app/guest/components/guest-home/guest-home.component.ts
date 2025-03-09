@@ -35,7 +35,10 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.addDavenforSub.unsubscribe();
-        this.davenforsChangedSub.unsubscribe();
+        if (this.addDavenforSub)
+            this.addDavenforSub.unsubscribe();
+
+        if (this.davenforsChangedSub)
+            this.davenforsChangedSub.unsubscribe();
     }
 }
