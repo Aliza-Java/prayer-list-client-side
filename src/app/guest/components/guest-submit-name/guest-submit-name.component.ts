@@ -31,7 +31,7 @@ export class GuestSubmitNameComponent implements OnInit {
     spouseName2Hebrew: UntypedFormControl = new UntypedFormControl;
     category: UntypedFormControl = new UntypedFormControl;
     submitterToReceive: UntypedFormControl = new UntypedFormControl;
-    submitterEmail: UntypedFormControl = new UntypedFormControl;
+    userEmail: UntypedFormControl = new UntypedFormControl;
 
     constructor(
         public router: Router, 
@@ -95,7 +95,7 @@ export class GuestSubmitNameComponent implements OnInit {
         const chosenCategory = this.guestService.getCategory(form.get('category')?.value || '');
         const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
         const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
-        let submitterEmail = this.guestService.guestEmail;
+        let userEmail = this.guestService.guestEmail;
         let submitterToReceive = form.get('submitterToReceive')?.value;
 
 
@@ -117,7 +117,7 @@ export class GuestSubmitNameComponent implements OnInit {
 
         let formInfo = new SimpleDavenfor(
             chosenCategory,
-            submitterEmail,
+            userEmail,
             hebrewName,
             englishName,
             spouseHebrewFull,

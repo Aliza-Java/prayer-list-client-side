@@ -27,7 +27,7 @@ export class GuestEditNameComponent implements OnInit {
     spouseHebrew = new UntypedFormControl('', [Validators.pattern(this.daveningService.hebrewNamePattern)]);
     category = new UntypedFormControl('',  Validators.required);
     submitterToReceive = new UntypedFormControl();
-    submitterEmail = new UntypedFormControl();
+    userEmail = new UntypedFormControl();
 
     constructor(public daveningService: DaveningService, public httpService: HttpService, public guestService: GuestService, public router: Router) { }
 

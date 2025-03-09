@@ -5,7 +5,7 @@ export class Davenfor {
     public constructor(
 
         public id?:number,
-        public submitterEmail?: string,
+        public userEmail?: string,
         public category?: string,
         public nameHebrew?: string,
         public nameEnglish?: string,

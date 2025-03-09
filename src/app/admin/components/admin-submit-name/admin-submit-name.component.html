@@ -12,14 +12,14 @@
     <div class="form-group">
         <div class="col-2">
             <span class="help-block"
-                *ngIf="nameForm.get('submitterEmail')?.touched && !nameForm.get('submitterEmail')?.valid">
-                <span *ngIf="nameForm.get('submitterEmail')?.errors?.['required']">Submitter Email is required</span>
-                <span *ngIf="nameForm.get('submitterEmail')?.errors?.['email']">Please enter a valid email</span>
+                *ngIf="nameForm.get('userEmail')?.touched && !nameForm.get('userEmail')?.valid">
+                <span *ngIf="nameForm.get('userEmail')?.errors?.['required']">Submitter Email is required</span>
+                <span *ngIf="nameForm.get('userEmail')?.errors?.['email']">Please enter a valid email</span>
             </span>
         </div>
         <div class="col-10">
             <input type="text" style="width:300px" class="form-control" placeholder="Email to receive notifications"
-                formControlName="submitterEmail">
+                formControlName="userEmail">
         </div>
     </div>
 

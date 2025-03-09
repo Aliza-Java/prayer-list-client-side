@@ -33,7 +33,7 @@ export class UrgentComponent implements OnInit {
     spouseName1Hebrew: UntypedFormControl = new UntypedFormControl
     spouseName2Hebrew: UntypedFormControl = new UntypedFormControl
     category: UntypedFormControl = new UntypedFormControl
-    submitterEmail: UntypedFormControl = new UntypedFormControl
+    userEmail: UntypedFormControl = new UntypedFormControl
     addToWeekly: UntypedFormControl = new UntypedFormControl
 
 
@@ -69,7 +69,7 @@ export class UrgentComponent implements OnInit {
 
         this.category = new UntypedFormControl("", Validators.required); //default value is 'select category'
         this.addToWeekly = new UntypedFormControl(false);
-        this.submitterEmail = new UntypedFormControl(null, Validators.email);
+        this.userEmail = new UntypedFormControl(null, Validators.email);
 
     }
 
@@ -91,7 +91,7 @@ export class UrgentComponent implements OnInit {
             }),
             'category': this.category,
             'addToWeekly': this.addToWeekly,
-            'submitterEmail': this.submitterEmail
+            'userEmail': this.userEmail
         });
     }
 
@@ -106,7 +106,7 @@ export class UrgentComponent implements OnInit {
             const chosenCategory = this.adminService.getCategory(form.get('category')?.value);
             const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
             const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
-            let submitterEmail = form.get('submitterEmail')?.value;
+            let userEmail = form.get('userEmail')?.value;
 
             let addToWeekly = form.get('addToWeekly')?.value;
 
@@ -127,7 +127,7 @@ export class UrgentComponent implements OnInit {
 
             let formInfo = new SimpleDavenfor(
                 chosenCategory,
-                submitterEmail,
+                userEmail,
                 hebrewName,
                 englishName,
                 spouseHebrewFull,

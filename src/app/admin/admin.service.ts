@@ -136,7 +136,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             this.loading = false;
         },
             error => {
-                this.daveningService.errorMessage = "There was a problem retriving the list of emails";
+                this.daveningService.errorMessage = "There was a problem retrieving the users";
                 console.log(error);
                 this.loading = false;
             });
@@ -253,7 +253,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     addDavenfor(basicInfo: SimpleDavenfor, announceSuccess = true) { //by default let user know addition was successful. (not if urgent name being sent out)
         const newDavenfor = this.constructNewDavenfor(basicInfo);
         this.loading = true;
-        this.httpService.addDavenfor(basicInfo.submitterEmail || "", newDavenfor).subscribe(
+        this.httpService.addDavenfor(basicInfo.userEmail || "", newDavenfor).subscribe(
             () => {
                 this.populateAdminDavenfors();
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
@@ -346,10 +346,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     sendUrgent(formInfo: SimpleDavenfor, addToWeekly: boolean) {
-        if (!formInfo.submitterEmail) {
+        if (!formInfo.userEmail) {
             /*If no email was put in, fill in admin email in case it should be sent out. 
             Admin will monitor it. */
-            formInfo.submitterEmail = this.authService.adminLogin.email;
+            formInfo.userEmail = this.authService.adminLogin.email;
         }
         if (addToWeekly) {
             this.addDavenfor(formInfo, false);
@@ -396,7 +396,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         const today = new Date().toISOString().split('T')[0]; //used multiple times in the new Davenfor.
         return new Davenfor(
             -1,
-            basicInfo.submitterEmail,
+            basicInfo.userEmail,
             basicInfo.category,
             basicInfo.nameHebrew,
             basicInfo.nameEnglish,

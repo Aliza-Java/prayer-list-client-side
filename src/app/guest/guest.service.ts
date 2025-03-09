@@ -75,7 +75,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         const today = new Date().toISOString().split('T')[0]; //used multiple times in the new Davenfor.
         const newDavenfor = new Davenfor(
             -1,
-            basicInfo.submitterEmail, //need to fix this!
+            basicInfo.userEmail,
             basicInfo.category,
             basicInfo.nameHebrew,
             basicInfo.nameEnglish,
@@ -89,8 +89,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
 
         this.loading = true;
 
-        if (basicInfo.submitterEmail != undefined && newDavenfor != undefined) {
-            this.httpService.addDavenfor(basicInfo.submitterEmail, newDavenfor).subscribe(
+        if (basicInfo.userEmail != undefined && newDavenfor != undefined) {
+            this.httpService.addDavenfor(basicInfo.userEmail, newDavenfor).subscribe(
                 () => {
                     this.populateGuestDavenfors();
                     this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
@@ -105,12 +105,12 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             );
         }
         else {
-            console.log('Email given is ' + basicInfo.submitterEmail + ' and new davenfor is ' + newDavenfor);
+            console.log('Email given is ' + basicInfo.userEmail + ' and new davenfor is ' + newDavenfor);
         }
     }
 
     public editDavenfor(davenfor: Davenfor) {
-        davenfor.submitterEmail = this.guestEmail;
+        davenfor.userEmail = this.guestEmail;
         this.loading = true;
         this.httpService.editDavenfor('user/updatename/' + this.guestEmail, davenfor).subscribe(
             () => {
@@ -119,7 +119,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 this.router.navigate(['guest/names']);
             },
             () => {
-                this.daveningService.errorMessage = "We are sorry. There was an error when saving the new edits.";
+                this.daveningService.errorMessage = "We are sorry. There was an error when saving the new edits";
                 this.loading = false;
             }
         );

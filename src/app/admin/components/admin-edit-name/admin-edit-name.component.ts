@@ -27,7 +27,7 @@ export class AdminEditNameComponent implements OnInit {
     spouseHebrew: UntypedFormControl = new UntypedFormControl;
     category: UntypedFormControl = new UntypedFormControl;
     submitterToReceive: UntypedFormControl = new UntypedFormControl;
-    submitterEmail: UntypedFormControl = new UntypedFormControl;
+    userEmail: UntypedFormControl = new UntypedFormControl;
 
     constructor(
         public daveningService: DaveningService, 
@@ -55,7 +55,7 @@ export class AdminEditNameComponent implements OnInit {
 
         this.category = new UntypedFormControl(this.oldInfo.category, Validators.required); //default value is 'select category'
         this.submitterToReceive = new UntypedFormControl(this.oldInfo.submitterToReceive);
-        this.submitterEmail = new UntypedFormControl(this.oldInfo.submitterEmail ? this.oldInfo.submitterEmail : "", [Validators.required, Validators.email]);
+        this.userEmail = new UntypedFormControl(this.oldInfo.userEmail ? this.oldInfo.userEmail : "", [Validators.required, Validators.email]);
     }
 
     setForm() {
@@ -66,7 +66,7 @@ export class AdminEditNameComponent implements OnInit {
             'spouseHebrew': this.spouseHebrew,
             'category': this.category,
             'submitterToReceive': this.submitterToReceive,
-            'submitterEmail': this.submitterEmail
+            'userEmail': this.userEmail
         });
     }
 
@@ -76,7 +76,7 @@ export class AdminEditNameComponent implements OnInit {
         let form = this.nameForm; //shortening references in this function
 
         let updatedInfo: Davenfor = new Davenfor(this.oldInfo.id,
-            form.get('submitterEmail')?.value,
+            form.get('userEmail')?.value,
             this.adminService.getCategory(form.get('category')?.value || ''),
             form.get('hebrew')?.value,
             form.get('english')?.value,

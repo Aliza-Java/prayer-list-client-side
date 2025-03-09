@@ -50,13 +50,13 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.delete<Davenfor[]>(this.baseUrl + url);
     }
 
-    addDavenfor(submitterEmail: string, newDavenfor: Davenfor) {
+    addDavenfor(userEmail: string, newDavenfor: Davenfor) {
         console.log(newDavenfor);
-        return this.http.post<Davenfor>(this.baseUrl + 'user/' + submitterEmail, newDavenfor);
+        return this.http.post<Davenfor>(this.baseUrl + 'user/' + userEmail, newDavenfor);
     }
 
     public getDaveners() {
-        return this.http.get<Davener[]>(this.baseUrl + 'admin/daveners');
+        return this.http.get<Davener[]>(this.baseUrl + 'admin/users');
     }
 
     deleteDavener(davenerId: number) {

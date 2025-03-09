@@ -33,7 +33,7 @@ export class AdminSubmitNameComponent implements OnInit {
     spouseName2Hebrew: UntypedFormControl = new UntypedFormControl;
     category: UntypedFormControl = new UntypedFormControl;
     submitterToReceive: UntypedFormControl = new UntypedFormControl;
-    submitterEmail: UntypedFormControl = new UntypedFormControl;
+    userEmail: UntypedFormControl = new UntypedFormControl;
 
     constructor(public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService, public router: Router) { }
 
@@ -62,7 +62,7 @@ export class AdminSubmitNameComponent implements OnInit {
 
         this.category = new UntypedFormControl("", Validators.required); //default value is 'select category'
         this.submitterToReceive = new UntypedFormControl(true);
-        this.submitterEmail = new UntypedFormControl(null, [Validators.required, Validators.email]);
+        this.userEmail = new UntypedFormControl(null, [Validators.required, Validators.email]);
 
     }
 
@@ -84,7 +84,7 @@ export class AdminSubmitNameComponent implements OnInit {
             }),
             'category': this.category,
             'submitterToReceive': this.submitterToReceive,
-            'submitterEmail': this.submitterEmail
+            'userEmail': this.userEmail
         });
     }
 
@@ -98,7 +98,7 @@ export class AdminSubmitNameComponent implements OnInit {
         const chosenCategory = this.adminService.getCategory(form.get('category')?.value || '');
         const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
         const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
-        let submitterEmail = form.get('submitterEmail')?.value;
+        let userEmail = form.get('userEmail')?.value;
         let submitterToReceive = form.get('submitterToReceive')?.value;
 
         if (chosenCategory == "banim") {
@@ -118,7 +118,7 @@ export class AdminSubmitNameComponent implements OnInit {
 
         let formInfo = new SimpleDavenfor(
             chosenCategory,
-            submitterEmail,
+            userEmail,
             hebrewName,
             englishName,
             spouseHebrewFull,

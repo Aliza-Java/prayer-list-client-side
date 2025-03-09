@@ -5,7 +5,7 @@ export class SimpleDavenfor {
     public constructor(
 
         public category?:string,
-        public submitterEmail?:string,
+        public userEmail?:string,
         public nameHebrew?: string,
         public nameEnglish?: string,
         public nameHebrewSpouse?: string,
