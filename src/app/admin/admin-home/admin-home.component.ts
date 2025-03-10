@@ -15,7 +15,6 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
 
     choice: string = '';
     addDavenforSub!: Subscription;  // Asserting that it will be assigned before usage
-    //TODO: fix admin menu so that not white when pass over chosen one
     constructor(public authService: AuthService, public adminService: AdminService, public daveningService: DaveningService,
         public router: Router,
         public route: ActivatedRoute,

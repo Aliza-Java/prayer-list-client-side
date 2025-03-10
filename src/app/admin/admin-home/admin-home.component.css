@@ -3,16 +3,21 @@ button{
     width: 100%;
  }
 
+ .btn:hover {
+    background-color: var(--light-background-color);
+    border-color: var(black);
+ }
 
-.list-group-item{
+ .list-group-item{
     border:0px;
     background-color: transparent;
 }
 
-.list-group-item.active{
-    background-color: transparent;
-    color:white;
-
+.list-group-item.active .active-btn{
+    background-color: var(--light-background-color) !important;
+    color:black;
+    border: 2px solid black;
+    border-width: 2px;
 }
 
 @media (max-width: 768px) {
