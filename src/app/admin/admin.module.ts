@@ -26,7 +26,7 @@ import { AdminService } from './admin.service';
         WeeklyComponent,
         UrgentComponent,
         AdminSettingsComponent,
-        AdminNamesComponent
+        AdminNamesComponent 
     ],
     imports: [
         CommonModule,

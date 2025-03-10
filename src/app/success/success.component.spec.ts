@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SuccessComponent } from './success.component';
 import { HttpClientModule } from '@angular/common/http';
-import { EmptyListComponent } from '../empty-list/empty-list.component';
 
 describe('SuccessComponent', () => {
   let component: SuccessComponent;

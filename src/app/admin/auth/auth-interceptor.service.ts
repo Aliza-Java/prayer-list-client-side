@@ -1,10 +1,9 @@
 import { HttpHandler, HttpInterceptor, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
 
-    constructor(private authService: AuthService) { }
+    constructor() { }
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         if (!(localStorage.getItem("isLoggedIn") && localStorage.getItem("token"))) {
             return next.handle(req);

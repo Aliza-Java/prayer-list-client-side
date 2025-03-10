@@ -16,11 +16,11 @@ class MockAdminService {
       { id: 1, country: 'USA', email: 'test@example.com', whatsapp: 12345, active: true },
     ];
   
-    editDavener(davener: any) {}
-    deleteDavener(id: number, email: string) {}
-    disactivateDavener(davener: any) {}
-    activateDavener(davener: any) {}
-    addDavener(davener: any) {}
+    editDavener() {}
+    deleteDavener() {}
+    disactivateDavener() {}
+    activateDavener() {}
+    addDavener() {}
   }
   
   describe('ManageEmailsComponent', () => {
