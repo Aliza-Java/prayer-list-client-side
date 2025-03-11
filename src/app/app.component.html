@@ -2,11 +2,12 @@
     <app-header></app-header>
     <div class="main-content">
         <div class="row-md-5">
-            <app-success *ngIf="daveningService.successMessage"
-                [message]="daveningService.successMessage"></app-success>
+            <app-success *ngIf="(daveningService.successMessage$ | async) as message" 
+            [message]="message"></app-success>
         </div>
         <div class="row-md-5">
-            <app-error *ngIf="daveningService.errorMessage" [message]="daveningService.errorMessage"></app-error>
+            <app-error *ngIf="(daveningService.errorMessage$ | async) as message" 
+            [message]="message"></app-error>
         </div>
         <div class="row">
             <div class="col-md-12">

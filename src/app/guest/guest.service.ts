@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { finalize, Subject } from 'rxjs';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GuestService { //A service focusing on guest data and tasks (vs. admin)
+
+    private _loading = new BehaviorSubject<boolean>(false);
+    loading$ = this._loading.asObservable();
 
     myDavenfors: Davenfor[] = [];
     guestEmail: string = '';
@@ -26,10 +30,14 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         public daveningService: DaveningService) {
     }
 
+    setLoading(state: boolean) {
+        this._loading.next(state);
+    }
+
     getCategory(name: string) {
         //double equal sign (instead of triple) since incoming id is a string while category.id is a number.
         return this.daveningService.categories.find(category => category == name);
-    }    
+    }
 
     populateGuestDavenfors() {
         this.loading = true;
@@ -42,14 +50,13 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 this.loading = false;
             },
             error => {
-                if (error.status === 0)
-                {
+                if (error.status === 0) {
                     this.daveningService.errorMessage = 'The server seems to be down... please contact your website admin';
                     this.daveningService.serverFine = false;
                 }
                 else
                     this.daveningService.errorMessage = `We could not retrieve names associated with ${this.guestEmail}`;
-                
+
                 this.loading = false;
             });
     }
@@ -73,7 +80,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     addDavenfor(basicInfo: SimpleDavenfor) {
-        const today = new Date().toISOString().split('T')[0]; //used multiple times in the new Davenfor.
+        const today = new Date().toISOString().split('T')[0];
         const newDavenfor = new Davenfor(
             -1,
             basicInfo.userEmail,
@@ -88,22 +95,20 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             today, //createdAt
             today); //updatedAt
 
-        this.loading = true;
-
         if (basicInfo.userEmail != undefined && newDavenfor != undefined) {
-            this.httpService.addDavenfor(basicInfo.userEmail, newDavenfor).subscribe(
-                () => {
-                    this.populateGuestDavenfors();
-                    this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
-                    this.loading = false;
-                    this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
-                },
-                error => {
-                    this.daveningService.errorMessage = `We are sorry.  There was an error adding the name "${basicInfo.nameEnglish}"`;
-                    console.log(error);
-                    this.loading = false;
-                }
-            );
+            this.httpService.addDavenfor(basicInfo.userEmail, newDavenfor).pipe(
+                finalize(() => this.setLoading(false))).subscribe(
+                    () => {
+                        this.populateGuestDavenfors();
+                        this.daveningService.setSuccessMessage(`The name '${basicInfo.nameEnglish}' has been added successfully`);
+                        this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
+                        this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
+                    },
+                    error => {
+                        this.daveningService.setErrorMessage(`We are sorry.  There was an error adding the name "${basicInfo.nameEnglish}"`);
+                        console.log(error);
+                    }
+                );
         }
         else {
             console.log('Email given is ' + basicInfo.userEmail + ' and new davenfor is ' + newDavenfor);

@@ -9,7 +9,7 @@
 
     <!--English name-->
 
-    <div formGroupName="name" >
+    <div formGroupName="name">
         <div class="form-group" style="display: flex;">
 
             <!--Validation for name1English-->
@@ -17,7 +17,8 @@
 
                 <span *ngIf="!nameForm.get('name.english1')?.valid && nameForm.get('name.english1')?.touched"
                     class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">English letters and
+                    <span class="text-right" *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">English letters
+                        and
                         spaces</span>
                     <span class="text-right" *ngIf="nameForm.get('name.english1')?.errors?.['required']">This field is
                         required</span>
@@ -25,17 +26,16 @@
             </div>
 
             <div class="col-3">
-                <input type="text" id="name1English" class="form-control me-2" formControlName="english1"
-                    placeholder="* Name">
+                <input type="text" class="form-control me-2" formControlName="english1" placeholder="* Name">
             </div>
 
-            <div class="col-2 d-flex justify-content-center" >
+            <div class="col-2 d-flex justify-content-center">
                 <div style="width: 50%;">
-                <select formControlName="benBat" class="form-select">
-                    <option>ben</option>
-                    <option>bat</option>
-                </select>
-            </div>
+                    <select formControlName="benBat" class="form-select">
+                        <option>ben</option>
+                        <option>bat</option>
+                    </select>
+                </div>
             </div>
 
             <div class="col-3">
@@ -63,7 +63,8 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.hebrew2')?.valid && nameForm.get('name.hebrew2')?.touched"
                     class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Hebrew letters and
+                    <span class="text-right" *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Hebrew letters
+                        and
                         spaces</span>
                     <span class="text-right" *ngIf="nameForm.get('name.hebrew2')?.errors?.['required']">This field is
                         required</span>
@@ -77,11 +78,11 @@
 
             <div class="col-2 center-select d-flex justify-content-center">
                 <div style="width: 50%;">
-                <select formControlName="benBatHebrew" class="form-select">
-                    <option>בן</option>
-                    <option>בת</option>
-                </select>
-            </div>
+                    <select formControlName="benBatHebrew" class="form-select">
+                        <option>בן</option>
+                        <option>בת</option>
+                    </select>
+                </div>
             </div>
 
             <div class="col-3">
@@ -195,7 +196,7 @@
         </div>
     </div>
     <br>
-    <div class="form-group" style="display: flex;"> 
+    <div class="form-group" style="display: flex;">
         <div class="col-2"></div>
         <div class="col-5 form-check" style="padding-left: 0;">
             <input style="margin: 5px" type="checkbox" class="form-check-input" id="submitterToReceive"
@@ -222,7 +223,15 @@
 
     <div class="form-group" style="display: flex;">
         <div class="col-2 offset-4">
-            <button class="btn btn-success btn-lg" type="submit" >Add Name</button>
+
+            <button class="btn btn-success btn-lg" type="submit"
+                [disabled]="nameForm.invalid || (guestService.loading$ | async)">
+                <span
+                    *ngIf="guestService.loading$ | async; else notLoading">One moment...<app-loading-spinner-small></app-loading-spinner-small></span>
+                <ng-template #notLoading>
+                    <span>Add Name</span>
+                </ng-template>
+            </button>
         </div>
         <div class="col-2">
             <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>

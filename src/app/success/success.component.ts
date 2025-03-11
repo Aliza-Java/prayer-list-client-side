@@ -15,7 +15,7 @@ export class SuccessComponent implements OnInit {
     }
 
     clearMessage() {
-        this.daveningService.successMessage="";
+        this.daveningService.setSuccessMessage('');
     }
 
 }

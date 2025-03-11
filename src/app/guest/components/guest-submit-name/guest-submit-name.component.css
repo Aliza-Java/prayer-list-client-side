@@ -9,6 +9,7 @@
 .help-block,.alert-option {
     color: red;
     margin-bottom: 0px;
+    padding-top: 12px;
 }
 
 .text-right {
@@ -17,5 +18,14 @@
 
 select {
     text-align-last: center;
+}
+
+.btn-success {
+    width: 200px;
+    text-align: center;
+}
+
+.col-3{
+    padding-right: 15px;
 }
 
