@@ -16,6 +16,16 @@ export class DaveningService { // A general service to hold 'global' data releva
     categoriesSub: Subscription = new Subscription();
     showHeaderMenu: boolean = true;
     serverFine: boolean = true;
+    private _loading = new BehaviorSubject<boolean>(false);
+    loading$ = this._loading.asObservable();
+
+    get loading(): boolean {
+        return this._loading.value; // Getter to access the latest value
+    }
+
+    setLoading(state: boolean) {
+        this._loading.next(state);
+    }
 
     private errorMessageSubject = new BehaviorSubject<string | null>(null);
     errorMessage$ = this.errorMessageSubject.asObservable(); // Expose as observable
@@ -51,7 +61,7 @@ export class DaveningService { // A general service to hold 'global' data releva
             return Promise.resolve(this.categories);
         }
 
-       return this.http.get<string[]>('http://localhost:8080/dlist/user/categories').toPromise()
+        return this.http.get<string[]>('http://localhost:8080/dlist/user/categories').toPromise()
             .then(data => {
                 this.categories = data ?? [];
                 return data ?? [];

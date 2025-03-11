@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { finalize, Subject, Subscription } from 'rxjs';
 import { AdminSettings } from '../shared/models/admin-settings.model';
 import { Davener } from '../shared/models/davener.model';
 import { Davenfor } from '../shared/models/davenfor.model';
@@ -17,7 +17,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AdminService implements OnDestroy {  //A service focusing on admin data and tasks (vs. guest)
 
-    loading = false;
     davenfors: Davenfor[] = [];
     daveners: Davener[] = [];
     weeklyCategory: string = '';
@@ -57,148 +56,139 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         );
     }
 
-    //TODO: consider if works well, to move http calls to httpService (without changing functionality)
+    //TODO in future: future fix and organizing, if works well, to move http calls to httpService (without changing functionality)
     async populateParashot(): Promise<Parasha[]> {
         if (this.parashot.length > 0) {
             return Promise.resolve(this.parashot);
         }
         else {
-            this.loading = true;
+            this.daveningService.setLoading(true);
 
-            return this.http.get<Parasha[]>('http://localhost:8080/dlist/admin/parasha').toPromise()
+            return this.http.get<Parasha[]>('http://localhost:8080/dlist/admin/parasha').pipe(
+                finalize(() => this.daveningService.setLoading(false))).toPromise()
                 .then(data => {
                     this.parashot = data ?? [];
                     console.log(data);
-                    this.loading = false;
                     return data ?? [];
                 })
                 .catch(error => {
                     console.error('Error fetching parashot:', error);
-                    this.loading = false;
                     return [];
                 });
         }
     }
 
     async populateCurrentParasha(): Promise<Parasha> {
-        this.loading = true;
-        return this.http.get<Parasha>('http://localhost:8080/dlist/admin/parasha').toPromise()
+        this.daveningService.setLoading(true);
+        return this.http.get<Parasha>('http://localhost:8080/dlist/admin/parasha').pipe(
+                    finalize(() => this.daveningService.setLoading(false))).toPromise()
             .then(data => {
                 this.currentParasha = data ?? new Parasha();
-                this.loading = false;
                 return data ?? new Parasha();
             })
             .catch(error => {
                 console.error('Error fetching current parasha:', error);
-                this.loading = false;
                 return new Parasha();
             });
     }
 
     public populateAdminDavenfors() { //requesting all system Davenfors from server
-        this.loading = true;
-        this.httpService.getDavenfors('admin/davenfors').subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.getDavenfors('admin/davenfors').pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             names => {
                 this.davenfors = names;
                 this.davenforsChanged.next(names);
-                this.loading = false;
             },
             () => {
                 this.daveningService.errorMessage = "We could not retrieve the names.  Please contact the admin.";
-                this.loading = false;
             }
         );
     }
 
     async populateAdminSettings() {
         if (this.authService.adminLogin) {
-            this.loading = true;
-            this.httpService.getAdminSettings(this.authService.adminLogin.email || '').subscribe(
+            this.daveningService.setLoading(true);
+            this.httpService.getAdminSettings(this.authService.adminLogin.email || '').pipe(
+                finalize(() => this.daveningService.setLoading(false))).subscribe(
                 response => {
                     console.log(response);
                     this.adminSettings = response;
                     this.settingsUpdated.next(response);
-                    this.loading = false;
                 },
                 error => {
                     this.daveningService.errorMessage = "There was a problem retrieving the admin settings";
                     console.log(error);
-                    this.loading = false;
                 }
             );
         }
     }
 
     public getDaveners() {
-        this.loading = true;
-        this.httpService.getDaveners().subscribe((daveners: Davener[]) => {
+        this.daveningService.setLoading(true);
+        this.httpService.getDaveners().pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe((daveners: Davener[]) => {
             this.daveners = daveners;
             this.davenersChanged.next(daveners);
-            this.loading = false;
         },
             error => {
                 this.daveningService.errorMessage = "There was a problem retrieving the users";
                 console.log(error);
-                this.loading = false;
             });
     }
 
     editDavener(davenerToEdit: Davener) {
-        this.loading = true;
-        this.httpService.editDavener(davenerToEdit).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.editDavener(davenerToEdit).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             daveners => {
                 this.daveners = daveners;
-                this.loading = false;
                 this.davenersChanged.next(daveners);
             },
             () => {
                 this.daveningService.errorMessage = "We are sorry. There was an error saving the new edits.";
-                this.loading = false;
             }
         );
     }
 
     deleteDavener(davenerId: number, davenerEmail: string) {
-        this.loading = true;
-        this.httpService.deleteDavener(davenerId).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.deleteDavener(davenerId).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
                 this.getDaveners(); //refreshing list reflects deleted item.
-                this.loading = false;
             },
             error => {
                 this.daveningService.errorMessage = `We are sorry, there was a problem removing "${davenerEmail}" from the davening list.`
                 console.log(error);
-                this.loading = false;
             }
         );
     }
 
     activateDavener(davener: Davener) {
-        this.loading = true;
-        this.httpService.activateDavener(davener).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.activateDavener(davener).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
                 this.changeToActivate(davener);
-                this.loading = false;
             },
             error => {
                 this.daveningService.errorMessage = `An error occurred when activating ${davener.email}`;
                 console.log(error);
-                this.loading = false;
             }
         );
     }
 
     disactivateDavener(davener: Davener) {
-        this.loading = true;
-        this.httpService.disactivateDavener(davener).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.disactivateDavener(davener).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
                 this.changeToDisactivate(davener);
-                this.loading = false;
             },
             error => {
                 this.daveningService.errorMessage = `An error occurred when disactivating ${davener.email}`;
                 console.log(error);
-                this.loading = false;
             }
         );
     }
@@ -220,81 +210,76 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     addDavener(davener: Davener) {
-        this.loading = true;
-        this.httpService.addDavener(davener).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.addDavener(davener).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             daveners => {
                 this.daveners = daveners;
                 this.davenersChanged.next(daveners);
                 this.daveningService.successMessage = `${davener.email} will now receive the davening lists.`;
-                this.loading = false;
             },
             () => {
                 this.daveningService.errorMessage = `We are sorry. There was an error adding ${davener.email}`;
-                this.loading = false;
             }
         );
     }
 
     deleteDavenfor(davenforId: number, englishName: string) {
-        this.loading = true;
-        this.httpService.deleteDavenfor('admin/delete/' + davenforId).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.deleteDavenfor('admin/delete/' + davenforId).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             updatedDavenfors => {
                 this.davenfors = updatedDavenfors;
                 this.davenforsChanged.next(updatedDavenfors);
                 this.daveningService.successMessage = `The name '${englishName}' has been deleted`;
-                this.loading = false;
             },//refreshing list reflects deleted item.
             () => {
                 this.daveningService.errorMessage = `We are sorry.  There was an error deleting ${englishName}`;
-                this.loading = false;
             }
         );
     }
 
     addDavenfor(basicInfo: SimpleDavenfor, announceSuccess = true) { //by default let user know addition was successful. (not if urgent name being sent out)
         const newDavenfor = this.constructNewDavenfor(basicInfo);
-        this.loading = true;
-        this.httpService.addDavenfor(basicInfo.userEmail || "", newDavenfor).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.addDavenfor(basicInfo.userEmail || "", newDavenfor).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
                 this.populateAdminDavenfors();
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                 if (announceSuccess) {
                     this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category}' list`;
                 }
-                this.loading = false;
             },
             () => {
                 this.daveningService.errorMessage = `We are sorry.  There was an error adding ${basicInfo.nameEnglish}`;
-                this.loading = false;
             }
         );
     }
 
     editDavenfor(davenfor: Davenfor) {
-        this.loading = true;
-        this.httpService.adminEditDavenfor('admin/updatedavenfor', davenfor).subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.adminEditDavenfor('admin/updatedavenfor', davenfor).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
                 this.populateAdminDavenfors();
                 this.router.navigate(['admin/names']);
-                this.loading = false;
             },
             () => {
                 this.daveningService.errorMessage = "We are sorry. There was an error when saving the new edits.";
-                this.loading = false;
             }
         );
     }
 
     populateWeeklyCategory() { // populates current categoryfrom DB
-        this.loading = true;
-        this.httpService.getCurrentCategory().subscribe(
+        this.daveningService.setLoading(true);
+        this.httpService.getCurrentCategory().pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             incomingCategory => {
                 this.weeklyCategory = incomingCategory;
-                this.loading = false;
             },
             error => {
                 console.log(error);
-                this.loading = false;
             }
         );
     }
@@ -374,9 +359,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     editSettings(email:string, newNamePrompt:boolean, waitBeforeDeletion:number) {
-        this.loading = true;
+        this.daveningService.setLoading(true);
         var updatedSettings: AdminSettings = { email, newNamePrompt, waitBeforeDeletion };
-        this.httpService.editAdminSettings(updatedSettings).subscribe(
+        this.httpService.editAdminSettings(updatedSettings).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             success => {
                 if (success) {
                     this.settingsUpdated.next(updatedSettings);
@@ -385,11 +371,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 else { //server returned a value (not error) which is not true
                     this.daveningService.errorMessage = "The system encountered an error, no changes were made.";
                 }
-                this.loading = false;
             },
             () => {
                 this.daveningService.errorMessage = "The system encountered an error, no changes were made.";
-                this.loading = false;
             }
         );
     }

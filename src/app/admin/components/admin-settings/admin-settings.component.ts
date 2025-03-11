@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import { AuthService } from '../../auth/auth.service';
+import { DaveningService } from 'src/app/shared/services/davening.service';
 
 @Component({
     selector: 'app-admin-settings',
@@ -16,7 +17,7 @@ export class AdminSettingsComponent implements OnInit, OnDestroy {
     wait: number = 7;
     settingsUpdatedSub: Subscription = new Subscription;
     
-    constructor(public adminService: AdminService, public router: Router, public authService: AuthService) { }
+    constructor(public daveningService:DaveningService, public adminService: AdminService, public router: Router, public authService: AuthService) { }
 
     async ngOnInit() {
         this.adminService.populateAdminSettings();

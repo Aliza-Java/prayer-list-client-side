@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
@@ -21,8 +21,7 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         public router: Router,
         public guestService: GuestService,
         public daveningService: DaveningService,
-        public httpService: HttpService, 
-        private cdRef: ChangeDetectorRef) { }
+        public httpService: HttpService) { }
 
     ngOnInit() {
         this.davenfors = this.guestService.myDavenfors;
@@ -47,9 +46,6 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         if (confirm(`Are you sure you want to delete the name ${name} ?`))
         {
             this.guestService.activeRow = index;
-            this.guestService.loading = true;
-            this.cdRef.detectChanges(); // Force change detection to update spinner
-
             this.guestService.deleteDavenfor(id, name);
         }
     }

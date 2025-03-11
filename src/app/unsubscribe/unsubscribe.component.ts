@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -37,18 +38,16 @@ loading:boolean = false;
     onSubmit(){
         if(this.unsubscribeForm.valid)
         {
-            this.loading = true;
+            this.daveningService.setLoading(true);
             let email:string = this.unsubscribeForm.value['email'];
             console.log(this.httpService.baseUrl + "user/unsubscribe/request?email=" + email);
                 this.http.get<{ message: string }>(this.httpService.baseUrl + "user/unsubscribe/request?email=" + email)
-                .subscribe({
+                .pipe(finalize(() => this.daveningService.setLoading(false))).subscribe({
                     next: response => {
-                        this.loading = false;
                         console.log("Response:", response);
                         this.daveningService.successMessage = response.message;
                     },
                     error: err => {
-                        this.loading = false;
                         console.error("Error:", err);
                         this.daveningService.errorMessage = "There was an error sending the email.  Try again later, or contact your admin.";
                     }

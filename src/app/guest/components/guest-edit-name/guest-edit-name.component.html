@@ -114,8 +114,8 @@
     <div class="form-group">
         <div class="col-12 text-center">
             <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
-            <button type="submit" class="btn btn-success btn-lg" [disabled]="nameForm.invalid">
-                <span [ngStyle]="{ visibility: guestService.loading ? 'visible' : 'hidden' }"><app-loading-spinner-small></app-loading-spinner-small></span>
+            <button type="submit" class="btn btn-success btn-lg" [disabled]="nameForm.invalid || (daveningService.loading$ | async)">
+                <span [ngStyle]="{ visibility: (daveningService.loading$ | async) ? 'visible' : 'hidden' }"><app-loading-spinner-small></app-loading-spinner-small></span>
                 Save Changes
                 <!--this second one is to center the text exactly in the middle-->
                 <span style="visibility: hidden"><app-loading-spinner-small></app-loading-spinner-small></span>

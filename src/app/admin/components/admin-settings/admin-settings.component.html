@@ -1,9 +1,9 @@
 <div class="container">
-    <div *ngIf="adminService.loading" style="text-align: center">
+    <div *ngIf="daveningService.loading$ | async" style="text-align: center">
         <app-loading-spinner></app-loading-spinner>
     </div>
 
-    <div *ngIf="!adminService.loading">
+    <div *ngIf="!(daveningService.loading$ | async)">
         <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
             <div class="form-group first-div row">
                 <div class="col-6 offset-2">

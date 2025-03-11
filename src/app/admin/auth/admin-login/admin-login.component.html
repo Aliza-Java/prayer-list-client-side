@@ -1,10 +1,10 @@
 <div class="container">
 
-    <div *ngIf="authService.loading" style="text-align: center">
+    <div *ngIf="daveningService.loading$ | async" style="text-align: center">
         <app-loading-spinner></app-loading-spinner>
     </div>
 
-    <div *ngIf="!authService.loading">
+    <div *ngIf="!(daveningService.loading$ | async)">
         <div class="row">
             <h3 class="text-center">Admin Login</h3>
             <div class="col-4"></div>

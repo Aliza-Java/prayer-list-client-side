@@ -34,7 +34,7 @@ export class GuestSubmitNameComponent implements OnInit {
     constructor(
         public router: Router,
         public guestService: GuestService,
-        private daveningService: DaveningService) { }
+        public daveningService: DaveningService) { }
 
     async ngOnInit() {
         this.createFormControls();
@@ -81,11 +81,7 @@ export class GuestSubmitNameComponent implements OnInit {
     }
 
     onSubmit() {
-        if (this.guestService.loading) {
-            return;
-        }
-
-        this.guestService.setLoading(true);
+        this.daveningService.setLoading(true); //setting here in case there is a delay till the service setting
         /*If spouse name will be full and valid, will populate later.  
         Initializing before 'banim' condition so that recognized in 'formInfo' population below    */
         let spouseEnglishFull = "";

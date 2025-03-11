@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AdminService } from 'src/app/admin/admin.service';
-import { HttpService } from 'src/app/shared/services/http.service';
 import { AuthService } from '../auth.service';
+import { DaveningService } from 'src/app/shared/services/davening.service';
 
 @Component({
     selector: 'app-admin-login',
@@ -13,7 +13,7 @@ export class AdminLoginComponent implements OnInit {
 
     loginForm: UntypedFormGroup = new UntypedFormGroup({});
 
-    constructor(public httpService:HttpService, public adminService:AdminService, public authService:AuthService) { }
+    constructor(public daveningService:DaveningService, public adminService:AdminService, public authService:AuthService) { }
 
     ngOnInit() {
         this.loginForm = new UntypedFormGroup({

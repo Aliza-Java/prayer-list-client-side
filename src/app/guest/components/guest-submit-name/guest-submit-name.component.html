@@ -225,9 +225,9 @@
         <div class="col-2 offset-4">
 
             <button class="btn btn-success btn-lg" type="submit"
-                [disabled]="nameForm.invalid || (guestService.loading$ | async)">
+                [disabled]="nameForm.invalid || (daveningService.loading$ | async)">
                 <span
-                    *ngIf="guestService.loading$ | async; else notLoading">One moment...<app-loading-spinner-small></app-loading-spinner-small></span>
+                    *ngIf="daveningService.loading$ | async; else notLoading">One moment...<app-loading-spinner-small></app-loading-spinner-small></span>
                 <ng-template #notLoading>
                     <span>Add Name</span>
                 </ng-template>

@@ -65,10 +65,7 @@ export class GuestEditNameComponent implements OnInit {
     }
 
     onSubmit() {
-        if (this.guestService.loading) //to avoid sending twice
-            return;
-
-        this.guestService.loading = true;
+        this.daveningService.setLoading(true);
         /*If spouse name will be full and valid, will populate later.  
         Initializing before 'banim' condition so that recognized in 'formInfo' population below*/
         let form = this.nameForm; //shortening references in this function
