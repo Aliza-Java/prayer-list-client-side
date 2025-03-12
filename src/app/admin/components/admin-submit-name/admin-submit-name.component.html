@@ -62,7 +62,7 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.english2')?.valid && nameForm.get('name.english2')?.touched"
                     class="help-block">
-                    <span *ngIf="nameForm.get('name.english2')?.errors?.['pattern']">English letters and spaces</span>
+                    <span *ngIf="nameForm.get('name.english2')?.errors?.['pattern']">English letters (spaces allowed)</span>
                     <span *ngIf="nameForm.get('name.english2')?.errors?.['required']">This field is required</span>
                 </span>
             </div>
@@ -104,7 +104,7 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.hebrew1')?.valid && nameForm.get('name.hebrew1')?.touched"
                     class="help-block">
-                    <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Hebrew letters and spaces</span>
+                    <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Hebrew letters (spaces allowed)</span>
                     <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['required']">This field is required</span>
                 </span>
             </div>
@@ -126,8 +126,7 @@
                     <!--Validation: must include only English letters and spaces -->
                     <span *ngIf="!nameForm.get('spouse.english1')?.valid && nameForm.get('spouse.english1')?.touched"
                         class="help-block">
-                        <span class="text-right" *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">English
-                            letters and spaces</span>
+                        <span class="text-right" *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">English letters (spaces allowed)</span>
                     </span>
                     <!--Validation: If user entered only part of spouse's English name-->
                     <span *ngIf="spouseEnglishError" class="help-block">

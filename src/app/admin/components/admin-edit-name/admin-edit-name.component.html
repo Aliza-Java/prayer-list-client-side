@@ -51,8 +51,7 @@
                     <!--Validation: must include only English letters and spaces -->
                     <span *ngIf="!nameForm.get('spouseEnglish')?.valid && nameForm.get('spouseEnglish')?.touched"
                         class="help-block">
-                        <span class="text-right" *ngIf="nameForm.get('spouseEnglish')?.errors?.['pattern']">English
-                            letters and spaces</span>
+                        <span class="text-right" *ngIf="nameForm.get('spouseEnglish')?.errors?.['pattern']">English letters (spaces allowed)</span>
                     </span>
                 </div>
                 <div class="col-3 input-box">

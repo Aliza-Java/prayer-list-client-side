@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
     providedIn: 'root'
 })
 export class DaveningService { // A general service to hold 'global' data relevant all around
-    englishNamePattern = "^[a-zA-Z '\\-\\ ]*$";
-    hebrewNamePattern = "^[\\u0590-\\u05fe '\\-]*$";
+    englishNamePattern = "^(?=.*[a-zA-Z])[a-zA-Z '\-]*$"; //lookahead ensures at least one letter is present
+    hebrewNamePattern = "^(?=.*[\\u0590-\\u05fe])[\\u0590-\\u05fe '\\-]*$"; //also ensuring at least one hebrew letter is present
     categories: string[] = [];
     categoriesSub: Subscription = new Subscription();
     showHeaderMenu: boolean = true;
