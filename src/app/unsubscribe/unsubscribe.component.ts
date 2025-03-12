@@ -45,11 +45,11 @@ loading:boolean = false;
                 .pipe(finalize(() => this.daveningService.setLoading(false))).subscribe({
                     next: response => {
                         console.log("Response:", response);
-                        this.daveningService.successMessage = response.message;
+                        this.daveningService.setSuccessMessage(response.message);
                     },
                     error: err => {
                         console.error("Error:", err);
-                        this.daveningService.errorMessage = "There was an error sending the email.  Try again later, or contact your admin.";
+                        this.daveningService.setErrorMessage("There was an error sending the email.  Try again later, or contact your admin.");
                     }
                   });
             }

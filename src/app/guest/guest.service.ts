@@ -42,11 +42,11 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 },
                 error => {
                     if (error.status === 0) {
-                        this.daveningService.errorMessage = 'The server seems to be down... please contact your website admin';
+                        this.daveningService.setErrorMessage('The server seems to be down... please contact your website admin');
                         this.daveningService.serverFine = false;
                     }
                     else
-                        this.daveningService.errorMessage = `We could not retrieve names associated with ${this.guestEmail}`;
+                        this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
                 });
     }
 
@@ -57,11 +57,11 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 updatedList => {
                     this.myDavenfors = updatedList;
                     this.myDavenforsChanged.next(updatedList);
-                    this.daveningService.successMessage = `The name '${englishName}' has been deleted`;
+                    this.daveningService.setSuccessMessage(`The name '${englishName}' has been deleted`);
                     this.activeRow = -1;
                 },
                 error => {
-                    this.daveningService.errorMessage = `There was a problem deleting the name "${englishName}".  We recommend refreshing the page`;
+                    this.daveningService.setErrorMessage(`There was a problem deleting the name "${englishName}".  We recommend refreshing the page`);
                     console.log(error);
                     this.activeRow = -1;
                 }

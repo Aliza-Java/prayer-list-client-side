@@ -38,11 +38,11 @@ export class AuthService {
             error => {
                 if (error.status === 0)
                     {
-                        this.daveningService.errorMessage = 'The server seems to be down... please contact technical support';
+                        this.daveningService.setErrorMessage('The server seems to be down... please contact technical support');
                         this.daveningService.serverFine = false;
                     }
                     else
-                        this.daveningService.errorMessage = "Please check your email and password again. ";              
+                        this.daveningService.setErrorMessage("Please check your email and password again. ");              
             });
     }
 

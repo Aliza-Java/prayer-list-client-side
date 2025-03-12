@@ -101,7 +101,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.davenforsChanged.next(names);
             },
             () => {
-                this.daveningService.errorMessage = "We could not retrieve the names.  Please contact the admin.";
+                this.daveningService.setErrorMessage("We could not retrieve the names.  Please contact the admin.");
             }
         );
     }
@@ -117,7 +117,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                     this.settingsUpdated.next(response);
                 },
                 error => {
-                    this.daveningService.errorMessage = "There was a problem retrieving the admin settings";
+                    this.daveningService.setErrorMessage("There was a problem retrieving the admin settings");
                     console.log(error);
                 }
             );
@@ -132,7 +132,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             this.davenersChanged.next(daveners);
         },
             error => {
-                this.daveningService.errorMessage = "There was a problem retrieving the users";
+                this.daveningService.setErrorMessage("There was a problem retrieving the users");
                 console.log(error);
             });
     }
@@ -146,7 +146,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.davenersChanged.next(daveners);
             },
             () => {
-                this.daveningService.errorMessage = "We are sorry. There was an error saving the new edits.";
+                this.daveningService.setErrorMessage("We are sorry. There was an error saving the new edits.");
             }
         );
     }
@@ -159,7 +159,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.getDaveners(); //refreshing list reflects deleted item.
             },
             error => {
-                this.daveningService.errorMessage = `We are sorry, there was a problem removing "${davenerEmail}" from the davening list.`
+                this.daveningService.setErrorMessage(`We are sorry, there was a problem removing "${davenerEmail}" from the davening list.`);
                 console.log(error);
             }
         );
@@ -173,7 +173,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.changeToActivate(davener);
             },
             error => {
-                this.daveningService.errorMessage = `An error occurred when activating ${davener.email}`;
+                this.daveningService.setErrorMessage(`An error occurred when activating ${davener.email}`);
                 console.log(error);
             }
         );
@@ -187,7 +187,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.changeToDisactivate(davener);
             },
             error => {
-                this.daveningService.errorMessage = `An error occurred when disactivating ${davener.email}`;
+                this.daveningService.setErrorMessage(`An error occurred when disactivating ${davener.email}`);
                 console.log(error);
             }
         );
@@ -216,10 +216,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             daveners => {
                 this.daveners = daveners;
                 this.davenersChanged.next(daveners);
-                this.daveningService.successMessage = `${davener.email} will now receive the davening lists.`;
+                this.daveningService.setSuccessMessage(`${davener.email} will now receive the davening lists.`);
             },
             () => {
-                this.daveningService.errorMessage = `We are sorry. There was an error adding ${davener.email}`;
+                this.daveningService.setErrorMessage(`We are sorry. There was an error adding ${davener.email}`);
             }
         );
     }
@@ -231,10 +231,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             updatedDavenfors => {
                 this.davenfors = updatedDavenfors;
                 this.davenforsChanged.next(updatedDavenfors);
-                this.daveningService.successMessage = `The name '${englishName}' has been deleted`;
+                this.daveningService.setSuccessMessage(`The name '${englishName}' has been deleted`);
             },//refreshing list reflects deleted item.
             () => {
-                this.daveningService.errorMessage = `We are sorry.  There was an error deleting ${englishName}`;
+                this.daveningService.setErrorMessage(`We are sorry.  There was an error deleting ${englishName}`);
             }
         );
     }
@@ -248,11 +248,11 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.populateAdminDavenfors();
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                 if (announceSuccess) {
-                    this.daveningService.successMessage = `The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category}' list`;
+                    this.daveningService.setSuccessMessage(`The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category}' list`);
                 }
             },
             () => {
-                this.daveningService.errorMessage = `We are sorry.  There was an error adding ${basicInfo.nameEnglish}`;
+                this.daveningService.setErrorMessage(`We are sorry.  There was an error adding ${basicInfo.nameEnglish}`);
             }
         );
     }
@@ -266,7 +266,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.router.navigate(['admin/names']);
             },
             () => {
-                this.daveningService.errorMessage = "We are sorry. There was an error when saving the new edits.";
+                this.daveningService.setErrorMessage("We are sorry. There was an error when saving the new edits.");
             }
         );
     }
@@ -297,7 +297,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 }
             },
             () => {
-                this.daveningService.errorMessage = "There was an error generating the preview.";
+                this.daveningService.setErrorMessage("There was an error generating the preview.");
             }
         );
     }
@@ -309,11 +309,11 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                     this.sendWeekly(weeklyInfo);
                 }
                 else {
-                    this.daveningService.errorMessage = "Password is incorrect.";
+                    this.daveningService.setErrorMessage("Password is incorrect.");
                 }
             },
             error => {
-                this.daveningService.errorMessage = "There was a problem verifying the Admin password.";
+                this.daveningService.setErrorMessage("There was a problem verifying the Admin password.");
                 console.log(error);
             }
         );
@@ -322,10 +322,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     sendWeekly(weeklyInfo: Weekly) {
         this.httpService.sendWeekly(weeklyInfo).subscribe(
             () => {
-                this.daveningService.successMessage = "Weekly list has been sent out to active subscribers ";
+                this.daveningService.setSuccessMessage("Weekly list has been sent out to active subscribers ");
             },
             error => {
-                this.daveningService.errorMessage = "There was a problem sending out the weekly list. ";
+                this.daveningService.setErrorMessage("There was a problem sending out the weekly list. ");
                 console.log(error);
             }
         );
@@ -345,10 +345,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
         this.httpService.sendUrgent(urgentDavenfor).subscribe(
             () => {
-                this.daveningService.successMessage = `The name ${formInfo.nameEnglish} has been sent out to all subscribers`;
+                this.daveningService.setSuccessMessage(`The name ${formInfo.nameEnglish} has been sent out to all subscribers`);
             },
             () => {
-                this.daveningService.errorMessage = `We are sorry.  The name ${formInfo.nameEnglish} could not be sent to subscribers`;
+                this.daveningService.setErrorMessage(`We are sorry.  The name ${formInfo.nameEnglish} could not be sent to subscribers`);
             }
         );
     }
@@ -366,14 +366,14 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             success => {
                 if (success) {
                     this.settingsUpdated.next(updatedSettings);
-                    this.daveningService.successMessage = "Changes were saved";
+                    this.daveningService.setSuccessMessage("Changes were saved");
                 }
                 else { //server returned a value (not error) which is not true
-                    this.daveningService.errorMessage = "The system encountered an error, no changes were made.";
+                    this.daveningService.setErrorMessage("The system encountered an error, no changes were made.");
                 }
             },
             () => {
-                this.daveningService.errorMessage = "The system encountered an error, no changes were made.";
+                this.daveningService.setErrorMessage("The system encountered an error, no changes were made.");
             }
         );
     }
