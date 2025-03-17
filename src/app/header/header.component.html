@@ -6,11 +6,11 @@
             <img class="navbar-text" src="../../assets/images/logo.png" alt="" padding-top="20px" />
         </div>
 
-        <div class="col-md-5 text-center">
+        <div class="col-md-6 text-center">
             <!--title-->
             <div class="navbar-text" id="header-title">Davening List</div>
         </div>
-        <div class="col-md-4" *ngIf="daveningService.showHeaderMenu">
+        <div class="col-md-3" *ngIf="daveningService.showHeaderMenu; else fill">
             <!--guest/admin menu-->
             <nav class="navbar navbar-expand-md navbar-light">
                 <div class="container-fluid">
@@ -30,5 +30,10 @@
                 </div>
             </nav>
         </div>
+
+        <ng-template #fill>
+            <div class="col-md-3"></div>
+        </ng-template>
+
     </div>
 </header>
