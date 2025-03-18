@@ -23,7 +23,6 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         public daveningService: DaveningService) {
     }
 
-    
 
     getCategory(name: string) {
         //double equal sign (instead of triple) since incoming id is a string while category.id is a number.
@@ -40,13 +39,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                     this.myDavenforsChanged.next(names);
                     //buzz the event, so every subscribing component reacts accordingly.
                 },
-                error => {
-                    if (error.status === 0) {
-                        this.daveningService.setErrorMessage('The server seems to be down... please contact your website admin');
-                        this.daveningService.serverFine = false;
-                    }
-                    else
-                        this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
+                () => {
+                    this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
                 });
     }
 

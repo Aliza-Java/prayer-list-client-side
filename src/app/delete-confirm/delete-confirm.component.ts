@@ -36,7 +36,6 @@ export class DeleteConfirmComponent {
                 console.log('Response received:', response);
                 this.extractAndInjectStyles(response);
                 this.responseMessage = response;
-                this.isLoading = false;
             }, error => {
                 console.error('Error occurred:', error);
                 this.extractAndInjectStyles(error);

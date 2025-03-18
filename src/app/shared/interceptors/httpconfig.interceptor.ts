@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,8 +15,14 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                 this.router.navigate([`guest`]);
                 return throwError(error.message);  //The message is what will be thrown to the Observable, which will show it in alert
             }
-            // If it is not an authentication error, just throw it
-            return throwError(error);//The message is what will be thrown to the Observable, which will handle it according to specifications
+
+            else if (error.status === 0) {
+                this.router.navigate(['down']);
+                return throwError(error.message);
+            }
+            else
+                // If it is not an authentication error, just throw it
+                return throwError(error);//The message is what will be thrown to the Observable, which will handle it according to specifications
         }));
     }
 }

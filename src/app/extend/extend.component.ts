@@ -4,13 +4,14 @@ import { NgIf } from '@angular/common';
 import { DaveningService } from '../shared/services/davening.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'app-extend',
-  standalone: true,
-  imports: [NgIf, SharedModule],
-  templateUrl: './extend.component.html',
-  styleUrls: ['./extend.component.css']
+    selector: 'app-extend',
+    standalone: true,
+    imports: [NgIf, SharedModule],
+    templateUrl: './extend.component.html',
+    styleUrls: ['./extend.component.css']
 })
 export class ExtendComponent {
     token: string | null = '';
@@ -19,13 +20,13 @@ export class ExtendComponent {
     isLoading: boolean = false;
     name: string | null = "this name";
 
-    constructor(daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+    constructor(private daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
         daveningService.showHeaderMenu = false;
 
         this.dfId = this.route.snapshot.queryParamMap.get('id');
         this.name = this.route.snapshot.queryParamMap.get('name') ? this.route.snapshot.queryParamMap.get('name') : 'this name';
         this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
-    } 
+    }
 
     confirmExtend() {
         if (this.isLoading)
@@ -33,16 +34,15 @@ export class ExtendComponent {
 
         this.isLoading = true;
         this.http.get(`http://localhost:8080/dlist/direct/extend/${this.dfId}/${this.token}`, { responseType: 'text' })
-            .subscribe((response: string) => {
+            .pipe(finalize(() => this.daveningService.setLoading(false)))
+            .subscribe((response: any) => {
                 console.log('Response received:', response);
                 this.extractAndInjectStyles(response);
                 this.responseMessage = response;
                 this.isLoading = false;
-            }, (error: string) => {
+            }, (error: any) => {
                 console.error('Error occurred:', error);
                 this.extractAndInjectStyles(error);
-                this.responseMessage = error;
-                this.isLoading = false;
             });
     }
 

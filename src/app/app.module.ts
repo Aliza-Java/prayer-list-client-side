@@ -21,6 +21,8 @@ import { TokenInterceptor } from './admin/auth/token.interceptor';
 import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { ExtendComponent } from './extend/extend.component';
+import { DownComponent } from './down/down.component';
+import { HttpConfigInterceptor } from './shared/interceptors/httpconfig.interceptor';
 
 @NgModule({
     declarations: [
@@ -28,7 +30,8 @@ import { ExtendComponent } from './extend/extend.component';
         HeaderComponent,
         FooterComponent,
         SuccessComponent,
-        ErrorComponent,],
+        ErrorComponent,
+    ],
     imports: [
         UnsubscribeComponent,
         DeleteConfirmComponent,
@@ -41,7 +44,8 @@ import { ExtendComponent } from './extend/extend.component';
         RouterModule,
         SharedModule,
         AdminRoutingModule,
-        GuestRoutingModule
+        GuestRoutingModule, 
+        DownComponent
     ],
     providers: [
         DaveningService, 
@@ -50,7 +54,13 @@ import { ExtendComponent } from './extend/extend.component';
             provide: HTTP_INTERCEPTORS, 
             useClass: TokenInterceptor, 
             multi: true 
+        },
+        { 
+            provide: HTTP_INTERCEPTORS, 
+            useClass: HttpConfigInterceptor, 
+            multi: true 
         }
+
     ],
     bootstrap: [AppComponent]
 })
