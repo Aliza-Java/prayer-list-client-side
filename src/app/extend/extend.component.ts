@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { DaveningService } from '../shared/services/davening.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -9,7 +9,7 @@ import { finalize } from 'rxjs';
 @Component({
     selector: 'app-extend',
     standalone: true,
-    imports: [NgIf, SharedModule],
+    imports: [NgIf, SharedModule, CommonModule],
     templateUrl: './extend.component.html',
     styleUrls: ['./extend.component.css']
 })
@@ -20,7 +20,7 @@ export class ExtendComponent {
     isLoading: boolean = false;
     name: string | null = "this name";
 
-    constructor(private daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+    constructor(public daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
         daveningService.showHeaderMenu = false;
 
         this.dfId = this.route.snapshot.queryParamMap.get('id');
@@ -33,13 +33,14 @@ export class ExtendComponent {
             return;
 
         this.isLoading = true;
+        this.daveningService.setLoading(true);        
+
         this.http.get(`http://localhost:8080/dlist/direct/extend/${this.dfId}/${this.token}`, { responseType: 'text' })
             .pipe(finalize(() => this.daveningService.setLoading(false)))
             .subscribe((response: any) => {
                 console.log('Response received:', response);
                 this.extractAndInjectStyles(response);
                 this.responseMessage = response;
-                this.isLoading = false;
             }, (error: any) => {
                 console.error('Error occurred:', error);
                 this.extractAndInjectStyles(error);

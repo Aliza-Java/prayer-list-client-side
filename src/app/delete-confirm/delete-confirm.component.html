@@ -5,6 +5,6 @@
     <button class="btn btn-success btn-md" (click)="cancel()">Cancel</button>
   </div>
 
-  <div class="spinner" *ngIf="isLoading"><app-loading-spinner></app-loading-spinner></div>
+  <div class="spinner" *ngIf="(daveningService.loading$ | async) "><app-loading-spinner></app-loading-spinner></div>
 
   <div class="response" *ngIf="responseMessage" [innerHTML]="responseMessage"></div>

@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { DaveningService } from '../shared/services/davening.service';
 import { SharedModule } from '../shared/shared.module';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-delete-confirm',
     standalone: true,
-    imports: [NgIf, SharedModule],
+    imports: [NgIf, SharedModule, CommonModule],
     templateUrl: './delete-confirm.component.html',
     styleUrls: ['./delete-confirm.component.css']
 })
@@ -19,7 +20,7 @@ export class DeleteConfirmComponent {
     responseMessage: string | null = null;
     isLoading: boolean = false;
 
-    constructor(daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+    constructor(public daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
         daveningService.showHeaderMenu = false;
 
         this.dfId = this.route.snapshot.queryParamMap.get('id');
@@ -31,8 +32,10 @@ export class DeleteConfirmComponent {
             return;
 
         this.isLoading = true;
+        this.daveningService.setLoading(true);        
         this.http.delete(`http://localhost:8080/dlist/direct/delete/${this.dfId}/${this.token}`, { responseType: 'text' })
-            .subscribe(response => {
+            .pipe(finalize(() => this.daveningService.setLoading(false)))
+                        .subscribe(response => {
                 console.log('Response received:', response);
                 this.extractAndInjectStyles(response);
                 this.responseMessage = response;
@@ -40,7 +43,6 @@ export class DeleteConfirmComponent {
                 console.error('Error occurred:', error);
                 this.extractAndInjectStyles(error);
                 this.responseMessage = error;
-                this.isLoading = false;
             });
     }
 
