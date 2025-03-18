@@ -16,7 +16,6 @@ export class AdminEditNameComponent implements OnInit {
     updatedInfo: Davenfor = new Davenfor;
     nameForm: UntypedFormGroup = new UntypedFormGroup({});
     categories: string[] = []; //creating here so it is ready to populate and recognize later
-    banimNumber: number = 0; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
     spouseEnglishError = false;
     spouseHebrewError = false;
 
@@ -35,13 +34,14 @@ export class AdminEditNameComponent implements OnInit {
         public adminService: AdminService, 
         public router: Router) { }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.oldInfo = this.adminService.davenforToEdit ?? new Davenfor;
         this.populateFormControls();
         this.setForm();
 
         //Populating category array from Server
-        this.categories = this.adminService.categories;
+        this.categories = await this.daveningService.populateCategories();
+
     }
 
     populateFormControls() {
@@ -77,7 +77,7 @@ export class AdminEditNameComponent implements OnInit {
 
         let updatedInfo: Davenfor = new Davenfor(this.oldInfo.id,
             form.get('userEmail')?.value,
-            this.adminService.getCategory(form.get('category')?.value || ''),
+            form.get('category')?.value,
             form.get('hebrew')?.value,
             form.get('english')?.value,
             form.get('spouseHebrew')?.value,
