@@ -15,7 +15,6 @@ import { HttpService } from 'src/app/shared/services/http.service';
 export class AdminSubmitNameComponent implements OnInit {
     nameForm: UntypedFormGroup = new UntypedFormGroup({});
     categories: string[] = []; //creating here so it is ready to populate and recognize later
-    banimNumber: number = 0; //We need the id in order to refer to it in the html (if value of category input is the one of banim)
     chosenCategory: string = '';
     spouseEnglishError = false;
     spouseHebrewError = false;
@@ -37,12 +36,11 @@ export class AdminSubmitNameComponent implements OnInit {
 
     constructor(public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService, public router: Router) { }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.createFormControls();
         this.setForm();
 
-        //Populating category array from Server
-        this.categories = this.adminService.categories;
+        this.categories = await this.daveningService.populateCategories();      
     }
 
     createFormControls() {
@@ -95,7 +93,7 @@ export class AdminSubmitNameComponent implements OnInit {
         let spouseHebrewFull = "";
         
         let form = this.nameForm; //shortening all references in this function
-        const chosenCategory = this.adminService.getCategory(form.get('category')?.value || '');
+        const chosenCategory = (form.get('category')?.value || '');
         const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
         const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
         let userEmail = form.get('userEmail')?.value;
@@ -112,8 +110,8 @@ export class AdminSubmitNameComponent implements OnInit {
             if (spouseEnglish1 && spouseEnglish2)
                 spouseEnglishFull = `${spouseEnglish1} ben ${spouseEnglish2}`; //It must be ben, as it is the husband
 
-            if (spouseHebrew1 && spouseHebrew2)
-                spouseHebrewFull = `${spouseHebrew2} בן ${spouseHebrew1}`;
+            if (spouseHebrew1 && spouseHebrew2) 
+                spouseHebrewFull = `${spouseHebrew1} בן ${spouseHebrew2}`; //This order concats it correctly
         }
 
         let formInfo = new SimpleDavenfor(
@@ -170,5 +168,10 @@ export class AdminSubmitNameComponent implements OnInit {
             this.spouseHebrewError = true;
         }
         else this.spouseHebrewError = false;
+    }
+
+    checkBanim(){
+        return (this.nameForm.get('category')?.value != null && 
+        this.nameForm.get('category')?.value == 'banim');
     }
 }
