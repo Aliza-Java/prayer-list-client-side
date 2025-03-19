@@ -23,7 +23,7 @@ div {
 }
 
 .inactive {
-    color: #bfbfbf;
+    color: #acacac;
 }
 
 .loading {
@@ -46,4 +46,17 @@ help-block {
 
 .loading-cell{
     text-align: center;
+}
+
+hr {
+    flex-grow: 1; 
+    border: none; 
+    border-top: 1px solid black;
+}
+
+.hr-wrapper {
+    display: flex; 
+    align-items: center; 
+    text-align: center;
+    margin-top: 25px;
 }

@@ -112,7 +112,6 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             this.httpService.getAdminSettings(this.authService.adminLogin.email || '').pipe(
                 finalize(() => this.daveningService.setLoading(false))).subscribe(
                 response => {
-                    console.log(response);
                     this.adminSettings = response;
                     this.settingsUpdated.next(response);
                 },
@@ -142,11 +141,12 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         this.httpService.editDavener(davenerToEdit).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
             daveners => {
+                this.daveningService.setSuccessMessage(`Changes have been saved`);
                 this.daveners = daveners;
                 this.davenersChanged.next(daveners);
             },
             () => {
-                this.daveningService.setErrorMessage("We are sorry. There was an error saving the new edits.");
+                this.daveningService.setErrorMessage("We are sorry. There was an error saving the new edits");
             }
         );
     }
@@ -156,6 +156,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         this.httpService.deleteDavener(davenerId).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
+                this.daveningService.setSuccessMessage(`${davenerEmail} has been removed`);
                 this.getDaveners(); //refreshing list reflects deleted item.
             },
             error => {
@@ -171,6 +172,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
                 this.changeToActivate(davener);
+                this.daveningService.setSuccessMessage(`${davener.email} has been activated`);
             },
             error => {
                 this.daveningService.setErrorMessage(`An error occurred when activating ${davener.email}`);
@@ -185,6 +187,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
                 this.changeToDisactivate(davener);
+                this.daveningService.setSuccessMessage(`${davener.email} has been disactivated`);
             },
             error => {
                 this.daveningService.setErrorMessage(`An error occurred when disactivating ${davener.email}`);
@@ -216,7 +219,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             daveners => {
                 this.daveners = daveners;
                 this.davenersChanged.next(daveners);
-                this.daveningService.setSuccessMessage(`${davener.email} will now receive the davening lists.`);
+                this.daveningService.setSuccessMessage(`${davener.email} will now receive the davening lists`);
             },
             () => {
                 this.daveningService.setErrorMessage(`We are sorry. There was an error adding ${davener.email}`);

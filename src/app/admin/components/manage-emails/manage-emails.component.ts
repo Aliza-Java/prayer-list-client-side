@@ -39,28 +39,50 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         this.davenerToEdit = new Davener(-1, '', '', 0, false); //html will check if any davener's id is equal to davenerToEdit's id, this prevents an undefined value
     }
 
-
     onEdit(davener: Davener) {
         Object.assign(this.davenerToEdit, davener); //important for ngModel
+        console.log("onEdit()");
+
     }
 
     onSendEdit() {
+        if (this.isLoading)
+            return;
+
+        this.isLoading = true;
+        console.log("onSendEdit()");
+
         this.adminService.editDavener(this.davenerToEdit);
 
         this.resetDavener();  //switching it back to default so that no davener matches davenerToEdit's id.
+        this.isLoading = false;
     }
 
     onDelete(davener: Davener) {
+        
+
+        console.log("onDelete()");
+
         if (confirm('Are you sure you want to remove the email ' + davener.email + ' from the davening list?')) {
             this.adminService.deleteDavener(davener.id, davener.email);
         }
     }
 
     onDisactivate(davener: Davener) {
+        if (this.daveningService.loading)
+            return;
+
+        console.log("onDisactivate()");
+
         this.adminService.disactivateDavener(davener);
     }
 
     onActivate(davener: Davener) {
+        if (this.daveningService.loading)
+            return;
+
+        console.log("onActivate()");
+
         this.adminService.activateDavener(davener);
     }
 
@@ -77,13 +99,19 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     onAddDavener(info: any) {
+        if (this.isLoading)
+            return;
+
+        this.isLoading = true;
+        console.log("onAddDavener()");
+
         if (info.whatsapp == "") {
             info.whatsapp = 0; //I want it to be defined as text (no up-and-down arrows) but server doesn't like "" as an empty value, accepts only numbers
         }
         const davenerToAdd = new Davener(-1, info.country, info.email, info.whatsapp, true);
         this.adminService.addDavener(davenerToAdd);
-        //dForm.reset();
         this.addMode = false;
+        this.isLoading = false;
     }
 
     onCancelAdd(dForm: NgForm) {

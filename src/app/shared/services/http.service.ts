@@ -60,12 +60,11 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     deleteDavener(davenerId: number) {
-        return this.http.delete<Response>(`${this.baseUrl}admin/davener/${davenerId}`, { withCredentials: true });
+        return this.http.delete<Response>(`${this.baseUrl}admin/user/${davenerId}`, { withCredentials: true });
     }
 
     disactivateDavener(davener: Davener) {
         return this.http.post<Davener[]>(this.baseUrl + 'admin/disactivate/' + davener.email, null, { withCredentials: true });
-
     }
 
     activateDavener(davener: Davener) {
@@ -73,11 +72,11 @@ export class HttpService {  //A service that makes the calls to the server
     }  
 
     addDavener(davenerToAdd: Davener) {
-        return this.http.post<Davener[]>(this.baseUrl + 'admin/davener', davenerToAdd, { withCredentials: true });
+        return this.http.post<Davener[]>(this.baseUrl + 'admin/user', davenerToAdd, { withCredentials: true });
     }
 
     editDavener(davener: Davener) {
-        return this.http.put<Davener[]>(this.baseUrl + 'admin/davener', davener, { withCredentials: true });
+        return this.http.put<Davener[]>(this.baseUrl + 'admin/user', davener, { withCredentials: true });
     }
 
     getCurrentCategory() {
