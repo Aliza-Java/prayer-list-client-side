@@ -6,3 +6,13 @@ img{
 h3 { 
     margin: 30px;
 }
+
+.container{
+    max-width: 100%;
+    background-color: #F5FBFC;
+    height: 100%;
+}
+
+button {
+    margin-top: 25px;
+}

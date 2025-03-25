@@ -10,3 +10,13 @@
 .main-content{
     flex: 1;
 }
+
+html, body, app-root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    height: 100%;
+}

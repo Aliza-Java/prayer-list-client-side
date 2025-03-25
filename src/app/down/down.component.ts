@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 //import { DaveningService } from '../shared/services/davening.service';
 
 @Component({
@@ -8,5 +9,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./down.component.css']
 })
 export class DownComponent {
+    constructor(public router:Router){}
+
+    goToHome(){
+        this.router.navigate(['guest']);
+    }
 
 }
