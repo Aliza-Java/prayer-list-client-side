@@ -1,11 +1,8 @@
 <form class="form-horizontal" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
 
-    <div *ngIf="daveningService.loading$ | async" style="text-align: center">
-        <app-loading-spinner></app-loading-spinner>
-    </div>
+    <app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
 
-    <div *ngIf="!(daveningService.loading$ | async)">
-        <div class="form-group">
+    <div class="form-group">
             <div class="col-6 offset-md-2">
                 <h5>Fields marked with (*) are required.</h5>
             </div>
@@ -249,5 +246,4 @@
                     [disabled]="nameForm.invalid||spouseEnglishError||spouseHebrewError">Add Name</button>
             </div>
         </div>
-    </div>
 </form>

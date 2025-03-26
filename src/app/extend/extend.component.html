@@ -1,10 +1,10 @@
+<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+    
     <div *ngIf="!responseMessage" class="container">
         <h2>Should we keep davening for {{ name }}?</h2>
         <button class="btn btn-success btn-md" id="extendButton" (click)="confirmExtend()">Yes, please keep it on the
             lists</button>
         <button class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
     </div>
-
-    <div class="spinner" *ngIf="(daveningService.loading$ | async)"><app-loading-spinner></app-loading-spinner></div>
 
     <div class="response" *ngIf="responseMessage" [innerHTML]="responseMessage"></div>

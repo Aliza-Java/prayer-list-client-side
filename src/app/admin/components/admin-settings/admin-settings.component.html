@@ -1,9 +1,6 @@
 <div class="container">
-    <div *ngIf="daveningService.loading$ | async" style="text-align: center">
-        <app-loading-spinner></app-loading-spinner>
-    </div>
+    <app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
 
-    <div *ngIf="!(daveningService.loading$ | async)">
         <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
             <div class="form-group first-div row">
                 <div class="col-6 offset-2">
@@ -34,4 +31,3 @@
             </div>
         </form>
     </div>
-</div>

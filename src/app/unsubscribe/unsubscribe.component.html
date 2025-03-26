@@ -1,10 +1,6 @@
 <div class="container">
 
-    <div *ngIf="loading" style="text-align: center">
-        <app-loading-spinner></app-loading-spinner>
-    </div>
-
-    <div *ngIf="!loading && !(daveningService.successMessage) && !(daveningService.errorMessage)">
+    <div *ngIf="!(daveningService.successMessage) && !(daveningService.errorMessage)">
         <div class="row">
             <h3 style="margin-top: 7%;" class="text-center">Click the button to receive an unsubscribe link to your
                 email</h3>
