@@ -8,6 +8,7 @@ import { Davener } from '../models/davener.model';
 import { Weekly } from '../models/weekly.model';
 import { JwtResponse } from '../models/jwt-response';
 import { AdminSettings } from '../models/admin-settings.model';
+import { Parasha } from '../models/parasha.model';
 
 @Injectable({
     providedIn: 'root'
@@ -35,6 +36,14 @@ export class HttpService {  //A service that makes the calls to the server
 
     getDavenfors(url: string) {
         return this.http.get<Davenfor[]>(this.baseUrl + url);
+    }
+
+    getParasha(url: string) {
+        return this.http.get<Parasha>(this.baseUrl + url);
+    }
+
+    getParashot(url: string) {
+        return this.http.get<Parasha[]>(this.baseUrl + url);
     }
 
     editDavenfor(url: string, davenfor: Davenfor) {
@@ -89,7 +98,7 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     sendWeekly(weeklyInfo: Weekly) {
-        return this.http.post<boolean>(this.baseUrl + 'admin/weekly/', weeklyInfo);
+        return this.http.post<boolean>(this.baseUrl + 'admin/weekly', weeklyInfo);
     }
 
     preview(weeklyInfo: Weekly) {

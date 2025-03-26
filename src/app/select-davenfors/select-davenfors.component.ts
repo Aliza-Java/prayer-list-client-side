@@ -27,10 +27,10 @@ export class SelectDavenforsComponent implements OnChanges {
     onDelete(davenfor: Davenfor) {
         if (confirm(`Are you sure you want to delete the name ${davenfor.nameHebrew}?`)) {//Get user permission before proceeding
             if (davenfor.id != undefined && davenfor.nameEnglish != undefined) {
-                if (this.adminPermission) { //Sent from admin user
+                if (this.adminPermission) //Sent from admin user
                     this.adminService.deleteDavenfor(davenfor.id, davenfor.nameEnglish);
-                }
-                this.guestService.deleteDavenfor(davenfor.id, davenfor.nameEnglish);
+                else //done from a guest
+                    this.guestService.deleteDavenfor(davenfor.id, davenfor.nameEnglish);
             }
             else
                 console.error('Davenfor ID is ' + davenfor.id + ' and nameEnglish is ' + davenfor.nameEnglish);

@@ -4,8 +4,7 @@
             <h4>Week of: {{weekName}}</h4>
         </div>
         <div class="col-2">
-            <button class="btn btn-primary"
-                (click)="toggleChangeParasha()">{{changeParasha?'Save':'Change'}}</button>
+            <button class="btn btn-primary" (click)="toggleChangeParasha()">{{changeParasha?'Save':'Change'}}</button>
         </div>
 
         <div class="col-6 ">
@@ -15,46 +14,46 @@
     </div>
     <div class="row">
         <div *ngIf="changeParasha">
+            <!--Parasha week-->
             <div class="col-3" [ngClass]="{emphasized:radioParasha.checked}">
                 <div class="custom-control custom-radio">
-                    <input (change)="weekChange(parashaTag.value)" type="radio" checked
-                        class="custom-control-input give-space" id="radioParashaId" name="weekType" #radioParasha>
+                    <input (change)="weekChange(parashaTag.value)" type="radio" class="custom-control-input give-space"
+                        id="radioParasha" name="weekType" #radioParasha value="parashaRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioParasha">Parasha name:</label>
                 </div>
-
-                <select class="set-width form-control" [(ngModel)]="parasha" #parashaTag
-                    (change)="updateWeekName(radioParasha.checked, $event)">
-                    <option *ngFor="let p of parashot">
+                <select class="set-width form-control" #parashaTag [(ngModel)]="selectedParashaId"
+                    (change)="emphasize('parashaRadio'); updateWeekNameByParasha($event); ">
+                    <option *ngFor="let p of adminService.parashot" [value]="p.id">
                         {{p.englishName}} - {{p.hebrewName}}</option>
                 </select>
             </div>
 
-
+            <!--Chag week-->
             <div class="col-3" [ngClass]="{emphasized:radioChag.checked}">
                 <div class="custom-control custom-radio">
                     <input (change)="weekChange(chagTag.value)" type="radio" class="custom-control-input give-space"
-                        id="radioChag" #radioChag name="weekType">
+                        id="radioChag" #radioChag name="weekType" value="chagRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioChag">Special week: </label>
                 </div>
 
-                <select (change)="updateWeekName(radioChag.checked, $event)" class="form-control set-width"
+                <select (change)="emphasize('chagRadio'); updateWeekName($event)" class="form-control set-width"
                     [(ngModel)]="chag" #chagTag>
                     <option *ngFor="let c of adminService.chagim">{{c.englishName}} -
                         {{c.hebrewName}}</option>
                 </select>
             </div>
 
-
+            <!--Custom week-->
             <div class="col-3" [ngClass]="{emphasized:radioCustom.checked}">
                 <div class="custom-control custom-radio">
-                    <input (change)="weekChange(customTag.value)" type="radio" class="custom-control-input give-space"
-                        id="radioCustom" #radioCustom name="weekType">
+                    <input (change)="weekChange(customTag.value); " type="radio" class="custom-control-input give-space"
+                        id="radioCustom" #radioCustom name="weekType" value="customRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioCustom">Other: </label>
                 </div>
 
-                <input class="form-control set-width" placeholder="Enter week title"
-                    (keyup)="updateWeekName(radioCustom.checked, $event)" [(ngModel)]="customWeek"
-                    type="text" #customTag>
+                <input class="form-control set-width" placeholder="Enter week title" (keyup)="updateWeekName($event)"
+                    (focus)="emphasize('customRadio'); updateWeekName($event)" [(ngModel)]="customWeek" type="text"
+                    #customTag>
             </div>
         </div>
 
@@ -65,25 +64,38 @@
         </div>
         <div class="col-2">
             <select class="form-control set-width" [(ngModel)]="selectedCategory" (ngModelChange)="refreshDavenfors()">
-                <option *ngFor="let c of categories" [ngValue]="c">{{c}}
+                <option *ngFor="let c of categories" [ngValue]="c">{{c | titlecase}}
                 </option>
 
             </select>
         </div>
         <div class="col-1 offset-1">
-            <button class="btn btn-warning btn-lg" [disabled]="disablePreview" (click)="preview()">Preview</button>
+            <button class="btn btn-warning btn-lg"
+                [disabled]="noDavenfors || ((daveningService.loading$ | async) ?? false)"
+                (click)="preview()">Preview</button>
         </div>
-        <div class="col-1">
-            <button class="btn btn-success  btn-lg" (click)="requestToSend()">Send List</button>
+        <div class="col-2">
+            <button class="btn btn-success btn-lg" (click)="requestToSend()"
+                [disabled]="askForPassword || sentOnce || noDavenfors || noUsers">Send List</button>
         </div>
-        <div *ngIf="askForPassword" class="col-2 offset-1">
-            <input [(ngModel)]="adminPassword" type="password" class="form-control red-font"
-                placeholder="Enter admin password">
+
+        <div *ngIf="askForPassword && !noUsers" class="col-3 password-div">
+            <input [(ngModel)]="adminPassword" type="password" class="form-control red-font admin-pass"
+                placeholder="Admin password">
+            <button class="btn btn-danger cancel-pass" (click)="cancelPass()">X</button>
+
+            <div *ngIf="!askForPassword && noUsers" style="text-align: center;">
+                <span class="red-font">There are no active users. Cannot send list</span>
+            </div>
+
+            <div *ngIf="askForPassword && !noUsers">
+                <button class="btn btn-success" (click)="verify()"
+                    [disabled]="adminPassword.length == 0 || noDavenfors || noUsers">Verify</button>
+            </div>
         </div>
-    
-        <div *ngIf="askForPassword" class="col-1">
-            <button class="btn btn-success" (click)="verify()">Ok</button>
-        </div>
+
+        <app-loading-spinner
+            [isLoading]="((daveningService.loading$ | async) ?? false) && readyToSend"></app-loading-spinner>
     </div>
     <hr>
     <div class="div-names">

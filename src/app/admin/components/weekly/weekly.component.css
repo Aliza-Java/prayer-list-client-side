@@ -29,3 +29,25 @@ select {
     display: inline-block !important;
     margin-top: 0px;
 }
+
+.container {
+    margin-top: 15px;
+}
+
+.admin-pass {
+    width: 145px;
+}
+
+.password-div {
+    display: flex;
+
+}
+
+.cancel-pass {
+    margin-left: 20px;
+}
+
+.password-div input, 
+.password-div button {
+  margin: 10px;
+}
