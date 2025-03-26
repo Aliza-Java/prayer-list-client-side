@@ -6,9 +6,6 @@
             <div class="col-6 offset-md-2">
                 <h5>Fields marked with (*) are required.</h5>
             </div>
-            <div class="col-md-2 offset-md-2">
-                <button type="button" class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
-            </div>
         </div>
 
         <div class="form-group row">
@@ -241,7 +238,10 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-12 text-center">
+            <div class="col-md-2 offset-md-4 text-center">
+                <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+            </div>
+            <div class="col-2 text-center">
                 <button class="btn btn-success btn-lg" type="submit"
                     [disabled]="nameForm.invalid||spouseEnglishError||spouseHebrewError">Add Name</button>
             </div>
