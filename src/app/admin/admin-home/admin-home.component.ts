@@ -28,7 +28,8 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
     }
 
     changeOfRoutes() {
-        this.daveningService.clearMessages();
+        if (this.daveningService.shouldClearMessages()) 
+            this.daveningService.clearMessages();
     }
 
     ngOnDestroy() {

@@ -11,7 +11,6 @@ import { SuccessComponent } from './success/success.component';
 import { ErrorComponent } from './error/error.component';
 
 import { HttpService } from './shared/services/http.service';
-import { DaveningService } from './shared/services/davening.service';
 
 import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
@@ -48,7 +47,6 @@ import { HttpConfigInterceptor } from './shared/interceptors/httpconfig.intercep
         DownComponent
     ],
     providers: [
-        DaveningService, 
         HttpService, 
         { 
             provide: HTTP_INTERCEPTORS, 

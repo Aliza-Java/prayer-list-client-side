@@ -225,22 +225,28 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             );
     }
 
-    addDavenfor(basicInfo: SimpleDavenfor, announceSuccess = true) { //by default let user know addition was successful. (not if urgent name being sent out)
+    async addDavenfor(basicInfo: SimpleDavenfor): Promise<boolean> { //by default let user know addition was successful. (not if urgent name being sent out)
         const newDavenfor = this.constructNewDavenfor(basicInfo);
         this.daveningService.setLoading(true);
-        this.httpService.addDavenfor(basicInfo.userEmail || "", newDavenfor).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
-                () => {
-                    this.populateAdminDavenfors();
-                    this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
-                    if (announceSuccess) {
-                        this.daveningService.setSuccessMessage(`The name '${basicInfo.nameEnglish}' has been added to the '${basicInfo.category}' list`);
-                    }
-                },
-                () => {
-                    this.daveningService.setErrorMessage(`We are sorry.  There was an error adding ${basicInfo.nameEnglish}`);
-                }
-            );
+
+        try {
+            const response = await lastValueFrom(this.httpService.addDavenfor(basicInfo.userEmail || "", newDavenfor));
+            if (response) {
+                this.populateAdminDavenfors();
+                this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (error: any) {
+            this.daveningService.setErrorMessage("An error occurred when adding the name");
+            console.log(`An error occurred in addDavenfor: ${error.message}`);
+            return false;
+        }
+        finally {
+            this.daveningService.setLoading(false);
+        }
     }
 
     editDavenfor(davenfor: Davenfor) {
@@ -341,7 +347,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             formInfo.userEmail = this.authService.adminLogin.email;
         }
         if (addToWeekly) {
-            this.addDavenfor(formInfo, false);
+            this.addDavenfor(formInfo);
         }
 
         const urgentDavenfor = this.constructNewDavenfor(formInfo);

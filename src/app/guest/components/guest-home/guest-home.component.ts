@@ -25,13 +25,14 @@ export class GuestHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-               this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe((names) => {
+            this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe((names) => {
             this.guestService.loadedDavenfors = (names.length > 0) ? true : false;
         });
     }
 
     changeOfRoutes() {
-        this.daveningService.clearMessages();
+        if (this.daveningService.shouldClearMessages())
+            this.daveningService.clearMessages();
     }
 
     ngOnDestroy() {

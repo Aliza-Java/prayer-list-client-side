@@ -40,7 +40,7 @@ export class AdminSubmitNameComponent implements OnInit {
         this.createFormControls();
         this.setForm();
 
-        this.categories = await this.daveningService.populateCategories();      
+        this.categories = await this.daveningService.populateCategories();
     }
 
     createFormControls() {
@@ -89,9 +89,9 @@ export class AdminSubmitNameComponent implements OnInit {
     onSubmit() {
         /*If spouse name will be full and valid, will populate later.  
         Initializing before 'banim' condition so that recognized in 'formInfo' population below*/
-        let spouseEnglishFull = ""; 
+        let spouseEnglishFull = "";
         let spouseHebrewFull = "";
-        
+
         let form = this.nameForm; //shortening all references in this function
         const chosenCategory = (form.get('category')?.value || '');
         const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
@@ -110,7 +110,7 @@ export class AdminSubmitNameComponent implements OnInit {
             if (spouseEnglish1 && spouseEnglish2)
                 spouseEnglishFull = `${spouseEnglish1} ben ${spouseEnglish2}`; //It must be ben, as it is the husband
 
-            if (spouseHebrew1 && spouseHebrew2) 
+            if (spouseHebrew1 && spouseHebrew2)
                 spouseHebrewFull = `${spouseHebrew1} בן ${spouseHebrew2}`; //This order concats it correctly
         }
 
@@ -124,8 +124,19 @@ export class AdminSubmitNameComponent implements OnInit {
             submitterToReceive
         );
 
-        this.adminService.addDavenfor(formInfo);
-        this.clearForm();
+        this.adminService.addDavenfor(formInfo).then(
+            (response: boolean) => {
+                if (response) {
+                    this.daveningService.setSuccessMessage(`The name '${formInfo.nameEnglish}' has been added to the '${formInfo.category}' list`, true);
+                    this.router.navigate(['admin/names']);
+                } else {
+                    this.daveningService.setErrorMessage(`We are sorry.  There was an error adding ${formInfo.nameEnglish}`);
+                }
+            }).catch(
+                () => {
+                    this.daveningService.setErrorMessage(`We are sorry.  There was an error adding ${formInfo.nameEnglish}`);
+                }
+            );
     }
 
     clearForm() {
@@ -170,8 +181,8 @@ export class AdminSubmitNameComponent implements OnInit {
         else this.spouseHebrewError = false;
     }
 
-    checkBanim(){
-        return (this.nameForm.get('category')?.value != null && 
-        this.nameForm.get('category')?.value == 'banim');
+    checkBanim() {
+        return (this.nameForm.get('category')?.value != null &&
+            this.nameForm.get('category')?.value == 'banim');
     }
 }
