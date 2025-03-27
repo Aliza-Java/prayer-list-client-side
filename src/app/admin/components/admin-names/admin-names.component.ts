@@ -15,12 +15,20 @@ export class AdminNamesComponent implements OnInit {
     categories: string[] = [];
     davenfors: Davenfor[] = [];
     davenforsChangedSub: Subscription = new Subscription;
+    finishedLoading:boolean = false;
 
     constructor(public router: Router, public adminService: AdminService, public daveningService:DaveningService) { }
     
     ngOnInit() {
-        this.davenfors = this.adminService.davenfors;
-        this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(davenfors => { this.davenfors = davenfors });
+        this.finishedLoading = false;
+        this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(davenfors => { 
+            this.davenfors = davenfors; 
+            });
+
+        this.adminService.populateAdminDavenfors().then((response)=> {
+            this.davenfors = response;
+            this.finishedLoading = true;
+        });
     }
 
     onEdit(davenfor: Davenfor) {

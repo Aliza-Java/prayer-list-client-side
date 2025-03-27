@@ -79,18 +79,22 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         }
     }
 
-    async populateAdminDavenfors() { //requesting all system Davenfors from server
-        this.daveningService.setLoading(true);
-        this.httpService.getDavenfors('admin/davenfors').pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
-                names => {
-                    this.davenfors = names;
-                    this.davenforsChanged.next(names);
-                },
-                () => {
-                    this.daveningService.setErrorMessage("We could not retrieve the names.  Please contact the admin.");
-                }
+    async populateAdminDavenfors():Promise<Davenfor[]> { //requesting all system Davenfors from server
+        try {
+            const names = await lastValueFrom(
+                this.httpService.getDavenfors('admin/davenfors').pipe(
+                    finalize(() => this.daveningService.setLoading(false))
+                )
             );
+            this.davenfors = names;
+            this.davenforsChanged.next(names);
+            this.daveningService.setLoading(false);            
+            return names;
+        } catch (error) {
+            this.daveningService.setErrorMessage("We could not retrieve the names. Please contact the admin.");
+            this.daveningService.setLoading(false);            
+            return [] as Davenfor[];
+        }
     }
 
     async populateAdminSettings() {
