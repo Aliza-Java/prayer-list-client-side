@@ -20,6 +20,7 @@ export class UnsubscribeComponent {
 unsubscribeForm: UntypedFormGroup = new UntypedFormGroup({});
 
 loading:boolean = false;
+instruction:string = '';
 
     constructor(public daveningService:DaveningService, 
         public httpService:HttpService, 
@@ -45,7 +46,7 @@ loading:boolean = false;
                 .pipe(finalize(() => this.daveningService.setLoading(false))).subscribe({
                     next: response => {
                         console.log("Response:", response);
-                        this.daveningService.setSuccessMessage(response.message);
+                        this.instruction = response.message;
                     },
                     error: err => {
                         console.error("Error:", err);
