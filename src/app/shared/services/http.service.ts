@@ -92,6 +92,10 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.get<string>(this.baseUrl + 'admin/category');
     }
 
+    getCategories() {
+        return this.http.get<string[]>(`${this.baseUrl}user/categories`);
+    }
+
     verify(password: string, email: string){
         const passwordAsJson = {'password' : password};
         return this.http.post<boolean>(this.baseUrl + 'admin/checkpass/' + email, passwordAsJson, {withCredentials: true});
@@ -111,5 +115,13 @@ export class HttpService {  //A service that makes the calls to the server
 
     editAdminSettings(settings: Admin) {
         return this.http.put<Admin>(this.baseUrl + 'admin/update', settings, { withCredentials: true });
-    }    
+    }   
+    
+    extendFromEmail(dfId:string, token:string){
+        return this.http.get(`http://localhost:8080/dlist/direct/extend/${dfId}/${token}`, { responseType: 'text' });
+    }
+
+    deleteNameFromEmail(dfId:string, token:string){
+        return this.http.delete(`${this.baseUrl}direct/delete/${dfId}/${token}`, {responseType: 'text'});
+    }
 }

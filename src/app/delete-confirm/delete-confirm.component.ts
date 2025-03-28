@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule, NgIf } from '@angular/common';
 import { DaveningService } from '../shared/services/davening.service';
 import { SharedModule } from '../shared/shared.module';
 import { finalize } from 'rxjs';
+import { HttpService } from '../shared/services/http.service';
 
 @Component({
     selector: 'app-delete-confirm',
@@ -20,10 +20,10 @@ export class DeleteConfirmComponent {
     responseMessage: string | null = null;
     isLoading: boolean = false;
 
-    constructor(public daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+    constructor(public daveningService: DaveningService, private route: ActivatedRoute, private httpService: HttpService, private router: Router) {
         daveningService.showHeaderMenu = false;
 
-        this.dfId = this.route.snapshot.queryParamMap.get('id');
+        this.dfId = this.route.snapshot.queryParamMap.get('id') ?? '';
         this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
     }
 
@@ -33,7 +33,7 @@ export class DeleteConfirmComponent {
 
         this.isLoading = true;
         this.daveningService.setLoading(true);        
-        this.http.delete(`http://localhost:8080/dlist/direct/delete/${this.dfId}/${this.token}`, { responseType: 'text' })
+        this.httpService.deleteNameFromEmail(this.dfId ?? '', this.token ?? '')
             .pipe(finalize(() => this.daveningService.setLoading(false)))
                         .subscribe(response => {
                 console.log('Response received:', response);

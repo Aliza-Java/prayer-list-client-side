@@ -3,8 +3,8 @@ import { SharedModule } from '../shared/shared.module';
 import { CommonModule, NgIf } from '@angular/common';
 import { DaveningService } from '../shared/services/davening.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs';
+import { HttpService } from '../shared/services/http.service';
 
 @Component({
     selector: 'app-extend',
@@ -20,7 +20,7 @@ export class ExtendComponent {
     isLoading: boolean = false;
     name: string | null = "this name";
 
-    constructor(public daveningService: DaveningService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+    constructor(public daveningService: DaveningService, private route: ActivatedRoute, private httpService:HttpService, private router: Router) {
         daveningService.showHeaderMenu = false;
 
         this.dfId = this.route.snapshot.queryParamMap.get('id');
@@ -33,9 +33,8 @@ export class ExtendComponent {
             return;
 
         this.isLoading = true;
-        this.daveningService.setLoading(true);        
-
-        this.http.get(`http://localhost:8080/dlist/direct/extend/${this.dfId}/${this.token}`, { responseType: 'text' })
+        this.daveningService.setLoading(true);          
+        this.httpService.extendFromEmail(this.dfId ?? '', this.token ?? '')
             .pipe(finalize(() => this.daveningService.setLoading(false)))
             .subscribe((response: any) => {
                 console.log('Response received:', response);
