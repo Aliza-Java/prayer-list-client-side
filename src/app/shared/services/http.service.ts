@@ -118,7 +118,7 @@ export class HttpService {  //A service that makes the calls to the server
     }   
     
     extendFromEmail(dfId:string, token:string){
-        return this.http.get(`http://localhost:8080/dlist/direct/extend/${dfId}/${token}`, { responseType: 'text' });
+        return this.http.get(`${this.baseUrl}direct/extend/${dfId}/${token}`, { responseType: 'text' });
     }
 
     deleteNameFromEmail(dfId:string, token:string){
