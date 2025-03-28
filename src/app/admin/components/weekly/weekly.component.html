@@ -95,10 +95,10 @@
         </div>
 
         <app-loading-spinner
-            [isLoading]="((daveningService.loading$ | async) ?? false) && readyToSend"></app-loading-spinner>
+            [isLoading]="!finishedLoading || ((daveningService.loading$ | async) ?? false) && readyToSend"></app-loading-spinner>
     </div>
     <hr>
-    <div class="div-names">
+    <div class="div-names" *ngIf="finishedLoading">
         <app-select-davenfors [davenfors]="selectedDavenfors" [category]="selectedCategory"
             [adminPermission]="true"></app-select-davenfors>
     </div>

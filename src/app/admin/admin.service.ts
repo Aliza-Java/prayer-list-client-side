@@ -371,24 +371,24 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         return this.categories.find(category => category == name);
     }
 
-    editSettings(email:string, newNamePrompt:boolean, waitBeforeDeletion:number) {
+    editSettings(email: string, newNamePrompt: boolean, waitBeforeDeletion: number) {
         this.daveningService.setLoading(true);
         var updatedSettings: AdminSettings = { email, newNamePrompt, waitBeforeDeletion };
         this.httpService.editAdminSettings(updatedSettings).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
-            success => {
-                if (success) {
-                    this.settingsUpdated.next(updatedSettings);
-                    this.daveningService.setSuccessMessage("Changes were saved");
-                }
-                else { //server returned a value (not error) which is not true
+                success => {
+                    if (success) {
+                        this.settingsUpdated.next(updatedSettings);
+                        this.daveningService.setSuccessMessage("Changes were saved");
+                    }
+                    else { //server returned a value (not error) which is not true
+                        this.daveningService.setErrorMessage("The system encountered an error, no changes were made.");
+                    }
+                },
+                () => {
                     this.daveningService.setErrorMessage("The system encountered an error, no changes were made.");
                 }
-            },
-            () => {
-                this.daveningService.setErrorMessage("The system encountered an error, no changes were made.");
-            }
-        );
+            );
     }
 
     private constructNewDavenfor(basicInfo: SimpleDavenfor) { //local method to build a full Davenfor out of a SimpleDavenfor

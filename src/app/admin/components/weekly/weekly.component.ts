@@ -34,6 +34,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     noUsers: boolean = false;
     readyToSend: boolean = false; //differentiate between first loading (no spinner) and loading when sending
     sentOnce: boolean = false; //after first send can't send again (unless return to tab)
+    finishedLoading:boolean = false;
 
     constructor(
         public httpService: HttpService,
@@ -41,6 +42,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         public adminService: AdminService) { }
 
     ngOnInit() {
+        this.finishedLoading = false;
         this.daveningService.populateCategories().then(data => {
             this.categories = data;
             this.adminService.getDaveners().then(() => {
@@ -52,6 +54,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
                 this.selectedCategory = this.adminService.weeklyCategory;
                 this.adminService.populateAdminDavenfors().then(() => {
                     this.refreshDavenfors();
+                    this.finishedLoading = true;
                 });
             });
         });
