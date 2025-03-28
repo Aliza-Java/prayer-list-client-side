@@ -83,7 +83,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 finalize(() => this.daveningService.setLoading(false))).subscribe(
                     () => {
                         this.populateGuestDavenfors();
-                        this.daveningService.setSuccessMessage(`The name '${basicInfo.nameEnglish}' has been added successfully`);
+                        this.daveningService.setSuccessMessage(`The name '${basicInfo.nameEnglish}' has been added successfully`, true);
                         this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                         this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
                     },
