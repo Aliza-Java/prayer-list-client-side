@@ -18,14 +18,14 @@
             <div class="form-group row">
                 <div class="col-6 offset-2">
                     <span class="wait-label">How many days should we wait before deleting a name?</span>
-                    <input type="number" [(ngModel)]="wait" [ngModelOptions]="{standalone: true}" class="form-control input-number" id="wait">
+                    <input type="number" (change)="checkWaitInput()" [(ngModel)]="wait" min="0" [ngModelOptions]="{standalone: true}" class="form-control input-number" id="wait">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-6 text-center">
-                    <button type="submit" class="btn btn-success btn-lg">Save</button>
+                    <button type="submit" class="btn btn-success btn-lg" [disabled]="disableSubmit">Save</button> <!--!settingsForm.valid didn't work for some reason -->
                     <button type="button" class="btn btn-danger btn-lg" (click)="onCancel()">Cancel</button>
                 </div>
             </div>
