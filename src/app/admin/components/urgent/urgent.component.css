@@ -14,3 +14,7 @@
 select {
     text-align-last: center;
 }
+
+.row {
+    margin-top: 25px;
+}

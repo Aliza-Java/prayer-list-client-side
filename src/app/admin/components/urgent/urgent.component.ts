@@ -44,12 +44,12 @@ export class UrgentComponent implements OnInit {
         public adminService: AdminService,
         public router: Router) { }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.createFormControls();
         this.setForm();
 
         //Populating category array from Server
-        this.categories = this.adminService.categories;
+        this.categories = await this.daveningService.populateCategories();
     }
 
     createFormControls() {
@@ -103,7 +103,7 @@ export class UrgentComponent implements OnInit {
             let spouseHebrewFull = "";
 
             let form = this.nameForm; //shortening all references in this function
-            const chosenCategory = this.adminService.getCategory(form.get('category')?.value);
+            const chosenCategory = (form.get('category')?.value || '');
             const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
             const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
             let userEmail = form.get('userEmail')?.value;
@@ -141,8 +141,6 @@ export class UrgentComponent implements OnInit {
             since only one success message should be shown. 
             */
             this.adminService.sendUrgent(formInfo, addToWeekly);
-
-            this.clearForm();
         }
     }
 

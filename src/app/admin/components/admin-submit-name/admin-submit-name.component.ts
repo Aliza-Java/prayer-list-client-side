@@ -183,6 +183,6 @@ export class AdminSubmitNameComponent implements OnInit {
 
     checkBanim() {
         return (this.nameForm.get('category')?.value != null &&
-            this.nameForm.get('category')?.value == 'banim');
+            this.nameForm.get('category')?.value=='banim');
     }
 }

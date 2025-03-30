@@ -345,6 +345,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     sendUrgent(formInfo: SimpleDavenfor, addToWeekly: boolean) {
+        if (this.daveningService.loading)
+            return;
+
         if (!formInfo.userEmail) {
             /*If no email was put in, fill in admin email in case it should be sent out. 
             Admin will monitor it. */
@@ -354,11 +357,15 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             this.addDavenfor(formInfo);
         }
 
+        this.daveningService.setLoading(true);
+
         const urgentDavenfor = this.constructNewDavenfor(formInfo);
 
-        this.httpService.sendUrgent(urgentDavenfor).subscribe(
+        this.httpService.sendUrgent(urgentDavenfor).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
             () => {
-                this.daveningService.setSuccessMessage(`The name ${formInfo.nameEnglish} has been sent out to all subscribers`);
+                this.daveningService.setSuccessMessage(`The name ${formInfo.nameEnglish} has been sent out to all subscribers`, true);
+                this.router.navigate(['admin/names']);
             },
             () => {
                 this.daveningService.setErrorMessage(`We are sorry.  The name ${formInfo.nameEnglish} could not be sent to subscribers`);

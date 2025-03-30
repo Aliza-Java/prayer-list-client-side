@@ -1,11 +1,10 @@
+<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+
 <form class="form-horizontal" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
 
     <div class="form-group">
         <div class="-6 offset-md-2">
             <h5>Fields marked with (*) are required.</h5>
-        </div>
-        <div class="col-md-2 offset-md-2">
-            <button type="button" class="btn btn-danger btn-md" (click)="cancel()">Cancel</button>
         </div>
     </div>
 
@@ -23,7 +22,7 @@
     <!--English name-->
 
     <div formGroupName="name">
-        <div class="form-group">
+        <div class="form-group row">
 
             <!--Validation for name1English-->
             <div class="col-2 help-block">
@@ -68,7 +67,7 @@
 
         <!--Hebrew name-->
 
-        <div class="form-group ">
+        <div class="form-group row">
 
             <!--Validation-->
             <div class="col-2 help-block">
@@ -112,11 +111,11 @@
     </div>
     <div formGroupName="spouse">
 
-        <div *ngIf="nameForm.get('category')?.value==banimNumber">
+        <div *ngIf="nameForm.get('category')?.value =='banim'">
             <!--- -Then need also spouse details-->
 
             <!--Spouse English name-->
-            <div class="form-group">
+            <div class="form-group row">
 
                 <!--Validation for spouseName1English-->
                 <div class="col-2 help-block">
@@ -159,7 +158,7 @@
             <!--Spouse English name-->
 
             <!--Spouse Hebrew name-->
-            <div class="form-group ">
+            <div class="form-group row">
 
                 <!--Validation for spouseName2Hebrew-->
                 <div class="col-2 help-block">
@@ -203,7 +202,7 @@
         </div>
     </div>
     <br>
-    <div class="form-group">
+    <div class="form-group row">
         <div class="col-2"></div>
         <div class="col-5 form-check">
             <input style="margin: 5px" type="checkbox" class="form-check-input" id="addToWeekly"
@@ -230,8 +229,12 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-12 text-center">
+    <div class="form-group row">
+
+        <div class="col-md-2 offset-md-3">
+            <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+        </div>
+        <div class="col-7">
             <button class="btn btn-success btn-lg" type="submit"
                 [disabled]="nameForm.invalid||spouseEnglishError||spouseHebrewError">Go ahead and send out to email
                 list</button>
