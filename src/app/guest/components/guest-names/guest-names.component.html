@@ -1,4 +1,6 @@
-<div class="container">
+<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+
+<div class="container" *ngIf="!(daveningService.loading$ | async)">
     <div class="text-center hidden-scrollbar" *ngIf="guestService.myDavenfors?.length==0 && !(daveningService.loading$ | async) && daveningService.serverFine">
         <app-empty-list whatIsMissing="names associated with this email"></app-empty-list>
     </div>
