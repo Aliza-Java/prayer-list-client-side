@@ -23,6 +23,6 @@ select {
     font-weight: 500;
 }
 
-label {
+label, .checkbox {
     margin-top: 15px;
 }

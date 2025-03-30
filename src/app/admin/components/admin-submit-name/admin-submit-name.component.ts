@@ -59,7 +59,7 @@ export class AdminSubmitNameComponent implements OnInit {
         this.spouseName2Hebrew = new UntypedFormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
         this.category = new UntypedFormControl("", Validators.required); //default value is 'select category'
-        this.submitterToReceive = new UntypedFormControl(true);
+        this.submitterToReceive = new UntypedFormControl({ value: true, disabled: true });
         this.userEmail = new UntypedFormControl(null, [Validators.required, Validators.email]);
 
     }

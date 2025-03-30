@@ -26,7 +26,7 @@ export class GuestEditNameComponent implements OnInit {
     spouseEnglish = new UntypedFormControl('', [Validators.pattern(this.daveningService.englishNamePattern)]);
     spouseHebrew = new UntypedFormControl('', [Validators.pattern(this.daveningService.hebrewNamePattern)]);
     category = new UntypedFormControl('',  Validators.required);
-    submitterToReceive = new UntypedFormControl();
+    submitterToReceive = new UntypedFormControl({ value: true, disabled: true });
     userEmail = new UntypedFormControl();
 
     constructor(public daveningService: DaveningService, public httpService: HttpService, public guestService: GuestService, public router: Router) { }
@@ -50,7 +50,7 @@ export class GuestEditNameComponent implements OnInit {
         this.spouseHebrew.setValue(this.oldInfo.nameHebrewSpouse ? this.oldInfo.nameHebrewSpouse : null);
 
         this.category.setValue(this.oldInfo.category?? '');
-        this.submitterToReceive.setValue(this.oldInfo.submitterToReceive ?? false);
+        //this.submitterToReceive.setValue(this.oldInfo.submitterToReceive ?? false); TODO: uncomment and make availabe when 'submitterToReceive' is an option
     }
 
     setForm() {

@@ -56,7 +56,7 @@ export class GuestSubmitNameComponent implements OnInit {
         this.spouseName2Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
         this.category = new FormControl("", Validators.required); //default value is 'select category'
-        this.submitterToReceive = new FormControl(true);
+        this.submitterToReceive = new FormControl({ value: true, disabled: true });        
     }
 
     createForm() {

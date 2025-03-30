@@ -54,7 +54,8 @@ export class AdminEditNameComponent implements OnInit {
         this.spouseHebrew = new UntypedFormControl(this.oldInfo.nameHebrewSpouse ? this.oldInfo.nameHebrewSpouse : null, [Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         this.category = new UntypedFormControl(this.oldInfo.category, Validators.required); //default value is 'select category'
-        this.submitterToReceive = new UntypedFormControl(this.oldInfo.submitterToReceive);
+       // this.submitterToReceive = new UntypedFormControl(this.oldInfo.submitterToReceive); TODO: enable when allow submitterToReceive value
+        this.submitterToReceive = new UntypedFormControl({ value: true, disabled: true });
         this.userEmail = new UntypedFormControl(this.oldInfo.userEmail ? this.oldInfo.userEmail : "", [Validators.required, Validators.email]);
     }
 
