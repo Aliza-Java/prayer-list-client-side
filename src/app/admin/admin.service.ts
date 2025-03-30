@@ -260,7 +260,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 () => {
                     this.populateAdminDavenfors();
                     //TODO - this doesn't work.  See if can fix
-                    this.daveningService.setSuccessMessage(`The name ${davenfor.nameEnglish} has been updated`);
+                    this.daveningService.setSuccessMessage(`The name ${davenfor.nameEnglish} has been updated`, true);
                     this.router.navigate(['admin/names']);
                 },
                 () => {

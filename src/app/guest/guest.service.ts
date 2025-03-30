@@ -105,6 +105,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 () => {
                     this.populateGuestDavenfors();
+                    this.daveningService.setSuccessMessage(`The name ${davenfor.nameEnglish} has been updated`, true);
                     this.router.navigate(['guest/names']);
                 },
                 () => {
