@@ -29,8 +29,7 @@ import { HttpConfigInterceptor } from './shared/interceptors/httpconfig.intercep
         HeaderComponent,
         FooterComponent,
         SuccessComponent,
-        ErrorComponent,
-    ],
+        ErrorComponent    ],
     imports: [
         UnsubscribeComponent,
         DeleteConfirmComponent,

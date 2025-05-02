@@ -1,0 +1,7 @@
+<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+
+<div>
+<h3>The preview should appear as a popup</h3>
+<button class="btn btn-info btn-lg" (click)="goToWebsite()">Take me to the website</button>
+</div>
+

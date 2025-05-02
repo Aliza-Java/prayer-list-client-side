@@ -30,6 +30,14 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post<JwtResponse>(this.baseUrl + 'auth/signin', adminCredentials, { withCredentials: true });
     }
 
+    public previewDirect(token: string, email: string){
+        const tokenCredentials = { "token" : token, "email" : email};
+        return this.http.post(this.baseUrl + 'direct/preview', tokenCredentials, {
+            responseType: 'text',
+            withCredentials: true
+          });
+    }
+
     public getAdminSettings(email: string) {
         return this.http.get<AdminSettings>(`${this.baseUrl}admin/settings/${email}`, { withCredentials: true });
     }

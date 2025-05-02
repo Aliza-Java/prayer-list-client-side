@@ -40,6 +40,14 @@ export class AuthService {
             });
     }
 
+    public directLogin(token: string, email: string) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("token", token || '');
+        localStorage.setItem("email", email || '');
+        this.adminLogin.setEmail(email || '');
+        this.loggedIn.next(true);
+    }
+
     public logout() {
         localStorage.setItem("isLoggedIn", "false");
         localStorage.removeItem("token");

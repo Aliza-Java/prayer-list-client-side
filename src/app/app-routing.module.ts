@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { DirectPreviewComponent } from './admin/components/direct/direct-preview.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'guest', pathMatch: 'full' },
@@ -10,6 +11,7 @@ const routes: Routes = [
     { path: 'delete', loadComponent: () => import('./delete-confirm/delete-confirm.component').then(m => m.DeleteConfirmComponent)},
     { path: 'down', loadComponent: () => import('./down/down.component').then(m => m.DownComponent)},
     { path: 'extend', loadComponent: () => import('./extend/extend.component').then(m => m.ExtendComponent)},
+    {path: 'direct-preview', component: DirectPreviewComponent},
     { path: '**', component: NotFoundComponent }
 ];
 

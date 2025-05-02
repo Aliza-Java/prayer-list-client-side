@@ -15,6 +15,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminService } from './admin.service';
+import { DirectPreviewComponent } from './components/direct/direct-preview.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { AdminService } from './admin.service';
         WeeklyComponent,
         UrgentComponent,
         AdminSettingsComponent,
-        AdminNamesComponent 
+        AdminNamesComponent,
+        DirectPreviewComponent 
     ],
     imports: [
         CommonModule,
