@@ -38,6 +38,11 @@ export class HttpService {  //A service that makes the calls to the server
           });
     }
 
+    public sendDirect(token: string, email: string, password: string){
+        const tokenCredentials = { "token" : token, "email" : email, "password": password};
+        return this.http.post(this.baseUrl + 'direct/send', tokenCredentials, {withCredentials: true});
+    }
+
     public getAdminSettings(email: string) {
         return this.http.get<AdminSettings>(`${this.baseUrl}admin/settings/${email}`, { withCredentials: true });
     }

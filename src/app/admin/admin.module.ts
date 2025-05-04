@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminService } from './admin.service';
 import { DirectPreviewComponent } from './components/direct/direct-preview.component';
+import { DirectSendComponent } from './components/direct-send/direct-send.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { DirectPreviewComponent } from './components/direct/direct-preview.compo
         UrgentComponent,
         AdminSettingsComponent,
         AdminNamesComponent,
-        DirectPreviewComponent 
+        DirectPreviewComponent,
+        DirectSendComponent 
     ],
     imports: [
         CommonModule,
