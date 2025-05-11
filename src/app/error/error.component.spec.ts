@@ -9,14 +9,12 @@ describe('ErrorComponent', () => {
 
   beforeEach(async () => {
     mockDaveningService = {
-      _errorMessage: 'Initial error message',
-      get errorMessage() {
-        return this._errorMessage;
-      },
-      set errorMessage(value: string) {
-        this._errorMessage = value;
-      },
-    };
+        errorMessage: 'Initial error message',
+        setErrorMessage: function (msg: string) {
+          this.errorMessage = msg;
+        }
+      };
+    
 
     await TestBed.configureTestingModule({
       declarations: [ErrorComponent],

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-//import { DaveningService } from '../shared/services/davening.service';
 
 @Component({
   selector: 'app-down',

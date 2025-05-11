@@ -4,6 +4,7 @@ import { GuestHomeComponent } from './guest-home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GuestEmailComponent } from '../guest-email/guest-email.component';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 describe('GuestHomeComponent', () => {
   let component: GuestHomeComponent;
@@ -11,7 +12,7 @@ describe('GuestHomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, ReactiveFormsModule],
+      imports: [HttpClientModule, ReactiveFormsModule, AppRoutingModule],
       declarations: [GuestHomeComponent, GuestEmailComponent]
     });
     fixture = TestBed.createComponent(GuestHomeComponent);

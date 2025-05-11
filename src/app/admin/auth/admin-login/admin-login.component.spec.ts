@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { of } from 'rxjs';
 import { AdminService } from '../../admin.service';
+import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
 
 describe('AdminLoginComponent', () => {
     let component: AdminLoginComponent;
@@ -16,7 +17,7 @@ describe('AdminLoginComponent', () => {
         mockAuthService = jasmine.createSpyObj('AuthService', ['login']);
         TestBed.configureTestingModule({
             imports: [HttpClientModule, ReactiveFormsModule],
-            declarations: [AdminLoginComponent],
+            declarations: [AdminLoginComponent, LoadingSpinnerComponent],
             providers: [{ provide: AuthService, useValue: mockAuthService },
                 { 
                     provide: AdminService, 

@@ -73,13 +73,13 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         this.adminPassword = "";
 
         this.chagim = this.adminService.chagim;
-        this.chag = this.chagim[0];
+        this.chag = this.chagim?.[0];
 
-        this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(
-            updatedList => {
-                this.davenfors = updatedList;
-                this.refreshDavenfors();
-            });
+            this.davenforsChangedSub = this.adminService.davenforsChanged.subscribe(
+                updatedList => {
+                    this.davenfors = updatedList;
+                    this.refreshDavenfors();
+                });
     }
 
     weekChange(value: string) { //todo in future: isn't this duplicate of updateWeekName() and updateWeekNameParasha()?

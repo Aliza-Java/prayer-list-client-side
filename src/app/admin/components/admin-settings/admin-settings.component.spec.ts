@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminSettingsComponent } from './admin-settings.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 
@@ -11,7 +11,7 @@ describe('AdminSettingsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, ReactiveFormsModule, SharedModule],
+      imports: [HttpClientModule, ReactiveFormsModule, SharedModule, FormsModule],
       declarations: [AdminSettingsComponent]
     });
     fixture = TestBed.createComponent(AdminSettingsComponent);
