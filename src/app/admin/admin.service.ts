@@ -84,16 +84,12 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             const names = await lastValueFrom(
                 this.httpService.getDavenfors('admin/davenfors').pipe(
                     finalize(() => this.daveningService.setLoading(false))
-                )
-            );
+                ));
             this.davenfors = names;
             this.davenforsChanged.next(names);
-            this.daveningService.setLoading(false);            
             return names;
         } catch (error) {
-            this.daveningService.setErrorMessage("We could not retrieve the names. Please contact the admin.");
-            this.daveningService.setLoading(false);            
-            return [] as Davenfor[];
+            return [];
         }
     }
 
@@ -363,14 +359,14 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
         this.httpService.sendUrgent(urgentDavenfor).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
-            () => {
-                this.daveningService.setSuccessMessage(`The name ${formInfo.nameEnglish} has been sent out to all subscribers`, true);
-                this.router.navigate(['admin/names']);
-            },
-            () => {
-                this.daveningService.setErrorMessage(`We are sorry.  The name ${formInfo.nameEnglish} could not be sent to subscribers`);
-            }
-        );
+                () => {
+                    this.daveningService.setSuccessMessage(`The name ${formInfo.nameEnglish} has been sent out to all subscribers`, true);
+                    this.router.navigate(['admin/names']);
+                },
+                () => {
+                    this.daveningService.setErrorMessage(`We are sorry.  The name ${formInfo.nameEnglish} could not be sent to subscribers`);
+                }
+            );
     }
 
     getCategory(name: string) {

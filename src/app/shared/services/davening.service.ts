@@ -91,10 +91,6 @@ export class DaveningService { // A general service to hold 'global' data releva
         return this.davenfors;
     }
 
-    editDavenfor(id: number) {
-        alert("send " + id + " to Service for editing");
-    }
-
     clearMessages() {
         this.clearSuccessMessage();
         this.clearErrorMessage();

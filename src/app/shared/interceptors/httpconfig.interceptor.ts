@@ -9,14 +9,8 @@ import { catchError } from 'rxjs/operators';
 export class HttpConfigInterceptor implements HttpInterceptor {
     constructor(private router: Router) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(error => {
-            // Checking if it is an Authentication Error (401)
-            if (error.status === 401) {
-                this.router.navigate([`guest`]);
-                return throwError(error.message);  //The message is what will be thrown to the Observable, which will show it in alert
-            }
-
-            else if (error.status === 0) {
+        return next.handle(request).pipe(catchError(error => {            
+            if (error.status === 0) {
                 this.router.navigate(['down']);
                 return throwError(error.message);
             }

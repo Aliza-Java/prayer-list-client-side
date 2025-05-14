@@ -30,17 +30,17 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.post<JwtResponse>(this.baseUrl + 'auth/signin', adminCredentials, { withCredentials: true });
     }
 
-    public previewDirect(token: string, email: string){
-        const tokenCredentials = { "token" : token, "email" : email};
+    public previewDirect(token: string, email: string) {
+        const tokenCredentials = { "token": token, "email": email };
         return this.http.post(this.baseUrl + 'direct/preview', tokenCredentials, {
             responseType: 'text',
             withCredentials: true
-          });
+        });
     }
 
-    public sendDirect(token: string, email: string, password: string){
-        const tokenCredentials = { "token" : token, "email" : email, "password": password};
-        return this.http.post(this.baseUrl + 'direct/send', tokenCredentials, {withCredentials: true});
+    public sendDirect(token: string, email: string, password: string) {
+        const tokenCredentials = { "token": token, "email": email, "password": password };
+        return this.http.post(this.baseUrl + 'direct/send', tokenCredentials, { withCredentials: true });
     }
 
     public getAdminSettings(email: string) {
@@ -91,7 +91,7 @@ export class HttpService {  //A service that makes the calls to the server
 
     activateDavener(davener: Davener) {
         return this.http.post<Davener[]>(this.baseUrl + 'admin/activate/' + davener.email, null, { withCredentials: true });
-    }  
+    }
 
     addDavener(davenerToAdd: Davener) {
         return this.http.post<Davener[]>(this.baseUrl + 'admin/user', davenerToAdd, { withCredentials: true });
@@ -109,9 +109,9 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.get<string[]>(`${this.baseUrl}user/categories`);
     }
 
-    verify(password: string, email: string){
-        const passwordAsJson = {'password' : password};
-        return this.http.post<boolean>(this.baseUrl + 'admin/checkpass/' + email, passwordAsJson, {withCredentials: true});
+    verify(password: string, email: string) {
+        const passwordAsJson = { 'password': password };
+        return this.http.post<boolean>(this.baseUrl + 'admin/checkpass/' + email, passwordAsJson, { withCredentials: true });
     }
 
     sendWeekly(weeklyInfo: Weekly) {
@@ -128,13 +128,13 @@ export class HttpService {  //A service that makes the calls to the server
 
     editAdminSettings(settings: Admin) {
         return this.http.put<Admin>(this.baseUrl + 'admin/update', settings, { withCredentials: true });
-    }   
-    
-    extendFromEmail(dfId:string, token:string){
+    }
+
+    extendFromEmail(dfId: string, token: string) {
         return this.http.get(`${this.baseUrl}direct/extend/${dfId}/${token}`, { responseType: 'text' });
     }
 
-    deleteNameFromEmail(dfId:string, token:string){
-        return this.http.delete(`${this.baseUrl}direct/delete/${dfId}/${token}`, {responseType: 'text'});
+    deleteNameFromEmail(dfId: string, token: string) {
+        return this.http.delete(`${this.baseUrl}direct/delete/${dfId}/${token}`, { responseType: 'text' });
     }
 }

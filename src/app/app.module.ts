@@ -22,6 +22,7 @@ import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.componen
 import { ExtendComponent } from './extend/extend.component';
 import { DownComponent } from './down/down.component';
 import { HttpConfigInterceptor } from './shared/interceptors/httpconfig.interceptor';
+import { AuthInterceptorService } from './admin/auth/auth-interceptor.service';
 
 @NgModule({
     declarations: [
@@ -52,6 +53,11 @@ import { HttpConfigInterceptor } from './shared/interceptors/httpconfig.intercep
             useClass: TokenInterceptor, 
             multi: true 
         },
+        {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptorService,
+  multi: true
+},
         { 
             provide: HTTP_INTERCEPTORS, 
             useClass: HttpConfigInterceptor, 
