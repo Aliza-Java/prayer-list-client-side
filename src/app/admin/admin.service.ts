@@ -10,7 +10,6 @@ import { Weekly } from '../shared/models/weekly.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
 import { AuthService } from './auth/auth.service';
-import { JwtPayload } from '../shared/models/jwt-payload';
 
 @Injectable({
     providedIn: 'root'
@@ -48,7 +47,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         public authService: AuthService) {
         const token = localStorage.getItem('accessToken');
         if (token) {
-            const email = this.getEmailFromToken(token);
+            const email = this.authService.getEmailFromToken(token);
             if (email != null) {
                 this.authService.loggedIn.next(true);
                 localStorage.setItem("isLoggedIn", "true");
@@ -66,23 +65,6 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.router.navigate(['admin']);
             }
         );
-    }
-
-    getEmailFromToken(token: string) {
-        // 1. split into [header, payload, signature]
-        const payloadBase64 = token.split('.')[1];
-        // 2. atob to get JSON string, then parse
-        const json = atob(payloadBase64);
-        const jwtPayload: JwtPayload = JSON.parse(json);
-        const email = jwtPayload.sub;
-        const exp = new Date(jwtPayload.exp * 1000);
-        console.log('email:', email);
-        console.log('expires at:', exp);
-        if (exp < new Date()) {
-            console.log('Access token has expired');
-            return null;
-        }
-        return email;
     }
 
     async populateParashot(): Promise<Parasha | null> {
