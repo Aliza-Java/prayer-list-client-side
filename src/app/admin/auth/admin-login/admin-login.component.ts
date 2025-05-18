@@ -33,9 +33,7 @@ export class AdminLoginComponent implements OnInit {
                 this.loginForm.value['password']
             ).subscribe({
                 next: () => {
-                    // Wait until this point to say we're logged in
                     this.authService.loggedIn.next(true);
-                    this.router.navigate(['admin']);
                 },
                 error: () => {
                     this.daveningService.setErrorMessage("Please check your email and password again.");

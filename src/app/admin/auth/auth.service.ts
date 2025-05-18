@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, finalize, map, Observable, Subject, tap, throwError } from 'rxjs';
+import { JwtPayload } from 'src/app/shared/models/jwt-payload';
 import { JwtResponse } from 'src/app/shared/models/jwt-response';
 import { Signin } from 'src/app/shared/models/signin.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
@@ -21,6 +22,33 @@ export class AuthService {
         public router: Router,
         public daveningService: DaveningService) {
         this.adminLogin = new Signin();
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            const email = this.getEmailFromToken(token);
+            if (email != null) {
+                this.loggedIn.next(true);
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("email", email || '');
+                this.adminLogin.setEmail(email);
+            }
+        }
+    }
+
+    getEmailFromToken(token: string) {
+        // 1. split into [header, payload, signature]
+        const payloadBase64 = token.split('.')[1];
+        // 2. atob to get JSON string, then parse
+        const json = atob(payloadBase64);
+        const jwtPayload: JwtPayload = JSON.parse(json);
+        const email = jwtPayload.sub;
+        const exp = new Date(jwtPayload.exp * 1000);
+        console.log('email:', email);
+        console.log('expires at:', exp);
+        if (exp.getTime() < new Date().getTime()) {
+            console.log('Access token has expired');
+            return null;
+        }
+        return email;
     }
 
     public getAccessToken(): string | null {

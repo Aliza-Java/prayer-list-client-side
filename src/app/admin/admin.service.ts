@@ -45,6 +45,16 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         public router: Router,
         public daveningService: DaveningService,
         public authService: AuthService) {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            const email = this.authService.getEmailFromToken(token);
+            if (email != null) {
+                this.authService.loggedIn.next(true);
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("email", email || '');
+            }
+        }
+
         this.listsSub = this.authService.loggedIn.subscribe(
             () => {//Populate all lists only once successful login was made 
                 this.populateAdminDavenfors();
@@ -52,6 +62,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 this.populateParashot();
                 this.populateAdminSettings();
                 this.getDaveners();
+                this.router.navigate(['admin']);
             }
         );
     }
@@ -79,7 +90,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         }
     }
 
-    async populateAdminDavenfors():Promise<Davenfor[]> { //requesting all system Davenfors from server
+    async populateAdminDavenfors(): Promise<Davenfor[]> { //requesting all system Davenfors from server
         try {
             const names = await lastValueFrom(
                 this.httpService.getDavenfors('admin/davenfors').pipe(
