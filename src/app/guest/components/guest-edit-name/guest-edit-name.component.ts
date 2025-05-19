@@ -77,6 +77,7 @@ export class GuestEditNameComponent implements OnInit {
             form.get('english')?.value,
             form.get('spouseHebrew')?.value,
             form.get('spouseEnglish')?.value,
+            "", //empty note
             form.get('submitterToReceive')?.value,
             this.oldInfo.lastConfirmedAt,
             this.oldInfo.expireAt,

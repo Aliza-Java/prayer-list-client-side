@@ -20,6 +20,8 @@ export class UrgentComponent implements OnInit {
     chosenCategory: string = '';
     spouseEnglishError = false;
     spouseHebrewError = false;
+    emailError = false;
+    email = '';
 
     //declaring form-controls as variables, to shorten reference to them
     name1English: UntypedFormControl = new UntypedFormControl;
@@ -35,6 +37,7 @@ export class UrgentComponent implements OnInit {
     category: UntypedFormControl = new UntypedFormControl
     userEmail: UntypedFormControl = new UntypedFormControl
     addToWeekly: UntypedFormControl = new UntypedFormControl
+    note: UntypedFormControl = new UntypedFormControl
 
 
     constructor(
@@ -50,6 +53,9 @@ export class UrgentComponent implements OnInit {
 
         //Populating category array from Server
         this.categories = await this.daveningService.populateCategories();
+        this.nameForm.get('category')?.valueChanges.subscribe(value => {
+            this.chosenCategory = value;
+        });
     }
 
     createFormControls() {
@@ -67,10 +73,10 @@ export class UrgentComponent implements OnInit {
         this.spouseName1Hebrew = new UntypedFormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
         this.spouseName2Hebrew = new UntypedFormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
+        this.note = new UntypedFormControl("");
         this.category = new UntypedFormControl("", Validators.required); //default value is 'select category'
         this.addToWeekly = new UntypedFormControl(false);
-        this.userEmail = new UntypedFormControl(null, Validators.email);
-
+        this.userEmail = new UntypedFormControl("", Validators.email);
     }
 
     setForm() {
@@ -89,6 +95,7 @@ export class UrgentComponent implements OnInit {
                 'hebrew1': this.spouseName1Hebrew,
                 'hebrew2': this.spouseName2Hebrew
             }),
+            'note': this.note,
             'category': this.category,
             'addToWeekly': this.addToWeekly,
             'userEmail': this.userEmail
@@ -103,14 +110,13 @@ export class UrgentComponent implements OnInit {
             let spouseHebrewFull = "";
 
             let form = this.nameForm; //shortening all references in this function
-            const chosenCategory = (form.get('category')?.value || '');
             const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
             const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
             let userEmail = form.get('userEmail')?.value;
-
             let addToWeekly = form.get('addToWeekly')?.value;
+            let note = form.get('note')?.value;
 
-            if (chosenCategory == "banim") {
+            if (this.chosenCategory == "banim") {
                 //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
 
                 let spouseEnglish1 = form.get('spouse.english1')?.value;
@@ -126,12 +132,13 @@ export class UrgentComponent implements OnInit {
             }
 
             let formInfo = new SimpleDavenfor(
-                chosenCategory,
+                this.chosenCategory,
                 userEmail,
                 hebrewName,
                 englishName,
                 spouseHebrewFull,
                 spouseEnglishFull,
+                note,
                 true //submitter to receive, by default inserting true (if is added to weekly list)
             );
 
@@ -158,6 +165,7 @@ export class UrgentComponent implements OnInit {
         this.spouseName1Hebrew.reset();
         this.spouseName2Hebrew.reset();
         this.addToWeekly.setValue(false);
+        this.note.reset();
     }
 
     cancel() {
@@ -184,5 +192,16 @@ export class UrgentComponent implements OnInit {
             this.spouseHebrewError = true;
         }
         else this.spouseHebrewError = false;
+    }
+
+    checkEmailValidation() {
+        if (this.nameForm.get('addToWeekly')?.value == false)
+            this.emailError = false;
+
+        else
+            if (this.nameForm.get('userEmail')?.errors || this.nameForm.get('userEmail')?.value == '')
+                this.emailError = true;
+            else
+                this.emailError = false;
     }
 }

@@ -8,17 +8,6 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-2">
-            <span class="help-block"
-                *ngIf="nameForm.get('userEmail')?.touched && !nameForm.get('userEmail')?.valid">
-                <span *ngIf="nameForm.get('userEmail')?.errors?.['email']">Please enter a valid email</span>
-            </span>
-        </div>
-    </div>
-
-
-
     <!--English name-->
 
     <div formGroupName="name">
@@ -29,8 +18,7 @@
 
                 <span *ngIf="!nameForm?.get('name.english1')?.valid && nameForm?.get('name.english1')?.touched"
                     class="help-block">
-                    <span class="text-right" *ngIf="nameForm?.get('name.english1')?.errors?.['pattern']">English letters and
-                        spaces</span>
+                    <span class="text-right" *ngIf="nameForm?.get('name.english1')?.errors?.['pattern']">English letters and spaces</span>
                     <span class="text-right" *ngIf="nameForm?.get('name.english1')?.errors?.['required']">This field is
                         required</span>
                 </span>
@@ -57,7 +45,8 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.english2')?.valid && nameForm.get('name.english2')?.touched"
                     class="help-block">
-                    <span *ngIf="nameForm?.get('name.english2')?.errors?.['pattern']">English letters (spaces allowed)</span>
+                    <span *ngIf="nameForm?.get('name.english2')?.errors?.['pattern']">English letters (spaces
+                        allowed)</span>
                     <span *ngIf="nameForm?.get('name.english2')?.errors?.['required']">This field is required</span>
                 </span>
             </div>
@@ -73,7 +62,8 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.hebrew2')?.valid && nameForm.get('name.hebrew2')?.touched"
                     class="help-block">
-                    <span class="text-right" *ngIf="nameForm?.get('name.hebrew2')?.errors?.['pattern']">Hebrew letters and
+                    <span class="text-right" *ngIf="nameForm?.get('name.hebrew2')?.errors?.['pattern']">Hebrew letters
+                        and
                         spaces</span>
                     <span class="text-right" *ngIf="nameForm?.get('name.hebrew2')?.errors?.['required']">This field is
                         required</span>
@@ -100,7 +90,8 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm?.get('name.hebrew1')?.valid && nameForm.get('name.hebrew1')?.touched"
                     class="help-block">
-                    <span *ngIf="nameForm?.get('name.hebrew1')?.errors?.['pattern']">Hebrew letters (spaces allowed)</span>
+                    <span *ngIf="nameForm?.get('name.hebrew1')?.errors?.['pattern']">Hebrew letters (spaces
+                        allowed)</span>
                     <span *ngIf="nameForm?.get('name.hebrew1')?.errors?.['required']">This field is required</span>
                 </span>
             </div>
@@ -110,7 +101,6 @@
 
     </div>
     <div formGroupName="spouse">
-
         <div *ngIf="nameForm.get('category')?.value =='banim'">
             <!--- -Then need also spouse details-->
 
@@ -122,7 +112,8 @@
                     <!--Validation: must include only English letters and spaces -->
                     <span *ngIf="!nameForm?.get('spouse.english1')?.valid && nameForm?.get('spouse.english1')?.touched"
                         class="help-block">
-                        <span class="text-right" *ngIf="nameForm?.get('spouse.english1')?.errors?.['pattern']">English letters (spaces allowed)</span>
+                        <span class="text-right" *ngIf="nameForm?.get('spouse.english1')?.errors?.['pattern']">English
+                            letters (spaces allowed)</span>
                     </span>
                     <!--Validation: If user entered only part of spouse's English name-->
                     <span *ngIf="spouseEnglishError" class="help-block">
@@ -203,44 +194,52 @@
     </div>
     <br>
     <div class="form-group row">
-        <div class="col-2"></div>
-        <div class="col-5 form-check">
-            <input style="margin: 5px" type="checkbox" class="form-check-input" id="addToWeekly"
-                formControlName="addToWeekly">
-            <label class="form-check-label text-center" for="addToWeekly">Add this name to weekly list as well</label>
-
-            <div *ngIf="addToWeekly.value">
-                <input type="text" style="width:300px" class="form-control" placeholder="Email to manage notifications"
-                    formControlName="userEmail">
-            </div>
+        <div class="col-5 offset-md-2">
+            <textarea id="note" name="note" formControlName="note" style="width: 100%;"
+                placeholder="Here you can explain why this name is urgent (optional)"></textarea>
         </div>
-
 
         <div class="col-1">
-            <label for="category">* Category:</label>
+            <label for="category">Category:</label>
         </div>
-        <div class="col-2 ">
-            <select formControlName="category" class="form-control" id="category">
-                <option value="">Select category</option>
+        <div class="col-2">
+            <select formControlName="category" class="form-control" id="category" [ngStyle]="{ color: chosenCategory === '' ? 'red' : 'black' }" required>
+                <option value="" disabled>Category (required)</option>
                 <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
-                <option *ngFor="let category of categories" [value]="category">{{category | titlecase}}
+                <option *ngFor="let category of categories" [value]="category" style="color:black">{{category |
+                    titlecase}}
                 </option>
             </select>
         </div>
     </div>
 
     <div class="form-group row">
+        <div class="col-4 offset-md-2 form-check">
+            <input style="margin: 5px" type="checkbox" class="form-check-input" id="addToWeekly"
+                formControlName="addToWeekly" (change)="checkEmailValidation()">
+            <label class="form-check-label text-center" for="addToWeekly">Add this name to weekly list as well</label>
+        </div>
 
-        <div class="col-md-2 offset-md-3">
+        <div class="col-3">
+            <div *ngIf="addToWeekly.value">
+                <input type="text" style="width:100%" class="form-control" placeholder="Email to manage notifications"
+                    formControlName="userEmail" (input)="checkEmailValidation()">
+            </div>
+        </div>
+        <div class="col-3">
+            <span class="help-block" *ngIf="nameForm.get('addToWeekly')?.value == true && nameForm.get('userEmail')?.touched && (!nameForm.get('userEmail')?.valid || nameForm.get('userEmail')?.value == '')">
+                <span>Please enter a valid email</span>
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-3 offset-md-3">
+            <button class="btn btn-success btn-lg" type="submit"
+                [disabled]="nameForm.invalid||spouseEnglishError||spouseHebrewError||emailError">Send out to email list</button>
+        </div>
+
+        <div class="col-md-3">
             <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
         </div>
-        <div class="col-7">
-            <button class="btn btn-success btn-lg" type="submit"
-                [disabled]="nameForm.invalid||spouseEnglishError||spouseHebrewError">Go ahead and send out to email
-                list</button>
-        </div>
-
     </div>
-
-
 </form>

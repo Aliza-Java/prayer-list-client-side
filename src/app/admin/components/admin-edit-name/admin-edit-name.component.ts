@@ -83,7 +83,8 @@ export class AdminEditNameComponent implements OnInit {
             form.get('english')?.value,
             form.get('spouseHebrew')?.value,
             form.get('spouseEnglish')?.value,
-            form.get('submitterToReceive')?.value,
+            "", //empty note
+            form.get('submitterToReceive')?.value,     
             this.oldInfo.lastConfirmedAt,
             this.oldInfo.expireAt,
             this.oldInfo.createdAt,

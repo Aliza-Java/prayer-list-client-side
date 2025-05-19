@@ -72,6 +72,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             basicInfo.nameEnglish,
             basicInfo.nameHebrewSpouse,
             basicInfo.nameEnglishSpouse,
+            "", //empty note
             basicInfo.submitterToReceive,
             today, //lastConfirmedAt
             "", //expireAt: server will set the right one

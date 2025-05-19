@@ -415,6 +415,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             basicInfo.nameEnglish,
             basicInfo.nameHebrewSpouse,
             basicInfo.nameEnglishSpouse,
+            basicInfo.note,
             basicInfo.submitterToReceive,
             today, //lastConfirmedAt
             "", //expireAt: server will set the right one

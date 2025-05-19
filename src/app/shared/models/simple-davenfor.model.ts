@@ -10,6 +10,7 @@ export class SimpleDavenfor {
         public nameEnglish?: string,
         public nameHebrewSpouse?: string,
         public nameEnglishSpouse?: string,
+        public note?: string,
         public submitterToReceive?: boolean,
 
     ) { }
