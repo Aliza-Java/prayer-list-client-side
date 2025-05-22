@@ -207,7 +207,7 @@
                 <option value="" disabled>Category (required)</option>
                 <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
                 <option *ngFor="let category of categories" [value]="category" style="color:black">{{category |
-                    titlecase}}
+                    viewCategory}}
                 </option>
             </select>
         </div>

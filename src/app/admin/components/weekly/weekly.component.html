@@ -64,7 +64,7 @@
         </div>
         <div class="col-2">
             <select class="form-control set-width" [(ngModel)]="selectedCategory" (ngModelChange)="refreshDavenfors()">
-                <option *ngFor="let c of categories" [ngValue]="c">{{c | titlecase}}
+                <option *ngFor="let c of categories" [ngValue]="c">{{c | viewCategory}}
                 </option>
 
             </select>

@@ -9,6 +9,7 @@ import { SelectDavenforsComponent } from '../select-davenfors/select-davenfors.c
 import { DropdownDirective } from './dropdown.directive';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ViewCategoryPipe } from './filters/view-category.pipe';
 
 @NgModule({
     declarations: [
@@ -18,20 +19,22 @@ import { RouterModule } from '@angular/router';
         FilterActivePipe,
         EmptyListComponent,
         SelectDavenforsComponent,
-        DropdownDirective
+        DropdownDirective, 
+        ViewCategoryPipe
     ],
     imports: [
         CommonModule,
         FormsModule,
-        RouterModule
+        RouterModule,
     ],
     exports: [
         EmptyListComponent,
         NotFoundComponent,
         LoadingSpinnerComponent,
         LoadingSpinnerSmallComponent,
-        FilterActivePipe,
         SelectDavenforsComponent,
-        DropdownDirective]
+        DropdownDirective, 
+        ViewCategoryPipe, 
+        FilterActivePipe]
 })
 export class SharedModule { }

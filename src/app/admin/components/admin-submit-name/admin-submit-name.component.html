@@ -231,7 +231,7 @@
                 <select formControlName="category" class="form-control" id="category">
                     <option value="">Select category</option>
                     <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
-                    <option *ngFor="let category of categories" [value]="category">{{category | titlecase}}
+                    <option *ngFor="let category of categories" [value]="category">{{category | viewCategory}}
                     </option>
                 </select>
             </div>

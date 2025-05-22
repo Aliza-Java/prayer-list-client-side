@@ -16,7 +16,7 @@
 
             <tr *ngFor="let davenfor of davenfors">
 
-                <td>{{davenfor.category | titlecase}}</td>
+                <td>{{davenfor.category | viewCategory}}</td>
                 <td>
                     <!--English name, and spouse's English name if applicable-->
                     <span>{{davenfor.nameEnglish | titlecase}}</span>

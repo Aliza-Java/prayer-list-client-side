@@ -1,6 +1,6 @@
 <div>
     <div class="text-center" *ngIf="davenfors.length<1">
-        <app-empty-list whatIsMissing="names in the '{{category | titlecase}}' category.  Please choose another category"></app-empty-list>
+        <app-empty-list whatIsMissing="names in the '{{category | viewCategory}}' category.  Please choose another category"></app-empty-list>
     </div>
     <div *ngIf="davenfors.length>0">
         <table class="table table-responsive">
