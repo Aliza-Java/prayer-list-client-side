@@ -2,6 +2,7 @@ body {
     /*Scheme colors*/
     --dark-background-color: #93d314;
     --light-background-color:  #d9f89a;
+    --lightest-background-color: #f8ffe9;
     --red-color: #db0f27;
 
     font-family: "Trebuchet MS", Helvetica, sans-serif;
