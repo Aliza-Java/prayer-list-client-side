@@ -19,6 +19,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     chagim: Parasha[] = [];
     categories: string[] = [];
     weekNameEnglish: string = '';
+    weekNameHebrew: string = '';
     weekName: string = '';
     selectedParashaId: number = -1;
     parasha: Parasha = new Parasha;
@@ -85,7 +86,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     weekChange(value: string) { //todo in future: isn't this duplicate of updateWeekName() and updateWeekNameParasha()?
         let numberValue = Number(value);
         if (numberValue > -1)
-            this.weekName = this.formatParashaName(numberValue, true);
+            this.weekName = this.formatParashaName(numberValue, true, true);
         else
             this.weekName = value;
     }
@@ -96,18 +97,23 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         this.weekNameEnglish = selectElement.value;
     }
 
-    formatParashaName(parashaId: number, full: boolean): string {
+    formatParashaName(parashaId: number, english: boolean, hebrew: boolean): string {
         const currentParasha = this.adminService.parashot.find(p => p.id === parashaId);
-        if (full)
+        if (english && !hebrew)
+            return currentParasha?.englishName || '';
+        if (hebrew && !english)
+            return currentParasha?.hebrewName || '';
+        if (english && hebrew)
             return (currentParasha ? `${currentParasha.englishName} - ${currentParasha.hebrewName}` : '');
-        else
-            return (currentParasha ? `${currentParasha.englishName}` : '');
+        
+        return '';
     }
 
     updateWeekNameByParasha(event: any) {
         const selectElement = event.target as HTMLSelectElement;
-        this.weekName = this.formatParashaName(Number(selectElement.value), true);
-        this.weekNameEnglish = this.formatParashaName(Number(selectElement.value), false);
+        this.weekName = this.formatParashaName(Number(selectElement.value), true, true);
+        this.weekNameEnglish = this.formatParashaName(Number(selectElement.value), true, false);
+        this.weekNameHebrew = this.formatParashaName(Number(selectElement.value), false, true);
     }
 
     emphasize(radioName: string) {
@@ -137,7 +143,9 @@ export class WeeklyComponent implements OnInit, OnDestroy {
             return;
         this.readyToSend = true;
         this.daveningService.setLoading(true);
-        let weeklyInfo: Weekly = new Weekly('', this.weekName, this.selectedCategory, this.message);
+        const weekNameEnglish = this.weekNameEnglish ?? "";
+        const weekNameHebrew = this.weekNameHebrew ?? "";
+        const weeklyInfo = new Weekly(weekNameEnglish, weekNameHebrew, this.selectedCategory, this.message);
         this.adminService.previewList(weeklyInfo);
     }
 
@@ -145,7 +153,9 @@ export class WeeklyComponent implements OnInit, OnDestroy {
         if (this.daveningService.loading)
             return;
         this.readyToSend = true;
-        const weeklyInfo = new Weekly(this.weekNameEnglish, this.weekName, this.selectedCategory, this.message);
+        const weekNameEnglish = this.weekNameEnglish ?? "";
+        const weekNameHebrew = this.weekNameHebrew ?? "";
+        const weeklyInfo = new Weekly(weekNameEnglish, weekNameHebrew, this.selectedCategory, this.message);
         this.adminService.verify(weeklyInfo, this.adminPassword).then(
             (response: boolean) => {
                 if (response) {
