@@ -17,13 +17,13 @@
             <!--Parasha week-->
             <div class="col-3" [ngClass]="{emphasized:radioParasha.checked}">
                 <div class="custom-control custom-radio">
-                    <input (change)="weekChange(parashaTag.value)" type="radio" class="custom-control-input give-space"
+                    <input (change)="updateParasha()" type="radio" class="custom-control-input give-space"
                         id="radioParasha" name="weekType" #radioParasha value="parashaRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioParasha">Parasha name:</label>
                 </div>
-                <select class="set-width form-control" #parashaTag [(ngModel)]="selectedParashaId"
-                    (change)="emphasize('parashaRadio'); updateWeekNameByParasha($event); ">
-                    <option *ngFor="let p of adminService.parashot" [value]="p.id">
+                <select class="set-width form-control" #parashaTag [(ngModel)]="selectedParasha"
+                    (change)="emphasize('parashaRadio'); updateParasha(); ">
+                    <option *ngFor="let p of adminService.parashot" [ngValue]="p">
                         {{p.englishName}} - {{p.hebrewName}}</option>
                 </select>
             </div>
@@ -31,14 +31,14 @@
             <!--Chag week-->
             <div class="col-3" [ngClass]="{emphasized:radioChag.checked}">
                 <div class="custom-control custom-radio">
-                    <input (change)="weekChange(chagTag.value)" type="radio" class="custom-control-input give-space"
+                    <input (change)="updateChag()" type="radio" class="custom-control-input give-space"
                         id="radioChag" #radioChag name="weekType" value="chagRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioChag">Special week: </label>
                 </div>
 
-                <select (change)="emphasize('chagRadio'); updateWeekName($event)" class="form-control set-width"
+                <select (change)="emphasize('chagRadio'); updateChag()" class="form-control set-width"
                     [(ngModel)]="chag" #chagTag>
-                    <option *ngFor="let c of adminService.chagim">{{c.englishName}} -
+                    <option *ngFor="let c of adminService.chagim" [ngValue]="c">{{c.englishName}} -
                         {{c.hebrewName}}</option>
                 </select>
             </div>
@@ -46,13 +46,13 @@
             <!--Custom week-->
             <div class="col-3" [ngClass]="{emphasized:radioCustom.checked}">
                 <div class="custom-control custom-radio">
-                    <input (change)="weekChange(customTag.value); " type="radio" class="custom-control-input give-space"
+                    <input (change)="updateCustom(customTag.value); " type="radio" class="custom-control-input give-space"
                         id="radioCustom" #radioCustom name="weekType" value="customRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioCustom">Other: </label>
                 </div>
 
-                <input class="form-control set-width" placeholder="Enter week title" (keyup)="updateWeekName($event)"
-                    (focus)="emphasize('customRadio'); updateWeekName($event)" [(ngModel)]="customWeek" type="text"
+                <input class="form-control set-width" placeholder="Enter week title" (keyup)="updateCustom(customTag.value)"
+                    (focus)="emphasize('customRadio'); updateCustom(customTag.value)" [(ngModel)]="customWeek" type="text"
                     #customTag>
             </div>
         </div>

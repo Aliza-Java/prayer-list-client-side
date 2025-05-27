@@ -21,7 +21,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     weekNameEnglish: string = '';
     weekNameHebrew: string = '';
     weekName: string = '';
-    selectedParashaId: number = -1;
+    selectedParasha: Parasha = new Parasha;
     parasha: Parasha = new Parasha;
     weekType: string = '';
     changeParasha: boolean = false;
@@ -63,11 +63,13 @@ export class WeeklyComponent implements OnInit, OnDestroy {
 
         this.adminService.populateParashot().then(currentParasha => {
             if (!currentParasha || currentParasha.id == undefined || currentParasha.id < 0)
-                this.weekName = this.parasha.englishName = '';
+                this.weekName = this.parasha.englishName = this.parasha.hebrewName = '';
             else if (currentParasha != null) {
                 this.weekName = currentParasha.englishName + " - " + currentParasha.hebrewName;
-                this.selectedParashaId = currentParasha.id ?? 0;
+                this.selectedParasha = currentParasha ?? new Parasha;
                 this.parasha = currentParasha;
+                this.weekNameEnglish = currentParasha.englishName ?? '';
+                this.weekNameHebrew = currentParasha.hebrewName ?? '';
             }
         });
         this.askForPassword = false;
@@ -83,22 +85,32 @@ export class WeeklyComponent implements OnInit, OnDestroy {
                 });
     }
 
-    weekChange(value: string) { //todo in future: isn't this duplicate of updateWeekName() and updateWeekNameParasha()?
-        let numberValue = Number(value);
-        if (numberValue > -1)
-            this.weekName = this.formatParashaName(numberValue, true, true);
-        else
-            this.weekName = value;
+    updateParasha() {
+        this.weekName = this.formatParashaName(this.selectedParasha.id || 0, true, true);
+        this.weekNameEnglish = this.formatParashaName(this.selectedParasha.id || 0, true, false);
+        this.weekNameHebrew = this.formatParashaName(this.selectedParasha.id || 0, false, true);
     }
 
-    updateWeekName(event: any) { //applies only to chag and custom.  Value should be in both weekName fields (english and full)
-        const selectElement = event.target as HTMLSelectElement;
-        this.weekName = selectElement.value;
-        this.weekNameEnglish = selectElement.value;
+    updateChag() {
+        if (this.chag == undefined)
+            this.chag = this.adminService.chagim[0];
+        this.weekName = this.formatParashaName(this.chag.id ?? -1 , true, true);
+        this.weekNameEnglish = this.chag.englishName ?? '';
+        this.weekNameHebrew = this.chag.hebrewName ?? '';
+    }
+
+    updateCustom(value : string) { //applies only to custom.
+        this.weekName = this.weekNameEnglish = value;
+        this.weekNameHebrew = '';
     }
 
     formatParashaName(parashaId: number, english: boolean, hebrew: boolean): string {
-        const currentParasha = this.adminService.parashot.find(p => p.id === parashaId);
+        let currentParasha;
+        if (parashaId < 100)
+            currentParasha = this.adminService.parashot.find(p => p.id === parashaId);
+        else
+            currentParasha = this.adminService.chagim.find(p => p.id === parashaId);
+
         if (english && !hebrew)
             return currentParasha?.englishName || '';
         if (hebrew && !english)
@@ -107,13 +119,6 @@ export class WeeklyComponent implements OnInit, OnDestroy {
             return (currentParasha ? `${currentParasha.englishName} - ${currentParasha.hebrewName}` : '');
         
         return '';
-    }
-
-    updateWeekNameByParasha(event: any) {
-        const selectElement = event.target as HTMLSelectElement;
-        this.weekName = this.formatParashaName(Number(selectElement.value), true, true);
-        this.weekNameEnglish = this.formatParashaName(Number(selectElement.value), true, false);
-        this.weekNameHebrew = this.formatParashaName(Number(selectElement.value), false, true);
     }
 
     emphasize(radioName: string) {
