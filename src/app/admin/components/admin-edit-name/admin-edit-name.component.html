@@ -38,8 +38,7 @@
                 <div class="col-4 help-block">
                     <span *ngIf="!nameForm.get('english')?.valid && nameForm.get('english')?.touched"
                         class="help-block">
-                        <span *ngIf="nameForm.get('english')?.errors?.['pattern']">English letters
-                            (spaces allowed)</span>
+                        <span *ngIf="nameForm.get('english')?.errors?.['pattern']">Invalid characters</span>
                         <span *ngIf="nameForm.get('english')?.errors?.['required']">This field is
                             required</span>
                     </span>
@@ -55,8 +54,7 @@
                 <div class="col-4 help-block">
                     <span *ngIf="!nameForm.get('spouseEnglish')?.valid && nameForm.get('spouseEnglish')?.touched"
                         class="help-block">
-                        <span *ngIf="nameForm.get('spouseEnglish')?.errors?.['pattern']">English letters (spaces
-                            allowed)</span>
+                        <span *ngIf="nameForm.get('spouseEnglish')?.errors?.['pattern']">Invalid characters</span>
                     </span>
                 </div>
             </div>
@@ -72,7 +70,7 @@
                 <!--Validation-->
                 <div class="col-4 help-block">
                     <span *ngIf="!nameForm.get('hebrew')?.valid && nameForm.get('hebrew')?.touched" class="help-block">
-                        <span *ngIf="nameForm.get('hebrew')?.errors?.['pattern']">Hebrew letters (spaces allowed)</span>
+                        <span *ngIf="nameForm.get('hebrew')?.errors?.['pattern']">Invalid characters</span>
                         <span *ngIf="nameForm.get('hebrew')?.errors?.['required']">This field is
                             required</span>
                     </span>
@@ -88,8 +86,7 @@
                 <div class="col-4 help-block">
                     <span *ngIf="!nameForm.get('spouseHebrew')?.valid && nameForm.get('spouseHebrew')?.touched"
                         class="help-block">
-                        <span *ngIf="nameForm.get('spouseHebrew')?.errors?.['pattern']">Hebrew
-                            letters (spaces allowed)</span>
+                        <span *ngIf="nameForm.get('spouseHebrew')?.errors?.['pattern']">Invalid characters</span>
                     </span>
                 </div>
             </div>

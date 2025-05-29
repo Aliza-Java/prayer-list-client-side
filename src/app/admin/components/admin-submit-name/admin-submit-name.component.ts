@@ -18,6 +18,7 @@ export class AdminSubmitNameComponent implements OnInit {
     chosenCategory: string = '';
     spouseEnglishError = false;
     spouseHebrewError = false;
+    spouseError = false;
 
     //declaring form-controls as variables, to shorten reference to them
     name1English: UntypedFormControl = new UntypedFormControl;
@@ -87,8 +88,19 @@ export class AdminSubmitNameComponent implements OnInit {
     }
 
     onSubmit() {
-        /*If spouse name will be full and valid, will populate later.  
-        Initializing before 'banim' condition so that recognized in 'formInfo' population below*/
+        //If spouse name will be full and valid, will populate later.  
+        if (this.nameForm.get('category')?.value == 'banim') {
+            this.checkSpouse(); //check one more time in case submit was clicked without blurring and onsetting this check
+            if (this.spouseError || this.spouseEnglishError || this.spouseHebrewError)
+                return;
+        }
+
+        if (this.nameForm.get('name')?.invalid ||
+            (this.nameForm.get('spouse')?.invalid && this.nameForm.get('category')?.value === 'banim') ||
+            this.nameForm.get('category')?.invalid ||
+            this.nameForm.get('userEmail')?.invalid)
+            return;
+
         let spouseEnglishFull = "";
         let spouseHebrewFull = "";
 
@@ -159,30 +171,28 @@ export class AdminSubmitNameComponent implements OnInit {
         this.router.navigate(['admin/names']);
     }
 
-    checkSpouseEnglish() {
+    checkSpouse() {
         if ((!this.spouseName1English.value
             && this.spouseName2English.value)
             ||
-            (!this.spouseName2English.value
-                && this.spouseName1English.value)) {
+            this.spouseName1English.value
+            && !this.spouseName2English.value)
             this.spouseEnglishError = true;
-        }
         else this.spouseEnglishError = false;
-    }
 
-    checkSpouseHebrew() {
         if ((!this.spouseName1Hebrew.value
             && this.spouseName2Hebrew.value)
             ||
-            (!this.spouseName2Hebrew.value
-                && this.spouseName1Hebrew.value)) {
+            this.spouseName1Hebrew.value
+            && !this.spouseName2Hebrew.value)
             this.spouseHebrewError = true;
-        }
         else this.spouseHebrewError = false;
-    }
 
-    checkBanim() {
-        return (this.nameForm.get('category')?.value != null &&
-            this.nameForm.get('category')?.value=='banim');
+        if (!this.spouseName1English.value
+            && !this.spouseName2English.value
+            && !this.spouseName1Hebrew.value
+            && !this.spouseName2Hebrew.value)
+            this.spouseError = true;
+        else this.spouseError = false;
     }
 }

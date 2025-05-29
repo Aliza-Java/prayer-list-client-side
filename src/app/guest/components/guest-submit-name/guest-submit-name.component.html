@@ -17,10 +17,8 @@
 
                 <span *ngIf="!nameForm.get('name.english1')?.valid && nameForm.get('name.english1')?.touched"
                     class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">English letters
-                        and
-                        spaces</span>
-                    <span class="text-right" *ngIf="nameForm.get('name.english1')?.errors?.['required']">This field is
+                    <span *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">Invalid characters</span>
+                    <span *ngIf="nameForm.get('name.english1')?.errors?.['required']">This field is
                         required</span>
                 </span>
             </div>
@@ -47,7 +45,7 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.english2')?.valid && nameForm.get('name.english2')?.touched"
                     class="help-block">
-                    <span *ngIf="nameForm.get('name.english2')?.errors?.['pattern']">English letters (spaces allowed)</span>
+                    <span *ngIf="nameForm.get('name.english2')?.errors?.['pattern']">Invalid characters</span>
                     <span *ngIf="nameForm.get('name.english2')?.errors?.['required']">This field is required</span>
                 </span>
             </div>
@@ -63,10 +61,8 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.hebrew2')?.valid && nameForm.get('name.hebrew2')?.touched"
                     class="help-block">
-                    <span class="text-right" *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Hebrew letters
-                        and
-                        spaces</span>
-                    <span class="text-right" *ngIf="nameForm.get('name.hebrew2')?.errors?.['required']">This field is
+                    <span *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid characters</span>
+                    <span *ngIf="nameForm.get('name.hebrew2')?.errors?.['required']">This field is
                         required</span>
                 </span>
             </div>
@@ -93,7 +89,7 @@
             <div class="col-2 help-block">
                 <span *ngIf="!nameForm.get('name.hebrew1')?.valid && nameForm.get('name.hebrew1')?.touched"
                     class="help-block">
-                    <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Hebrew letters (spaces allowed)</span>
+                    <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Invalid characters</span>
                     <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['required']">This field is required</span>
                 </span>
             </div>
@@ -106,6 +102,9 @@
 
         <div *ngIf="nameForm.get('category')?.value=='banim'">
             <!--- -Then need also spouse details-->
+            <br>
+            <h6 class="offset-2" [ngStyle]="{ color: spouseError ? 'red' : 'black' }">* Please enter spouse's full name
+                (English and/or Hebrew)</h6>
 
             <!--Spouse English name-->
             <div class="form-group" style="display: flex;">
@@ -115,25 +114,27 @@
                     <!--Validation: must include only English letters and spaces -->
                     <span *ngIf="!nameForm.get('spouse.english1')?.valid && nameForm.get('spouse.english1')?.touched"
                         class="help-block">
-                        <span class="text-right" *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">English letters (spaces allowed)</span>
+                        <span *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">Invalid characters</span>
                     </span>
                     <!--Validation: If user entered only part of spouse's English name-->
-                    <span *ngIf="spouseEnglishError" class="help-block">
-                        <span>Please complete spouse English name</span>
+                    <!--This will only appear if there are no invalid characters.  No need to overload erros -->
+                    <span *ngIf="spouseEnglishError && !nameForm.get('spouse.english1')?.errors?.['pattern'] "
+                        class="help-block">
+                        <span>Please complete spouse name</span>
                     </span>
                 </div>
 
                 <div class="col-3">
-                    <input (blur)="checkSpouseEnglish()" type="text" id="spouseName1English" class="form-control me-2"
+                    <input (blur)="checkSpouse()" type="text" id="spouseName1English" class="form-control me-2"
                         formControlName="english1" placeholder="Spouse name">
                 </div>
 
-                <div class="col-2">
+                <div class="col-2 ben">
                     <span class="form-control-static">Ben</span>
                 </div>
 
                 <div class="col-3">
-                    <input (blur)="checkSpouseEnglish()" type="text" id="spouseName2English" class="form-control"
+                    <input (blur)="checkSpouse()" type="text" id="spouseName2English" class="form-control"
                         formControlName="english2" placeholder="Spouse mother's name">
                 </div>
 
@@ -142,7 +143,7 @@
                     <!--Validation: must include only English letters and spaces -->
                     <span *ngIf="!nameForm.get('spouse.english2')?.valid && nameForm.get('spouse.english2')?.touched"
                         class="help-block">
-                        <span *ngIf="nameForm.get('spouse.english2')?.errors?.['pattern']">English letters (spaces allowed)</span>
+                        <span *ngIf="nameForm.get('spouse.english2')?.errors?.['pattern']">Invalid characters</span>
                     </span>
                 </div>
 
@@ -156,26 +157,26 @@
                 <div class="col-2 help-block">
                     <span *ngIf="!nameForm.get('spouse.hebrew2')?.valid && nameForm.get('spouse.hebrew2')?.touched"
                         class="help-block">
-                        <span class="text-right" *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">Hebrew
-                            letters (spaces allowed)</span>
+                        <span *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">Invalid characters</span>
                     </span>
-                    <!--Validation: If user entered only part of spouse's Hebrew name-->
-                    <span *ngIf="spouseHebrewError" class="help-block">
-                        <span>Please complete spouse Hebrew name</span>
+                    <!--Validation: If user entered only part of spouse's English name-->
+                    <span *ngIf="spouseHebrewError && !nameForm.get('spouse.hebrew2')?.errors?.['pattern']"
+                        class="help-block">
+                        <span>Please complete spouse name</span>
                     </span>
                 </div>
 
                 <div class="col-3">
-                    <input (blur)="checkSpouseHebrew()" type="text" id="spouseName2Hebrew" class="form-control"
+                    <input (blur)="checkSpouse()" type="text" id="spouseName2Hebrew" class="form-control"
                         formControlName="hebrew2" placeholder="שם האם - של בן הזוג">
                 </div>
 
-                <div class="col-2">
-                    <span class="form-control-static" class="text-center">בן</span>
+                <div class="col-2 ben">
+                    <span class="form-control-static">בן</span>
                 </div>
 
                 <div class="col-3">
-                    <input (blur)="checkSpouseHebrew()" type="text" id="spouseName1Hebrew" class="form-control"
+                    <input (blur)="checkSpouse()" type="text" id="spouseName1Hebrew" class="form-control"
                         formControlName="hebrew1" placeholder="שם בן הזוג">
                 </div>
 
@@ -183,7 +184,7 @@
                 <div class="col-2 help-block">
                     <span *ngIf="!nameForm.get('spouse.hebrew1')?.valid && nameForm.get('spouse.hebrew1')?.touched"
                         class="help-block">
-                        <span *ngIf="nameForm.get('spouse.hebrew1')?.errors?.['pattern']">Hebrew letters (spaces allowed)</span>
+                        <span *ngIf="nameForm.get('spouse.hebrew1')?.errors?.['pattern']">Invalid characters</span>
                     </span>
                 </div>
 
@@ -208,10 +209,12 @@
             <label for="category" style="margin: 7px; font-weight: bold;">* Category:</label>
         </div>
         <div class="col-2 ">
-            <select formControlName="category" class="form-select" id="category">
-                <option value="">Select category</option>
+            <select formControlName="category" class="form-select" id="category"
+                [ngStyle]="{ color: nameForm.get('category')?.value === '' ? 'red' : 'black' }" required>
+                <option value="" disabled>Select category</option>
                 <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
-                <option *ngFor="let category of categories" [value]="category">{{category | viewCategory}}
+                <option *ngFor="let category of categories" style="color:black" [value]="category">{{category |
+                    viewCategory}}
                 </option>
             </select>
         </div>
@@ -221,9 +224,9 @@
         <div class="col-2 offset-4">
 
             <button class="btn btn-success btn-lg" type="submit"
-                [disabled]="nameForm.invalid || (daveningService.loading$ | async)">
-                <span
-                    *ngIf="daveningService.loading$ | async; else notLoading">One moment...<app-loading-spinner-small></app-loading-spinner-small></span>
+                [disabled]="nameForm.get('name')?.invalid || nameForm.get('name')?.invalid || (nameForm.get('spouse')?.invalid && nameForm.get('category')?.value === 'banim') || nameForm.get('category')?.invalid">
+                <span *ngIf="daveningService.loading$ | async; else notLoading">One
+                    moment...<app-loading-spinner-small></app-loading-spinner-small></span>
                 <ng-template #notLoading>
                     <span>Add Name</span>
                 </ng-template>

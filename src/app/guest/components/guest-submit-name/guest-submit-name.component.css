@@ -29,3 +29,13 @@ select {
     padding-right: 15px;
 }
 
+.ben{
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    height: 52px; 
+}
+
+h6 {
+    padding-left: 8px;
+}

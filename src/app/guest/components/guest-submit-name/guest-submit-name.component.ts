@@ -17,6 +17,7 @@ export class GuestSubmitNameComponent implements OnInit {
     chosenCategory: string = '';
     spouseEnglishError = false;
     spouseHebrewError = false;
+    spouseError = false;
 
     //declaring form-controls as variables, to shorten reference to them
     benbat: FormControl = new FormControl;
@@ -56,7 +57,7 @@ export class GuestSubmitNameComponent implements OnInit {
         this.spouseName2Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
         this.category = new FormControl("", Validators.required); //default value is 'select category'
-        this.submitterToReceive = new FormControl({ value: true, disabled: true });        
+        this.submitterToReceive = new FormControl({ value: true, disabled: true });
     }
 
     createForm() {
@@ -81,6 +82,16 @@ export class GuestSubmitNameComponent implements OnInit {
     }
 
     onSubmit() {
+        if (this.nameForm.get('category')?.value == 'banim') {
+            this.checkSpouse(); //check one more time in case submit was clicked without blurring and onsetting this check
+            if (this.spouseError || this.spouseEnglishError || this.spouseHebrewError)
+                return;
+        }
+
+        if (this.nameForm.get('name')?.invalid ||
+            (this.nameForm.get('spouse')?.invalid && this.nameForm.get('category')?.value === 'banim') ||
+            this.nameForm.get('category')?.invalid)
+            return;
         this.daveningService.setLoading(true); //setting here in case there is a delay till the service setting
         /*If spouse name will be full and valid, will populate later.  
         Initializing before 'banim' condition so that recognized in 'formInfo' population below    */
@@ -125,26 +136,29 @@ export class GuestSubmitNameComponent implements OnInit {
         this.guestService.addDavenfor(formInfo);
     }
 
-    checkSpouseEnglish() {
+    checkSpouse() {
         if ((!this.spouseName1English.value
             && this.spouseName2English.value)
             ||
-            (!this.spouseName2English.value
-                && this.spouseName1English.value)) {
+            this.spouseName1English.value
+            && !this.spouseName2English.value)
             this.spouseEnglishError = true;
-        }
         else this.spouseEnglishError = false;
-    }
 
-    checkSpouseHebrew() {
         if ((!this.spouseName1Hebrew.value
             && this.spouseName2Hebrew.value)
             ||
-            (!this.spouseName2Hebrew.value
-                && this.spouseName1Hebrew.value)) {
+            this.spouseName1Hebrew.value
+            && !this.spouseName2Hebrew.value)
             this.spouseHebrewError = true;
-        }
         else this.spouseHebrewError = false;
+
+        if (!this.spouseName1English.value
+            && !this.spouseName2English.value
+            && !this.spouseName1Hebrew.value
+            && !this.spouseName2Hebrew.value)
+            this.spouseError = true;
+        else this.spouseError = false;
     }
 
     cancel() {
