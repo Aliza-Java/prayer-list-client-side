@@ -409,18 +409,18 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         const today = new Date().toISOString().split('T')[0]; //used multiple times in the new Davenfor.
         return new Davenfor(
             -1,
-            basicInfo.userEmail,
-            basicInfo.category,
-            basicInfo.nameHebrew,
+                        basicInfo.category,
+                                    today, //createdAt
+            "", //deletedAt: server will set the right one
+            today, //confirmedAt
             basicInfo.nameEnglish,
-            basicInfo.nameHebrewSpouse,
+            basicInfo.nameHebrew,
             basicInfo.nameEnglishSpouse,
+            basicInfo.nameHebrewSpouse,
             basicInfo.note,
             basicInfo.submitterToReceive,
-            today, //lastConfirmedAt
-            "", //expireAt: server will set the right one
-            today, //createdAt
-            today); //updatedAt
+            today, //updatedAt
+            basicInfo.userEmail); //updatedAt
     }
 
     ngOnDestroy() {

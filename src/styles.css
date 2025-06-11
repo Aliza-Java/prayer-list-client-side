@@ -42,3 +42,8 @@ body {
 .checkbox-margined{
     margin: 5px;
 }
+
+.spacer {
+  display: inline-block;
+  width: 16px; 
+}

@@ -7,9 +7,10 @@ import { FilterActivePipe } from './filters/filter-active.pipe';
 import { EmptyListComponent } from '../empty-list/empty-list.component';
 import { SelectDavenforsComponent } from '../select-davenfors/select-davenfors.component';
 import { DropdownDirective } from './dropdown.directive';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ViewCategoryPipe } from './filters/view-category.pipe';
+import { EditNameComponent } from '../edit-name/edit-name.component';
 
 @NgModule({
     declarations: [
@@ -20,15 +21,18 @@ import { ViewCategoryPipe } from './filters/view-category.pipe';
         EmptyListComponent,
         SelectDavenforsComponent,
         DropdownDirective, 
-        ViewCategoryPipe
+        ViewCategoryPipe,
+        EditNameComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         RouterModule,
+        ReactiveFormsModule
     ],
     exports: [
         EmptyListComponent,
+        EditNameComponent,
         NotFoundComponent,
         LoadingSpinnerComponent,
         LoadingSpinnerSmallComponent,
