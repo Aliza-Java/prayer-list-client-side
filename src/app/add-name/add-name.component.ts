@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SimpleDavenfor } from 'src/app/shared/models/simple-davenfor.model';
 import { AdminService } from 'src/app/admin/admin.service';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 import { GuestService } from 'src/app/guest/guest.service';
 import { HttpService } from 'src/app/shared/services/http.service';
+import { Davenfor } from '../shared/models/davenfor.model';
 
 @Component({
-    selector: 'app-admin-submit-name',
-    templateUrl: './admin-submit-name.component.html',
-    styleUrls: ['./admin-submit-name.component.css']
+    selector: 'app-add-name',
+    templateUrl: './add-name.component.html',
+    styleUrls: ['./add-name.component.css']
 })
-export class AdminSubmitNameComponent implements OnInit {
-    nameForm: UntypedFormGroup = new UntypedFormGroup({});
+export class AddNameComponent implements OnInit {
+    @Input() parentComp = ""; // data coming from parent
+    @Output() save = new EventEmitter<any>(); // event to send data back
+    @Output() cancelEvent = new EventEmitter<void>();
+
+    nameForm: FormGroup = new FormGroup({});
     categories: string[] = []; //creating here so it is ready to populate and recognize later
     chosenCategory: string = '';
     spouseEnglishError = false;
@@ -21,19 +25,21 @@ export class AdminSubmitNameComponent implements OnInit {
     spouseError = false;
 
     //declaring form-controls as variables, to shorten reference to them
-    name1English: UntypedFormControl = new UntypedFormControl;
-    benbat: UntypedFormControl = new UntypedFormControl;
-    name2English: UntypedFormControl = new UntypedFormControl;
-    name1Hebrew: UntypedFormControl = new UntypedFormControl;
-    benbatHebrew: UntypedFormControl = new UntypedFormControl;
-    name2Hebrew: UntypedFormControl = new UntypedFormControl;
-    spouseName1English: UntypedFormControl = new UntypedFormControl;
-    spouseName2English: UntypedFormControl = new UntypedFormControl;
-    spouseName1Hebrew: UntypedFormControl = new UntypedFormControl;
-    spouseName2Hebrew: UntypedFormControl = new UntypedFormControl;
-    category: UntypedFormControl = new UntypedFormControl;
-    submitterToReceive: UntypedFormControl = new UntypedFormControl;
-    userEmail: UntypedFormControl = new UntypedFormControl;
+    name1English: FormControl = new FormControl;
+    benbat: FormControl = new FormControl;
+    name2English: FormControl = new FormControl;
+    name1Hebrew: FormControl = new FormControl;
+    benbatHebrew: FormControl = new FormControl;
+    name2Hebrew: FormControl = new FormControl;
+    spouseName1English: FormControl = new FormControl;
+    spouseName2English: FormControl = new FormControl;
+    spouseName1Hebrew: FormControl = new FormControl;
+    spouseName2Hebrew: FormControl = new FormControl;
+    category: FormControl = new FormControl;
+    submitterToReceive: FormControl = new FormControl;
+    userEmail: FormControl = new FormControl;
+    addToWeekly: FormControl = new FormControl;
+    note: FormControl = new FormControl;
 
     constructor(public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService, public adminService: AdminService, public router: Router) { }
 
@@ -45,29 +51,32 @@ export class AdminSubmitNameComponent implements OnInit {
     }
 
     createFormControls() {
-        this.name1English = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.benbat = new UntypedFormControl('ben');
-        this.name2English = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.name1Hebrew = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
-        this.benbatHebrew = new UntypedFormControl('בן');
-        this.name2Hebrew = new UntypedFormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.name1English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.benbat = new FormControl('ben');
+        this.name2English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.name1Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.benbatHebrew = new FormControl('בן');
+        this.name2Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         //spouse values can be empty or not, depending on category value (if it is banim, and even then optional), as long as they are in the right language 
         //spouse values are initialized as empty string to assist with checkSpouseEnglish() and checkSpouseHebrew(), where we now only need to check if it is an empty string or not.
-        this.spouseName1English = new UntypedFormControl("", Validators.pattern(this.daveningService.englishNamePattern));
-        this.spouseName2English = new UntypedFormControl("", Validators.pattern(this.daveningService.englishNamePattern));
-        this.spouseName1Hebrew = new UntypedFormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
-        this.spouseName2Hebrew = new UntypedFormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
+        this.spouseName1English = new FormControl("", Validators.pattern(this.daveningService.englishNamePattern));
+        this.spouseName2English = new FormControl("", Validators.pattern(this.daveningService.englishNamePattern));
+        this.spouseName1Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
+        this.spouseName2Hebrew = new FormControl("", Validators.pattern(this.daveningService.hebrewNamePattern));
 
-        this.category = new UntypedFormControl("", Validators.required); //default value is 'select category'
-        this.submitterToReceive = new UntypedFormControl({ value: true, disabled: true });
-        this.userEmail = new UntypedFormControl(null, [Validators.required, Validators.email]);
-
+        this.category = new FormControl("", Validators.required); //default value is 'select category'
+        this.submitterToReceive = new FormControl({ value: true, disabled: true });
+        if (this.parentComp == 'urgent' || this.parentComp == 'admin') 
+                   this.userEmail = new FormControl("", [Validators.required, Validators.email]); //email is not used in this form, so it is empty
+        
+        if (this.parentComp == 'urgent') 
+            this.note = new FormControl("", [Validators.maxLength(500)]); //note is required in urgent form, but not in admin form
     }
 
     setForm() {
-        this.nameForm = new UntypedFormGroup({
-            'name': new UntypedFormGroup({
+        this.nameForm = new FormGroup({
+            'name': new FormGroup({
                 'english1': this.name1English,
                 'benBat': this.benbat,
                 'english2': this.name2English,
@@ -75,7 +84,7 @@ export class AdminSubmitNameComponent implements OnInit {
                 'benBatHebrew': this.benbatHebrew,
                 'hebrew2': this.name2Hebrew
             }),
-            'spouse': new UntypedFormGroup({
+            'spouse': new FormGroup({
                 'english1': this.spouseName1English,
                 'english2': this.spouseName2English,
                 'hebrew1': this.spouseName1Hebrew,
@@ -83,11 +92,14 @@ export class AdminSubmitNameComponent implements OnInit {
             }),
             'category': this.category,
             'submitterToReceive': this.submitterToReceive,
-            'userEmail': this.userEmail
+            'userEmail': this.userEmail, 
+            'addToWeekly':this.addToWeekly, 
+            'note': this.note            
         });
     }
 
     onSubmit() {
+
         //If spouse name will be full and valid, will populate later.  
         if (this.nameForm.get('category')?.value == 'banim') {
             this.checkSpouse(); //check one more time in case submit was clicked without blurring and onsetting this check
@@ -98,7 +110,7 @@ export class AdminSubmitNameComponent implements OnInit {
         if (this.nameForm.get('name')?.invalid ||
             (this.nameForm.get('spouse')?.invalid && this.nameForm.get('category')?.value === 'banim') ||
             this.nameForm.get('category')?.invalid ||
-            this.nameForm.get('userEmail')?.invalid)
+            (this.needEmail() && this.nameForm.get('userEmail')?.invalid) )
             return;
 
         let spouseEnglishFull = "";
@@ -108,8 +120,10 @@ export class AdminSubmitNameComponent implements OnInit {
         const chosenCategory = (form.get('category')?.value || '');
         const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
         const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
-        let userEmail = form.get('userEmail')?.value;
+        let userEmail = (this.parentComp == 'admin' || form.get('addToWeekly')?.value) ? form.get('userEmail')?.value : ""; //empty email signals it should not be added to weekly emails
+        
         let submitterToReceive = form.get('submitterToReceive')?.value;
+        let note = (this.parentComp == 'urgent') ? form.get('note')?.value : ""; 
 
         if (chosenCategory == "banim") {
             //overriding an input such as "null בן null", filling only if have name in both parts of spouse name. (English and Hebrew independent)
@@ -126,49 +140,39 @@ export class AdminSubmitNameComponent implements OnInit {
                 spouseHebrewFull = `${spouseHebrew1} בן ${spouseHebrew2}`; //This order concats it correctly
         }
 
-        let formInfo = new SimpleDavenfor(
+        let now = new Date().toISOString().slice(0, 19);
+
+        let formInfo = new Davenfor(
+            -1,
             chosenCategory,
-            userEmail,
-            hebrewName,
+            now,
+            "",
+            now,
             englishName,
-            spouseHebrewFull,
             spouseEnglishFull,
-            submitterToReceive
+            hebrewName,
+            spouseHebrewFull,
+            note, //note
+            submitterToReceive,
+            now, //updatedAt,
+            userEmail
         );
 
-        this.adminService.addDavenfor(formInfo).then(
-            (response: boolean) => {
-                if (response) {
-                    this.daveningService.setSuccessMessage(`The name '${formInfo.nameEnglish}' has been added to the '${formInfo.category}' list`, true);
-                    this.router.navigate(['admin/names']);
-                } else {
-                    this.daveningService.setErrorMessage(`We are sorry.  There was an error adding ${formInfo.nameEnglish}`);
-                }
-            }).catch(
-                () => {
-                    this.daveningService.setErrorMessage(`We are sorry.  There was an error adding ${formInfo.nameEnglish}`);
-                }
-            );
+        this.save.emit(formInfo); //emit the form data to the parent component
+        //todo in future: what if got bad response, would like to clear form only on good response
     }
 
     clearForm() {
         //resetting and initializing with default values
         this.nameForm.reset();
-        this.name1English.reset();
         this.benbat.setValue('ben');
-        this.name2English.reset();
-        this.name1Hebrew.reset();
         this.benbatHebrew.setValue('בן');
-        this.name2Hebrew.reset();
-        this.spouseName1English.reset();
-        this.spouseName2English.reset();
-        this.spouseName1Hebrew.reset();
-        this.spouseName2Hebrew.reset();
-        this.submitterToReceive.setValue(true);
+        this.category.setValue(''); //default value is 'select category'
+        this.chosenCategory = '';
     }
 
     cancel() {
-        this.router.navigate(['admin/names']);
+        this.cancelEvent.emit();
     }
 
     checkSpouse() {
@@ -194,5 +198,10 @@ export class AdminSubmitNameComponent implements OnInit {
             && !this.spouseName2Hebrew.value)
             this.spouseError = true;
         else this.spouseError = false;
+    }
+
+    needEmail(): boolean {
+        //if parent component is urgent, email is required, if parent component is admin, email is not required, but if addToWeekly is true, then email is required
+        return (this.parentComp == 'admin' || (this.parentComp == 'urgent' && this.nameForm.get('addToWeekly')?.value));
     }
 }

@@ -5,7 +5,6 @@ import { AdminSettings } from '../shared/models/admin-settings.model';
 import { Davener } from '../shared/models/davener.model';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { Parasha } from '../shared/models/parasha.model';
-import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { Weekly } from '../shared/models/weekly.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
@@ -236,12 +235,11 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             );
     }
 
-    async addDavenfor(basicInfo: SimpleDavenfor): Promise<boolean> { //by default let user know addition was successful. (not if urgent name being sent out)
-        const newDavenfor = this.constructNewDavenfor(basicInfo);
+    async addDavenfor(newInfo: Davenfor): Promise<boolean> { //by default let user know addition was successful. (not if urgent name being sent out)
         this.daveningService.setLoading(true);
 
         try {
-            const response = await lastValueFrom(this.httpService.addDavenfor(basicInfo.userEmail || "", newDavenfor));
+            const response = await lastValueFrom(this.httpService.addDavenfor(newInfo.userEmail || "", newInfo));
             if (response) {
                 this.populateAdminDavenfors();
                 this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
@@ -267,7 +265,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 () => {
                     this.populateAdminDavenfors();
                     //TODO - this doesn't work.  See if can fix
-                    this.daveningService.setSuccessMessage(`The name ${davenfor.nameEnglish} has been updated`, true);
+                    this.daveningService.setSuccessMessage(`The name '${davenfor.nameEnglish}' has been updated`, true);
                     this.router.navigate(['admin/names']);
                 },
                 () => {
@@ -351,33 +349,24 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             );
     }
 
-    sendUrgent(formInfo: SimpleDavenfor, addToWeekly: boolean) {
+    sendUrgent(urgentDf: Davenfor) {
         if (this.daveningService.loading)
             return;
 
-        if (!formInfo.userEmail) {
+        if (!urgentDf.userEmail) {
             /*If no email was put in, fill in admin email in case it should be sent out. 
             Admin will monitor it. */
-            formInfo.userEmail = this.authService.adminLogin.email;
+            urgentDf.userEmail = this.authService.adminLogin.email;
         }
-        if (addToWeekly) {
-            this.addDavenfor(formInfo);
+        else { //if the email is not empty, admin asked that it be added to list
+            this.addDavenfor(urgentDf);
         }
 
         this.daveningService.setLoading(true);
 
-        const urgentDavenfor = this.constructNewDavenfor(formInfo);
-
-        this.httpService.sendUrgent(urgentDavenfor).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
-                () => {
-                    this.daveningService.setSuccessMessage(`The name ${formInfo.nameEnglish} has been sent out to all subscribers`, true);
-                    this.router.navigate(['admin/names']);
-                },
-                () => {
-                    this.daveningService.setErrorMessage(`We are sorry.  The name ${formInfo.nameEnglish} could not be sent to subscribers`);
-                }
-            );
+        return this.httpService.sendUrgent(urgentDf).pipe(
+            finalize(() => this.daveningService.setLoading(false))
+        );
     }
 
     getCategory(name: string) {
@@ -403,24 +392,6 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                     this.daveningService.setErrorMessage("The system encountered an error, no changes were made.");
                 }
             );
-    }
-
-    private constructNewDavenfor(basicInfo: SimpleDavenfor) { //local method to build a full Davenfor out of a SimpleDavenfor
-        const today = new Date().toISOString().split('T')[0]; //used multiple times in the new Davenfor.
-        return new Davenfor(
-            -1,
-                        basicInfo.category,
-                                    today, //createdAt
-            "", //deletedAt: server will set the right one
-            today, //confirmedAt
-            basicInfo.nameEnglish,
-            basicInfo.nameHebrew,
-            basicInfo.nameEnglishSpouse,
-            basicInfo.nameHebrewSpouse,
-            basicInfo.note,
-            basicInfo.submitterToReceive,
-            today, //updatedAt
-            basicInfo.userEmail); //updatedAt
     }
 
     ngOnDestroy() {

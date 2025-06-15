@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AdminLoginComponent } from './auth/admin-login/admin-login.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminNamesComponent } from './components/admin-names/admin-names.component';
-import { AdminSubmitNameComponent } from './components/admin-submit-name/admin-submit-name.component';
+import { AdminAddNameComponent } from './components/admin-add-name/admin-add-name.component';
 import { AdminEditNameComponent } from './components/admin-edit-name/admin-edit-name.component';
 import { ManageEmailsComponent } from './components/manage-emails/manage-emails.component';
 import { WeeklyComponent } from './components/weekly/weekly.component';
@@ -22,7 +22,7 @@ import { DirectSendComponent } from './components/direct-send/direct-send.compon
     declarations: [
         AdminLoginComponent,
         AdminHomeComponent,
-        AdminSubmitNameComponent,
+        AdminAddNameComponent,
         AdminEditNameComponent,
         ManageEmailsComponent,
         WeeklyComponent,

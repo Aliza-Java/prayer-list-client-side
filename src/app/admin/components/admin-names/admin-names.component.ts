@@ -37,7 +37,7 @@ export class AdminNamesComponent implements OnInit {
     }
 
     onDelete(id: number, name: string) {
-        if (confirm(`Are you sure you want to delete the name ${name} ?`))
+        if (confirm(`Are you sure you want to delete the name '${name}' ?`))
             this.adminService.deleteDavenfor(id, name);
     }
 

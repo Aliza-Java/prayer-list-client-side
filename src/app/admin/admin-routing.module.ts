@@ -4,7 +4,7 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminEditNameComponent } from './components/admin-edit-name/admin-edit-name.component';
 import { AdminNamesComponent } from './components/admin-names/admin-names.component';
 import { AdminSettingsComponent } from './components/admin-settings/admin-settings.component';
-import { AdminSubmitNameComponent } from './components/admin-submit-name/admin-submit-name.component';
+import { AdminAddNameComponent } from './components/admin-add-name/admin-add-name.component';
 import { ManageEmailsComponent } from './components/manage-emails/manage-emails.component';
 import { UrgentComponent } from './components/urgent/urgent.component';
 import { WeeklyComponent } from './components/weekly/weekly.component';
@@ -14,7 +14,7 @@ const routes: Routes = [
        {
         path: '', component: AdminHomeComponent, children: [
             { path: '', component: AdminNamesComponent, pathMatch: 'full' },
-            { path: 'submit', component: AdminSubmitNameComponent },
+            { path: 'submit', component: AdminAddNameComponent },
             { path: 'edit', component: AdminEditNameComponent},
             { path: 'names', component: AdminNamesComponent },
             { path: 'emails', component: ManageEmailsComponent },

@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { GuestSubmitNameComponent } from './guest-submit-name.component';
+import { GuestAddNameComponent } from './guest-add-name.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DaveningService } from 'src/app/shared/services/davening.service';
 
-describe('GuestSubmitNameComponent', () => {
-    let component: GuestSubmitNameComponent;
-    let fixture: ComponentFixture<GuestSubmitNameComponent>;
+describe('GuestAddNameComponent', () => {
+    let component: GuestAddNameComponent;
+    let fixture: ComponentFixture<GuestAddNameComponent>;
     let daveningServiceSpy: jasmine.SpyObj<DaveningService>;
 
     beforeEach(waitForAsync(() => {
@@ -16,15 +16,15 @@ describe('GuestSubmitNameComponent', () => {
 
         TestBed.configureTestingModule({
             imports: [HttpClientModule, ReactiveFormsModule],
-            declarations: [GuestSubmitNameComponent],
+            declarations: [GuestAddNameComponent],
             providers: [{ provide: DaveningService, useValue: daveningServiceSpy }]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(GuestSubmitNameComponent);
+        fixture = TestBed.createComponent(GuestAddNameComponent);
         component = fixture.componentInstance;
-        component.createForm();
+        //component.createForm();
         fixture.detectChanges();
     });
 

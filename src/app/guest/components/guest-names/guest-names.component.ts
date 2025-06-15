@@ -43,7 +43,7 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
     }
 
     onDelete(index: number, id: number, name: string) {
-        if (confirm(`Are you sure you want to delete the name ${name} ?`))
+        if (confirm(`Are you sure you want to delete the name '${name}' ?`))
         {
             this.guestService.activeRow = index;
             this.guestService.deleteDavenfor(id, name);

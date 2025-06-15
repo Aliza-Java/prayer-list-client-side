@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ViewCategoryPipe } from './filters/view-category.pipe';
 import { EditNameComponent } from '../edit-name/edit-name.component';
+import { AddNameComponent } from '../add-name/add-name.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { EditNameComponent } from '../edit-name/edit-name.component';
         SelectDavenforsComponent,
         DropdownDirective, 
         ViewCategoryPipe,
-        EditNameComponent
+        EditNameComponent,
+        AddNameComponent
     ],
     imports: [
         CommonModule,
@@ -33,6 +35,8 @@ import { EditNameComponent } from '../edit-name/edit-name.component';
     exports: [
         EmptyListComponent,
         EditNameComponent,
+        AddNameComponent,
+        FormsModule,
         NotFoundComponent,
         LoadingSpinnerComponent,
         LoadingSpinnerSmallComponent,

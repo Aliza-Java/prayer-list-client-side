@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize, Subject } from 'rxjs';
 import { Davenfor } from '../shared/models/davenfor.model';
-import { SimpleDavenfor } from '../shared/models/simple-davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
 
@@ -62,56 +61,42 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             );
     }
 
-    addDavenfor(basicInfo: SimpleDavenfor) {
-        const today = new Date().toISOString().split('T')[0];
-        const newDavenfor = new Davenfor(
-            -1,
-            basicInfo.category,
-            today, //createdAt
-            "", //deletedAt
-            today, //confirmedAt
-            basicInfo.nameEnglish,
-            basicInfo.nameEnglishSpouse,
-            basicInfo.nameHebrew,
-            basicInfo.nameHebrewSpouse,
-            "", //empty note
-            basicInfo.submitterToReceive,
-            today, //updatedAt
-            basicInfo.userEmail);
+    addDavenfor(newDavenfor: Davenfor) {
+        this.daveningService.setLoading(true);
 
-    if(basicInfo.userEmail != undefined && newDavenfor != undefined) {
-    this.httpService.addDavenfor(basicInfo.userEmail, newDavenfor).pipe(
-        finalize(() => this.daveningService.setLoading(false))).subscribe(
-            () => {
-                this.populateGuestDavenfors();
-                this.daveningService.setSuccessMessage(`The name '${basicInfo.nameEnglish}' has been added successfully`, true);
-                this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
-                this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
-            },
-            error => {
-                this.daveningService.setErrorMessage(`We are sorry.  There was an error adding the name "${basicInfo.nameEnglish}"`);
-                console.log(error);
-            }
-        );
-}
+        if (newDavenfor.userEmail != undefined && newDavenfor != undefined) {
+            this.httpService.addDavenfor(newDavenfor.userEmail, newDavenfor).pipe(
+                finalize(() => this.daveningService.setLoading(false))).subscribe(
+                    () => {
+                        this.populateGuestDavenfors();
+                        this.daveningService.setSuccessMessage(`The name '${newDavenfor.nameEnglish}' has been added successfully`, true);
+                        this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
+                        this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
+                    },
+                    error => {
+                        this.daveningService.setErrorMessage(`We are sorry.  There was an error adding the name "${newDavenfor.nameEnglish}"`);
+                        console.log(error);
+                    }
+                );
+        }
         else {
-    console.log('Email given is ' + basicInfo.userEmail + ' and new davenfor is ' + newDavenfor);
-    this.daveningService.setLoading(false);
-}
+            console.log('Email given is ' + newDavenfor.userEmail + ' and new davenfor is ' + newDavenfor);
+            this.daveningService.setLoading(false);
+        }
     }
 
     public editDavenfor(davenfor: Davenfor) {
-    davenfor.userEmail = this.guestEmail;
-    this.httpService.editDavenfor('user/updatename/' + this.guestEmail, davenfor).pipe(
-        finalize(() => this.daveningService.setLoading(false))).subscribe(
-            () => {
-                this.populateGuestDavenfors();
-                this.daveningService.setSuccessMessage(`The name ${davenfor.nameEnglish} has been updated`, true);
-                this.router.navigate(['guest/names']);
-            },
-            () => {
-                this.daveningService.setErrorMessage("We are sorry. There was an error when saving the new edits");
-            }
-        );
-}
+        davenfor.userEmail = this.guestEmail;
+        this.httpService.editDavenfor('user/updatename/' + this.guestEmail, davenfor).pipe(
+            finalize(() => this.daveningService.setLoading(false))).subscribe(
+                () => {
+                    this.populateGuestDavenfors();
+                    this.daveningService.setSuccessMessage(`The name '${davenfor.nameEnglish}' has been updated`, true);
+                    this.router.navigate(['guest/names']);
+                },
+                () => {
+                    this.daveningService.setErrorMessage("We are sorry. There was an error when saving the new edits");
+                }
+            );
+    }
 }
