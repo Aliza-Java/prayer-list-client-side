@@ -24,7 +24,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="logout-button" *ngIf="authService.adminLogin?.id">
+                    <div class="logout-button" *ngIf="authService.adminLogin?.email">
                         <button class="btn btn-danger" (click)="logout()">Admin Logout</button>
                     </div>
                 </div>
