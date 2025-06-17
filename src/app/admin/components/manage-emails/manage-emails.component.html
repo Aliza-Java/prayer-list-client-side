@@ -1,3 +1,5 @@
+<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+
 <div class="container">
     <div class="row top-margin">
         <div class="col-sm-12 text-center" *ngIf="!addMode">
@@ -54,11 +56,6 @@
                 <th class="col-sm-3">Whatsapp
                 </th>
                 <th class="col-sm-3">Country</th>
-                <td class="loading-cell">
-                    <span *ngIf="daveningService.loading$ | async" class="loading-cell">
-                        <app-loading-spinner-small></app-loading-spinner-small>
-                    </span>
-                </td>
             </tr>
 
             <tr *ngFor="let davener of daveners | filterActive:true">
@@ -97,11 +94,6 @@
                 <th class="col-sm-3">Whatsapp
                 </th>
                 <th class="col-sm-3">Country</th>
-                <td class="loading-cell">
-                    <span *ngIf="(daveningService.loading$ | async) && (daveners | filterActive:true)?.length == 0" class="loading-cell">
-                        <app-loading-spinner-small></app-loading-spinner-small>
-                    </span>
-                </td>
             </tr>
 
            <tr *ngFor="let davener of daveners | filterActive:false">

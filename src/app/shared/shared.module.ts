@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoadingSpinnerSmallComponent } from './loading-spinner-small/loading-spinner-small.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { FilterActivePipe } from './filters/filter-active.pipe';
@@ -16,7 +15,6 @@ import { AddNameComponent } from '../add-name/add-name.component';
 @NgModule({
     declarations: [
         LoadingSpinnerComponent,
-        LoadingSpinnerSmallComponent,
         NotFoundComponent,
         FilterActivePipe,
         EmptyListComponent,
@@ -39,7 +37,6 @@ import { AddNameComponent } from '../add-name/add-name.component';
         FormsModule,
         NotFoundComponent,
         LoadingSpinnerComponent,
-        LoadingSpinnerSmallComponent,
         SelectDavenforsComponent,
         DropdownDirective, 
         ViewCategoryPipe, 
