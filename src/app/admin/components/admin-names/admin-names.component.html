@@ -1,4 +1,5 @@
-<app-loading-spinner [isLoading]="((daveningService.loading$ | async) ?? false) || !finishedLoading"></app-loading-spinner>
+<app-loading-spinner
+    [isLoading]="((daveningService.loading$ | async) ?? false) || !finishedLoading"></app-loading-spinner>
 <div *ngIf="davenfors && finishedLoading" class="container">
     <div class="text-center" *ngIf="davenfors.length<1 && finishedLoading">
         <app-empty-list whatIsMissing="names for davening"></app-empty-list>
@@ -30,10 +31,11 @@
                         *ngIf="davenfor.category=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
                 </td>
                 <td>{{davenfor.userEmail}}</td>
-
-                <button class="btn btn-warning" (click)="onEdit(davenfor)">Edit</button>
-                <button class="btn btn-danger" (click)="onDelete(davenfor.id??0, davenfor.nameEnglish??'')">Delete</button>
-
+                <td class="button-column">
+                    <button class="menu-button btn btn-warning" (click)="onEdit(davenfor)">Edit</button>
+                    <button class="menu-button btn btn-danger"
+                        (click)="onDelete(davenfor.id??0, davenfor.nameEnglish??'')">Delete</button>
+                </td>
             </tr>
         </table>
 

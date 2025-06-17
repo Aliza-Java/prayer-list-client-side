@@ -35,12 +35,11 @@ select {
 }
 
 .admin-pass {
-    width: 145px;
+    width: fit-content;
 }
 
-.password-div {
-    display: flex;
-
+.password-span {
+    margin-left: 50px;
 }
 
 .cancel-pass {
@@ -50,4 +49,9 @@ select {
 .password-div input, 
 .password-div button {
   margin: 10px;
+}
+
+button {
+    font-size: 20px;
+    margin: 5px;
 }

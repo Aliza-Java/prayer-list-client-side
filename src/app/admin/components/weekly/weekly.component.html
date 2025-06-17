@@ -7,7 +7,7 @@
             <button class="btn btn-primary" (click)="toggleChangeParasha()">{{changeParasha?'Save':'Change'}}</button>
         </div>
 
-        <div class="col-6 ">
+        <div class="col-6">
             <textarea class="form-control" placeholder="Enter a message to be sent to all list recipients (optional)"
                 [(ngModel)]="message" rows="2"></textarea>
         </div>
@@ -31,8 +31,8 @@
             <!--Chag week-->
             <div class="col-3" [ngClass]="{emphasized:radioChag.checked}">
                 <div class="custom-control custom-radio">
-                    <input (change)="updateChag()" type="radio" class="custom-control-input give-space"
-                        id="radioChag" #radioChag name="weekType" value="chagRadio" [(ngModel)]="radioChosen">
+                    <input (change)="updateChag()" type="radio" class="custom-control-input give-space" id="radioChag"
+                        #radioChag name="weekType" value="chagRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioChag">Special week: </label>
                 </div>
 
@@ -46,14 +46,16 @@
             <!--Custom week-->
             <div class="col-3" [ngClass]="{emphasized:radioCustom.checked}">
                 <div class="custom-control custom-radio">
-                    <input (change)="updateCustom(customTag.value); " type="radio" class="custom-control-input give-space"
-                        id="radioCustom" #radioCustom name="weekType" value="customRadio" [(ngModel)]="radioChosen">
+                    <input (change)="updateCustom(customTag.value); " type="radio"
+                        class="custom-control-input give-space" id="radioCustom" #radioCustom name="weekType"
+                        value="customRadio" [(ngModel)]="radioChosen">
                     <label class="custom-control-label" for="radioCustom">Other: </label>
                 </div>
 
-                <input class="form-control set-width" placeholder="Enter week title" (keyup)="updateCustom(customTag.value)"
-                    (focus)="emphasize('customRadio'); updateCustom(customTag.value)" [(ngModel)]="customWeek" type="text"
-                    #customTag>
+                <input class="form-control set-width" placeholder="Enter week title"
+                    (keyup)="updateCustom(customTag.value)"
+                    (focus)="emphasize('customRadio'); updateCustom(customTag.value)" [(ngModel)]="customWeek"
+                    type="text" #customTag>
             </div>
         </div>
 
@@ -69,29 +71,28 @@
 
             </select>
         </div>
-        <div class="col-1 offset-1">
+        <div class="col-7 d-flex align-items-center">
             <button class="btn btn-warning btn-lg"
                 [disabled]="noDavenfors || ((daveningService.loading$ | async) ?? false)"
                 (click)="preview()">Preview</button>
-        </div>
-        <div class="col-2">
+
             <button class="btn btn-success btn-lg" (click)="requestToSend()"
                 [disabled]="askForPassword || sentOnce || noDavenfors || noUsers">Send List</button>
-        </div>
 
-        <div *ngIf="askForPassword && !noUsers" class="col-3 password-div">
-            <input [(ngModel)]="adminPassword" type="password" class="form-control red-font admin-pass"
-                placeholder="Admin password">
-            <button class="btn btn-danger cancel-pass" (click)="cancelPass()">X</button>
+            <span *ngIf="askForPassword && !noUsers" class="d-flex align-items-center password-span">
+                <input [(ngModel)]="adminPassword" type="password" class="form-control red-font admin-pass"
+                    placeholder="Admin password">
+                <button class="btn btn-danger cancel-pass" (click)="cancelPass()">X</button>
 
-            <div *ngIf="!askForPassword && noUsers" style="text-align: center;">
-                <span class="red-font">There are no active users. Cannot send list</span>
-            </div>
+                <div *ngIf="!askForPassword && noUsers" style="text-align: center;">
+                    <span class="red-font">There are no active users. Cannot send list</span>
+                </div>
 
-            <div *ngIf="askForPassword && !noUsers">
-                <button class="btn btn-success" (click)="verify()"
-                    [disabled]="adminPassword.length == 0 || noDavenfors || noUsers">Verify</button>
-            </div>
+                <div *ngIf="askForPassword && !noUsers">
+                    <button class="btn btn-success" (click)="verify()"
+                        [disabled]="adminPassword.length == 0 || noDavenfors || noUsers">Verify</button>
+                </div>
+            </span>
         </div>
 
         <app-loading-spinner

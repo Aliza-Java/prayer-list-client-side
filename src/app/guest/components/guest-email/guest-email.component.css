@@ -3,17 +3,13 @@ button {
     margin-top: 5px;
 }
 
+a, button {
+    font-size: 20px;
+}
+
 .container {
     max-width: 100%;  /*In case width is small and form controls are stacking*/
 }
-
-
-
-label, input {
-    font-size: x-large;
-}
-
-
 
 #guestEmail {
     font-size: 30px;
@@ -22,5 +18,4 @@ label, input {
 
 ::placeholder {
     color: lightgray;
-    font-size: 20px;
   }
