@@ -42,7 +42,8 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         this.router.navigate(['guest/new']);
     }
 
-    onDelete(index: number, id: number, name: string) {
+    onDelete(index: number, id: number, nameEnglish: string, nameHebrew: string) {
+        let name = nameEnglish.trim().length > 0 ? nameEnglish : nameHebrew;
         if (confirm(`Are you sure you want to delete the name '${name}' ?`))
         {
             this.guestService.activeRow = index;

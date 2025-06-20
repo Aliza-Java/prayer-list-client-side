@@ -33,6 +33,13 @@
         </span>
     </div>
 
+    <div *ngIf="partialNameError" class="row">
+        <div class="col-6 offset-md-2">
+            <span class="text-danger">Please complete name</span>
+        </div>
+        
+    </div>
+
     <!--English name-->
     <div formGroupName="name">
         <div class="form-group row align-items-end">
@@ -40,15 +47,11 @@
             <div class="col-2 help-block">
                 <span class="text-right" *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">Invalid
                     characters</span>
-                <span class="text-right" *ngIf=" nameForm.get('name.english1')?.errors?.['required'] &&
-                    nameForm.get('name.english1')?.touched">This field
-                    is
-                    required</span>
             </div>
 
             <div class="col-3">
-                <input type="text" id="name1English" class="form-control" formControlName="english1"
-                    placeholder="* Name">
+                <input type="text" id="name1English" class="form-control" formControlName="english1" (blur)="checkName()"
+                    placeholder="Name">
             </div>
 
             <div class="col-1">
@@ -59,16 +62,13 @@
             </div>
 
             <div class="col-3">
-                <input type="text" id="name2English" class="form-control" formControlName="english2"
-                    placeholder="* Mother's Name">
+                <input type="text" id="name2English" class="form-control" formControlName="english2" (blur)="checkName()"
+                    placeholder="Mother's Name">
             </div>
 
             <!--Validation for name2English-->
             <div class="col-2 help-block">
                 <span *ngIf="nameForm.get('name.english2')?.errors?.['pattern']">Invalid characters</span>
-                <span
-                    *ngIf="nameForm.get('name.english2')?.errors?.['required'] && nameForm.get('name.english2')?.touched">This
-                    field is required</span>
             </div>
         </div>
         <!--English name-->
@@ -80,16 +80,11 @@
             <div class="col-2 help-block">
                 <span class="text-right" *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid
                     characters</span>
-                <span class="text-right"
-                    *ngIf="nameForm.get('name.hebrew2')?.errors?.['required'] && nameForm.get('name.hebrew2')?.touched">This
-                    field
-                    is
-                    required</span>
             </div>
 
             <div class="col-3">
-                <input type="text" id="name2Hebrew" class="form-control" formControlName="hebrew2"
-                    placeholder="* שם האם">
+                <input type="text" id="name2Hebrew" class="form-control" formControlName="hebrew2" (blur)="checkName()"
+                    placeholder="שם האם">
             </div>
 
             <div class="col-1 center-select">
@@ -100,15 +95,12 @@
             </div>
 
             <div class="col-3">
-                <input type="text" id="name1Hebrew" class="form-control" formControlName="hebrew1" placeholder="* שם">
+                <input type="text" id="name1Hebrew" class="form-control" formControlName="hebrew1" (blur)="checkName()" placeholder="שם">
             </div>
 
             <!--Validation-->
             <div class="col-2 help-block">
                 <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Invalid characters</span>
-                <span
-                    *ngIf="nameForm.get('name.hebrew1')?.errors?.['required'] && nameForm.get('name.hebrew1')?.touched">This
-                    field is required</span>
             </div>
 
         </div>
@@ -120,7 +112,7 @@
         <div *ngIf="nameForm.get('category')?.value=='banim'">
             <!--- -Then need also spouse details-->
             <br>
-            <h6 class="offset-2" [ngStyle]="{ color: spouseError ? 'red' : 'black' }">* Please enter spouse's full name
+            <h6 class="offset-2" [ngStyle]="{ color: spouseError ? 'red' : 'black' }"> Please enter spouse's full name
                 (English and/or Hebrew)</h6>
             <!--Spouse English name-->
             <div class="form-group row align-items-end">
@@ -225,7 +217,7 @@
         <div class="col-2">
             <label for="category">* Category:</label>
         </div>
-        <div class="col-2 ">
+        <div class="col-3">
             <select formControlName="category" class="form-control" id="category"
                 [ngStyle]="{ color: nameForm.get('category')?.value === '' ? 'red' : 'black' }" required>
                 <option value="" disabled>Select category</option>

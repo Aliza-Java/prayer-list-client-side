@@ -20,6 +20,7 @@ export class EditNameComponent implements OnInit {
 
     nameForm: FormGroup = new FormGroup({});
     categories: string[] = []; //creating here so it is ready to populate and recognize later
+    nameError = false;
     spouseError = false;
 
     //declaring form-controls as variables, to shorten reference to them
@@ -49,13 +50,13 @@ export class EditNameComponent implements OnInit {
     }
 
     populateFormControls() {
-        this.english = new FormControl(this.editedDf.nameEnglish ? this.editedDf.nameEnglish : null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.hebrew = new FormControl(this.editedDf.nameHebrew ? this.editedDf.nameHebrew : null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.english = new FormControl(this.editedDf.nameEnglish ? this.editedDf.nameEnglish : "", [Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.hebrew = new FormControl(this.editedDf.nameHebrew ? this.editedDf.nameHebrew : "", [Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         //One full spouse name should be in if Banim 
         //spouse values are initialized as empty string to assist with checkSpouseEnglish() and checkSpouseHebrew(), where we now only need to check if it is an empty string or not.
-        this.spouseEnglish = new FormControl(this.editedDf.nameEnglishSpouse ? this.editedDf.nameEnglishSpouse : null, [Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.spouseHebrew = new FormControl(this.editedDf.nameHebrewSpouse ? this.editedDf.nameHebrewSpouse : null, [Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.spouseEnglish = new FormControl(this.editedDf.nameEnglishSpouse ? this.editedDf.nameEnglishSpouse : "", [Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.spouseHebrew = new FormControl(this.editedDf.nameHebrewSpouse ? this.editedDf.nameHebrewSpouse : "", [Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         this.category = new FormControl(this.editedDf.category, Validators.required); //default value is 'select category'
         // this.submitterToReceive = new FormControl(this.editedDf.submitterToReceive); TODO: enable when allow submitterToReceive value
@@ -75,6 +76,10 @@ export class EditNameComponent implements OnInit {
     }
 
     onSubmit() {
+        this.checkName();
+        if (this.nameError)
+            return;
+        
         this.checkSpouse();
 
         if (this.spouseError)
@@ -102,6 +107,15 @@ export class EditNameComponent implements OnInit {
         this.save.emit(updatedInfo);
     }
 
+    checkName() {
+        if ((this.nameForm.get('english')?.value == null || this.nameForm.get('english')?.value.trim() == '') &&
+            (this.nameForm.get('hebrew')?.value == null || this.nameForm.get('hebrew')?.value.trim() == '')) {
+            this.nameError = true;
+        }
+        else
+            this.nameError = false;
+    }
+
     checkSpouse() {
         console.log(this.nameForm.get('category')?.value);
         console.log(this.nameForm.get('spouseEnglish')?.value);
@@ -114,8 +128,8 @@ export class EditNameComponent implements OnInit {
     }
 
     spouseEmpty() {
-        return (this.nameForm.get('spouseEnglish')?.value == null || this.nameForm.get('spouseEnglish')?.value == '') &&
-            (this.nameForm.get('spouseHebrew')?.value == null || this.nameForm.get('spouseHebrew')?.value == '');
+        return (this.nameForm.get('spouseEnglish')?.value == null || this.nameForm.get('spouseEnglish')?.value.trim() == '') &&
+            (this.nameForm.get('spouseHebrew')?.value == null || this.nameForm.get('spouseHebrew')?.value.trim() == '');
     }
 
     cancel() {

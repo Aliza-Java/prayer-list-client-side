@@ -27,8 +27,9 @@ export class UrgentComponent {
 
             this.adminService.sendUrgent(urgentDf)?.subscribe({
                 next: () => {
+                    let name = (urgentDf.nameEnglish == "") ? urgentDf.nameHebrew : urgentDf.nameEnglish;
                     this.daveningService.setSuccessMessage(
-                        `The name '${urgentDf.nameEnglish}' has been sent out to all subscribers`, true
+                        `The name '${name}' has been sent out to all subscribers`, true
                     );
                     this.addNameComponent.clearForm();
                     this.router.navigate(['admin/names']);

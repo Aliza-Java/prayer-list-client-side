@@ -21,7 +21,8 @@ export class AdminAddNameComponent {
             (response: boolean) => {
                 if (response) {
                     let categoryName = this.categoryTitle(formInfo.category);
-                    this.daveningService.setSuccessMessage(`The name '${formInfo.nameEnglish}' has been added to the '${categoryName}' list`, true);
+                    const name = formInfo.nameEnglish.trim().length == 0 ? formInfo.nameHebrew : formInfo.nameEnglish;
+                    this.daveningService.setSuccessMessage(`The name '${name}' has been added to the '${categoryName}' list`, true);
                     this.addNameComponent.clearForm();
                     this.router.navigate(['admin/names']);
                 } else {

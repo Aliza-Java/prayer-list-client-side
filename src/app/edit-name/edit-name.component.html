@@ -3,6 +3,7 @@
 
     <!--Name-->
     <div class="form-group row">
+        <span *ngIf="nameError" class="help-block">Name must be entered in English and/or Hebrew </span>
         <div class="col-4 input-box">
             <label for="english">* Full Name </label>
             <input type="text" id="english" class="form-control" formControlName="english">
@@ -30,7 +31,7 @@
 
     <!--Spouse name-->
     <div class="form-group row spouse" *ngIf="nameForm.get('category')?.value=='banim'">
-        <span *ngIf="spouseError" class="help-block">Spouse name must be entered
+        <span *ngIf="spouseError" class="help-block">Spouse name must be entered in English and/or Hebrew
         </span>
         <div class="col-4 input-box">
             <label for="spouseEnglish">Spouse name</label>
@@ -76,8 +77,8 @@
     </div>
 
     <div class="form-group buttons">
-            <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Save Changes</button>
-            <span class="spacer"></span>
-            <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+        <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Save Changes</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
     </div>
 </form>

@@ -18,6 +18,7 @@ export class AddNameComponent implements OnInit {
     @Output() cancelEvent = new EventEmitter<void>();
 
     nameForm: FormGroup = new FormGroup({});
+    partialNameError = false; //used to check if the name is partially filled, so that it can be submitted
     categories: string[] = []; //creating here so it is ready to populate and recognize later
     chosenCategory: string = '';
     spouseEnglishError = false;
@@ -51,12 +52,12 @@ export class AddNameComponent implements OnInit {
     }
 
     createFormControls() {
-        this.name1English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.name1English = new FormControl("", [ Validators.pattern(this.daveningService.englishNamePattern)]);
         this.benbat = new FormControl('ben');
-        this.name2English = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.englishNamePattern)]);
-        this.name1Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.name2English = new FormControl("", [ Validators.pattern(this.daveningService.englishNamePattern)]);
+        this.name1Hebrew = new FormControl("", [ Validators.pattern(this.daveningService.hebrewNamePattern)]);
         this.benbatHebrew = new FormControl('בן');
-        this.name2Hebrew = new FormControl(null, [Validators.required, Validators.pattern(this.daveningService.hebrewNamePattern)]);
+        this.name2Hebrew = new FormControl("", [Validators.pattern(this.daveningService.hebrewNamePattern)]);
 
         //spouse values can be empty or not, depending on category value (if it is banim, and even then optional), as long as they are in the right language 
         //spouse values are initialized as empty string to assist with checkSpouseEnglish() and checkSpouseHebrew(), where we now only need to check if it is an empty string or not.
@@ -99,6 +100,9 @@ export class AddNameComponent implements OnInit {
     }
 
     onSubmit() {
+        this.checkName();
+        if (this.partialNameError)
+            return;
 
         //If spouse name will be full and valid, will populate later.  
         if (this.nameForm.get('category')?.value == 'banim') {
@@ -118,8 +122,14 @@ export class AddNameComponent implements OnInit {
 
         let form = this.nameForm; //shortening all references in this function
         const chosenCategory = (form.get('category')?.value || '');
-        const englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
-        const hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
+        let englishName = "";
+        if (form.get('name.english1')?.value.trim().length > 0  && form.get('name.english2')?.value.trim().length > 0) 
+            englishName = form.get('name.english1')?.value + " " + form.get('name.benBat')?.value + " " + form.get('name.english2')?.value;
+        
+        let hebrewName = "";
+        if (form.get('name.hebrew1')?.value.trim().length > 0  && form.get('name.hebrew2')?.value.trim().length > 0) 
+            hebrewName = form.get('name.hebrew1')?.value + " " + form.get('name.benBatHebrew')?.value + " " + form.get('name.hebrew2')?.value;
+   
         let userEmail = (this.parentComp == 'admin' || form.get('addToWeekly')?.value) ? form.get('userEmail')?.value : ""; //empty email signals it should not be added to weekly emails
         
         let submitterToReceive = form.get('submitterToReceive')?.value;
@@ -173,6 +183,17 @@ export class AddNameComponent implements OnInit {
 
     cancel() {
         this.cancelEvent.emit();
+    }
+
+    checkName() {
+        //check if the name is partially filled, so that it can be submitted
+        if (!((this.name1English.value && this.name2English.value)
+            || (this.name1Hebrew.value && this.name2Hebrew.value)))
+        {
+            this.partialNameError = true;
+        } else {
+            this.partialNameError = false;
+        }
     }
 
     checkSpouse() {

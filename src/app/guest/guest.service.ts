@@ -69,7 +69,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 finalize(() => this.daveningService.setLoading(false))).subscribe(
                     () => {
                         this.populateGuestDavenfors();
-                        this.daveningService.setSuccessMessage(`The name '${newDavenfor.nameEnglish}' has been added successfully`, true);
+                        let name = (newDavenfor.nameEnglish == "") ? newDavenfor.nameHebrew : newDavenfor.nameEnglish;
+                        this.daveningService.setSuccessMessage(`The name '${name}' has been added successfully`, true);
                         this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                         this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
                     },
@@ -91,7 +92,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 () => {
                     this.populateGuestDavenfors();
-                    this.daveningService.setSuccessMessage(`The name '${davenfor.nameEnglish}' has been updated`, true);
+                    let name = (davenfor.nameEnglish == "") ? davenfor.nameHebrew : davenfor.nameEnglish;
+                    this.daveningService.setSuccessMessage(`The name '${name}' has been updated`, true);
                     this.router.navigate(['guest/names']);
                 },
                 () => {
