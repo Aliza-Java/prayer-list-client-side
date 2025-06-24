@@ -28,18 +28,22 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         return this.daveningService.categories.find(category => category == name);
     }
 
-    populateGuestDavenfors() {
+    populateGuestDavenfors(guestEmail: string) {
         this.daveningService.setLoading(true);
-        this.httpService.getDavenfors('user/getmynames/' + this.guestEmail).pipe(
+        this.httpService.getDavenfors('user/getmynames/' + guestEmail).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 names => {
                     this.daveningService.serverFine = true;
                     this.myDavenfors = names;
-                    this.myDavenforsChanged.next(names);
+                    this.guestEmail = guestEmail; //save the email in the service, so it can be used later
                     //buzz the event, so every subscribing component reacts accordingly.
+                    this.myDavenforsChanged.next(names);
                 },
-                () => {
-                    this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
+                (error) => {
+                    if (error.status === 404) //only registered users can enter
+                        this.daveningService.setErrorMessage(`Unknown user ${guestEmail}.  Please check your email or register with the system admin`);
+                    else
+                        this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
                 });
     }
 
@@ -68,7 +72,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             this.httpService.addDavenfor(newDavenfor.userEmail, newDavenfor).pipe(
                 finalize(() => this.daveningService.setLoading(false))).subscribe(
                     () => {
-                        this.populateGuestDavenfors();
+                        this.populateGuestDavenfors(newDavenfor.userEmail ?? "");
                         let name = (newDavenfor.nameEnglish == "") ? newDavenfor.nameHebrew : newDavenfor.nameEnglish;
                         this.daveningService.setSuccessMessage(`The name '${name}' has been added successfully`, true);
                         this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
@@ -91,7 +95,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         this.httpService.editDavenfor('user/updatename/' + this.guestEmail, davenfor).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 () => {
-                    this.populateGuestDavenfors();
+                    this.populateGuestDavenfors(this.guestEmail);
                     let name = (davenfor.nameEnglish == "") ? davenfor.nameHebrew : davenfor.nameEnglish;
                     this.daveningService.setSuccessMessage(`The name '${name}' has been updated`, true);
                     this.router.navigate(['guest/names']);

@@ -11,6 +11,7 @@ import { HttpService } from 'src/app/shared/services/http.service';
     styleUrls: ['./guest-email.component.css']
 })
 export class GuestEmailComponent implements OnInit {
+    guestEmail: string = '';
     emailInEditing = true;
     guestEmailForm: UntypedFormGroup = new UntypedFormGroup({});
     constructor(
@@ -18,7 +19,7 @@ export class GuestEmailComponent implements OnInit {
 
     ngOnInit() {
         this.guestEmailForm = new UntypedFormGroup({
-            'emailInput': new UntypedFormControl(null, [Validators.required, Validators.email])
+            'emailInput': new UntypedFormControl(this.guestService.guestEmail ?? this.guestEmail, [Validators.required, Validators.email])
         });
     }
 
@@ -28,8 +29,8 @@ export class GuestEmailComponent implements OnInit {
 
     onSaveEmail(newEmail: string) {
         this.emailInEditing = false;
-        this.guestService.guestEmail = newEmail;
-        this.guestService.populateGuestDavenfors();
+        this.guestEmail = newEmail; //save temporarily in this component
+        this.guestService.populateGuestDavenfors(newEmail); //check in service
         this.router.navigate(['guest/names']);
     } 
 }
