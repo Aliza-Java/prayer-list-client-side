@@ -58,11 +58,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         this.isLoading = false;
     }
 
-    onDelete(davener: Davener) {
-        
-
-        console.log("onDelete()");
-
+    onDelete(davener: Davener) { 
         if (confirm('Are you sure you want to remove the email ' + davener.email + ' from the davening list?')) {
             this.adminService.deleteDavener(davener.id, davener.email);
         }
@@ -103,12 +99,11 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
             return;
 
         this.isLoading = true;
-        console.log("onAddDavener()");
 
         if (info.whatsapp == "") {
             info.whatsapp = 0; //I want it to be defined as text (no up-and-down arrows) but server doesn't like "" as an empty value, accepts only numbers
         }
-        const davenerToAdd = new Davener(-1, info.country, info.email, info.whatsapp, true);
+        const davenerToAdd = new Davener(-1, info.country, info.email, info.whatsapp, info.activate);
         this.adminService.addDavener(davenerToAdd);
         this.addMode = false;
         this.isLoading = false;

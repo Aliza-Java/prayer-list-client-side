@@ -10,6 +10,6 @@ public active:boolean = true;
         this.country = country ?? '';
         this.email = email ?? '';
         this.whatsapp = whatsapp ?? 0;
-        this.active = active ?? true;
+        this.active = active ?? false;
     }         
   }

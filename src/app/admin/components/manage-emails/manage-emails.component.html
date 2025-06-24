@@ -10,7 +10,7 @@
     <form (ngSubmit)="onAddDavener(f.value)" #f="ngForm">
         <div class="row top-margin" *ngIf="addMode">
             <div class="col-sm-3">
-                <input type="text" id="email" class="form-control" name="email" ngModel placeholder="Email (required)"
+                <input type="text" id="email" class="form-control" name="email" ngModel placeholder="*Email (required)"
                     email required #email="ngModel">
                 <span class="help-block" *ngIf="email.invalid&&email.touched">Valid email required</span>
             </div>
@@ -19,7 +19,7 @@
                 <span class="help-block" *ngIf="whatsapp.invalid&&whatsapp.touched">Only digits allowed</span>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <select id="country" class="form-control" name="country" [ngModel]="'Israel'">
                     <option value="Israel">Israel</option>
                     <!--common countries first - removed from country array -->
@@ -28,10 +28,12 @@
                     <option *ngFor="let country of daveningService.countries" [value]="country">{{country}}</option>
                 </select>
             </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" id="activate" name="activate" ngModel>
+                <label class="form-check-label" for="myCheckbox">Click to receive weekly lists</label>
+            </div>
             <div class="col-sm-2">
                 <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Submit</button>
-            </div>
-            <div class="col-sm-1">
                 <!--cancel button-->
                 <button type="button" class="btn btn-danger btn-sm" (click)="onCancelAdd(f)">X</button>
             </div>
@@ -45,10 +47,10 @@
     </div>
 
     <div class="hidden-scrollbar" *ngIf="daveners&&daveners.length<=0">
-        <app-empty-list whatIsMissing="subscribed daveners"></app-empty-list>
+        <app-empty-list whatIsMissing="registered emails"></app-empty-list>
         <!--If there are no daveners, display a message-->
     </div>
-    
+
     <div *ngIf="daveners.length>0">
         <table class="table table-responsive">
             <tr *ngIf="(daveners | filterActive:true)?.length > 0">
@@ -96,9 +98,10 @@
                 <th class="col-sm-3">Country</th>
             </tr>
 
-           <tr *ngFor="let davener of daveners | filterActive:false">
+            <tr *ngFor="let davener of daveners | filterActive:false">
                 <td class="col-sm-3">
-                    <div class="inactive" *ngIf="davener.id!=davenerToEdit.id else emailEdit">{{davener.email}} (disactivated)</div>
+                    <div class="inactive" *ngIf="davener.id!=davenerToEdit.id else emailEdit">{{davener.email}}
+                        (disactivated)</div>
                 </td>
                 <td class="col-sm-3">
                     <div class="inactive" *ngIf="davener.id!=davenerToEdit.id else whatsappEdit">
@@ -106,7 +109,8 @@
                     </div>
                 </td>
                 <td class="col-sm-3">
-                    <div class="inactive" *ngIf="davener.id!=davenerToEdit.id else countryEdit">{{davener.country}}</div>
+                    <div class="inactive" *ngIf="davener.id!=davenerToEdit.id else countryEdit">{{davener.country}}
+                    </div>
                 </td>
                 <td>
                     <!--Edit button is disabled if someone else is being edited, not him-->

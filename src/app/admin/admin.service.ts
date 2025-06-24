@@ -212,7 +212,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                 daveners => {
                     this.daveners = daveners;
                     this.davenersChanged.next(daveners);
-                    this.daveningService.setSuccessMessage(`${davener.email} will now receive the davening lists`);
+                    if (davener.active)
+                        this.daveningService.setSuccessMessage(`${davener.email} will now receive the davening lists`);
+                    else
+                        this.daveningService.setSuccessMessage(`${davener.email} has been added to our database, but will not receive the lists until activated`);
                 },
                 () => {
                     this.daveningService.setErrorMessage(`We are sorry. There was an error adding ${davener.email}`);
