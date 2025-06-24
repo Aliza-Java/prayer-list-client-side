@@ -30,7 +30,7 @@ export class GuestEmailComponent implements OnInit {
     onSaveEmail(newEmail: string) {
         this.emailInEditing = false;
         this.guestEmail = newEmail; //save temporarily in this component
-        this.guestService.populateGuestDavenfors(newEmail); //check in service
+        this.guestService.saveGuestUser(newEmail); //check in service
         this.router.navigate(['guest/names']);
     } 
 }

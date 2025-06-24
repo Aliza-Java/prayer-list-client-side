@@ -20,6 +20,10 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     constructor(public router: Router,
         public httpService: HttpService,
         public daveningService: DaveningService) {
+        if (localStorage.getItem("guest") != null) {
+            this.guestEmail = localStorage.getItem("guest") ?? ''; //save the email in the service
+            this.populateGuestDavenfors(this.guestEmail); //populate the davenfors list
+        }
     }
 
 
@@ -28,22 +32,42 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         return this.daveningService.categories.find(category => category == name);
     }
 
+    saveGuestUser(email: string) {
+        this.daveningService.setLoading(true);
+        this.httpService.getDavenfors('user/getmynames/' + email).pipe(
+            finalize(() => this.daveningService.setLoading(false))
+        ).subscribe(
+            names => {
+                this.daveningService.serverFine = true;
+                this.myDavenfors = names;
+                this.myDavenforsChanged.next(names);
+                localStorage.setItem("guest", email); //in case refreshed
+                this.guestEmail = email; //save the email in the service
+            },
+            (error) => {
+                this.guestEmail = ''; //reset email in case of error
+                localStorage.removeItem("guest"); //remove email from local storage
+
+                if (error.status === 404)
+                    this.daveningService.setErrorMessage(`Unknown user ${email}.  Please check your email or register with the system admin`);
+                else
+                    this.daveningService.setErrorMessage(`We could not retrieve names associated with ${email}`);
+            }
+        );
+    }
+
     populateGuestDavenfors(guestEmail: string) {
         this.daveningService.setLoading(true);
-        this.httpService.getDavenfors('user/getmynames/' + guestEmail).pipe(
+        return this.httpService.getDavenfors('user/getmynames/' + guestEmail).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 names => {
                     this.daveningService.serverFine = true;
                     this.myDavenfors = names;
-                    this.guestEmail = guestEmail; //save the email in the service, so it can be used later
                     //buzz the event, so every subscribing component reacts accordingly.
                     this.myDavenforsChanged.next(names);
                 },
-                (error) => {
-                    if (error.status === 404) //only registered users can enter
-                        this.daveningService.setErrorMessage(`Unknown user ${guestEmail}.  Please check your email or register with the system admin`);
-                    else
-                        this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
+                () => {
+                    this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
                 });
     }
 
