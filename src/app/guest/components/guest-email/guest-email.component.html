@@ -28,7 +28,7 @@
                 </div>
             </span>
 
-            <div class="col-2 offset-1 text-right" *ngIf="!emailInEditing && guestService.guestEmail">
+            <div class="col-2 offset-1 text-right" *ngIf="!emailInEditing && guestService.guestEmail()">
                 <div class="dropdown" appDropdown>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">Menu
                         <span class="caret"></span></button>

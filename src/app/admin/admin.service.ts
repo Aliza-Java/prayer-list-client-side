@@ -35,7 +35,6 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     davenforsChanged = new Subject<Davenfor[]>();
     davenersChanged = new Subject<Davener[]>();
-    davenforAdded = new Subject<Boolean>();
     settingsUpdated = new Subject<AdminSettings>();
     adminSettings: AdminSettings = new AdminSettings('', false, 7);
     listsSub: Subscription = new Subscription;
@@ -245,7 +244,6 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             const response = await lastValueFrom(this.httpService.addDavenfor(newInfo.userEmail || "", newInfo));
             if (response) {
                 this.populateAdminDavenfors();
-                this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                 return true;
             }
             else {

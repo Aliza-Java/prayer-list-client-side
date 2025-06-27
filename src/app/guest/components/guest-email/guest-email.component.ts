@@ -19,7 +19,7 @@ export class GuestEmailComponent implements OnInit {
 
     ngOnInit() {
         this.guestEmailForm = new UntypedFormGroup({
-            'emailInput': new UntypedFormControl(this.guestService.guestEmail ?? this.guestEmail, [Validators.required, Validators.email])
+            'emailInput': new UntypedFormControl(this.guestService.guestEmail(), [Validators.required, Validators.email])
         });
     }
 

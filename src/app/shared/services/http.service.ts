@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Davenfor } from '../models/davenfor.model';
 import { Admin } from '../models/admin.model';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { Davener } from '../models/davener.model';
 import { Weekly } from '../models/weekly.model';
 import { JwtResponse } from '../models/jwt-response';
@@ -19,8 +18,6 @@ export class HttpService {  //A service that makes the calls to the server
 
     //change baseUrl depending on the server location
     public baseUrl = this.localhostUrl;
-
-    public davenforAdded = new Subject<Boolean>();
 
     constructor(public http: HttpClient, public router: Router) {
     }

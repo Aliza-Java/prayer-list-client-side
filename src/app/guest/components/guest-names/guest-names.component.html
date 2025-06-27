@@ -1,8 +1,8 @@
 <app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
 
-<div class="container" *ngIf="guestService.guestEmail">
+<div class="container" *ngIf="guestService.guestEmail()">
     <div class="text-center hidden-scrollbar"
-        *ngIf="guestService.myDavenfors?.length==0 && !(daveningService.loading$ | async) && daveningService.serverFine">
+        *ngIf="guestService.myDavenfors().length==0 && !(daveningService.loading$ | async) && daveningService.serverFine">
         <app-empty-list whatIsMissing="names associated with this email"></app-empty-list>
     </div>
 
@@ -15,7 +15,7 @@
                 <th>Hebrew Name</th>
                 <th></th>
             </tr>
-            <tr *ngFor="let davenfor of guestService.myDavenfors; let i = index">
+            <tr *ngFor="let davenfor of guestService.myDavenfors(); let i = index">
 
                 <td>{{davenfor.category | viewCategory}}</td>
                 <td>

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize, Subject } from 'rxjs';
+import { finalize } from 'rxjs';
 import { Davenfor } from '../shared/models/davenfor.model';
 import { DaveningService } from '../shared/services/davening.service';
 import { HttpService } from '../shared/services/http.service';
@@ -9,11 +9,8 @@ import { HttpService } from '../shared/services/http.service';
     providedIn: 'root'
 })
 export class GuestService { //A service focusing on guest data and tasks (vs. admin)
-    myDavenfors: Davenfor[] = [];
-    guestEmail: string = '';
-    myDavenforsChanged = new Subject<Davenfor[]>();
-    davenforAdded = new Subject<Boolean>();
-    loadedDavenfors = false;
+    myDavenfors = signal<Davenfor[]>([]);
+    guestEmail = signal(''); //signal to hold the guest email, so it can be used in the template
     davenforToEdit: Davenfor = new Davenfor;
     activeRow: number | null = null;
 
@@ -21,8 +18,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         public httpService: HttpService,
         public daveningService: DaveningService) {
         if (localStorage.getItem("guest") != null) {
-            this.guestEmail = localStorage.getItem("guest") ?? ''; //save the email in the service
-            this.populateGuestDavenfors(this.guestEmail); //populate the davenfors list
+            this.guestEmail.set(localStorage.getItem("guest") ?? ''); //save the email in the service
+            this.populateGuestDavenfors(); //populate the davenfors list
         }
     }
 
@@ -39,13 +36,12 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         ).subscribe(
             names => {
                 this.daveningService.serverFine = true;
-                this.myDavenfors = names;
-                this.myDavenforsChanged.next(names);
+                this.myDavenfors.set(names);
                 localStorage.setItem("guest", email); //in case refreshed
-                this.guestEmail = email; //save the email in the service
+                this.guestEmail.set(email); //save the email in the service
             },
             (error) => {
-                this.guestEmail = ''; //reset email in case of error
+                this.guestEmail.set(''); //reset email in case of error
                 localStorage.removeItem("guest"); //remove email from local storage
 
                 if (error.status === 404)
@@ -56,28 +52,26 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         );
     }
 
-    populateGuestDavenfors(guestEmail: string) {
+    populateGuestDavenfors() {
         this.daveningService.setLoading(true);
-        return this.httpService.getDavenfors('user/getmynames/' + guestEmail).pipe(
+        return this.httpService.getDavenfors('user/getmynames/' + this.guestEmail()).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 names => {
                     this.daveningService.serverFine = true;
-                    this.myDavenfors = names;
+                    this.myDavenfors.set(names);
                     //buzz the event, so every subscribing component reacts accordingly.
-                    this.myDavenforsChanged.next(names);
                 },
                 () => {
-                    this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail}`);
+                    this.daveningService.setErrorMessage(`We could not retrieve names associated with ${this.guestEmail()}`);
                 });
     }
 
     public deleteDavenfor(davenforId: number, englishName: string) {
         this.daveningService.setLoading(true);
-        this.httpService.deleteDavenfor(`user/delete/${davenforId}/${this.guestEmail}`).pipe(
+        this.httpService.deleteDavenfor(`user/delete/${davenforId}/${this.guestEmail()}`).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 updatedList => {
-                    this.myDavenfors = updatedList;
-                    this.myDavenforsChanged.next(updatedList);
+                    this.myDavenfors.set(updatedList);
                     this.daveningService.setSuccessMessage(`The name '${englishName}' has been deleted`);
                     this.activeRow = -1;
                 },
@@ -96,10 +90,9 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             this.httpService.addDavenfor(newDavenfor.userEmail, newDavenfor).pipe(
                 finalize(() => this.daveningService.setLoading(false))).subscribe(
                     () => {
-                        this.populateGuestDavenfors(newDavenfor.userEmail ?? "");
+                        this.populateGuestDavenfors();
                         let name = (newDavenfor.nameEnglish == "") ? newDavenfor.nameHebrew : newDavenfor.nameEnglish;
                         this.daveningService.setSuccessMessage(`The name '${name}' has been added successfully`, true);
-                        this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                         this.router.navigate(['guest/names']);    //Guest probably wants to add just one name, returning to list             
                     },
                     error => {
@@ -115,11 +108,11 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     public editDavenfor(davenfor: Davenfor) {
-        davenfor.userEmail = this.guestEmail;
-        this.httpService.editDavenfor('user/updatename/' + this.guestEmail, davenfor).pipe(
+        davenfor.userEmail = this.guestEmail();
+        this.httpService.editDavenfor('user/updatename/' + this.guestEmail(), davenfor).pipe(
             finalize(() => this.daveningService.setLoading(false))).subscribe(
                 () => {
-                    this.populateGuestDavenfors(this.guestEmail);
+                    this.populateGuestDavenfors();
                     let name = (davenfor.nameEnglish == "") ? davenfor.nameHebrew : davenfor.nameEnglish;
                     this.daveningService.setSuccessMessage(`The name '${name}' has been updated`, true);
                     this.router.navigate(['guest/names']);
