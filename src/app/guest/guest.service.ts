@@ -30,9 +30,9 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     saveGuestUser(email: string) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.getDavenfors('user/getmynames/' + email).pipe(
-            finalize(() => this.daveningService.setLoading(false))
+            finalize(() => this.daveningService.loading.set(false))
         ).subscribe(
             names => {
                 this.daveningService.serverFine = true;
@@ -53,9 +53,9 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     populateGuestDavenfors() {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         return this.httpService.getDavenfors('user/getmynames/' + this.guestEmail()).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 names => {
                     this.daveningService.serverFine = true;
                     this.myDavenfors.set(names);
@@ -67,9 +67,9 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     public deleteDavenfor(davenforId: number, englishName: string) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.deleteDavenfor(`user/delete/${davenforId}/${this.guestEmail()}`).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 updatedList => {
                     this.myDavenfors.set(updatedList);
                     this.daveningService.setSuccessMessage(`The name '${englishName}' has been deleted`);
@@ -84,11 +84,11 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     }
 
     addDavenfor(newDavenfor: Davenfor) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
 
         if (newDavenfor.userEmail != undefined && newDavenfor != undefined) {
             this.httpService.addDavenfor(newDavenfor.userEmail, newDavenfor).pipe(
-                finalize(() => this.daveningService.setLoading(false))).subscribe(
+                finalize(() => this.daveningService.loading.set(false))).subscribe(
                     () => {
                         this.populateGuestDavenfors();
                         let name = (newDavenfor.nameEnglish == "") ? newDavenfor.nameHebrew : newDavenfor.nameEnglish;
@@ -103,14 +103,14 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         }
         else {
             console.log('Email given is ' + newDavenfor.userEmail + ' and new davenfor is ' + newDavenfor);
-            this.daveningService.setLoading(false);
+            this.daveningService.loading.set(false);
         }
     }
 
     public editDavenfor(davenfor: Davenfor) {
         davenfor.userEmail = this.guestEmail();
         this.httpService.editDavenfor('user/updatename/' + this.guestEmail(), davenfor).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 () => {
                     this.populateGuestDavenfors();
                     let name = (davenfor.nameEnglish == "") ? davenfor.nameHebrew : davenfor.nameEnglish;

@@ -67,15 +67,15 @@ export class AuthService {
     }
 
     refreshToken(): Observable<string> {
-        if (this.daveningService.loading) {
+        if (this.daveningService.loading()) {
             return EMPTY as Observable<string>;
         }
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
 
         //withCredentials tells the front end to send the cookie it has forward, so the refresh gets sent (front end doesn't see or handle it)
         const refresh$ = this.http.post<JwtResponse>('http://localhost:8080/dlist/auth/refresh', {}, {
             withCredentials: true
-        }).pipe(finalize(() => this.daveningService.setLoading(false)),
+        }).pipe(finalize(() => this.daveningService.loading.set(false)),
             tap((res: JwtResponse) => {
                 this.setAccessToken(res.token ?? '', res.email ?? '', res.id ?? 0);
             }),
@@ -90,7 +90,7 @@ export class AuthService {
 
     public login(email: string, password: string) {
         return this.httpService.login(email, password).pipe(
-            finalize(() => this.daveningService.setLoading(false)),
+            finalize(() => this.daveningService.loading.set(false)),
             tap(response => {
                 this.setAccessToken(response.token ?? '', response.email ?? '', response.id ?? 0);
                 this.adminLogin.setEmail(response.email || '');

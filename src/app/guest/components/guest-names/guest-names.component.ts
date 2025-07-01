@@ -33,8 +33,9 @@ export class GuestNamesComponent {
         this.router.navigate(['guest/new']);
     }
 
-    onDelete(index: number, id: number, nameEnglish: string, nameHebrew: string) {
-        let name = nameEnglish.trim().length > 0 ? nameEnglish : nameHebrew;
+    onDelete(index: number, davenfor: Davenfor) { 
+        let name = (davenfor.nameEnglish?.trim().length == 0 ? davenfor.nameHebrew : davenfor.nameEnglish) ?? '';   
+        let id = davenfor.id ?? 0;
         if (confirm(`Are you sure you want to delete the name '${name}' ?`))
         {
             this.guestService.activeRow = index;

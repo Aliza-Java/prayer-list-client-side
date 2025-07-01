@@ -1,5 +1,5 @@
 <form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
-    <app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+    <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
     <!--Name-->
     <div class="form-group row">

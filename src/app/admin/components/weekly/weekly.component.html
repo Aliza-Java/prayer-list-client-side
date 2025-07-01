@@ -73,7 +73,7 @@
         </div>
         <div class="col-7 d-flex align-items-center">
             <button class="btn btn-warning btn-lg"
-                [disabled]="noDavenfors || ((daveningService.loading$ | async) ?? false)"
+                [disabled]="noDavenfors || (daveningService.loading())"
                 (click)="preview()">Preview</button>
 
             <button class="btn btn-success btn-lg" (click)="requestToSend()"
@@ -96,7 +96,7 @@
         </div>
 
         <app-loading-spinner
-            [isLoading]="!finishedLoading || ((daveningService.loading$ | async) ?? false) && readyToSend"></app-loading-spinner>
+            [isLoading]="!finishedLoading || (daveningService.loading()) && readyToSend"></app-loading-spinner>
     </div>
     <hr>
     <div class="div-names" *ngIf="finishedLoading">

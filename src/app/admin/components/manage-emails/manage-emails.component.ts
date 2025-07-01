@@ -65,7 +65,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     onDisactivate(davener: Davener) {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
 
         console.log("onDisactivate()");
@@ -74,7 +74,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
     }
 
     onActivate(davener: Davener) {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
 
         console.log("onActivate()");
