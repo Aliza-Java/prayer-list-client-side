@@ -20,12 +20,12 @@ export class DirectPreviewComponent {
         public router: Router) { }
 
     ngOnInit() {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         const token = this.route.snapshot.queryParamMap.get('t') || '';
         const email = this.route.snapshot.queryParamMap.get('email') || '';
 
         this.httpService.previewDirect(token, email).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 (res: any) => {
                     var win = window.open("", "Preview this week's list", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=660,top=20");
                     if (win) {

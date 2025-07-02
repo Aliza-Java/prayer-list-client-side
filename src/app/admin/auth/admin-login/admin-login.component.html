@@ -1,6 +1,6 @@
 <div class="container">
 
-    <app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+    <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
         <div class="row">
             <h3 class="text-center">Admin Login</h3>

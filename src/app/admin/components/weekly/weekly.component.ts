@@ -144,10 +144,10 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     }
 
     preview() {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
         this.readyToSend = true;
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         const weekNameEnglish = this.weekNameEnglish ?? "";
         const weekNameHebrew = this.weekNameHebrew ?? "";
         const weeklyInfo = new Weekly(weekNameEnglish, weekNameHebrew, this.selectedCategory, this.message);
@@ -155,7 +155,7 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     }
 
     verify() {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
         this.readyToSend = true;
         const weekNameEnglish = this.weekNameEnglish ?? "";

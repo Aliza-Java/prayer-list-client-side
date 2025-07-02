@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/shared/services/http.service';
@@ -11,7 +11,7 @@ import { AuthService } from '../auth/auth.service';
     templateUrl: './admin-home.component.html',
     styleUrls: ['./admin-home.component.css']
 })
-export class AdminHomeComponent implements OnInit, OnDestroy {
+export class AdminHomeComponent implements OnDestroy {
 
     choice: string = '';
     addDavenforSub!: Subscription;  // Asserting that it will be assigned before usage
@@ -20,12 +20,6 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
         public route: ActivatedRoute,
         public httpService: HttpService) {
          }
-
-    ngOnInit() {
-        this.addDavenforSub = this.httpService.davenforAdded.subscribe(() => {
-            this.router.navigate(['names']);
-        })
-    }
 
     changeOfRoutes() {
         if (this.daveningService.shouldClearMessages()) 

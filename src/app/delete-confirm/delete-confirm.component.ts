@@ -32,9 +32,9 @@ export class DeleteConfirmComponent {
             return;
 
         this.isLoading = true;
-        this.daveningService.setLoading(true);        
+        this.daveningService.loading.set(true);        
         this.httpService.deleteNameFromEmail(this.dfId ?? '', this.token ?? '')
-            .pipe(finalize(() => this.daveningService.setLoading(false)))
+            .pipe(finalize(() => this.daveningService.loading.set(false)))
                         .subscribe(response => {
                 console.log('Response received:', response);
                 this.extractAndInjectStyles(response);

@@ -16,7 +16,7 @@ export class GuestAddNameComponent {
         public daveningService: DaveningService) { }
 
     onSave(newDavenfor: any) {
-        newDavenfor.userEmail = this.guestService.guestEmail;
+        newDavenfor.userEmail = this.guestService.guestEmail();
         console.log(newDavenfor);
         this.guestService.addDavenfor(newDavenfor);
     }

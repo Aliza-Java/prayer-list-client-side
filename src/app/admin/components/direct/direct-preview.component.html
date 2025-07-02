@@ -1,4 +1,4 @@
-<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+<app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
 <div>
 <h3>The preview should appear as a popup</h3>

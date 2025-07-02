@@ -1,4 +1,4 @@
-<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+<app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
 <div *ngIf="!sent">
     <h2 class="text-center">Are you ready to send out the list?</h2>

@@ -35,7 +35,6 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     davenforsChanged = new Subject<Davenfor[]>();
     davenersChanged = new Subject<Davener[]>();
-    davenforAdded = new Subject<Boolean>();
     settingsUpdated = new Subject<AdminSettings>();
     adminSettings: AdminSettings = new AdminSettings('', false, 7);
     listsSub: Subscription = new Subscription;
@@ -73,10 +72,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             return this.currentParasha;
         }
         else {
-            this.daveningService.setLoading(true);
+            this.daveningService.loading.set(true);
 
             return this.httpService.getParashot('admin/parashot').pipe(
-                finalize(() => this.daveningService.setLoading(false))).toPromise()
+                finalize(() => this.daveningService.loading.set(false))).toPromise()
                 .then(data => {
                     this.parashot = data ?? [];
                     this.currentParasha = this.parashot.find(p => p.current == true) ?? this.defaultParasha;
@@ -93,7 +92,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
         try {
             const names = await lastValueFrom(
                 this.httpService.getDavenfors('admin/davenfors').pipe(
-                    finalize(() => this.daveningService.setLoading(false))
+                    finalize(() => this.daveningService.loading.set(false))
                 ));
             this.davenfors = names;
             this.davenforsChanged.next(names);
@@ -105,9 +104,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     async populateAdminSettings() {
         if (this.authService.adminLogin) {
-            this.daveningService.setLoading(true);
+            this.daveningService.loading.set(true);
             this.httpService.getAdminSettings(this.authService.adminLogin.email || '').pipe(
-                finalize(() => this.daveningService.setLoading(false))).subscribe(
+                finalize(() => this.daveningService.loading.set(false))).subscribe(
                     response => {
                         this.adminSettings = response;
                         this.settingsUpdated.next(response);
@@ -121,9 +120,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     async getDaveners() {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.getDaveners().pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe((daveners: Davener[]) => {
+            finalize(() => this.daveningService.loading.set(false))).subscribe((daveners: Davener[]) => {
                 this.daveners = daveners;
                 this.davenersChanged.next(daveners);
             },
@@ -134,9 +133,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     editDavener(davenerToEdit: Davener) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.editDavener(davenerToEdit).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 daveners => {
                     this.daveningService.setSuccessMessage(`Changes have been saved`);
                     this.daveners = daveners;
@@ -149,9 +148,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     deleteDavener(davenerId: number, davenerEmail: string) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.deleteDavener(davenerId).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 () => {
                     this.daveningService.setSuccessMessage(`${davenerEmail} has been removed`);
                     this.getDaveners(); //refreshing list reflects deleted item.
@@ -164,9 +163,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     activateDavener(davener: Davener) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.activateDavener(davener).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 () => {
                     this.changeToActivate(davener);
                     this.daveningService.setSuccessMessage(`${davener.email} has been activated`);
@@ -179,9 +178,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     disactivateDavener(davener: Davener) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.disactivateDavener(davener).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 () => {
                     this.changeToDisactivate(davener);
                     this.daveningService.setSuccessMessage(`${davener.email} has been disactivated`);
@@ -206,9 +205,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     addDavener(davener: Davener) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.addDavener(davener).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 daveners => {
                     this.daveners = daveners;
                     this.davenersChanged.next(daveners);
@@ -223,29 +222,28 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             );
     }
 
-    deleteDavenfor(davenforId: number, englishName: string) {
-        this.daveningService.setLoading(true);
+    deleteDavenfor(davenforId: number, name: string) {
+        this.daveningService.loading.set(true);
         this.httpService.deleteDavenfor('admin/delete/' + davenforId).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 updatedDavenfors => {
                     this.davenfors = updatedDavenfors;
                     this.davenforsChanged.next(updatedDavenfors);
-                    this.daveningService.setSuccessMessage(`The name '${englishName}' has been deleted`);
+                    this.daveningService.setSuccessMessage(`The name '${name}' has been deleted`);
                 },//refreshing list reflects deleted item.
                 () => {
-                    this.daveningService.setErrorMessage(`We are sorry.  There was an error deleting ${englishName}`);
+                    this.daveningService.setErrorMessage(`We are sorry.  There was an error deleting ${name}`);
                 }
             );
     }
 
     async addDavenfor(newInfo: Davenfor): Promise<boolean> { //by default let user know addition was successful. (not if urgent name being sent out)
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
 
         try {
             const response = await lastValueFrom(this.httpService.addDavenfor(newInfo.userEmail || "", newInfo));
             if (response) {
                 this.populateAdminDavenfors();
-                this.davenforAdded.next(true); //to have guest and admin home pages route accordingly to the names list   
                 return true;
             }
             else {
@@ -257,18 +255,19 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             return false;
         }
         finally {
-            this.daveningService.setLoading(false);
+            this.daveningService.loading.set(false);
         }
     }
 
     editDavenfor(davenfor: Davenfor) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.adminEditDavenfor('admin/updatedavenfor', davenfor).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 () => {
                     this.populateAdminDavenfors();
                     //TODO - this doesn't work.  See if can fix
-                    this.daveningService.setSuccessMessage(`The name '${davenfor.nameEnglish}' has been updated`, true);
+                    let name = (davenfor.nameEnglish == "") ? davenfor.nameHebrew : davenfor.nameEnglish;
+                    this.daveningService.setSuccessMessage(`The name '${name}' has been updated`, true);
                     this.router.navigate(['admin/names']);
                 },
                 () => {
@@ -278,9 +277,9 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     async populateWeeklyCategory() { // populates current categoryfrom DB
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         this.httpService.getCurrentCategory().pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 incomingCategory => {
                     this.weeklyCategory = incomingCategory;
                 },
@@ -296,7 +295,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     previewList(weeklyInfo: Weekly) {
         this.httpService.preview(weeklyInfo).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 res => {
                     var win = window.open("", "Preview this week's list", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,top=20");
                     if (win) {
@@ -313,7 +312,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     async verify(weeklyInfo: Weekly, password: string): Promise<boolean> {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         try {
             const response = await lastValueFrom(this.httpService.verify(password, this.authService.adminLogin.email || ""));
 
@@ -323,13 +322,13 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
                     return true;
                 }
                 else {
-                    this.daveningService.setLoading(false);
+                    this.daveningService.loading.set(false);
                     return false;
                 }
             }
             else {
                 this.daveningService.setErrorMessage("Password is incorrect");
-                this.daveningService.setLoading(false);
+                this.daveningService.loading.set(false);
                 return false;
             }
         } catch (error) {
@@ -341,7 +340,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
 
     async sendWeekly(weeklyInfo: Weekly) {
         this.httpService.sendWeekly(weeklyInfo).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 () => {
                     this.daveningService.setSuccessMessage("Weekly list has been sent out to active subscribers ");
                 },
@@ -353,7 +352,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     sendUrgent(urgentDf: Davenfor) {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
 
         if (!urgentDf.userEmail) {
@@ -365,10 +364,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             this.addDavenfor(urgentDf);
         }
 
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
 
         return this.httpService.sendUrgent(urgentDf).pipe(
-            finalize(() => this.daveningService.setLoading(false))
+            finalize(() => this.daveningService.loading.set(false))
         );
     }
 
@@ -378,10 +377,10 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
     }
 
     editSettings(email: string, newNamePrompt: boolean, waitBeforeDeletion: number) {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         var updatedSettings: AdminSettings = { email, newNamePrompt, waitBeforeDeletion };
         this.httpService.editAdminSettings(updatedSettings).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 success => {
                     if (success) {
                         this.settingsUpdated.next(updatedSettings);
