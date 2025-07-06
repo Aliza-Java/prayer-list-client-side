@@ -134,4 +134,12 @@ export class HttpService {  //A service that makes the calls to the server
     deleteNameFromEmail(dfId: string, token: string) {
         return this.http.delete(`${this.baseUrl}direct/delete/${dfId}/${token}`, { responseType: 'text' });
     }
+
+    sendOtp(email: string) {
+        return this.http.post(`${this.baseUrl}user/request-otp`, { 'email': email }, { withCredentials: true });
+    }
+
+    verifyOtp(data: any) {
+        return this.http.post<Davenfor[]>(`${this.baseUrl}user/verify-otp`, data, { withCredentials: true });
+    }
 }

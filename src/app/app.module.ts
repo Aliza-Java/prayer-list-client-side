@@ -7,9 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { SuccessComponent } from './success/success.component';
-import { ErrorComponent } from './error/error.component';
-
 import { HttpService } from './shared/services/http.service';
 
 import { SharedModule } from './shared/shared.module';
@@ -23,14 +20,16 @@ import { ExtendComponent } from './extend/extend.component';
 import { DownComponent } from './down/down.component';
 import { HttpConfigInterceptor } from './shared/interceptors/httpconfig.interceptor';
 import { AuthInterceptorService } from './admin/auth/auth-interceptor.service';
+import { OneTimePasswordComponent } from './guest/components/one-time-password/one-time-password.component';
+import { SuccessComponent } from './success/success.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HeaderComponent,
         FooterComponent,
-        SuccessComponent,
-        ErrorComponent],
+        OneTimePasswordComponent],
     imports: [
         UnsubscribeComponent,
         DeleteConfirmComponent,
@@ -43,25 +42,27 @@ import { AuthInterceptorService } from './admin/auth/auth-interceptor.service';
         RouterModule,
         SharedModule,
         AdminRoutingModule,
-        GuestRoutingModule, 
-        DownComponent
+        GuestRoutingModule,
+        DownComponent, 
+        SuccessComponent, 
+        ErrorComponent
     ],
     providers: [
-        HttpService, 
-        { 
-            provide: HTTP_INTERCEPTORS, 
-            useClass: TokenInterceptor, 
-            multi: true 
+        HttpService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
         },
         {
-  provide: HTTP_INTERCEPTORS,
-  useClass: AuthInterceptorService,
-  multi: true
-},
-        { 
-            provide: HTTP_INTERCEPTORS, 
-            useClass: HttpConfigInterceptor, 
-            multi: true 
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorService,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpConfigInterceptor,
+            multi: true
         }
 
     ],
