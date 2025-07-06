@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DaveningService } from 'src/app/shared/services/davening.service';
@@ -11,11 +11,15 @@ import { HttpService } from 'src/app/shared/services/http.service';
     styleUrls: ['./guest-email.component.css']
 })
 export class GuestEmailComponent implements OnInit {
-    guestEmail: string = '';
+    
+    emailInHeader = computed(() => {
+        const optionalEmail = this.guestService.optionalGuest();
+        return optionalEmail === '' ? this.guestService.guestEmail() : optionalEmail;
+    });
     emailInEditing = true;
     guestEmailForm: UntypedFormGroup = new UntypedFormGroup({});
     constructor(
-        public router:Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService) { }
+        public router: Router, public guestService: GuestService, public daveningService: DaveningService, public httpService: HttpService) { }
 
     ngOnInit() {
         this.guestEmailForm = new UntypedFormGroup({
@@ -28,9 +32,17 @@ export class GuestEmailComponent implements OnInit {
     }
 
     onSaveEmail(newEmail: string) {
+        if (newEmail == this.emailInHeader()) {
+            this.emailInEditing = false;
+            this.guestService.populateGuestDavenfors();
+            this.router.navigate(['guest/names']);
+        }
+
+        //either email is empty (no confirmation needed) or switching - need to confirm
+        if (this.emailInHeader() == '' || (this.emailInHeader() != newEmail && confirm('Are you sure you want to log in with a different email?'))) {
+            this.guestService.optionalGuest.set(newEmail);
+            this.guestService.sendOtpToGuest(newEmail); //check in service
+        }
         this.emailInEditing = false;
-        this.guestEmail = newEmail; //save temporarily in this component
-        this.guestService.saveGuestUser(newEmail); //check in service
-        this.router.navigate(['guest/names']);
-    } 
+    }
 }

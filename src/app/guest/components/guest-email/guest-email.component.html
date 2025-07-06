@@ -21,7 +21,7 @@
             <!-- show the guest email saved in Service -->
             <span *ngIf="!emailInEditing" style="display: contents;">
                 <div class="col-6 text-center" id="guestEmail">
-                    {{guestEmail}}
+                    {{emailInHeader()}}
                 </div>
                 <div class="col-1">
                     <button class="btn btn-info" (click)="onChangeEmail()">Edit</button>

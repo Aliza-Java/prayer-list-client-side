@@ -10,6 +10,7 @@ import { HttpService } from '../shared/services/http.service';
 })
 export class GuestService { //A service focusing on guest data and tasks (vs. admin)
     myDavenfors = signal<Davenfor[]>([]);
+    optionalGuest = signal('');
     guestEmail = signal(''); //signal to hold the guest email, so it can be used in the template
     davenforToEdit: Davenfor = new Davenfor;
     activeRow: number | null = null;
@@ -17,9 +18,9 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     constructor(public router: Router,
         public httpService: HttpService,
         public daveningService: DaveningService) {
-        if (localStorage.getItem("guest") != null) {
-            this.guestEmail.set(localStorage.getItem("guest") ?? ''); //save the email in the service
-            this.populateGuestDavenfors(); //populate the davenfors list
+        this.guestEmail.set(localStorage.getItem("guest") || '');
+        if (this.guestEmail()?.length > 0) { //only if there is a guest email saved in localStorage
+            this.populateGuestDavenfors();   //populate the davenfors list
         }
     }
 
@@ -29,28 +30,53 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
         return this.daveningService.categories.find(category => category == name);
     }
 
-    saveGuestUser(email: string) {
+    sendOtpToGuest(email: string) {
         this.daveningService.loading.set(true);
-        this.httpService.getDavenfors('user/getmynames/' + email).pipe(
+        this.myDavenfors.set([]);
+
+        this.httpService.sendOtp(email).pipe(
             finalize(() => this.daveningService.loading.set(false))
         ).subscribe(
-            names => {
+            () => {
                 this.daveningService.serverFine = true;
-                this.myDavenfors.set(names);
-                localStorage.setItem("guest", email); //in case refreshed
-                this.guestEmail.set(email); //save the email in the service
+                this.daveningService.setSuccessMessage(`A 4-digit code has been sent to ${email}. Please enter it below to continue.`, true);
+                this.router.navigate(['guest/otp']);
             },
             (error) => {
-                this.guestEmail.set(''); //reset email in case of error
-                localStorage.removeItem("guest"); //remove email from local storage
-
                 if (error.status === 404)
-                    this.daveningService.setErrorMessage(`Unknown user ${email}.  Please check your email or register with the system admin`);
+                    this.daveningService.setErrorMessage(`Unknown user ${email}.  Please check your email address spelling, or register with the system admin`, true);
                 else
-                    this.daveningService.setErrorMessage(`We could not retrieve names associated with ${email}`);
-            }
-        );
+                    this.daveningService.setErrorMessage(`An error occurred. We could not log in with '${email}'`, true);
+
+                this.router.navigate(['guest/names']);
+
+            });
     }
+
+    loadGuest(code: string) {
+        this.daveningService.loading.set(true);
+        let data = { username: this.optionalGuest(), password: code };
+        this.httpService.verifyOtp(data)
+            .pipe(
+                finalize(() => {
+                    this.daveningService.clearSuccessMessage();
+                    this.daveningService.loading.set(false);
+                })
+            ).subscribe(
+                names => {
+                    this.daveningService.serverFine = true;
+                    this.myDavenfors.set(names);
+                    localStorage.setItem("guest", this.optionalGuest()); //in case refreshed
+                    this.guestEmail.set(this.optionalGuest()); //save the email in the service
+                    this.optionalGuest.set('');
+                    this.router.navigate(['guest/names']);
+                },
+                () => {
+                    this.daveningService.setErrorMessage(`An error occurred. We could not log in with '${this.optionalGuest()}'`, true);
+                }
+            );
+    }
+
 
     populateGuestDavenfors() {
         this.daveningService.loading.set(true);
@@ -58,6 +84,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             finalize(() => this.daveningService.loading.set(false))).subscribe(
                 names => {
                     this.daveningService.serverFine = true;
+                    console.log(names);
                     this.myDavenfors.set(names);
                     //buzz the event, so every subscribing component reacts accordingly.
                 },

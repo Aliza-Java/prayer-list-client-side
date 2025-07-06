@@ -5,6 +5,7 @@ import { GuestHomeComponent } from './components/guest-home/guest-home.component
 import { GuestNamesComponent } from './components/guest-names/guest-names.component';
 import { GuestSettingsComponent } from './components/guest-settings/guest-settings.component';
 import { GuestAddNameComponent } from './components/guest-add-name/guest-add-name.component';
+import { OneTimePasswordComponent } from './components/one-time-password/one-time-password.component';
 
 const routes: Routes = [
     {
@@ -14,8 +15,8 @@ const routes: Routes = [
             { path: 'new', component: GuestAddNameComponent },
             { path: 'edit', component: GuestEditNameComponent },
             { path: 'names', component: GuestNamesComponent },
-            { path: 'settings', component: GuestSettingsComponent }
-        ]
+            { path: 'settings', component: GuestSettingsComponent },
+            {path: 'otp', component: OneTimePasswordComponent}        ]
     }
 ];
 
