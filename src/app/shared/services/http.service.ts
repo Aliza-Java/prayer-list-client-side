@@ -70,7 +70,6 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     addDavenfor(userEmail: string, newDavenfor: Davenfor) {
-        console.log(newDavenfor);
         return this.http.post<Davenfor>(this.baseUrl + 'user/' + userEmail, newDavenfor);
     }
 

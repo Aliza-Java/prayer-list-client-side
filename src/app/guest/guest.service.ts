@@ -82,7 +82,6 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
             finalize(() => this.daveningService.loading.set(false))).subscribe(
                 names => {
                     this.daveningService.serverFine = true;
-                    console.log(names);
                     this.myDavenfors.set(names);
                     //buzz the event, so every subscribing component reacts accordingly.
                 },

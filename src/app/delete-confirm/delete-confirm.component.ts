@@ -36,7 +36,6 @@ export class DeleteConfirmComponent {
         this.httpService.deleteNameFromEmail(this.dfId ?? '', this.token ?? '')
             .pipe(finalize(() => this.daveningService.loading.set(false)))
                         .subscribe(response => {
-                console.log('Response received:', response);
                 this.extractAndInjectStyles(response);
                 this.responseMessage = response;
             }, error => {

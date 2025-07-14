@@ -117,9 +117,6 @@ export class EditNameComponent implements OnInit {
     }
 
     checkSpouse() {
-        console.log(this.nameForm.get('category')?.value);
-        console.log(this.nameForm.get('spouseEnglish')?.value);
-        console.log(this.nameForm.get('spouseHebrew')?.value);
         if (this.nameForm.get('category')?.value == 'banim' && this.spouseEmpty()) {
             this.spouseError = true;
         }

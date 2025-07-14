@@ -41,8 +41,6 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
 
     onEdit(davener: Davener) {
         Object.assign(this.davenerToEdit, davener); //important for ngModel
-        console.log("onEdit()");
-
     }
 
     onSendEdit() {
@@ -50,10 +48,7 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
             return;
 
         this.isLoading = true;
-        console.log("onSendEdit()");
-
         this.adminService.editDavener(this.davenerToEdit);
-
         this.resetDavener();  //switching it back to default so that no davener matches davenerToEdit's id.
         this.isLoading = false;
     }
@@ -68,16 +63,12 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
         if (this.daveningService.loading())
             return;
 
-        console.log("onDeactivate()");
-
         this.adminService.deactivateDavener(davener);
     }
 
     onActivate(davener: Davener) {
         if (this.daveningService.loading())
             return;
-
-        console.log("onActivate()");
 
         this.adminService.activateDavener(davener);
     }

@@ -20,7 +20,6 @@ export class AuthInterceptorService implements HttpInterceptor {
 
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
-                console.log("arrived in auth-interceptor");
                 console.log(error);
                 if (error.status === 401) {
                     if (error.headers.get('Token-Expired') === 'true') {

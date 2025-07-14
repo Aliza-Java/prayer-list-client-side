@@ -53,7 +53,6 @@ export class OneTimePasswordComponent {
 
     submitForm() {
         const finalCode = this.code.join('');
-        console.log("Code submitted:", finalCode);
         this.daveningService.loading.set(true);
         this.guestService.loadGuest(finalCode);
     }

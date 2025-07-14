@@ -37,7 +37,6 @@ export class ExtendComponent {
         this.httpService.extendFromEmail(this.dfId ?? '', this.token ?? '')
             .pipe(finalize(() => this.daveningService.loading.set(false)))
             .subscribe((response: any) => {
-                console.log('Response received:', response);
                 this.extractAndInjectStyles(response);
                 this.responseMessage = response;
             }, (error: any) => {

@@ -21,7 +21,6 @@ export class GuestEditNameComponent implements OnInit {
 
     onSave(editedDavenfor: any) {
         this.daveningService.loading.set(true);
-        console.log('Edited data from child:', editedDavenfor);
         this.guestService.editDavenfor(editedDavenfor);
     }
 

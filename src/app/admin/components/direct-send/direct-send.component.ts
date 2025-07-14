@@ -38,8 +38,7 @@ export class DirectSendComponent {
 
         this.httpService.sendDirect(token, email, this.sendForm.value['password']).pipe(
             finalize(() => this.daveningService.loading.set(false))).subscribe(
-                (response) => {
-                    console.log(response);
+                () => {
                     this.daveningService.setSuccessMessage("The list has been sent out", true);
                     this.sent = true;
                 },

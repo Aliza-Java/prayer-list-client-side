@@ -24,7 +24,6 @@ export class AdminEditNameComponent implements OnInit {
     }
 
     onSave(editedDavenfor: any) {
-        console.log('Edited data from child:', editedDavenfor);
         this.adminService.editDavenfor(editedDavenfor);
     }
 
