@@ -32,7 +32,7 @@ export class GuestEmailComponent implements OnInit {
     }
 
     onSaveEmail(newEmail: string) {
-        if (newEmail == this.emailInHeader()) {
+        if (newEmail == this.emailInHeader()) { //nothing changed
             this.emailInEditing = false;
             this.guestService.populateGuestDavenfors();
             this.router.navigate(['guest/names']);
