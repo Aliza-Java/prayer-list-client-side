@@ -20,19 +20,19 @@ export class DirectPreviewComponent {
         public router: Router) { }
 
     ngOnInit() {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         const token = this.route.snapshot.queryParamMap.get('t') || '';
         const email = this.route.snapshot.queryParamMap.get('email') || '';
 
         this.httpService.previewDirect(token, email).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
                 (res: any) => {
-                    var win = window.open("", "Preview this week's list", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=630,top=20");
+                    var win = window.open("", "Preview this week's list", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=660,top=20");
                     if (win) {
                         win.document.open(); // Open the document for writing
                         win.document.write(res); // Write the entire HTML string
                         win.document.close(); // Close the document to signal completion
-                        win.resizeTo(660, win.outerWidth);  // Resize after writing the document
+                        win.resizeTo(670, win.outerWidth);  // Resize after writing the document
                     }
                 },
                 (err: any) => {

@@ -1,5 +1,5 @@
 <div class="container">
-    <app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+    <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
         <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
             <div class="form-group first-div row">
@@ -12,13 +12,6 @@
                 <div class="col-6 offset-2 form-check">
                     <input type="checkbox" [(ngModel)]="prompt" [ngModelOptions]="{standalone: true}" class="form-check-input" id="prompt">
                     <label class="form-check-label text-center">Receive new name notifications</label>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-6 offset-2">
-                    <span class="wait-label">How many days should we wait before deleting a name?</span>
-                    <input type="number" (change)="checkWaitInput()" [(ngModel)]="wait" min="0" [ngModelOptions]="{standalone: true}" class="form-control input-number" id="wait">
                 </div>
             </div>
 

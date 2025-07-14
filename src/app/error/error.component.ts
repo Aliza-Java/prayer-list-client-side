@@ -1,21 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Signal } from '@angular/core';
 import { DaveningService } from '../shared/services/davening.service';
 
 @Component({
-  selector: 'app-error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+    standalone: true,
+    selector: 'app-error',
+    templateUrl: './error.component.html',
+    styleUrls: ['./error.component.css']
 })
 export class ErrorComponent implements OnInit {
-    @Input() message:string = '';
+    @Input({required: true}) message!: Signal<string>;
 
-  constructor(public daveningService:DaveningService) { }
+    constructor(public daveningService: DaveningService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  clearMessage(){
-      this.daveningService.setErrorMessage('');
-  }
+    clearMessage() {
+        this.daveningService.setErrorMessage('');
+    }
 
 }

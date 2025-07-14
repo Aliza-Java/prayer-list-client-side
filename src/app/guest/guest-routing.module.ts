@@ -4,18 +4,19 @@ import { GuestEditNameComponent } from './components/guest-edit-name/guest-edit-
 import { GuestHomeComponent } from './components/guest-home/guest-home.component';
 import { GuestNamesComponent } from './components/guest-names/guest-names.component';
 import { GuestSettingsComponent } from './components/guest-settings/guest-settings.component';
-import { GuestSubmitNameComponent } from './components/guest-submit-name/guest-submit-name.component';
+import { GuestAddNameComponent } from './components/guest-add-name/guest-add-name.component';
+import { OneTimePasswordComponent } from './components/one-time-password/one-time-password.component';
 
 const routes: Routes = [
     {
         path: '',
         component: GuestHomeComponent, 
         children: [
-            { path: 'new', component: GuestSubmitNameComponent },
+            { path: 'new', component: GuestAddNameComponent },
             { path: 'edit', component: GuestEditNameComponent },
             { path: 'names', component: GuestNamesComponent },
-            { path: 'settings', component: GuestSettingsComponent }
-        ]
+            { path: 'settings', component: GuestSettingsComponent },
+            {path: 'otp', component: OneTimePasswordComponent}        ]
     }
 ];
 

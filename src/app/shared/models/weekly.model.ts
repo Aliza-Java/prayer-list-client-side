@@ -5,7 +5,7 @@ export class Weekly {
     public constructor(
 
         public parashaNameEnglish?:string,
-        public parashaNameFull?:string,
+        public parashaNameHebrew?:string,
         public category?: string,
         public message?: string,
        

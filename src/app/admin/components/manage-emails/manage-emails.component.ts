@@ -41,8 +41,6 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
 
     onEdit(davener: Davener) {
         Object.assign(this.davenerToEdit, davener); //important for ngModel
-        console.log("onEdit()");
-
     }
 
     onSendEdit() {
@@ -50,38 +48,27 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
             return;
 
         this.isLoading = true;
-        console.log("onSendEdit()");
-
         this.adminService.editDavener(this.davenerToEdit);
-
         this.resetDavener();  //switching it back to default so that no davener matches davenerToEdit's id.
         this.isLoading = false;
     }
 
-    onDelete(davener: Davener) {
-        
-
-        console.log("onDelete()");
-
+    onDelete(davener: Davener) { 
         if (confirm('Are you sure you want to remove the email ' + davener.email + ' from the davening list?')) {
             this.adminService.deleteDavener(davener.id, davener.email);
         }
     }
 
-    onDisactivate(davener: Davener) {
-        if (this.daveningService.loading)
+    onDeactivate(davener: Davener) {
+        if (this.daveningService.loading())
             return;
 
-        console.log("onDisactivate()");
-
-        this.adminService.disactivateDavener(davener);
+        this.adminService.deactivateDavener(davener);
     }
 
     onActivate(davener: Davener) {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
-
-        console.log("onActivate()");
 
         this.adminService.activateDavener(davener);
     }
@@ -103,12 +90,11 @@ export class ManageEmailsComponent implements OnInit, OnDestroy {
             return;
 
         this.isLoading = true;
-        console.log("onAddDavener()");
 
         if (info.whatsapp == "") {
             info.whatsapp = 0; //I want it to be defined as text (no up-and-down arrows) but server doesn't like "" as an empty value, accepts only numbers
         }
-        const davenerToAdd = new Davener(-1, info.country, info.email, info.whatsapp, true);
+        const davenerToAdd = new Davener(-1, info.country, info.email, info.whatsapp, info.activate);
         this.adminService.addDavener(davenerToAdd);
         this.addMode = false;
         this.isLoading = false;

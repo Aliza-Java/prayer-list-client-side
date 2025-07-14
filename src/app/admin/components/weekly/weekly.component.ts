@@ -19,8 +19,9 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     chagim: Parasha[] = [];
     categories: string[] = [];
     weekNameEnglish: string = '';
+    weekNameHebrew: string = '';
     weekName: string = '';
-    selectedParashaId: number = -1;
+    selectedParasha: Parasha = new Parasha;
     parasha: Parasha = new Parasha;
     weekType: string = '';
     changeParasha: boolean = false;
@@ -62,11 +63,13 @@ export class WeeklyComponent implements OnInit, OnDestroy {
 
         this.adminService.populateParashot().then(currentParasha => {
             if (!currentParasha || currentParasha.id == undefined || currentParasha.id < 0)
-                this.weekName = this.parasha.englishName = '';
+                this.weekName = this.parasha.englishName = this.parasha.hebrewName = '';
             else if (currentParasha != null) {
                 this.weekName = currentParasha.englishName + " - " + currentParasha.hebrewName;
-                this.selectedParashaId = currentParasha.id ?? 0;
+                this.selectedParasha = currentParasha ?? new Parasha;
                 this.parasha = currentParasha;
+                this.weekNameEnglish = currentParasha.englishName ?? '';
+                this.weekNameHebrew = currentParasha.hebrewName ?? '';
             }
         });
         this.askForPassword = false;
@@ -82,32 +85,40 @@ export class WeeklyComponent implements OnInit, OnDestroy {
                 });
     }
 
-    weekChange(value: string) { //todo in future: isn't this duplicate of updateWeekName() and updateWeekNameParasha()?
-        let numberValue = Number(value);
-        if (numberValue > -1)
-            this.weekName = this.formatParashaName(numberValue, true);
+    updateParasha() {
+        this.weekName = this.formatParashaName(this.selectedParasha.id || 0, true, true);
+        this.weekNameEnglish = this.formatParashaName(this.selectedParasha.id || 0, true, false);
+        this.weekNameHebrew = this.formatParashaName(this.selectedParasha.id || 0, false, true);
+    }
+
+    updateChag() {
+        if (this.chag == undefined)
+            this.chag = this.adminService.chagim[0];
+        this.weekName = this.formatParashaName(this.chag.id ?? -1 , true, true);
+        this.weekNameEnglish = this.chag.englishName ?? '';
+        this.weekNameHebrew = this.chag.hebrewName ?? '';
+    }
+
+    updateCustom(value : string) { //applies only to custom.
+        this.weekName = this.weekNameEnglish = value;
+        this.weekNameHebrew = '';
+    }
+
+    formatParashaName(parashaId: number, english: boolean, hebrew: boolean): string {
+        let currentParasha;
+        if (parashaId < 100)
+            currentParasha = this.adminService.parashot.find(p => p.id === parashaId);
         else
-            this.weekName = value;
-    }
+            currentParasha = this.adminService.chagim.find(p => p.id === parashaId);
 
-    updateWeekName(event: any) { //applies only to chag and custom.  Value should be in both weekName fields (english and full)
-        const selectElement = event.target as HTMLSelectElement;
-        this.weekName = selectElement.value;
-        this.weekNameEnglish = selectElement.value;
-    }
-
-    formatParashaName(parashaId: number, full: boolean): string {
-        const currentParasha = this.adminService.parashot.find(p => p.id === parashaId);
-        if (full)
+        if (english && !hebrew)
+            return currentParasha?.englishName || '';
+        if (hebrew && !english)
+            return currentParasha?.hebrewName || '';
+        if (english && hebrew)
             return (currentParasha ? `${currentParasha.englishName} - ${currentParasha.hebrewName}` : '');
-        else
-            return (currentParasha ? `${currentParasha.englishName}` : '');
-    }
-
-    updateWeekNameByParasha(event: any) {
-        const selectElement = event.target as HTMLSelectElement;
-        this.weekName = this.formatParashaName(Number(selectElement.value), true);
-        this.weekNameEnglish = this.formatParashaName(Number(selectElement.value), false);
+        
+        return '';
     }
 
     emphasize(radioName: string) {
@@ -133,19 +144,23 @@ export class WeeklyComponent implements OnInit, OnDestroy {
     }
 
     preview() {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
         this.readyToSend = true;
-        this.daveningService.setLoading(true);
-        let weeklyInfo: Weekly = new Weekly('', this.weekName, this.selectedCategory, this.message);
+        this.daveningService.loading.set(true);
+        const weekNameEnglish = this.weekNameEnglish ?? "";
+        const weekNameHebrew = this.weekNameHebrew ?? "";
+        const weeklyInfo = new Weekly(weekNameEnglish, weekNameHebrew, this.selectedCategory, this.message);
         this.adminService.previewList(weeklyInfo);
     }
 
     verify() {
-        if (this.daveningService.loading)
+        if (this.daveningService.loading())
             return;
         this.readyToSend = true;
-        const weeklyInfo = new Weekly(this.weekNameEnglish, this.weekName, this.selectedCategory, this.message);
+        const weekNameEnglish = this.weekNameEnglish ?? "";
+        const weekNameHebrew = this.weekNameHebrew ?? "";
+        const weeklyInfo = new Weekly(weekNameEnglish, weekNameHebrew, this.selectedCategory, this.message);
         this.adminService.verify(weeklyInfo, this.adminPassword).then(
             (response: boolean) => {
                 if (response) {

@@ -20,7 +20,6 @@ export class AuthInterceptorService implements HttpInterceptor {
 
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
-                console.log("arrived in auth-interceptor");
                 console.log(error);
                 if (error.status === 401) {
                     if (error.headers.get('Token-Expired') === 'true') {
@@ -41,6 +40,18 @@ export class AuthInterceptorService implements HttpInterceptor {
                     } else {
                         // 401 but not due to token expiration
                         this.daveningService.setErrorMessage("Unauthorized access.", true);
+
+                        const currentUrl = this.router.url;
+
+                        //if receive an 'unauthorized', redirect to appropriate starting page
+                        if (currentUrl.startsWith('/guest')) {
+                            this.router.navigate(['/guest']);
+                        } else if (currentUrl.startsWith('/admin')) {
+                            this.router.navigate(['/admin']);
+                        } else {
+                            this.router.navigate(['/']); // default fallback
+                        }
+
                         this.router.navigate([`admin`]);
                         return throwError(() => error);
                     }

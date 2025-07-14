@@ -1,10 +1,15 @@
 body {
     /*Scheme colors*/
     --dark-background-color: #93d314;
-    --light-background-color:  #d9f89a;
+    --light-background-color: #d9f89a;
+    --lightest-background-color: #f8ffe9;
     --red-color: #db0f27;
 
     font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+body, .form-control, button{
+    font-size: 20px;
 }
 
 .list-group {
@@ -38,6 +43,16 @@ body {
     overflow: hidden;
 }
 
-.checkbox-margined{
+.checkbox-margined {
     margin: 5px;
+}
+
+.spacer {
+    display: inline-block;
+    width: 16px;
+}
+
+
+.button-column {
+    width: 180px;
 }

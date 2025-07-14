@@ -6,6 +6,10 @@ button {
     margin-right: 5px;
 }
 
+.menu-button {
+    font-size: 20px;
+}
+
 table {
     border-width: 0px;
     border-spacing: 0 1em;
@@ -16,6 +20,12 @@ table {
     white-space: nowrap;
     width: 1%;
 }
+
+.menu-button {
+    font-size: 20px;
+}
+
+
 
 .div-names {
     max-height: 65vh;

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Davenfor } from '../models/davenfor.model';
 import { Admin } from '../models/admin.model';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { Davener } from '../models/davener.model';
 import { Weekly } from '../models/weekly.model';
 import { JwtResponse } from '../models/jwt-response';
@@ -19,8 +18,6 @@ export class HttpService {  //A service that makes the calls to the server
 
     //change baseUrl depending on the server location
     public baseUrl = this.localhostUrl;
-
-    public davenforAdded = new Subject<Boolean>();
 
     constructor(public http: HttpClient, public router: Router) {
     }
@@ -73,7 +70,6 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     addDavenfor(userEmail: string, newDavenfor: Davenfor) {
-        console.log(newDavenfor);
         return this.http.post<Davenfor>(this.baseUrl + 'user/' + userEmail, newDavenfor);
     }
 
@@ -85,8 +81,8 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.delete<Response>(`${this.baseUrl}admin/user/${davenerId}`, { withCredentials: true });
     }
 
-    disactivateDavener(davener: Davener) {
-        return this.http.post<Davener[]>(this.baseUrl + 'admin/disactivate/' + davener.email, null, { withCredentials: true });
+    deactivateDavener(davener: Davener) {
+        return this.http.post<Davener[]>(this.baseUrl + 'admin/deactivate/' + davener.email, null, { withCredentials: true });
     }
 
     activateDavener(davener: Davener) {
@@ -136,5 +132,13 @@ export class HttpService {  //A service that makes the calls to the server
 
     deleteNameFromEmail(dfId: string, token: string) {
         return this.http.delete(`${this.baseUrl}direct/delete/${dfId}/${token}`, { responseType: 'text' });
+    }
+
+    sendOtp(email: string) {
+        return this.http.post(`${this.baseUrl}user/request-otp`, { 'email': email }, { withCredentials: true });
+    }
+
+    verifyOtp(data: any) {
+        return this.http.post<Davenfor[]>(`${this.baseUrl}user/verify-otp`, data, { withCredentials: true });
     }
 }

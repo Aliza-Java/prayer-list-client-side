@@ -8,7 +8,7 @@
 
         <div class="col-md-4 text-center">
             <!--title-->
-            <div class="navbar-text" id="header-title">Davening List</div>
+            <div class="navbar-text" id="header-title">Emek Hafrashat Challah Davening List</div>
         </div>
         <div class="col-md-4" *ngIf="daveningService.showHeaderMenu; else fill">
             <!--guest/admin menu-->
@@ -24,7 +24,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="logout-button" *ngIf="authService.adminLogin?.id">
+                    <div class="logout-button" *ngIf="authService.adminLogin?.email">
                         <button class="btn btn-danger" (click)="logout()">Admin Logout</button>
                     </div>
                 </div>

@@ -39,13 +39,11 @@ instruction:string = '';
     onSubmit(){
         if(this.unsubscribeForm.valid)
         {
-            this.daveningService.setLoading(true);
+            this.daveningService.loading.set(true);
             let email:string = this.unsubscribeForm.value['email'];
-            console.log(this.httpService.baseUrl + "user/unsubscribe/request?email=" + email);
                 this.http.get<{ message: string }>(this.httpService.baseUrl + "user/unsubscribe/request?email=" + email)
-                .pipe(finalize(() => this.daveningService.setLoading(false))).subscribe({
+                .pipe(finalize(() => this.daveningService.loading.set(false))).subscribe({
                     next: response => {
-                        console.log("Response:", response);
                         this.instruction = response.message;
                     },
                     error: err => {

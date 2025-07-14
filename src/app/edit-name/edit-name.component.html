@@ -1,0 +1,84 @@
+<form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
+    <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
+
+    <!--Name-->
+    <div class="form-group row">
+        <span *ngIf="nameError" class="help-block">Name must be entered in English and/or Hebrew </span>
+        <div class="col-4 input-box">
+            <label for="english">* Full Name </label>
+            <input type="text" id="english" class="form-control" formControlName="english">
+            <span
+                *ngIf="(nameForm.get('english')?.errors?.['pattern']) || (!nameForm.get('english')?.valid && nameForm.get('english')?.touched)"
+                class="help-block">
+                <span *ngIf="nameForm.get('english')?.errors?.['pattern']">Invalid characters</span>
+                <span *ngIf="nameForm.get('english')?.errors?.['required']">This field is
+                    required</span>
+            </span>
+        </div>
+
+        <div class="col-4 input-box">
+            <label for="hebrew">* שם בעברית </label>
+            <input type="text" id="hebrew" class="form-control" formControlName="hebrew">
+            <span
+                *ngIf="(nameForm.get('hebrew')?.errors?.['pattern']) || (!nameForm.get('hebrew')?.valid && nameForm.get('hebrew')?.touched)"
+                class="help-block">
+                <span *ngIf="nameForm.get('hebrew')?.errors?.['pattern']">Invalid characters</span>
+                <span *ngIf="nameForm.get('hebrew')?.errors?.['required']">This field is
+                    required</span>
+            </span>
+        </div>
+    </div>
+
+    <!--Spouse name-->
+    <div class="form-group row spouse" *ngIf="nameForm.get('category')?.value=='banim'">
+        <span *ngIf="spouseError" class="help-block">Spouse name must be entered in English and/or Hebrew
+        </span>
+        <div class="col-4 input-box">
+            <label for="spouseEnglish">Spouse name</label>
+            <input type="text" id="spouseEnglish" class="form-control" formControlName="spouseEnglish"
+                (keyup)="checkSpouse()">
+            <span class="help-block" *ngIf="!nameForm.get('spouseEnglish')?.valid" class="help-block">
+                <span *ngIf="nameForm.get('spouseEnglish')?.errors?.['pattern']">Invalid characters</span>
+            </span>
+        </div>
+
+        <!--Spouse Hebrew name-->
+        <div class="col-4 input-box">
+            <label for="spouseHebrew">שם בן הזוג בעברית </label>
+            <input type="text" id="spouseHebrew" class="form-control" formControlName="spouseHebrew"
+                (keyup)="checkSpouse()">
+            <span *ngIf="!nameForm.get('spouseHebrew')?.valid" class="help-block">
+                <span *ngIf="nameForm.get('spouseHebrew')?.errors?.['pattern']">Invalid characters</span>
+            </span>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="form-group row">
+        <div class="col-4 form-check" hidden>
+            <input type="checkbox" class="form-check-input checkbox" id="submitterToReceive"
+                formControlName="submitterToReceive">
+            <label class="form-check-label text-center" for="submitterToReceive">Include this name (when
+                appropriate) in submitter's
+                davening
+                list</label>
+        </div>
+
+        <div class="col-3">
+            <label for="category">* Category:</label>
+        </div>
+        <div class="col-7 ">
+            <select formControlName="category" class="form-control" id="category">
+                <option *ngFor="let category of categories" [value]="category">{{category | viewCategory}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group buttons">
+        <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Save Changes</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+    </div>
+</form>

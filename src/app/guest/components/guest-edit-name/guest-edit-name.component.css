@@ -1,25 +1,19 @@
-.form-horizontal {
-    margin: 3em;
-}
-
-.help-block,.alert-option {
-    color: red;
-    margin-bottom: 0px;
-}
-
-.text-right {
-    float: right;
+.container-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 select {
     text-align-last: center;
 }
 
-.input-box{
+.input-box {
     width: 300px;
 }
 
-.form-control{
+.form-control {
     font-weight: 500;
 }
 
@@ -27,6 +21,6 @@ label, .checkbox {
     margin-top: 15px;
 }
 
-button { 
+button {
     margin: 30px;
 }

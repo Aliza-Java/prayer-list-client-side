@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
-import { Subscription } from 'rxjs';
 import { GuestService } from 'src/app/guest/guest.service';
 import { Router } from '@angular/router';
 
@@ -11,11 +10,12 @@ import { Router } from '@angular/router';
     templateUrl: './guest-names.component.html',
     styleUrls: ['./guest-names.component.css']
 })
-export class GuestNamesComponent implements OnInit, OnDestroy {
+export class GuestNamesComponent implements OnInit {
+    ngOnInit() {
+        this.guestService.populateGuestDavenfors();
+    }
 
     categories: string[] = [];
-    davenfors: Davenfor[] = [];
-    davenforsChangedSub: Subscription = new Subscription;
 
     constructor(
         public router: Router,
@@ -23,14 +23,8 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         public daveningService: DaveningService,
         public httpService: HttpService) { }
 
-    ngOnInit() {
-        this.davenfors = this.guestService.myDavenfors;
-        this.davenforsChangedSub = this.guestService.myDavenforsChanged.subscribe(
-            davenfors => { this.davenfors = davenfors });
-    }
-
     davenforsExist(){
-            return (this.davenfors != null && this.davenfors.length > 0); 
+            return (this.guestService.myDavenfors() != null && this.guestService.myDavenfors().length > 0); 
     }
 
     onEdit(davenfor: Davenfor) {
@@ -42,16 +36,13 @@ export class GuestNamesComponent implements OnInit, OnDestroy {
         this.router.navigate(['guest/new']);
     }
 
-    onDelete(index: number, id: number, name: string) {
-        if (confirm(`Are you sure you want to delete the name ${name} ?`))
+    onDelete(index: number, davenfor: Davenfor) { 
+        let name = (davenfor.nameEnglish?.trim().length == 0 ? davenfor.nameHebrew : davenfor.nameEnglish) ?? '';   
+        let id = davenfor.id ?? 0;
+        if (confirm(`Are you sure you want to delete the name '${name}' ?`))
         {
             this.guestService.activeRow = index;
             this.guestService.deleteDavenfor(id, name);
         }
-    }
-
-    ngOnDestroy() {
-        if (this.davenforsChangedSub) //Sometimes undefined, perhaps when forcibly reroute.
-            this.davenforsChangedSub.unsubscribe();
     }
 }

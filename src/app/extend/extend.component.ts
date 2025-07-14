@@ -33,11 +33,10 @@ export class ExtendComponent {
             return;
 
         this.isLoading = true;
-        this.daveningService.setLoading(true);          
+        this.daveningService.loading.set(true);          
         this.httpService.extendFromEmail(this.dfId ?? '', this.token ?? '')
-            .pipe(finalize(() => this.daveningService.setLoading(false)))
+            .pipe(finalize(() => this.daveningService.loading.set(false)))
             .subscribe((response: any) => {
-                console.log('Response received:', response);
                 this.extractAndInjectStyles(response);
                 this.responseMessage = response;
             }, (error: any) => {

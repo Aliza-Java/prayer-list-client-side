@@ -32,14 +32,13 @@ export class DirectSendComponent {
     }
 
     onSubmit() {
-        this.daveningService.setLoading(true);
+        this.daveningService.loading.set(true);
         const token = this.route.snapshot.queryParamMap.get('t') || '';
         const email = this.route.snapshot.queryParamMap.get('email') || '';
 
         this.httpService.sendDirect(token, email, this.sendForm.value['password']).pipe(
-            finalize(() => this.daveningService.setLoading(false))).subscribe(
-                (response) => {
-                    console.log(response);
+            finalize(() => this.daveningService.loading.set(false))).subscribe(
+                () => {
                     this.daveningService.setSuccessMessage("The list has been sent out", true);
                     this.sent = true;
                 },

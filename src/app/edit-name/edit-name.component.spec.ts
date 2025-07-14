@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminSubmitNameComponent } from './admin-submit-name.component';
+import { EditNameComponent } from './edit-name.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
 
-describe('AdminSubmitNameComponent', () => {
-  let component: AdminSubmitNameComponent;
-  let fixture: ComponentFixture<AdminSubmitNameComponent>;
+describe('EditNameComponent', () => {
+  let component: EditNameComponent;
+  let fixture: ComponentFixture<EditNameComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, ReactiveFormsModule],
-      declarations: [AdminSubmitNameComponent, LoadingSpinnerComponent]
+      declarations: [EditNameComponent, LoadingSpinnerComponent]
     });
-    fixture = TestBed.createComponent(AdminSubmitNameComponent);
+    fixture = TestBed.createComponent(EditNameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

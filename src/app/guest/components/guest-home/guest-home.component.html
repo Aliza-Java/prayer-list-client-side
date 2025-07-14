@@ -8,6 +8,8 @@
 
     <div class="row">
         <div class="col-md-12">
+            <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
+
             <!--guest routes: manage names, submit name, and settings-->
             <router-outlet  (activate)="changeOfRoutes()"></router-outlet>
         </div>

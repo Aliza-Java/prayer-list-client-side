@@ -32,7 +32,7 @@ span{
     background-color: transparent !important;
 }
 
-.button-delete{
-    width: 90px;
+.btn-danger, .btn-warning{
+    font-size: 20px;
 }
 

@@ -19,16 +19,16 @@
             </span>
 
             <!-- show the guest email saved in Service -->
-            <span *ngIf="guestService.guestEmail && !emailInEditing" style="display: contents;">
+            <span *ngIf="!emailInEditing" style="display: contents;">
                 <div class="col-6 text-center" id="guestEmail">
-                    {{guestService.guestEmail}}
+                    {{emailInHeader()}}
                 </div>
                 <div class="col-1">
                     <button class="btn btn-info" (click)="onChangeEmail()">Edit</button>
                 </div>
             </span>
 
-            <div class="col-2 offset-1 text-right" *ngIf="!emailInEditing">
+            <div class="col-2 offset-1 text-right" *ngIf="!emailInEditing && guestService.guestEmail()">
                 <div class="dropdown" appDropdown>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">Menu
                         <span class="caret"></span></button>

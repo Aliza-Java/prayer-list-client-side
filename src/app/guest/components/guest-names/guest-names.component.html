@@ -1,8 +1,10 @@
-<app-loading-spinner [isLoading]="(daveningService.loading$ | async) ?? false"></app-loading-spinner>
+<app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
-<div class="container" *ngIf="!(daveningService.loading$ | async)">
-    <div class="text-center hidden-scrollbar" *ngIf="guestService.myDavenfors?.length==0 && !(daveningService.loading$ | async) && daveningService.serverFine">
+<div class="container" *ngIf="guestService.guestEmail()">
+    <div class="text-center hidden-scrollbar"
+        *ngIf="guestService.myDavenfors().length==0 && guestService.optionalGuest() == '' && !daveningService.loading() && daveningService.serverFine">
         <app-empty-list whatIsMissing="names associated with this email"></app-empty-list>
+        <!--todo in future - with signals can tell it what to show if empty (find syntax)-->
     </div>
 
     <div *ngIf="davenforsExist()" class="table-div">
@@ -14,9 +16,9 @@
                 <th>Hebrew Name</th>
                 <th></th>
             </tr>
-            <tr *ngFor="let davenfor of guestService.myDavenfors; let i = index">
+            <tr *ngFor="let davenfor of guestService.myDavenfors(); let i = index">
 
-                <td>{{davenfor.category | titlecase}}</td>
+                <td>{{davenfor.category | viewCategory}}</td>
                 <td>
                     <!--English name, and spouse's English name if applicable-->
                     <span>{{davenfor.nameEnglish | titlecase}}</span>
@@ -32,14 +34,15 @@
                 <button class="btn btn-warning" (click)="onEdit(davenfor)">
                     Edit
                 </button>
-                <button class="btn btn-danger button-delete" (click)="onDelete(i, davenfor.id??0, davenfor.nameEnglish??'')">
-                    <span class="span-spinner" *ngIf="guestService.activeRow === i && (daveningService.loading$ | async)"><app-loading-spinner-small></app-loading-spinner-small></span>
-                    <span *ngIf="guestService.activeRow != i">Delete</span>
+                <button class="btn btn-danger button-delete"
+                    (click)="onDelete(i, davenfor)">
+                    Delete
                 </button>
+
         </table>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="guestService.optionalGuest() == '' && !daveningService.loading()">
         <div class="col-12 text-center">
             <button class="btn btn-info btn-lg" (click)="onAddName()">+ Add Name</button>
         </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GuestNamesComponent } from './components/guest-names/guest-names.component';
 import { GuestHomeComponent } from './components/guest-home/guest-home.component';
-import { GuestSubmitNameComponent } from './components/guest-submit-name/guest-submit-name.component';
+import { GuestAddNameComponent } from './components/guest-add-name/guest-add-name.component';
 import { GuestEditNameComponent } from './components/guest-edit-name/guest-edit-name.component';
 import { GuestEmailComponent } from './components/guest-email/guest-email.component';
 import { GuestSettingsComponent } from './components/guest-settings/guest-settings.component';
@@ -16,7 +16,7 @@ import { GuestService } from './guest.service';
 @NgModule({
   declarations: [
     GuestHomeComponent,
-    GuestSubmitNameComponent,
+    GuestAddNameComponent,
     GuestNamesComponent,
     GuestEditNameComponent,
     GuestSettingsComponent,

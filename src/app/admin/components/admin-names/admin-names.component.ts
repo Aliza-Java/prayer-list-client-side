@@ -36,9 +36,11 @@ export class AdminNamesComponent implements OnInit {
         this.router.navigate(['admin/edit']);
     }
 
-    onDelete(id: number, name: string) {
-        if (confirm(`Are you sure you want to delete the name ${name} ?`))
-            this.adminService.deleteDavenfor(id, name);
+    onDelete(davenfor : Davenfor) {
+        let name = (davenfor.nameEnglish?.trim().length == 0 ? davenfor.nameHebrew : davenfor.nameEnglish) ?? '';
+
+        if (confirm(`Are you sure you want to delete the name '${name}' ?`))
+            this.adminService.deleteDavenfor(davenfor.id??0, name);
     }
 
     onAddName() {
