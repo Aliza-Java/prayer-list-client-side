@@ -82,8 +82,8 @@ export class HttpService {  //A service that makes the calls to the server
         return this.http.delete<Response>(`${this.baseUrl}admin/user/${davenerId}`, { withCredentials: true });
     }
 
-    disactivateDavener(davener: Davener) {
-        return this.http.post<Davener[]>(this.baseUrl + 'admin/disactivate/' + davener.email, null, { withCredentials: true });
+    deactivateDavener(davener: Davener) {
+        return this.http.post<Davener[]>(this.baseUrl + 'admin/deactivate/' + davener.email, null, { withCredentials: true });
     }
 
     activateDavener(davener: Davener) {

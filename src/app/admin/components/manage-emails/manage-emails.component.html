@@ -77,8 +77,8 @@
                             [disabled]="(davenerToEdit.id!=-1)&&(davenerToEdit.id!=davener.id)"
                             (click)="onEdit(davener)">Edit</button>
                         <button class="btn btn-danger" (click)="onDelete(davener)">Delete</button>
-                        <!--appropriate disactivate/activate buttons if davener is active or not-->
-                        <button class="btn btn-danger" (click)="onDisactivate(davener)">Disactivate</button>
+                        <!--appropriate deactivate/activate buttons if davener is active or not-->
+                        <button class="btn btn-danger" (click)="onDeactivate(davener)">Deactivate</button>
                     </div>
                 </td>
             </tr>
@@ -101,7 +101,7 @@
             <tr *ngFor="let davener of daveners | filterActive:false">
                 <td class="col-sm-3">
                     <div class="inactive" *ngIf="davener.id!=davenerToEdit.id else emailEdit">{{davener.email}}
-                        (disactivated)</div>
+                        (deactivated)</div>
                 </td>
                 <td class="col-sm-3">
                     <div class="inactive" *ngIf="davener.id!=davenerToEdit.id else whatsappEdit">
@@ -118,7 +118,7 @@
                             [disabled]="(davenerToEdit.id!=-1)&&(davenerToEdit.id!=davener.id)"
                             (click)="onEdit(davener)">Edit</button>
                         <button class="btn btn-danger" (click)="onDelete(davener)">Delete</button>
-                        <!--appropriate disactivate/activate buttons if davener is active or not-->
+                        <!--appropriate deactivate/activate buttons if davener is active or not-->
                         <button class="btn btn-success" (click)="onActivate(davener)">Activate</button>
                     </div>
                 </td>

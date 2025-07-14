@@ -177,13 +177,13 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             );
     }
 
-    disactivateDavener(davener: Davener) {
+    deactivateDavener(davener: Davener) {
         this.daveningService.loading.set(true);
-        this.httpService.disactivateDavener(davener).pipe(
+        this.httpService.deactivateDavener(davener).pipe(
             finalize(() => this.daveningService.loading.set(false))).subscribe(
                 () => {
-                    this.changeToDisactivate(davener);
-                    this.daveningService.setSuccessMessage(`${davener.email} has been disactivated`);
+                    this.changeToDeactivate(davener);
+                    this.daveningService.setSuccessMessage(`${davener.email} has been deactivated`);
                 },
                 error => {
                     this.daveningService.setErrorMessage(`An error occurred when disactivating ${davener.email}`);
@@ -192,7 +192,7 @@ export class AdminService implements OnDestroy {  //A service focusing on admin 
             );
     }
 
-    changeToDisactivate(davener: Davener) {
+    changeToDeactivate(davener: Davener) {
         const index = this.daveners.indexOf(davener);
         this.daveners[index].active = false;
         this.davenersChanged.next(this.daveners);
