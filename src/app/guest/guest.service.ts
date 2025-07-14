@@ -45,6 +45,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                     this.daveningService.setErrorMessage(`An error occurred. We could not log in with '${email}'`, true);
 
                 this.router.navigate(['guest/names']);
+                this.optionalGuest.set(''); //this will show what was in the guest email before
+                this.populateGuestDavenfors(); //go back to davenfors of previous name
 
             });
     }
