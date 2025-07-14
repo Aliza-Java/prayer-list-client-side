@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { Davenfor } from 'src/app/shared/models/davenfor.model';
 import { DaveningService } from 'src/app/shared/services/davening.service';
@@ -10,7 +10,10 @@ import { Router } from '@angular/router';
     templateUrl: './guest-names.component.html',
     styleUrls: ['./guest-names.component.css']
 })
-export class GuestNamesComponent {
+export class GuestNamesComponent implements OnInit {
+    ngOnInit() {
+        this.guestService.populateGuestDavenfors();
+    }
 
     categories: string[] = [];
 

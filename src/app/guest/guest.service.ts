@@ -18,11 +18,7 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     constructor(public router: Router,
         public httpService: HttpService,
         public daveningService: DaveningService) {
-        this.guestEmail.set(localStorage.getItem("guest") || '');
-        if (this.guestEmail()?.length > 0) { //only if there is a guest email saved in localStorage
-            this.populateGuestDavenfors();   //populate the davenfors list
-        }
-    }
+        this.guestEmail.set(localStorage.getItem("guest") || '');    }
 
 
     getCategory(name: string) {
