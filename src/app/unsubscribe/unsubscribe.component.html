@@ -2,7 +2,7 @@
 
     <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
-    <div *ngIf="!(daveningService.successMessage) && !(daveningService.errorMessage) && !instruction">
+    <div *ngIf="!(daveningService.successMessage()) && !(daveningService.errorMessage()) && !instruction">
         <div class="row">
             <h3 style="margin-top: 7%;" class="text-center">Click the button to receive an unsubscribe link to your
                 email</h3>
