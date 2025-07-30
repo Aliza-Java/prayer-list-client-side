@@ -73,7 +73,9 @@ export class AuthService {
         this.daveningService.loading.set(true);
 
         //withCredentials tells the front end to send the cookie it has forward, so the refresh gets sent (front end doesn't see or handle it)
-        const refresh$ = this.http.post<JwtResponse>('http://localhost:8080/dlist/auth/refresh', {}, {
+        //const refresh$ = this.http.post<JwtResponse>('http://localhost:8080/dlist/auth/refresh', {}, {
+        const refresh$ = this.http.post<JwtResponse>('https://api.emekhafrashatchallah.com/dlist/auth/refresh', {}, {
+
             withCredentials: true
         }).pipe(finalize(() => this.daveningService.loading.set(false)),
             tap((res: JwtResponse) => {
