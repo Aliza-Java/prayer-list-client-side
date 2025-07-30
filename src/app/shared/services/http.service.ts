@@ -14,7 +14,8 @@ import { Parasha } from '../models/parasha.model';
 })
 export class HttpService {  //A service that makes the calls to the server
 
-    localhostUrl = "http://localhost:8080/dlist/";
+    //localhostUrl = "http://localhost:8080/dlist/";
+    localhostUrl = 'https://api.emekhafrashatchallah.com/dlist/'; // This is the URL for the production server
 
     //change baseUrl depending on the server location
     public baseUrl = this.localhostUrl;
@@ -135,6 +136,7 @@ export class HttpService {  //A service that makes the calls to the server
     }
 
     sendOtp(email: string) {
+        console.log('this.baseUrl', this.baseUrl);
         return this.http.post(`${this.baseUrl}user/request-otp`, { 'email': email }, { withCredentials: true });
     }
 
