@@ -11,7 +11,7 @@ import { HttpService } from 'src/app/shared/services/http.service';
     styleUrls: ['./guest-email.component.css']
 })
 export class GuestEmailComponent implements OnInit {
-    
+
     emailInHeader = computed(() => {
         const optionalEmail = this.guestService.optionalGuest();
         return optionalEmail === '' ? this.guestService.guestEmail() : optionalEmail;
@@ -34,8 +34,13 @@ export class GuestEmailComponent implements OnInit {
     onSaveEmail(newEmail: string) {
         if (newEmail == this.emailInHeader()) { //nothing changed
             this.emailInEditing = false;
-            this.guestService.populateGuestDavenfors();
-            this.router.navigate(['guest/names']);
+            if (this.guestService.guestEmail() == '') { //somehow guest email is empty, cannot continue retrieving like this
+                this.guestService.sendOtpToGuest(newEmail); //check again in service
+            }
+            else {
+                this.guestService.populateGuestDavenfors();
+                this.router.navigate(['guest/names']);
+            }
         }
 
         //either email is empty (no confirmation needed) or switching - need to confirm
