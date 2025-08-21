@@ -1,0 +1,12 @@
+.footer {
+    position: relative;
+    padding: 10px;
+}
+
+.version {
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    font-size: xx-small;
+    color: gray;
+}
