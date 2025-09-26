@@ -22,6 +22,7 @@ export class DaveningService { // A general service to hold 'global' data releva
 
     setErrorMessage(message: string, preventClear = false) {
         this.errorMessage.set(message);
+        this.successMessage.set(''); // so they don't both show up
         this.preventClearMessages.set(preventClear); // Set flag
       }
     
@@ -32,6 +33,7 @@ export class DaveningService { // A general service to hold 'global' data releva
   
     setSuccessMessage(message: string, preventClear = false) {
       this.successMessage.set(message);
+      this.errorMessage.set(''); // so they don't both show up
       this.preventClearMessages.set(preventClear); // Store in BehaviorSubject
     }
   

@@ -18,7 +18,8 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
     constructor(public router: Router,
         public httpService: HttpService,
         public daveningService: DaveningService) {
-        this.guestEmail.set(localStorage.getItem("guest") || '');    }
+        this.guestEmail.set(localStorage.getItem("guest") || '');
+    }
 
 
     getCategory(name: string) {
@@ -44,10 +45,11 @@ export class GuestService { //A service focusing on guest data and tasks (vs. ad
                 else
                     this.daveningService.setErrorMessage(`An error occurred. We could not log in with '${email}'`, true);
 
-                this.router.navigate(['guest/names']);
-                this.optionalGuest.set(''); //this will show what was in the guest email before
-                this.populateGuestDavenfors(); //go back to davenfors of previous name
-
+                if (this.guestEmail() != '') {
+                    this.router.navigate(['guest/names']);
+                    this.optionalGuest.set(''); //this will show what was in the guest email before
+                    this.populateGuestDavenfors(); //go back to davenfors of previous name
+                }
             });
     }
 

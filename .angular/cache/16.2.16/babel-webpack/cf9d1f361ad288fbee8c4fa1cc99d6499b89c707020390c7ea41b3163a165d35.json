@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class Davener {\n  constructor(id, country, email, whatsapp, active) {\n    this.id = id;\n    this.country = country;\n    this.email = email;\n    this.whatsapp = whatsapp;\n    this.active = active;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
