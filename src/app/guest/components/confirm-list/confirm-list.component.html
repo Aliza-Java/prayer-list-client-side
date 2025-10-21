@@ -1,0 +1,29 @@
+<div class="container">
+    <h2>{{ title }}</h2>
+    <h5>{{warning}}</h5>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of actions" [class.completed]="item.completed">
+                <td>{{ item.name }}</td>
+                <td>
+                    <button class="btn confirm" [class.clicked]="item.clicked === 'confirm'"
+                        [disabled]="isDisabled(item)" (click)="confirm(item)">
+                        Confirm
+                    </button>
+                    <button class="btn remove" [class.clicked]="item.clicked === 'remove'" [disabled]="isDisabled(item)"
+                        (click)="remove(item)">
+                        Remove
+                    </button>
+                </td>
+                <td class="status-message">{{ item.statusMessage }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

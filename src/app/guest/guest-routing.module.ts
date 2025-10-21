@@ -10,13 +10,14 @@ import { OneTimePasswordComponent } from './components/one-time-password/one-tim
 const routes: Routes = [
     {
         path: '',
-        component: GuestHomeComponent, 
+        component: GuestHomeComponent,
         children: [
             { path: 'new', component: GuestAddNameComponent },
             { path: 'edit', component: GuestEditNameComponent },
             { path: 'names', component: GuestNamesComponent },
             { path: 'settings', component: GuestSettingsComponent },
-            {path: 'otp', component: OneTimePasswordComponent}        ]
+            { path: 'otp', component: OneTimePasswordComponent }
+        ]
     }
 ];
 
