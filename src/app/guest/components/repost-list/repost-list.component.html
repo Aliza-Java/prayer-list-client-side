@@ -1,0 +1,18 @@
+<div class="container">
+    <h2>{{ title }}</h2>
+    <h5>{{warning}}</h5>
+    <table>
+        <tbody>
+            <tr *ngFor="let item of actions" [class.completed]="item.completed">
+                <td class="td-name">{{ item.name }}</td>
+                <td>
+                    <button class="btn confirm" [class.clicked]="item.clicked === 'confirm'"
+                        [disabled]="isDisabled(item)" (click)="confirm(item)">
+                        This name is still relevant
+                    </button>
+                </td>
+                <td class="status-message">{{ item.statusMessage }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

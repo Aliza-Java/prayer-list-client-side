@@ -5,6 +5,7 @@ import { DirectPreviewComponent } from './admin/components/direct/direct-preview
 import { DirectSendComponent } from './admin/components/direct-send/direct-send.component';
 import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 import { ConfirmListComponent } from './guest/components/confirm-list/confirm-list.component';
+import { RepostListComponent } from './guest/components/repost-list/repost-list.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'guest', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'direct-preview', component: DirectPreviewComponent },
     { path: 'direct-send', component: DirectSendComponent },
     { path: 'confirm/:category/:token', component: ConfirmListComponent },
+    { path: 'delete/:category/:token', component: RepostListComponent },
     { path: '**', component: NotFoundComponent }
 ];
 
