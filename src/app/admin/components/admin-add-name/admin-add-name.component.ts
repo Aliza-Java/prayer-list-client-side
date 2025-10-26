@@ -40,9 +40,6 @@ export class AdminAddNameComponent {
         if (categoryName == undefined)
             return "";
 
-        if (categoryName == 'yeshua_and_parnassa')
-            return 'Yeshua and Parnassa';
-
         categoryName = categoryName.charAt(0).toUpperCase() + (categoryName.slice(1, categoryName.length).toLowerCase());
         return categoryName;
     }
