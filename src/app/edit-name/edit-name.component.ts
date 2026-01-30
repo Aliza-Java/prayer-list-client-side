@@ -9,7 +9,7 @@ import { Davenfor } from 'src/app/shared/models/davenfor.model';
 @Component({
     selector: 'app-edit-name',
     templateUrl: './edit-name.component.html',
-    styleUrls: ['./edit-name.component.css']
+    styleUrls: ['../form-styles.css', './edit-name.component.css']
 })
 export class EditNameComponent implements OnInit {
     @Input() df: any; // data coming from parent

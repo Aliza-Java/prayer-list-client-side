@@ -10,7 +10,7 @@ import { Davenfor } from '../shared/models/davenfor.model';
 @Component({
     selector: 'app-add-name',
     templateUrl: './add-name.component.html',
-    styleUrls: ['./add-name.component.css']
+    styleUrls: ['../form-styles.css']
 })
 export class AddNameComponent implements OnInit {
     @Input() parentComp = ""; // data coming from parent

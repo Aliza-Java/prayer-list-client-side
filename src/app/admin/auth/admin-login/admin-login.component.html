@@ -1,32 +1,32 @@
-<div class="container">
+<div class="login-container">
 
-    <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
+  <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
-        <div class="row">
-            <h3 class="text-center">Admin Login</h3>
-            <div class="col-4"></div>
-            <!--centering form horizontally-->
-            <div class="col-4">
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="margin-top: 25%;">
+  <div class="login-box">
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" id="email" formControlName="email" class="form-control">
-                        <span *ngIf="!loginForm.get('email')?.valid && loginForm.get('email')?.touched"
-                            class="help-block">Please enter a valid email</span>
-                    </div>
+    <h3 class="title">Admin Login</h3>
 
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" formControlName="password" class="form-control">
-                        <span span *ngIf="!loginForm.get('password')?.valid && loginForm.get('password')?.touched"
-                            class="help-block">Password is required</span>
-                    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-                    <div class="form-group">
-                        <button type="submit" class="padded-btn btn btn-success" [disabled]="!loginForm.valid">Login</button>
-                    </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" formControlName="email" class="form-control">
+        <span *ngIf="!loginForm.get('email')?.valid && loginForm.get('email')?.touched"
+              class="help-block">Please enter a valid email</span>
+      </div>
 
-                </form>
-            </div>    </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" formControlName="password" class="form-control">
+        <span *ngIf="!loginForm.get('password')?.valid && loginForm.get('password')?.touched"
+              class="help-block">Password is required</span>
+      </div>
+
+      <button type="submit" class="btn-ok login-btn btn btn-success" [disabled]="!loginForm.valid">
+        Login
+      </button>
+
+    </form>
+  </div>
+
 </div>

@@ -2,12 +2,12 @@
     margin: 3em;
 }
 
-.form-control, .form-select{
+.form-control, .form-select {
     margin: 7px;
 }
 
-.help-block,.alert-option {
-    color: red;
+.help-block, .alert-option {
+    color: var(--my-red);
     margin-bottom: 0px;
     padding-top: 12px;
 }
@@ -25,15 +25,15 @@ select {
     text-align: center;
 }
 
-.col-3{
+.col-3 {
     padding-right: 15px;
 }
 
-.ben{
-    display: flex; 
+.ben {
+    display: flex;
     align-items: center;
-    justify-content: center; 
-    height: 52px; 
+    justify-content: center;
+    height: 52px;
 }
 
 h6 {

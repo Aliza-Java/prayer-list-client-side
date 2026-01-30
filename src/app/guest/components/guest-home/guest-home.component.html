@@ -5,13 +5,7 @@
 
 <div *ngIf="guestService">
     <!-- Submitting or changing names can be done only when guest has given his email-->
-
-    <div class="row">
-        <div class="col-md-12">
-            <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
-
-            <!--guest routes: manage names, submit name, and settings-->
-            <router-outlet  (activate)="changeOfRoutes()"></router-outlet>
-        </div>
-    </div>
+    <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
+    <!--guest routes: manage names, submit name, and settings-->
+    <router-outlet (activate)="changeOfRoutes()"></router-outlet>
 </div>

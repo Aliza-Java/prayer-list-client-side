@@ -3,48 +3,87 @@
 <div class="container" *ngIf="guestService.guestEmail()">
     <div class="text-center hidden-scrollbar"
         *ngIf="guestService.myDavenfors().length==0 && guestService.optionalGuest() == '' && !daveningService.loading() && daveningService.serverFine">
-        <app-empty-list whatIsMissing="names that you have submitted.  Do you want to add a name to the lists?"></app-empty-list>
+        <app-empty-list
+            whatIsMissing="names that you have submitted.  Do you want to add a name to the lists?"></app-empty-list>
         <!--todo in future - with signals can tell it what to show if empty (find syntax)-->
     </div>
 
     <div *ngIf="davenforsExist()" class="table-div">
 
-        <table class="table table-responsive table-div">
-            <tr>
-                <th>Category</th>
-                <th>English Name</th>
-                <th>Hebrew Name</th>
-                <th></th>
-            </tr>
-            <tr *ngFor="let davenfor of guestService.myDavenfors(); let i = index">
+        <table class="table table-div names-table">
+            <thead>
+                <tr>
+                    <th>English Name</th>
+                    <th>Hebrew Name</th>
+                    <th>Category</th>
+                    <th class="actions-col"></th>
+                </tr>
+            </thead>
 
-                <td>{{davenfor.category | viewCategory}}</td>
-                <td>
-                    <!--English name, and spouse's English name if applicable-->
-                    <span>{{davenfor.nameEnglish | titlecase}}</span>
-                    <span
-                        *ngIf="davenfor.category=='banim'&&davenfor.nameEnglishSpouse"><br>{{davenfor.nameEnglishSpouse}}</span>
-                </td>
-                <td>
-                    <!--Hebrew name, and spouse's Hebrew name if applicable -->
-                    <span>{{davenfor.nameHebrew}}</span>
-                    <span
-                        *ngIf="davenfor.category=='banim'&&davenfor.nameHebrewSpouse"><br>{{davenfor.nameHebrewSpouse}}</span>
-                </td>
-                <button class="btn btn-warning" (click)="onEdit(davenfor)">
-                    Edit
-                </button>
-                <button class="btn btn-danger button-delete"
-                    (click)="onDelete(i, davenfor)">
-                    Delete
-                </button>
+            <tbody>
+                <tr *ngFor="let davenfor of guestService.myDavenfors(); let i = index" class="name-row">
 
+                    <!-- DESKTOP: English -->
+                    <td class="desktop-only">
+                        <span class="desktop-contents">{{ davenfor.nameEnglish | titlecase }}</span>
+                        <span *ngIf="davenfor.category=='banim' && davenfor.nameEnglishSpouse">
+                            <br>{{ davenfor.nameEnglishSpouse }}
+                        </span>
+                    </td>
+
+                    <!-- DESKTOP: Hebrew -->
+                    <td class="desktop-only">
+                        <span class="desktop-contents">{{ davenfor.nameHebrew }}</span>
+                        <span class="desktop-contents" *ngIf="davenfor.category=='banim' && davenfor.nameHebrewSpouse">
+                            <br>{{ davenfor.nameHebrewSpouse }}
+                        </span>
+                    </td>
+
+                      <!-- DESKTOP: Category -->
+                    <td class="col-category desktop-only">
+                        <span class="desktop-contents">{{ davenfor.category | viewCategory }}</span>
+                    </td>
+
+                    <!-- DESKTOP: Buttons -->
+                    <td class="desktop-only td-buttons">
+                        <button class="btn btn-action table-button desktop-contents" (click)="onEdit(davenfor)">Edit</button>
+                        <button class="btn btn-cancel table-button desktop-contents" (click)="onDelete(i, davenfor)">Delete</button>
+                    </td>
+
+
+                    <!-- ================= MOBILE MERGED TD ================= -->
+
+                    <td class="mobile-only mobile-cell">
+                        <!-- Line 1: English + Hebrew -->
+                        <div class="mobile-names">
+                            <span class="mobile-en">
+                                {{ davenfor.nameEnglish | titlecase }}
+                            </span>
+                            <span class="mobile-he">
+                                {{ davenfor.nameHebrew }}
+                            </span>
+                        </div>
+
+                        <!-- Line 2: Category + buttons -->
+                        <div class="mobile-actions">
+                            <span class="mobile-category">
+                                {{ davenfor.category | viewCategory }}
+                            </span>
+
+                            <div class="mobile-buttons">
+                                <button class="btn btn-action table-button" (click)="onEdit(davenfor)">Edit</button>
+                                <button class="btn btn-cancel table-button" (click)="onDelete(i, davenfor)">Delete</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
     <div class="row" *ngIf="guestService.optionalGuest() == '' && !daveningService.loading()">
-        <div class="col-12 text-center">
-            <button class="btn btn-info btn-lg" (click)="onAddName()">+ Add Name</button>
+        <div class="col-12 text-center add-name-area">
+            <button class="btn btn-ok btn-lg" (click)="onAddName()">+ Add Name</button>
         </div>
     </div>
 </div>

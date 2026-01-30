@@ -2,8 +2,8 @@
     margin: 3em;
 }
 
-.help-block,.alert-option {
-    color: red;
+.help-block, .alert-option {
+    color: var(--my-red);
     margin-bottom: 0px;
 }
 

@@ -1,0 +1,158 @@
+/* ===============================
+   BASE LAYOUT
+   =============================== */
+
+.form-horizontal {
+    margin: 3em;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.name-row {
+    padding: 6px 0;
+}
+
+/* ===============================
+   INPUTS
+   =============================== */
+
+input,
+select {
+    padding: 10px 12px;
+    font-size: 20px;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.1);
+}
+
+/* Ben / Bat dropdown */
+.ben-select {
+    width: fit-content;
+    min-width: 70px;
+    margin: 0 auto;
+}
+
+/* ===============================
+   HEBREW SUPPORT
+   =============================== */
+
+.hebrew {
+    direction: rtl;
+    text-align: center;
+}
+
+.hebrew::placeholder {
+    direction: rtl;
+    text-align: center;
+}
+
+/* ===============================
+   ERRORS
+   =============================== */
+
+.help-block {
+    font-size: 14px;
+    color: var(--my-red);
+}
+
+.big-screen-only {
+    display: block;
+}
+
+.small-screen-only {
+    display: none;
+}
+
+/* ===============================
+   BUTTONS (unchanged behavior)
+   =============================== */
+
+.buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.btn {
+    max-width: 300px;
+    width: 100%;
+}
+
+/* ===============================
+   MOBILE (≤768px)
+   =============================== */
+
+@media (max-width: 768px) {
+
+    .form-horizontal {
+        margin: 1.2em;
+    }
+
+    /* Stack columns */
+    .row>[class^="col-"] {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        text-align: center;
+    }
+
+    .name-row {
+        gap: 12px;
+    }
+
+    input,
+    select {
+        width: 100%;
+        font-size: 20px;
+    }
+
+    .ben-select {
+        margin: 0 auto;
+    }
+
+    .help-block {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .btn {
+        max-width: none;
+        width: 100%;
+    }
+
+    .big-screen-only {
+            display: none;
+    }
+
+    .small-screen-only {
+        display: block;
+    }
+
+    .bottom-buffer {
+        margin-bottom: 20px;
+    }
+
+}
+/* ===============================
+   SMALL PHONES (≤480px)
+   =============================== */
+
+@media (max-width: 480px) {
+
+    input,
+    select {
+        font-size: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}

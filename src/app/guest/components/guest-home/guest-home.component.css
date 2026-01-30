@@ -10,8 +10,7 @@ label, input {
     width: 300px;
 }
 
-
-
-
-
-
+/* Make app-guest-email 70% width on large screens and center it */
+.container {
+    margin: 0 auto;
+}

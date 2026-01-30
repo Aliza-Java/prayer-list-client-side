@@ -2,14 +2,85 @@ body {
     /*Scheme colors*/
     --dark-background-color: #93d314;
     --light-background-color: #d9f89a;
-    --lightest-background-color: #f8ffe9;
-    --red-color: #db0f27;
-
+    --lightest-background-color: #F0F2E4;
+    --my-red: #dc3545;
+    --my-red-disabled: #dc35469a;
+    --okay-purple: #925E78;
+    --disabled-purple: #F2D7EE;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-body, .form-control, button{
+body, .form-control, button {
     font-size: 20px;
+}
+
+.btn-ok {
+    background-color: var(--okay-purple);
+    color: white;
+    border: 2px solid var(--okay-purple);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-ok:hover {
+    color: var(--okay-purple);
+    background-color: white;
+    border-color: var(--okay-purple);
+}
+
+.btn-ok:disabled {
+    background-color: var(--disabled-purple);
+    color: white;
+    border-color: var(--okay-purple) !important;
+    border-width: 2px;
+}
+
+.btn-action {
+    background-color: var(--dark-background-color);
+    color: white;
+    border: 2px solid var(--dark-background-color);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-action:hover {
+    color: var(--dark-background-color);
+    background-color: white;
+    border-color: var(--dark-background-color);
+}
+
+.btn-action:disabled {
+    background-color: var(--light-background-color);
+    color: white;
+    border-color: var(--dark-background-color) !important;
+    border-width: 2px;
+}
+
+.btn-cancel {
+    background-color: var(--my-red);
+    color: white;
+    border: 2px solid var(--my-red);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-cancel:hover {
+    color: var(--my-red);
+    background-color: white;
+    border-color: var(--my-red);
+}
+
+.btn-cancel:disabled {
+    background-color: var(--my-red-disabled);
+    color: white;
+    border-color: var(--my-red-disabled) !important;
+    border-width: 2px;
 }
 
 .list-group {
@@ -24,19 +95,19 @@ body, .form-control, button{
     font-size: 30px;
 }
 
-#footer {
+footer {
     font-size: large;
     width: 100%;
-    background-color: var(--dark-background-color);
+    background-color: var(--light-background-color);
 }
 
-#header {
+header {
     width: 100%;
-    background-color: var(--dark-background-color);
+    background-color: var(--light-background-color);
 }
 
 .help-block, .red-font {
-    color: var(--red-color);
+    color: var(--my-red);
 }
 
 .hidden-scrollbar {
@@ -55,4 +126,77 @@ body, .form-control, button{
 
 .button-column {
     width: 180px;
+}
+
+.edit-container {
+    width: 70%;
+}
+
+/* ===============================
+   Dropdown menu styling
+   =============================== */
+
+.dropdown-menu {
+    min-width: 180px;
+    padding: 6px 0;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.dropdown-menu li:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Menu items */
+.dropdown-menu .dropdown-item {
+    padding: 10px 16px;
+    font-size: 16px;
+    color: black;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+/* Hover */
+.dropdown-menu .dropdown-item:hover {
+    background-color: var(--light-background-color);
+    color: black;
+    padding-left: 20px;
+}
+
+/* Active router link */
+.dropdown-menu .dropdown-item.active {
+    background-color: var(--dark-background-color);
+    color: white;
+    font-weight: 500;
+}
+
+/* Focus */
+.dropdown-menu .dropdown-item:focus {
+    background-color: var(--light-background-color);
+    color: black;
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    .edit-container {
+        width: 90%;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    /* Dropdown menu mobile */
+    .dropdown-menu {
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .dropdown-menu .dropdown-item {
+        font-size: 18px;
+        padding: 12px 18px;
+    }
 }

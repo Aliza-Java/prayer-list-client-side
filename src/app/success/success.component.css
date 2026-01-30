@@ -10,11 +10,46 @@ div {
 .centered {
     text-align: center;
  }
+div {
+    background-color: var(--dark-background-color);
+    color: white;
+    width: 100%;
+    align-items: center;
+}
 
- button {
+/* make the OK button stand out without adding new colors */
+button {
     font-size: 20px;
- }
+    background: #fff;                       /* contrasting but existing palette */
+    color: var(--dark-background-color);
+    border: 2px solid var(--dark-background-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform .08s ease, box-shadow .12s ease, filter .12s ease;
+}
 
+/* hover/keyboard focus */
+button:hover,
+button:focus {    
+    color: black;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+    filter: brightness(1.02);
+    outline: none;
+}
+
+/* active/pressed */
+button:active {
+    color: black !important;
+    background-color: white !important;
+    border-color: var(--dark-background-color) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.10);
+}
+
+.message {
+    font-size: 24px;
+}
  .message {
     font-size: 24px;
 }

@@ -1,8 +1,8 @@
-.help-block{
-    color:red;
+.help-block {
+    color: var(--my-red);
 }
 
-.btn{
+.btn {
     margin-top: 10px;
 }
 

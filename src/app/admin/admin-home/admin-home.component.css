@@ -1,30 +1,78 @@
-button{
-    background-color:var(--light-background-color);
+/* --- FLEX CONTAINER --- */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background: white;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;                /* space between buttons */
+    padding: 15px;
+    background-color: var(--light-background-color);
+    border-right: 2px solid #ddd;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar buttons */
+.menu-btn {
+    padding: 10px;
     width: 100%;
- }
+    text-align: left;
+    border: 2px solid transparent;
+    background-color: var(--light-background-color);
+    border-radius: 6px;
+    font-size: 1rem;
+}
 
- .btn:hover {
+/* Hover */
+.menu-btn:hover {
     background-color: var(--lightest-background-color);
-    border-color: 2 px solid black;
- }
-
- .list-group-item{
-    border:0px;
-    background-color: transparent;
+    border-color: black;
 }
 
-.list-group-item.active .active-btn{
-    background-color: var(--light-background-color) !important;
-    color:black;
-    border: 2px solid black;
-    border-width: 2px;
+/* Active (clicked / current route) */
+.active {
+    border: 2px solid black !important;
+    background-color: var(--lightest-background-color) !important;
+    font-weight: bold;
 }
-  
-  @media (min-width: 769px){
-    .btn-responsive {
-      padding:4px 9px;
-      min-width: 250px;
-      line-height: 2;
+
+/* --- MAIN CONTENT --- */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* --- RESPONSIVENESS --- */
+
+/* SMALL PHONES */
+@media (max-width: 600px) {
+    .sidebar {
+        width: 70px; /* narrow */
+        padding: 10px;
     }
-  }
 
+    /* Show only short text or icon-like labels */
+    .menu-btn {
+        font-size: 0.75rem;
+        padding: 8px;
+        text-align: center;  /* centers text inside narrow sidebar */
+    }
+}
+
+/* TABLETS */
+@media (min-width: 601px) and (max-width: 992px) {
+    .sidebar {
+        width: 150px;
+    }
+}
+
+/* DESKTOP */
+@media (min-width: 993px) {
+    .sidebar {
+        width: 250px;
+    }
+}
