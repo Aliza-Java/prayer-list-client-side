@@ -1,8 +1,11 @@
-<div class="form-group row">
+<div class="container">
+    <div class="form-group row">
         <div class="col-4 input-box">
             <label for="userEmail">Submitter's email</label>
             <input type="text" id="userEmail" disabled [value]="dfToEdit.userEmail" class="form-control">
         </div>
+    </div>
+    <div class="edit-container">
+        <app-edit-name [df]="dfToEdit" (save)="onSave($event)" (cancelEvent)="onCancel()"></app-edit-name>
+    </div>
 </div>
-
-<app-edit-name [df]="dfToEdit" (save)="onSave($event)" (cancelEvent)="onCancel()"></app-edit-name>

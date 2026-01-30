@@ -1,39 +1,26 @@
-<!-- USING BOOTSTRAP 3.0.3 -->
-<header class="text-center" id="header">
-    <div class="row justify-content-center text-center">
-        <div class="col-md-4">
-            <!--logo-->
-            <img class="navbar-text" src="../../assets/images/logo_big.png" alt="" padding-top="20px" style="height: 60%"/>
-        </div>
-
-        <div class="col-md-4 text-center">
-            <!--title-->
-            <div class="navbar-text" id="header-title">Emek Hafrashat Challah Davening List</div>
-        </div>
-        <div class="col-md-4" *ngIf="daveningService.showHeaderMenu; else fill">
-            <!--guest/admin menu-->
-            <nav class="navbar navbar-expand-md navbar-light">
-                <div class="container-fluid">
-                    <div class="collapse navbar-collapse ms-auto">
-                        <ul class="rounded list-inline">
-                            <li class="rounded list-inline-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
-                                    routerLink="admin" class="nav-link">Admin</a>
-                            </li>
-                            <li class="rounded list-inline-item" routerLinkActive="active" routerLinkActiveOption="{exact:true}"><a
-                                    routerLink="guest" class="nav-link">Guest</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="logout-button" *ngIf="authService.adminLogin?.email">
-                        <button class="btn btn-danger" (click)="logout()">Admin Logout</button>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
-        <ng-template #fill>
-            <div class="col-md-4"></div>
-        </ng-template>
-
+<header class="app-header">
+    <!-- Logo -->
+    <div class="header-section logo-section">
+        <img src="../../assets/images/logo_big.png" alt="Logo" class="header-logo" />
     </div>
+
+    <!-- Title -->
+    <div class="header-section title-section">
+        <div class="header-title">Emek Hafrashat Challah Davening List</div>
+    </div>
+
+    <!-- Menu -->
+       <div class="header-section phone-menu-section menu-list" *ngIf="daveningService.showHeaderMenu">
+            <a routerLink="admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+               class="btn btn-menu phone-btn">Admin</a>
+            <a routerLink="guest" routerLinkActive="active" class="btn btn-menu phone-btn">Guest</a>
+
+        <div class="phone-logout" *ngIf="authService.adminLogin.email">
+            <button class="btn btn-danger phone-logout-btn" (click)="logout()">Admin Logout</button>
+        </div>
+    </div>
+
+    <ng-template #fill>
+        <div class="header-section menu-section"></div>
+    </ng-template>
 </header>

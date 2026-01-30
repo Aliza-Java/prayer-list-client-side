@@ -2,18 +2,13 @@
     <app-header></app-header>
     <div class="main-content">
         <div class="row-md-5">
-            <app-success *ngIf="daveningService.successMessage()" 
-            [message]="daveningService.successMessage"></app-success>
+            <app-success *ngIf="daveningService.successMessage()"
+                [message]="daveningService.successMessage"></app-success>
         </div>
         <div class="row-md-5">
-            <app-error *ngIf="daveningService.errorMessage()" 
-            [message]="daveningService.errorMessage"></app-error>
+            <app-error *ngIf="daveningService.errorMessage()" [message]="daveningService.errorMessage"></app-error>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <router-outlet (activate)="changeOfRoutes()"></router-outlet>
-            </div>
-        </div>
+        <router-outlet (activate)="changeOfRoutes()"></router-outlet>
     </div>
     <app-footer></app-footer>
 </div>

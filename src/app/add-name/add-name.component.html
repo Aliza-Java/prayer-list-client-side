@@ -2,245 +2,241 @@
 
     <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
-    <div class="form-group">
-        <div class="col-6 offset-md-2">
-            <h5>Fields marked with (*) are required.</h5>
-        </div>
-    </div>
-
-    <div *ngIf="parentComp == 'urgent' || parentComp == 'admin'" class="form-group row align-items-end">
-
-        <div *ngIf="parentComp == 'urgent'" class="col-4 offset-md-2 form-check">
-            <input style="margin: 5px" type="checkbox" class="form-check-input" id="addToWeekly"
-                formControlName="addToWeekly" [checked]="false">
-            <label class="form-check-label text-center" for="addToWeekly">Add this name to weekly list as well</label>
-        </div>
-
-        <span *ngIf="parentComp == 'admin' || (parentComp == 'urgent' && nameForm.get('addToWeekly')?.value)">
-            <div class="col-4">
-                <label for="userEmail">* Submitter's email</label>
-                <input type="text" id="userEmail" class="form-control" placeholder="Email to receive notifications"
-                    formControlName="userEmail">
-            </div>
-            <div class="col-4 help-block">
-                <span *ngIf="nameForm.get('userEmail')?.touched">
-                    <span
-                        *ngIf="nameForm.get('userEmail')?.errors?.['required'] && nameForm.get('userEmail')?.touched">Submitter
-                        Email is required</span>
-                    <span *ngIf="nameForm.get('userEmail')?.errors?.['email']">Please enter a valid email</span>
-                </span>
-            </div>
-        </span>
-    </div>
-
-    <div *ngIf="partialNameError" class="row">
-        <div class="col-6 offset-md-2">
-            <span class="text-danger">Please complete name</span>
-        </div>
-        
-    </div>
-
-    <!--English name-->
+    <!-- ================= ENGLISH NAME ================= -->
     <div formGroupName="name">
-        <div class="form-group row align-items-end">
-            <!--Validation for name1English-->
-            <div class="col-2 help-block">
-                <span class="text-right" *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">Invalid
-                    characters</span>
+
+        <div class="form-group row name-row align-items-center">
+
+            <!-- Error on big screen only-->
+            <div class="col-md-2 help-block text-center big-screen-only">
+                <span *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">Invalid characters</span>
             </div>
 
-            <div class="col-3">
-                <input type="text" id="name1English" class="form-control" formControlName="english1" (blur)="checkName()"
-                    placeholder="Name">
+            <!-- First name -->
+            <div class="col-md-3">
+                <input class="form-control text-center" formControlName="english1" placeholder="Name">
             </div>
 
-            <div class="col-1">
-                <select formControlName="benBat" class="form-control ">
+             <!-- Error on small screen only -->
+            <div class="col-md-2 help-block text-center small-screen-only">
+                <span *ngIf="nameForm.get('name.english1')?.errors?.['pattern']">Invalid characters</span>
+            </div>
+
+            <!-- ben / bat -->
+            <div class="col-md-2 text-center">
+                <select class="form-control ben-select text-center" formControlName="benBat">
                     <option>ben</option>
                     <option>bat</option>
                 </select>
             </div>
 
-            <div class="col-3">
-                <input type="text" id="name2English" class="form-control" formControlName="english2" (blur)="checkName()"
-                    placeholder="Mother's Name">
+            <!-- Mother -->
+            <div class="col-md-3">
+                <input class="form-control text-center" formControlName="english2" placeholder="Mother's Name">
             </div>
 
-            <!--Validation for name2English-->
-            <div class="col-2 help-block">
+            <!-- Error -->
+            <div class="col-md-2 help-block text-center">
                 <span *ngIf="nameForm.get('name.english2')?.errors?.['pattern']">Invalid characters</span>
             </div>
+
         </div>
-        <!--English name-->
 
-        <!--Hebrew name-->
-        <div class="form-group row align-items-end">
+        <!-- ================= HEBREW NAME ================= -->
 
-            <!--Validation-->
-            <div class="col-2 help-block">
-                <span class="text-right" *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid
-                    characters</span>
+        <div class="form-group row name-row align-items-center">
+
+            <!-- Error on big screen only -->
+            <div class="col-md-2 help-block text-center big-screen-only">
+                <span *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid characters</span>
             </div>
 
-            <div class="col-3">
-                <input type="text" id="name2Hebrew" class="form-control" formControlName="hebrew2" (blur)="checkName()"
-                    placeholder="שם האם">
+            <!-- Mother's name -->
+            <div class="col-md-3">
+                <input class="form-control text-center hebrew" formControlName="hebrew2" placeholder="שם האם">
             </div>
 
-            <div class="col-1 center-select">
-                <select formControlName="benBatHebrew" class="form-control">
+            <!-- Error on small screen only -->
+            <div class="col-md-2 help-block text-center small-screen-only">
+                <span *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid characters</span>
+            </div>
+
+            <!-- בן / בת -->
+            <div class="col-md-2 text-center">
+                <select class="form-control ben-select hebrew" formControlName="benBatHebrew">
                     <option>בן</option>
                     <option>בת</option>
                 </select>
             </div>
 
-            <div class="col-3">
-                <input type="text" id="name1Hebrew" class="form-control" formControlName="hebrew1" (blur)="checkName()" placeholder="שם">
+            <!-- Name -->
+            <div class="col-md-3">
+                <input class="form-control text-center hebrew" formControlName="hebrew1" placeholder="שם">
             </div>
 
-            <!--Validation-->
-            <div class="col-2 help-block">
+            <!-- Error -->
+            <div class="col-md-2 help-block text-center">
                 <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Invalid characters</span>
             </div>
 
         </div>
-        <!--Hebrew name-->
 
     </div>
+
     <div formGroupName="spouse">
 
-        <div *ngIf="nameForm.get('category')?.value=='banim'">
-            <!--- -Then need also spouse details-->
+        <div *ngIf="nameForm.get('category')?.value === 'banim'">
+
             <br>
-            <h6 class="offset-2" [ngStyle]="{ color: spouseError ? 'red' : 'black' }"> Please enter spouse's full name
-                (English and/or Hebrew)</h6>
-            <!--Spouse English name-->
-            <div class="form-group row align-items-end">
+            <h5 class="offset-md-2" [ngStyle]="{ color: spouseError ? 'var(--my-red)' : 'black' }">
+                Please enter spouse's full name (English and/or Hebrew)
+            </h5>
 
-                <!--Validation for spouseName1English-->
-                <div class="col-2 help-block">
-                    <!--Validation: must include only English letters and spaces -->
-                    <span *ngIf="!nameForm.get('spouse.english1')?.valid && nameForm.get('spouse.english1')?.touched"
-                        class="help-block">
-                        <span class="text-right" *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">Invalid
-                            characters</span>
+            <!-- ================= SPOUSE ENGLISH ================= -->
+
+            <div class="form-group row name-row align-items-center">
+
+                <!-- Error on big screen only -->
+                <div class="col-md-2 help-block text-center big-screen-only">
+                    <span *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">
+                        Invalid characters
                     </span>
-                    <!--Validation: If user entered only part of spouse's English name-->
-                    <!--This will only appear if there are no invalid characters.  No need to overload erros -->
-                    <span *ngIf="spouseEnglishError && !nameForm.get('spouse.english1')?.errors?.['pattern'] "
-                        class="help-block">
-                        <span>Please complete spouse name</span>
+                    <span *ngIf="spouseEnglishError &&
+                             !nameForm.get('spouse.english1')?.errors?.['pattern']">
+                        Please complete spouse name
                     </span>
                 </div>
 
-                <div class="col-3">
-                    <input (keyup)="checkSpouse()" type="text" id="spouseName1English" class="form-control"
-                        formControlName="english1" placeholder="Spouse name">
+                <!-- Spouse name -->
+                <div class="col-md-3">
+                    <input class="form-control text-center" formControlName="english1" (keyup)="checkSpouse()"
+                        placeholder="Spouse name">
                 </div>
 
-                <div class="col-1 text-center">
-                    <span class="form-control-static">ben</span>
-                </div>
-
-                <div class="col-3">
-                    <input (keyup)="checkSpouse()" type="text" id="spouseName2English" class="form-control"
-                        formControlName="english2" placeholder="Spouse mother's name">
-                </div>
-
-                <!--Validation for spouseName2English-->
-                <div class="col-2 help-block">
-                    <!--Validation: must include only English letters and spaces -->
-                    <span *ngIf="!nameForm.get('spouse.english2')?.valid && nameForm.get('spouse.english2')?.touched"
-                        class="help-block">
-                        <span *ngIf="nameForm.get('spouse.english2')?.errors?.['pattern']">Invalid characters</span>
+                <!-- Error on small screen only -->
+                <div class="col-md-2 help-block text-center small-screen-only">
+                    <span *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">
+                        Invalid characters
+                    </span>
+                    <span *ngIf="spouseEnglishError &&
+                             !nameForm.get('spouse.english1')?.errors?.['pattern']">
+                        Please complete spouse name
                     </span>
                 </div>
 
-            </div>
-            <!--Spouse English name-->
-
-            <!--Spouse Hebrew name-->
-            <div class="form-group row align-items-end">
-
-                <!--Validation for spouseName2Hebrew-->
-                <div class="col-2 help-block">
-                    <span *ngIf="!nameForm.get('spouse.hebrew2')?.valid && nameForm.get('spouse.hebrew2')?.touched"
-                        class="help-block">
-                        <span class="text-right" *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">Invalid
-                            characters</span>
-                    </span>
-                    <!--Validation: If user entered only part of spouse's English name-->
-                    <span *ngIf="spouseHebrewError && !nameForm.get('spouse.hebrew2')?.errors?.['pattern']"
-                        class="help-block">
-                        <span>Please complete spouse name</span>
-                    </span>
+                <!-- ben -->
+                <div class="col-md-2 text-center">
+                    <span class="form-control-static ben-static">ben</span>
                 </div>
 
-                <div class="col-3">
-                    <input (keyup)="checkSpouse()" type="text" id="spouseName2Hebrew" class="form-control"
-                        formControlName="hebrew2" placeholder="שם האם - של בן הזוג">
+                <!-- Mother -->
+                <div class="col-md-3">
+                    <input class="form-control text-center" formControlName="english2" (keyup)="checkSpouse()"
+                        placeholder="Spouse mother's name">
                 </div>
 
-                <div class="col-1 text-center">
-                    <span class="form-control-static">בן</span>
-                </div>
-
-                <div class="col-3">
-                    <input (keyup)="checkSpouse()" type="text" id="spouseName1Hebrew" class="form-control"
-                        formControlName="hebrew1" placeholder="שם בן הזוג">
-                </div>
-
-                <!--Validation for spouseName1Hebrew-->
-                <div class="col-2 help-block">
-                    <span *ngIf="!nameForm.get('spouse.hebrew1')?.valid && nameForm.get('spouse.hebrew1')?.touched"
-                        class="help-block">
-                        <span *ngIf="nameForm.get('spouse.hebrew1')?.errors?.['pattern']">Invalid characters</span>
+                <!-- Error -->
+                <div class="col-md-2 help-block text-center">
+                    <span *ngIf="nameForm.get('spouse.english2')?.errors?.['pattern']">
+                        Invalid characters
                     </span>
                 </div>
 
             </div>
-            <!--Spouse Hebrew name-->
-        </div>
-    </div>
-    <br>
-    <div class="form-group row">
-        <div class="col-2"></div>
-        <div class="col-5 form-check" hidden>
-            <input style="margin: 5px" type="checkbox" class="form-check-input" id="submitterToReceive"
-                formControlName="submitterToReceive">
-            <label class="form-check-label text-center" for="submitterToReceive">Include this name (when
-                appropriate) submitter's
-                davening
-                list</label>
-        </div>
 
-        <div class="col-2">
-            <label for="category">* Category:</label>
-        </div>
-        <div class="col-3">
-            <select formControlName="category" class="form-control" id="category"
-                [ngStyle]="{ color: nameForm.get('category')?.value === '' ? 'red' : 'black' }" required>
-                <option value="" disabled>Select category</option>
-                <!-- value of default option is empty to make selection of it invalid (Validators.Required)-->
-                <option *ngFor="let category of categories" style="color:black" [value]="category">{{category |
-                    viewCategory}}
-                </option>
-            </select>
+            <!-- ================= SPOUSE HEBREW ================= -->
+
+            <div class="form-group row name-row align-items-center">
+
+                <!-- Error on big screen only -->
+                <div class="col-md-2 help-block text-center big-screen-only">
+                    <span *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
+                        Invalid characters
+                    </span>
+                    <span *ngIf="spouseHebrewError &&
+                             !nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
+                        Please complete spouse name
+                    </span>
+                </div>
+
+                <!-- Mother -->
+                <div class="col-md-3">
+                    <input class="form-control text-center hebrew" formControlName="hebrew2" (keyup)="checkSpouse()"
+                        placeholder="שם האם - של בן הזוג">
+                </div>
+
+                <!-- Error on small screen only -->
+                <div class="col-md-2 help-block text-center small-screen-only">
+                    <span *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
+                        Invalid characters
+                    </span>
+                    <span *ngIf="spouseHebrewError &&
+                             !nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
+                        Please complete spouse name
+                    </span>
+                </div>
+
+                <!-- בן -->
+                <div class="col-md-2 text-center">
+                    <span class="form-control-static ben-static hebrew">בן</span>
+                </div>
+
+                <!-- Spouse name -->
+                <div class="col-md-3">
+                    <input class="form-control text-center hebrew" formControlName="hebrew1" (keyup)="checkSpouse()"
+                        placeholder="שם בן הזוג">
+                </div>
+
+                <!-- Error -->
+                <div class="col-md-2 help-block text-center">
+                    <span *ngIf="nameForm.get('spouse.hebrew1')?.errors?.['pattern']">
+                        Invalid characters
+                    </span>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
-    <div *ngIf="parentComp == 'urgent'" class="form-group row">
-        <div class="col-5 offset-md-2">
-            <textarea id="note" name="note" formControlName="note" style="width: 100%; "
-                placeholder="Here you can explain why this name is urgent (optional)"></textarea>
+    <!-- ================= CATEGORY ================= -->
+
+    <div class="form-group text-center">
+        <select formControlName="category" id="category" class="form-control w-auto mx-auto text-center"
+            [ngStyle]="{ color: nameForm.get('category')?.value === '' ? 'var(--my-red)' : 'black' }" required>
+            <option value="" disabled>Select category</option>
+            <option *ngFor="let category of categories" style="color:black" [value]="category">
+                {{ category | viewCategory }}
+            </option>
+        </select>
+    </div>
+
+    <!-- ================= URGENT NOTE ================= -->
+
+    <div *ngIf="parentComp === 'urgent'" class="form-group row">
+        <div class="col-md-6 offset-md-3">
+            <textarea class="form-control" formControlName="note"
+                placeholder="Here you can explain why this name is urgent (optional)">
+        </textarea>
         </div>
     </div>
+
+    <!-- ================= BUTTONS ================= -->
 
     <div class="form-group buttons">
-        <button class="btn btn-success btn-lg" type="submit"
-            [disabled]="nameForm.get('name')?.invalid || (nameForm.get('spouse')?.invalid && nameForm.get('category')?.value === 'banim') || nameForm.get('category')?.invalid || nameForm.get('email')?.invalid">Submit
-            Name</button>
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+        <button class="btn btn-ok btn-lg" type="submit" [disabled]="
+                nameForm.get('name')?.invalid ||
+                (nameForm.get('spouse')?.invalid &&
+                 nameForm.get('category')?.value === 'banim') ||
+                nameForm.get('category')?.invalid ||
+                nameForm.get('email')?.invalid
+            ">
+            Submit Name
+        </button>
+
+        <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">
+            Cancel
+        </button>
     </div>
+
 </form>

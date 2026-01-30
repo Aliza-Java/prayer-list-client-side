@@ -1,77 +1,136 @@
-/* USING BOOTSTRAP 3.0.3 */
-body {
-    padding-top: 60px;
+/* ===============================
+   Base Layout: Desktop
+   =============================== */
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #ccc;
+    flex-wrap: wrap; /* allows graceful wrapping on small screens */
 }
 
-a {
-    padding-bottom: 10px !important;
-    padding-top: 10px !important;
-    transition: all 0.3s ease;
+.header-section {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo */
+.header-logo {
+    height: 60px;
+}
+
+.header-title {
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Menu */
+.menu-list {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.btn-menu.active {
+  background: var(--dark-background-color) !important;
+  color: #fff !important;
+}
+
+.btn-menu:hover {
+  border-color: var(--dark-background-color) !important;
+}
+
+.btn-menu a {
+    text-decoration: none;
+    padding: 8px 12px;
+    font-size: 18px;
     color: var(--dark-background-color);
 }
 
-img {
-    height: 100%;
-}
-
-li {
-    padding: 10px 15px;
-}
-
-ul {
-    background-color: var(--light-background-color);
-}
-
-.logout-button {
-    background: none;
-    border: none;
-    padding: 20px;
-}
-
-button, a {
-    font-size: 20px;
-}
-
-.list-inline-item:not(:last-child) {
-    margin-right: 0px !important;
-    padding-right: 0px;
-}
-
-.list-inline-item.active a {
-    background-color: var(--dark-background-color);
-    color: white !important;
+.btn-menu.active a {
+    background: var(--dark-background-color);
+    color: white;
     border-radius: 5px;
-    transform: scale(0.95);
 }
 
-.list-inline-item:hover a {
-    /* Change to a noticeable color */
-    color: white !important;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.logout-container {
+    margin-left: 12px;
 }
 
-.nav-link {
-    padding: 10px 15px;
+
+/* ===============================
+   Tablet (below 900px)
+   =============================== */
+@media (max-width: 900px) {
+    .header-title {
+        font-size: 1.3rem;
+    }
+
+    .header-logo {
+        height: 40px;
+    }
+
+    .menu-list a {
+        font-size: 15px;
+    }
+
+    .menu-list {
+        padding: 3px 5px;
+        gap: 8px;
+    }
 }
 
-nav-navbar-brand {
-    font-size: 30px;
-}
 
-.navbar-toggle {
-    margin: 13px 15px 13px 0;
-}
+/* ===============================
+   Phone (below 600px)
+   =============================== */
 
-.navbar-text {
-    float: none;
-    padding-top: 10px;
-}
+@media (max-width: 600px) {
 
-nav.navbar.shrink {
-    min-height: 35px;
-}
+    .app-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
 
-.navbar-brand {
-    font-size: 25px
+    .header-section {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .header-logo {
+        height: 45px;
+    }
+
+    .header-title {
+        font-size: 1.2rem;
+        padding: 0 6px;
+    }
+
+    /* Menu becomes vertical list */
+    .menu-list {
+        gap: 6px;
+        padding: 0;
+    }
+
+    .menu-list li {
+        width: 100%;
+        padding: 8px 0;
+    }
+
+    .menu-list li a {
+        width: 100%;
+        display: block;
+        font-size: 16px;
+    }
+
+    .logout-container {
+        margin: 0;
+    }
 }

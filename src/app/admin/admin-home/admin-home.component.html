@@ -1,33 +1,26 @@
-<div *ngIf="!authService.adminLogin.email else adminNavbar">
+<div *ngIf="!authService.adminLogin.email; else adminNavbar">
     <app-admin-login></app-admin-login>
 </div>
 
 <ng-template #adminNavbar>
-    <div class="row">
-        <div class="col-2">
-            <div class="list-group">
-                <li class="list-group-item" routerLinkActive="active"><button type="button"
-                        class="btn-lg btn btn-responsive active-btn" routerLink="submit">Submit a new
-                        name</button></li>
-                <li class="list-group-item" routerLinkActive="active"><button type="button"
-                        class="btn-lg btn btn-responsive active-btn" routerLink="names">Manage all
-                        names</button> </li>
-                <li class="list-group-item" routerLinkActive="active"><button type="button"
-                        class="btn-lg btn btn-responsive active-btn" routerLink="emails">Manage email
-                        list</button> </li>
-                <li class="list-group-item" routerLinkActive="active"><button type="button"
-                        class="btn-lg btn btn-responsive active-btn" routerLink="weekly">Send out weekly
-                        list</button></li>
-                <li class="list-group-item" routerLinkActive="active"><button type="button"
-                        class="btn-lg btn btn-responsive active-btn" routerLink="urgent">Send out an urgent
-                        name</button></li>
-                <li class="list-group-item" routerLinkActive="active"><button type="button" 
-                        class="btn-lg btn btn-responsive active-btn" routerLink="settings">Settings</button></li>
-            </div>
-            <!--list group-->
-        </div>
-        <div class="col-10">
-            <router-outlet  (activate)="changeOfRoutes()"></router-outlet>
-        </div>
+    <div class="admin-container">
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+
+            <button class="menu-btn" routerLink="submit" routerLinkActive="active">Submit</button>
+            <button class="menu-btn" routerLink="names" routerLinkActive="active">Names</button>
+            <button class="menu-btn" routerLink="emails" routerLinkActive="active">Emails</button>
+            <button class="menu-btn" routerLink="weekly" routerLinkActive="active">Weekly</button>
+            <button class="menu-btn" routerLink="urgent" routerLinkActive="active">Urgent</button>
+            <button class="menu-btn" routerLink="settings" routerLinkActive="active">Settings</button>
+
+        </nav>
+
+        <!-- Main content -->
+        <main class="content">
+            <router-outlet (activate)="changeOfRoutes()"></router-outlet>
+        </main>
+
     </div>
 </ng-template>

@@ -1,38 +1,232 @@
-td, th {
-    text-align: center;
+/* ===============================
+   Table base
+   =============================== */
+
+.desktop-only {
+    display: table-cell;
 }
+
+.mobile-only {
+    display: none;
+}
+
+.names-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+td,
+th {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 10px;
+}
+
+.table>:not(caption)>*>* {
+    background-color: inherit;
+    border-bottom-width: 0px;
+}
+
+/* Alternating rows */
+.names-table tbody tr:nth-child(odd) {
+    background-color: var(--light-background-color);
+}
+
+.names-table tbody tr:nth-child(even) {
+    background-color: var(--lightest-background-color);
+}
+
+tbody {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+/* ===============================
+   Columns
+   =============================== */
+
+.col-category {
+    white-space: nowrap;
+}
+
+.col-actions {
+    white-space: nowrap;
+}
+
+/* ===============================
+   Buttons
+   =============================== */
 
 button {
-    margin-right: 5px;
-    height: 45px;
+    margin-left: 8px;
 }
 
-table {
-    border-width: 0px;
-    border-spacing: 0 1em;
-    border-collapse: separate;
+.td-buttons {
+    display: flex;
+    gap: 6px;
 }
 
-.table td.fit, .table th.fit {
-    white-space: nowrap;
-    width: 1%;
+.table-button {
+    font-size: 20px;
+    border-radius: 8px;
 }
 
+.btn-action:hover {
+    opacity: 0.9;
+}
 
-.table-div{
+/* ===============================
+   Scroll container
+   =============================== */
+
+.table-div {
     max-height: 350px;
     overflow: auto;
 }
 
-.span-spinner {
-    padding: unset;
+.add-name-area {
+    padding: 10px;
 }
 
-span{
-    background-color: transparent !important;
-}
+/* ===============================
+   MOBILE (≤600px)
+   =============================== */
 
-.btn-danger, .btn-warning{
-    font-size: 20px;
-}
+@media (max-width: 600px) {
 
+    thead {
+        display: none;
+    }
+
+    .desktop-only, .desktop-contents {
+        display: none;
+    }
+
+    .mobile-only {
+        display: table-cell;
+    }
+
+    .name-row, .name-row:nth-child(even) {
+        background-color: var(--light-background-color) !important;
+        border-bottom: black 1px solid;
+    }
+
+    .name-row:nth-last-child {
+        border-bottom: none;
+    }
+    
+
+    .mobile-cell {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Line 1: English + Hebrew */
+    .mobile-names {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        word-break: break-word;
+    }
+
+    .table-button {
+        font-size: 16px;
+    }
+
+    .mobile-en {
+        text-align: left;
+    }
+
+    .mobile-he {
+        text-align: right;
+    }
+
+    .mobile-names span {
+        padding: 3px 6px;
+        background-color: white;
+        border-radius: 7px;
+        min-width: 45%
+    }
+
+    /* Line 2: Category + buttons */
+    .mobile-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+        gap: 20px;
+    }
+
+    .mobile-names, .mobile-actions {
+        width: 100%;
+    }
+
+    .mobile-buttons {
+        display: flex;
+    }
+
+    button {
+        height: 34px;
+        font-size: 14px;
+    }
+
+    .names-table,
+    .names-table tbody {
+        width: 100%;
+        display: block;
+    }
+
+    /* make each tr behave as a wrapping flex row */
+    .names-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .names-table td {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        box-sizing: border-box;
+        /* make cells share the row evenly (two per row) and prevent overflow */
+        flex: 1 1 50%;
+        min-width: 0;
+    }
+
+    /* desired ordering: english|hebrew on first row, category|actions on second */
+    .col-english {
+        order: 1;
+        text-align: left;
+        padding-right: 6px;
+    }
+
+    .col-hebrew {
+        order: 2;
+        text-align: right;
+        padding-left: 6px;
+    }
+
+    .col-category {
+        order: 3;
+        display: flex;
+        align-items: center;
+    }
+
+    .col-actions {
+        order: 4;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    .col-actions .btn {
+        height: 36px;
+        font-size: 18px;
+        margin: 0;
+    }
+}

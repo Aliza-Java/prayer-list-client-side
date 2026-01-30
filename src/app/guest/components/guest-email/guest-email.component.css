@@ -1,20 +1,236 @@
-button {
-    margin-left: 10px;
+/* ===============================
+   Base layout
+   =============================== */
+
+.email-container {
+    width: 100%;
+    padding: 15px;
 }
 
-a, button {
+.email-header-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.email-input {
+    margin: 0;
+    /* remove auto centering */
+    text-align: left;
+    width: auto;
+    /* or a fixed width like 260px */
+}
+
+/* Main flex row */
+.email-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===============================
+   Text & form elements
+   =============================== */
+
+.email-label {
+    flex: 0 0 auto;
     font-size: 20px;
+    font-weight: 500;
 }
 
-.container {
-    max-width: 100%;  /*In case width is small and form controls are stacking*/
+.email-input {
+    flex: 1 1 250px;
 }
 
-#guestEmail {
-    font-size: 30px;
+#guestEmail,
+.email-text {
+    font-size: 28px;
     font-weight: bold;
+    flex: 1 1 250px;
+    text-align: center;
+}
+
+/* Shrink email text when not editing */
+.email-text.shrink {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* Buttons */
+.email-btn {
+    flex: 0 0 auto;
+}
+
+.edit-inline {
+    margin-left: 6px;
+}
+
+/* Global text sizing */
+button,
+a {
+    font-size: 20px;
 }
 
 ::placeholder {
     color: lightgray;
-  }
+}
+
+/* ===============================
+   Menu / Burger button
+   =============================== */
+
+.menu-container {
+    margin-left: auto;
+}
+
+/* Burger button */
+.menu-btn {
+    width: 40px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dark-background-color);
+    order: 99;
+    /* render last in flex row */
+    margin-left: auto;
+    /* push to the far right */
+}
+
+/* Hide default caret */
+.menu-btn::after {
+    display: none;
+}
+
+/* Burger icon */
+.burger-icon {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: white;
+    position: relative;
+}
+
+.burger-icon::before,
+.burger-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 2px;
+    background: white;
+}
+
+.burger-icon::before {
+    top: -6px;
+}
+
+.burger-icon::after {
+    top: 6px;
+}
+
+
+
+/* ===============================
+   MOBILE (≤600px)
+   =============================== */
+
+@media (max-width: 600px) {
+
+    /* Layout adjustments */
+    .email-row {
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .email-header-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .menu-container {
+        order: -1;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 6px;
+        text-align: left;
+    }
+
+    /* Email text & input */
+    .email-text,
+    .email-input {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .email-text {
+        font-size: 22px;
+        font-weight: 600;
+        flex: 1;
+        text-align: left;
+    }
+
+    .email-text.shrink {
+        font-size: 22px;
+        white-space: normal;
+    }
+
+    .email-label {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    /* Buttons */
+    .email-btn {
+        width: 100%;
+        font-size: 18px;
+        margin: 0;
+        margin-top: 6px;
+    }
+
+    .email-input,
+    .email-btn {
+        font-size: 16px;
+    }
+
+    .edit-inline {
+        align-self: flex-end;
+        margin-top: 4px;
+    }
+
+    /* Edit button icon */
+    .edit-btn {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .edit-btn span {
+        display: block;
+    }
+
+    .edit-btn::after {
+        content: none;
+    }
+
+    /* Pencil icon */
+    .edit-icon {
+        display: block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid currentColor;
+        border-top: none;
+        border-left: none;
+        transform: rotate(-45deg);
+    }
+
+
+}

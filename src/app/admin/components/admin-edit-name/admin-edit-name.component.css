@@ -1,9 +1,14 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
 .form-horizontal {
     margin: 3em;
 }
 
-.help-block,.alert-option {
-    color: red;
+.help-block, .alert-option {
+    color: var(--my-red);
     margin-bottom: 0px;
 }
 
@@ -15,11 +20,11 @@ select {
     text-align-last: center;
 }
 
-.input-box{
+.input-box {
     width: 300px;
 }
 
-.form-control{
+.form-control {
     font-weight: 500;
 }
 

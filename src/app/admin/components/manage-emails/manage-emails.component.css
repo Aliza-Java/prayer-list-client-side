@@ -29,7 +29,7 @@ div {
 
 .loading {
     margin: 0px;
-    color: red;
+    color: var(--my-red);
 }
 
 .top-margin {
@@ -45,19 +45,19 @@ help-block {
     margin-bottom: 0px;
 }
 
-.loading-cell{
+.loading-cell {
     text-align: center;
 }
 
 hr {
-    flex-grow: 1; 
-    border: none; 
+    flex-grow: 1;
+    border: none;
     border-top: 1px solid black;
 }
 
 .hr-wrapper {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     text-align: center;
     margin-top: 25px;
 }

@@ -1,15 +1,78 @@
-.help-block{
-    color:red;
-}
-
-.padded-btn{
-    margin-top: 10px;
-}
-
-h3 {
-    margin-top: 30px;
-}
+/* MAIN LAYOUT -------------------------------------------------- */
 
 button {
+    background-color: var(--okay-purple);
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;      /* horizontally center */
+    align-items: center;          /* vertically center */
+    flex: 1;                      /* fill available space in flex layout */
+    padding: 0 40px;              /* default side spacing (desktop) */
+}
+
+.login-box {
+    width: 100%;
+    padding: 10px;
+    max-width: 400px;             /* keeps form narrow on wide screens */
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* GENERAL STYLES ------------------------------------------------ */
+
+.title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.help-block {
+    color: var(--my-red);
+}
+
+.login-btn {
+    width: 100%;
+    margin-top: 1.5rem;
     font-size: 20px;
+}
+
+/* RESPONSIVE BREAKPOINTS --------------------------------------- */
+
+/* TABLETS */
+@media (max-width: 992px) {
+    .login-container {
+        padding: 0 25px;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .login-btn {
+        font-size: 18px;
+    }
+}
+
+/* PHONES */
+@media (max-width: 600px) {
+    .login-container {
+        padding: 0 15px;       /* small safe margin */
+    }
+
+    .title {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .login-btn {
+        padding: 10px 16px;
+        font-size: 18px;
+    }
 }

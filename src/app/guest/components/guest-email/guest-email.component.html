@@ -1,47 +1,58 @@
-<div class="container">
-    <form [formGroup]="guestEmailForm">
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-2">
-                <label for="newEmail">My Email: </label>
+<div class="email-container">
+
+    <form [formGroup]="guestEmailForm" class="email-form">
+
+        <!-- NEW wrapper -->
+        <div class="email-header-row">
+
+            <!-- Email + edit -->
+            <div class="email-row">
+
+                <label for="newEmail" class="email-label">My Email:</label>
+
+                <!-- Editing mode -->
+                <ng-container *ngIf="emailInEditing; else showEmail">
+
+                    <input id="newEmail"
+                           type="text"
+                           class="form-control email-input"
+                           formControlName="emailInput"
+                           placeholder="A valid email is required">
+
+                    <button (click)="onSaveEmail(guestEmailForm.get('emailInput')?.value)"
+                            class="btn btn-ok email-btn"
+                            [disabled]="guestEmailForm.get('emailInput')?.invalid">
+                        Ok
+                    </button>
+
+                </ng-container>
+
+                <!-- View mode -->
+                <ng-template #showEmail>
+                    <div class="email-text shrink">
+                        {{ emailInHeader() }}
+                    </div>
+
+                    <button class="btn btn-ok email-btn edit-inline"
+                            (click)="onChangeEmail()">Edit</button>
+                </ng-template>
+
             </div>
 
-            <!-- If user wants to update the email, allow -->
-            <span *ngIf="emailInEditing" style="display: contents;">
-                <div class="col-6 ">
-                    <input id="newEmail" type="text" class="form-control" formControlName="emailInput"
-                        placeholder="A valid email is required">
-                </div>
-                <div class="col-1">
-                    <button (click)="onSaveEmail(guestEmailForm.get('emailInput')?.value)"
-                        class="btn btn-success form-control"
-                        [disabled]="guestEmailForm.get('emailInput')?.invalid">Ok</button>
-                </div>
-            </span>
-
-            <!-- show the guest email saved in Service -->
-            <span *ngIf="!emailInEditing" style="display: contents;">
-                <div class="col-6 text-center" id="guestEmail">
-                    {{emailInHeader()}}
-                </div>
-                <div class="col-1">
-                    <button class="btn btn-info" (click)="onChangeEmail()">Edit</button>
-                </div>
-            </span>
-
-            <div class="col-2 offset-1 text-right" *ngIf="!emailInEditing && guestService.guestEmail()">
+            <!-- Menu (now OUTSIDE email-row) -->
+            <div *ngIf="!emailInEditing && guestService.guestEmail()"
+                 class="menu-container">
                 <div class="dropdown" appDropdown>
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">Menu
-                        <span class="caret"></span></button>
+                    <button class="btn dropdown-toggle menu-btn"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <span class="burger-icon"></span>
+                    </button>
+
                     <ul class="dropdown-menu">
-                        <!--It is necessary to clear messages in every ngOnInit (to cover any new entry) and every router link (if it is clicked within itself and not re-entered through ngOnInit)-->
-                        <li style="place-self: center"><a style="cursor:pointer;" routerLinkActive="active" routerLink="names"
-                                click="guestService.clearMessages(); $event.preventDefault();">Manage
-                                names</a></li>
-                        <li style="place-self: center"><a style="cursor:pointer;" routerLinkActive="active" routerLink="new"
-                                click="guestService.clearMessages(); $event.preventDefault();">Submit a name</a></li>
-                        <!--
-                            <li><a style="cursor:pointer;" routerLinkActive="active" routerLink="settings">My settings</a></li>
-                        -->
+                        <li><a routerLink="names" class="dropdown-item">Manage names</a></li>
+                        <li><a routerLink="new" class="dropdown-item">Submit a name</a></li>
                     </ul>
                 </div>
             </div>

@@ -2,9 +2,9 @@
     <app-loading-spinner [isLoading]="daveningService.loading()"></app-loading-spinner>
 
     <!--Name-->
+    <span *ngIf="nameError" class="help-block">Name must be entered in English and/or Hebrew </span>
     <div class="form-group row">
-        <span *ngIf="nameError" class="help-block">Name must be entered in English and/or Hebrew </span>
-        <div class="col-4 input-box">
+        <div class="col-6 input-box bottom-buffer">
             <label for="english">* Full Name </label>
             <input type="text" id="english" class="form-control" formControlName="english">
             <span
@@ -16,7 +16,7 @@
             </span>
         </div>
 
-        <div class="col-4 input-box">
+        <div class="col-6 input-box bottom-buffer">
             <label for="hebrew">* שם בעברית </label>
             <input type="text" id="hebrew" class="form-control" formControlName="hebrew">
             <span
@@ -30,10 +30,10 @@
     </div>
 
     <!--Spouse name-->
+    <span *ngIf="spouseError" class="help-block">Spouse name must be entered in English and/or Hebrew
+    </span>
     <div class="form-group row spouse" *ngIf="nameForm.get('category')?.value=='banim'">
-        <span *ngIf="spouseError" class="help-block">Spouse name must be entered in English and/or Hebrew
-        </span>
-        <div class="col-4 input-box">
+        <div class="col-6 input-box bottom-buffer">
             <label for="spouseEnglish">Spouse name</label>
             <input type="text" id="spouseEnglish" class="form-control" formControlName="spouseEnglish"
                 (keyup)="checkSpouse()">
@@ -43,7 +43,7 @@
         </div>
 
         <!--Spouse Hebrew name-->
-        <div class="col-4 input-box">
+        <div class="col-6 input-box bottom-buffer">
             <label for="spouseHebrew">שם בן הזוג בעברית </label>
             <input type="text" id="spouseHebrew" class="form-control" formControlName="spouseHebrew"
                 (keyup)="checkSpouse()">
@@ -65,11 +65,12 @@
                 list</label>
         </div>
 
+        <div class="col-3"></div>
         <div class="col-3">
             <label for="category">* Category:</label>
         </div>
-        <div class="col-7 ">
-            <select formControlName="category" class="form-control" id="category">
+        <div class="col-3">
+            <select formControlName="category" class="form-control text-center" id="category">
                 <option *ngFor="let category of categories" [value]="category">{{category | viewCategory}}
                 </option>
             </select>
@@ -77,8 +78,8 @@
     </div>
 
     <div class="form-group buttons">
-        <button class="btn btn-success btn-lg" type="submit" [disabled]="nameForm.invalid">Save Changes</button>
+        <button class="btn btn-ok btn-lg" type="submit" [disabled]="nameForm.invalid">Save Changes</button>
         <span class="spacer"></span>
-        <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+        <button type="button" class="btn btn-cancel btn-lg" (click)="cancel()">Cancel</button>
     </div>
 </form>
