@@ -51,14 +51,19 @@
                 <span *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid characters</span>
             </div>
 
-            <!-- Mother's name -->
-            <div class="col-md-3">
+            <!-- Mother's name (in big screens comes first)-->
+            <div class="col-md-3 big-screen-only">
                 <input class="form-control text-center hebrew" formControlName="hebrew2" placeholder="שם האם">
+            </div>
+
+            <!-- Name (in small screens name comes first)-->
+            <div class="col-md-3 small-screen-only">
+                <input class="form-control text-center hebrew" formControlName="hebrew1" placeholder="שם">
             </div>
 
             <!-- Error on small screen only -->
             <div class="col-md-2 help-block text-center small-screen-only">
-                <span *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid characters</span>
+                <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Invalid characters</span>
             </div>
 
             <!-- בן / בת -->
@@ -69,14 +74,24 @@
                 </select>
             </div>
 
-            <!-- Name -->
-            <div class="col-md-3">
+            <!-- Name (in big screens comes second)-->
+            <div class="col-md-3 big-screen-only">
                 <input class="form-control text-center hebrew" formControlName="hebrew1" placeholder="שם">
             </div>
 
-            <!-- Error -->
-            <div class="col-md-2 help-block text-center">
+            <!-- Mother's name (in small screens comes second)-->
+            <div class="col-md-3 small-screen-only">
+                <input class="form-control text-center hebrew" formControlName="hebrew2" placeholder="שם האם">
+            </div>
+
+            <!-- Error on big screens, for name -->
+            <div class="col-md-2 help-block text-center big-screen-only">
                 <span *ngIf="nameForm.get('name.hebrew1')?.errors?.['pattern']">Invalid characters</span>
+            </div>
+
+            <!-- Error on small screens, for mother's name-->
+            <div class="col-md-2 help-block text-center small-screen-only">
+                <span *ngIf="nameForm.get('name.hebrew2')?.errors?.['pattern']">Invalid characters</span>
             </div>
 
         </div>
@@ -96,6 +111,14 @@
 
             <div class="form-group row name-row align-items-center">
 
+                <!-- Spouse error on small screen only -->
+                <div class="col-md-2 help-block text-center small-screen-only">
+                    <span *ngIf="spouseEnglishError &&
+                             !nameForm.get('spouse.english1')?.errors?.['pattern']">
+                        Please complete spouse name
+                    </span>
+                </div>
+
                 <!-- Error on big screen only -->
                 <div class="col-md-2 help-block text-center big-screen-only">
                     <span *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">
@@ -113,14 +136,10 @@
                         placeholder="Spouse name">
                 </div>
 
-                <!-- Error on small screen only -->
+                <!-- character error on small screen only -->
                 <div class="col-md-2 help-block text-center small-screen-only">
                     <span *ngIf="nameForm.get('spouse.english1')?.errors?.['pattern']">
                         Invalid characters
-                    </span>
-                    <span *ngIf="spouseEnglishError &&
-                             !nameForm.get('spouse.english1')?.errors?.['pattern']">
-                        Please complete spouse name
                     </span>
                 </div>
 
@@ -148,6 +167,14 @@
 
             <div class="form-group row name-row align-items-center">
 
+                <!-- Spouse error on small screen only for spouse name -->
+                <div class="col-md-2 help-block text-center small-screen-only">
+                    <span *ngIf="spouseHebrewError &&
+                             !nameForm.get('spouse.hebrew1')?.errors?.['pattern']">
+                        Please complete spouse name
+                    </span>
+                </div>
+
                 <!-- Error on big screen only -->
                 <div class="col-md-2 help-block text-center big-screen-only">
                     <span *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
@@ -159,20 +186,22 @@
                     </span>
                 </div>
 
-                <!-- Mother -->
-                <div class="col-md-3">
+                <!-- Mother (on big screens comes first) -->
+                <div class="col-md-3 big-screen-only">
                     <input class="form-control text-center hebrew" formControlName="hebrew2" (keyup)="checkSpouse()"
                         placeholder="שם האם - של בן הזוג">
                 </div>
 
-                <!-- Error on small screen only -->
+                <!-- Spouse name (on small screens comes first)-->
+                <div class="col-md-3 small-screen-only">
+                    <input class="form-control text-center hebrew" formControlName="hebrew1" (keyup)="checkSpouse()"
+                        placeholder="שם בן הזוג">
+                </div>
+
+                <!-- Character error on small screen only for spouse name -->
                 <div class="col-md-2 help-block text-center small-screen-only">
-                    <span *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
+                    <span *ngIf="nameForm.get('spouse.hebrew1')?.errors?.['pattern']">
                         Invalid characters
-                    </span>
-                    <span *ngIf="spouseHebrewError &&
-                             !nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
-                        Please complete spouse name
                     </span>
                 </div>
 
@@ -181,15 +210,28 @@
                     <span class="form-control-static ben-static hebrew">בן</span>
                 </div>
 
-                <!-- Spouse name -->
-                <div class="col-md-3">
+                <!-- Spouse name (on big screens comes second)-->
+                <div class="col-md-3 big-screen-only">
                     <input class="form-control text-center hebrew" formControlName="hebrew1" (keyup)="checkSpouse()"
                         placeholder="שם בן הזוג">
                 </div>
 
-                <!-- Error -->
-                <div class="col-md-2 help-block text-center">
+                <!-- Mother (on small screens comes second) -->
+                <div class="col-md-3 small-screen-only">
+                    <input class="form-control text-center hebrew" formControlName="hebrew2" (keyup)="checkSpouse()"
+                        placeholder="שם האם - של בן הזוג">
+                </div>
+
+                <!-- Error (for spouse name on big screens only)-->
+                <div class="col-md-2 help-block text-center big-screen-only">
                     <span *ngIf="nameForm.get('spouse.hebrew1')?.errors?.['pattern']">
+                        Invalid characters
+                    </span>
+                </div>
+
+                <!-- Error (for spouse's mother's name on small screens only) -->
+                <div class="col-md-2 help-block text-center small-screen-only">
+                    <span *ngIf="nameForm.get('spouse.hebrew2')?.errors?.['pattern']">
                         Invalid characters
                     </span>
                 </div>

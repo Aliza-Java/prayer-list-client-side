@@ -1,12 +1,12 @@
 body {
     /*Scheme colors*/
-    --dark-background-color: #93d314;
-    --light-background-color: #d9f89a;
-    --lightest-background-color: #F0F2E4;
+    --dark-background-color: #6FBF73;
+    --light-background-color: #CDEED3;
+    --lightest-background-color: #F3FAF4;
     --my-red: #dc3545;
     --my-red-disabled: #dc35469a;
-    --okay-purple: #925E78;
-    --disabled-purple: #F2D7EE;
+    --okay-color: #2F8F9D;
+    --disabled-okay-color: #BFDDE5;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
@@ -15,9 +15,9 @@ body, .form-control, button {
 }
 
 .btn-ok {
-    background-color: var(--okay-purple);
+    background-color: var(--okay-color);
     color: white;
-    border: 2px solid var(--okay-purple);
+    border: 2px solid var(--okay-color);
     transition:
         background-color 0.2s ease,
         color 0.2s ease,
@@ -25,15 +25,15 @@ body, .form-control, button {
 }
 
 .btn-ok:hover {
-    color: var(--okay-purple);
+    color: var(--okay-color);
     background-color: white;
-    border-color: var(--okay-purple);
+    border-color: var(--okay-color);
 }
 
 .btn-ok:disabled {
-    background-color: var(--disabled-purple);
+    background-color: var(--disabled-okay-color);
     color: white;
-    border-color: var(--okay-purple) !important;
+    border-color: var(--okay-color) !important;
     border-width: 2px;
 }
 
